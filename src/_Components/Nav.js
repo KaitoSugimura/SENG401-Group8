@@ -1,26 +1,33 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import styles from "./Nav.module.css";
 
 export default function Nav() {
+  const locationPath = useLocation().pathname;
+
   return (
     <header className={styles.navbar}>
       <h1 className={styles.logo}>A Stand in</h1>
       <nav>
         <ul className={styles.navLinks}>
           <li>
-            <NavLink exact to="/">Home</NavLink>
+            <NavLink exact to="/"><img src="/NavIcons/Home.svg"></img></NavLink>
+            {locationPath === "/" && <span className={styles.selectHighlight}></span>}
           </li>
           <li>
-            <NavLink to="/social">Social</NavLink>
+            <NavLink to="/social"><img src="/NavIcons/Social.svg"></img></NavLink>
+            {locationPath === "/social" && <span className={styles.selectHighlight}></span>}
           </li>
           <li>
-            <NavLink to="/game">Game</NavLink>
+            <NavLink to="/game"><img src="/NavIcons/Game.svg"></img></NavLink>
+            {locationPath === "/game" && <span className={styles.selectHighlight}></span>}
           </li>
           <li>
-            <NavLink to="/character">Character</NavLink>
+            <NavLink to="/character"><img src="/NavIcons/Character.svg"></img></NavLink>
+            {locationPath === "/character" && <span className={styles.selectHighlight}></span>}
           </li>
           <li>
-            <NavLink to="/gacha">Gacha</NavLink>
+            <NavLink to="/gacha"><img src="/NavIcons/Gacha.svg"></img></NavLink>
+            {locationPath === "/gacha" && <span className={styles.selectHighlight}></span>}
           </li>
         </ul>
       </nav>

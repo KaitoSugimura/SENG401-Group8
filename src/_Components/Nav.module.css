@@ -1,0 +1,41 @@
+
+.navbar {
+    background-color: aliceblue;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 10%;
+}
+
+.logo {
+    cursor: pointer;
+    font-size: 32px;
+    font-weight: 400;
+}
+
+.navLinks {
+    list-style: none;
+    font-size: 24px;
+    
+}
+
+.navLinks li {
+    display: inline-block;
+    padding: 0 20px;
+}
+
+/* .navLinks li .NavLink {
+    transition: all 0.3s ease 0s;
+} */
+
+
+.navLinks li a:hover {
+    color: #0080ff;
+}
+
+.goldAmount {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+

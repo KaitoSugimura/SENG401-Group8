@@ -5,6 +5,11 @@
   box-sizing: border-box;
 }
 
+ul {
+  list-style: none;
+  list-style-type: none;
+}
+
 /* *:focus {
   outline: none;
   box-shadow: 0 0 0 0.8rem rgba(33, 146, 252, 0.6);

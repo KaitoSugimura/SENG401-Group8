@@ -8,12 +8,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 3px 10% 0 10%;
+    padding: 3px 5% 0 10%;
     box-shadow: 0px 1px 20px rgba(20,20,20,0.1);
+    text-align: center;
 }
 
 .logo {
-    cursor: pointer;
     font-size: 32px;
     font-weight: 400;
 }
@@ -80,9 +80,32 @@
     color: #0080ff;
 }
 
+.rightSideNav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
 .goldAmount {
     font-size: 28px;
     font-weight: 700;
 }
 
 
+.bannerButton{
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+}
+
+.bannerButton img{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+}

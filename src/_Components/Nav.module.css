@@ -1,6 +1,6 @@
 
 .navbar {
-    background-color: aliceblue;
+    background-color: var(--bg-color);
     width: 100%;
     position: fixed;
     top: 0;
@@ -32,7 +32,7 @@
 }
 
 .navLinks li:hover {
-    background-color: #d2e8fd;
+    background-color: var(--secondaryHighlight-color);
     border-radius: 5px;
 }
 
@@ -56,10 +56,9 @@
     display: block;
     width: 100%;
     height: 60px;
-    background-color: black;
     pointer-events: none;
-    background: linear-gradient(rgba(0,0,0,0) 10%, #036cff 350%),
-    linear-gradient(rgba(0,0,0,0) 85%, #036cff 100%);
+    background: linear-gradient(rgba(0,0,0,0) 10%, var(--highlight-color) 350%),
+    linear-gradient(rgba(0,0,0,0) 85%, var(--highlight-color) 100%);
     border-radius: 5px;
 
     /* display: none; */
@@ -76,7 +75,7 @@
 
 
 .navLinks li a:hover {
-    color: #0080ff;
+    color: var(--highlight-color);
 }
 
 .rightSideNav{

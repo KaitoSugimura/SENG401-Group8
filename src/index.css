@@ -1,3 +1,18 @@
+/* VARIABLES 
+  PLEASE USE/ADD COLORS HERE TO MAKE IT UNIFIED */
+:root {
+  --heading-color: #444;
+  --text-color: #999;
+  --textbox-color: rgb(223, 227, 230);
+  --primary-color: #4ba3cc;
+  --bg-color: rgb(240, 248, 255);
+
+  /* nav highlighted selection */
+  --highlight-color: #0080ff;
+  --secondaryHighlight-color: #d2e8fd;
+}
+
+
 /* RESET */
 * {
   padding: 0;
@@ -9,11 +24,6 @@ ul {
   list-style: none;
   list-style-type: none;
 }
-
-/* *:focus {
-  outline: none;
-  box-shadow: 0 0 0 0.8rem rgba(33, 146, 252, 0.6);
-} */
 
 /** GENERAL **/
 html {

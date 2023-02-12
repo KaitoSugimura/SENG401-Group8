@@ -3,7 +3,7 @@
   z-index: 100000;
   top: 100%;
   right: 3%;
-  background-color: rgb(248, 250, 255);
+  background-color: var(--bg-color);
   width: 300px;
   max-height: 400px;
   overflow: hidden;
@@ -37,7 +37,7 @@
   width: 90%;
   margin: 25px auto 0 auto;
   text-align: left;
-  background-color: rgb(223, 227, 230);
+  background-color: var(--textbox-color);
   color: #000;
   padding: 5px;
   border-radius: 2%;

@@ -1,0 +1,152 @@
+.social {
+    font-size: 1.6rem;
+    margin-top: 68px;
+    height: calc(100vh - 68px);
+    display: grid;
+    grid-template-columns: 25rem auto 25rem;
+}
+
+.leftSidebar {
+    background-color: var(--bg-color);
+    display: grid;
+    grid-template-rows: auto min-content;
+    overflow: hidden;
+    border-right: 1px solid var(--primary-color);
+}
+
+.friends {
+    background-color: var(--bg-color);
+    padding: 1rem;
+    overflow: auto;
+}
+
+.friend {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.friend:hover {
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
+.presence {
+    color: gray;
+}
+
+.presence::before {
+    content: '';
+    width: 1rem;
+    height: 1rem;
+    display: inline-block;
+    border-radius: 50%;
+    margin-right: .5rem;
+}
+
+.Online.presence::before {
+    background-color: green;
+}
+
+.Away.presence::before {
+    background-color: orange;
+}
+
+.Offline.presence::before {
+    background-color: red;
+}
+
+.slimeBody {
+    width: 6rem;
+    height: 6rem;
+    background-color: lightgreen;
+    border-radius: 50%;
+    border: 3px solid green;
+    display: grid;
+    place-content: center;
+}
+
+.userStatus {
+    background-color: var(--bg-color);
+    padding: 2rem;
+    display: flex;
+    gap: 1rem;
+    /* box-shadow: 0px 1px 20px rgba(20, 20, 20, 0.1); */
+    border-top: 1px solid var(--primary-color);
+}
+
+.chat {
+    display: grid;
+    grid-template-rows: auto min-content;
+    gap: 2rem;
+    overflow: hidden;
+}
+
+.messages {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: start;
+    gap: 1rem;
+    overflow: auto;
+    padding: 0 2rem;
+}
+
+.message {
+    background-color: var(--bg-secondary-color);
+    border: 1px solid var(--secondary-color);
+    padding: 1rem;
+    border-radius: .5rem;
+    max-width: 90%;
+    overflow-wrap: break-word;
+}
+
+.message.mine {
+    align-self: end;
+    border-color: var(--primary-color);
+    background-color: var(--bg-color);
+}
+
+.messageForm {
+    display: flex;
+    gap: 1rem;
+    margin: 2rem;
+}
+
+.messageForm input {
+    flex-grow: 1;
+    padding: 1rem;
+    border: 1px solid var(--primary-color);
+    border-radius: .5rem;
+}
+
+.messageForm button {
+    display: inline-flex;
+    align-items: center;
+    padding: .75rem;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    background-color: transparent;
+    border-radius: .5rem;
+    cursor: pointer;
+}
+
+.messageForm button:hover {
+    background-color: var(--bg-color);
+}
+
+.rightSidebar {
+    background-color: var(--bg-color);
+    display: grid;
+    gap: 2rem;
+    place-content: center;
+    text-align: center;
+    font-size: 2rem;
+    padding: 2rem;
+    border-left: 1px solid var(--primary-color);
+}
+
+.rightSidebar .slimeBody {
+    width: 15rem;
+    height: 15rem;
+}

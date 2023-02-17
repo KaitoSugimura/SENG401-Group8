@@ -1,7 +1,7 @@
 import {React} from "react";
 import CharacterSelect from './CharacterSelect';
 import  styles from "./Character.module.css";
-import slimeImage from "../../assets/GameArt/Slime.png"
+import slimeImage from "../../../public/assets/GameArt/Slime.png"
 
 export default function Character() {
   return (

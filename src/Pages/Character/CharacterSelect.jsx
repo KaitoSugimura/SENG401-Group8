@@ -1,6 +1,6 @@
 import styles from "./Character.module.css";
-import slimeImage from "../../assets/GameArt/Slime.png"
-import lockedImage from "../../assets/GameArt/Locked.png"
+import slimeImage from "../../../public/assets/GameArt/Slime.png"
+import lockedImage from "../../../public/assets/GameArt/Locked.png"
 
 const CharacterSelect = () => {
     return ( 

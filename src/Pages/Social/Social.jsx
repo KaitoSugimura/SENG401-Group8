@@ -95,17 +95,24 @@ export default function Social() {
   return (
     <div className={styles.social}>
       <section className={styles.leftSidebar}>
-        <ul className={styles.friends}>
-          {friends.map((friend, i) => (
-            <li className={styles.friend} key={i} onClick={() => setSelectedFriend(friend)}>
-              <div className={styles.slimeBody}>:3</div>
-              <div>
-                <p>{friend.username}</p>
-                <p className={`${styles.presence} ${styles[friend.status]}`}>{friend.status}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <div className={styles.channels}>
+          <div className={styles.global} key={'global'}>
+            <i class="material-symbols-outlined">public</i>
+            <p>World</p>
+          </div>
+          <h2 className={styles.friendsHeader}>Friends</h2>
+          <ul className={styles.friends}>
+            {friends.map((friend, i) => (
+              <li className={styles.friend} key={i} onClick={() => setSelectedFriend(friend)}>
+                <div className={styles.slimeBody}>:3</div>
+                <div>
+                  <p>{friend.username}</p>
+                  <p className={`${styles.presence} ${styles[friend.status]}`}>{friend.status}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
 
         <div className={styles.userStatus}>
           <div className={styles.slimeBody}>:3</div>

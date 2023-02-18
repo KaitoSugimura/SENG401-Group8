@@ -14,10 +14,36 @@
     border-right: 1px solid var(--primary-color);
 }
 
+.channels {
+    overflow: auto;
+}
+
+.global {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.global i {
+    font-size: 6rem;
+}
+
+.global:hover {
+    background-color: rgba(0, 0, 0, 0.10);
+}
+
+.friendsHeader {
+    margin: 0 2rem;
+}
+
 .friends {
     background-color: var(--bg-color);
     padding: 1rem;
-    overflow: auto;
 }
 
 .friend {
@@ -29,11 +55,13 @@
 }
 
 .friend:hover {
-    background-color: rgba(0, 0, 0, 0.15);
+    background-color: rgba(0, 0, 0, 0.10);
 }
 
 .presence {
     color: gray;
+    font-size: 1.4rem;
+    margin-top: 0.4rem;
 }
 
 .presence::before {

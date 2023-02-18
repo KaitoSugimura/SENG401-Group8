@@ -54,6 +54,7 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
   transform: translate(-50%, -50%);
   height: 85%;
   animation: move 2.7s ease-in-out infinite;
+  pointer-events: all;
 }
 
 @keyframes move {
@@ -68,9 +69,40 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
   }
 }
 
-/** SNOW **/
 
-.SnowWrap {
+.applyShake {
+  animation: shake 1s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shake {
+  10%, 90% {
+    transform: translate(-53%, -50%);
+  }
+
+  20%, 80% {
+    transform: translate(-46%, -50%);
+  }
+
+  30%, 50%, 70% {
+    transform: translate(-52%, -50.2%);
+  }
+
+  40%, 60% {
+    transform: translate(-47%, -50%);
+  }
+}
+
+.dailyChest {
+  position: fixed;
+  left: 10px;
+  top: 50%;
+  width: 15%;
+  pointer-events: all;
+}
+
+/** Power Particles **/
+.ParticlesWrap {
+  pointer-events: none;
   overflow: hidden;
   height: 100%;
   width: 100%;
@@ -88,7 +120,7 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
     transform: translateY(0%);
   }
 }
-.Snow {
+.Particles {
   position: absolute;
   background: white;
   border-radius: 50%;

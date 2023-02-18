@@ -5,28 +5,34 @@
     flex-direction: column;
 }
 
-.characterGrid{   
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    flex:1;
-    background-color: black;
-    padding: 2vh;
-    padding-left: 15vw;
-    padding-right: 15vw;
+.cgridContainer{
+    flex-grow: 20;
+    padding-top: 68px;
+    overflow: scroll;
+
+    background-color: rgb(44, 44, 44);
 }
 
-.characterGrid::-webkit-scrollbar{
+.cgridContainer::-webkit-scrollbar{
     width: 0px;
     background: transparent;
+    scroll-behavior: smooth;
 }
 
+.characterGrid{   
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    flex-wrap: wrap;
+    margin: 10px auto;
+    width: 85vw;
+}
+
+
 .characterGrid .character{
-    width: 120px;
-    height: 120px;
+    width: 10vw;
+    height: 10vw;
     margin: 2px;
-    flex-shrink: 0;
     background-position: center;
     padding: 6px;
     background: linear-gradient(36deg, rgba(233,202,55,1) 0%, rgba(251,240,184,1) 60%);

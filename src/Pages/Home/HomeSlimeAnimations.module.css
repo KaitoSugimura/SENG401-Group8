@@ -1,0 +1,112 @@
+.applyHorizontalShake {
+  animation: horizantalShake 0.8s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes horizantalShake {
+  10%,
+  90% {
+    transform: translate(-50%, -50%);
+  }
+
+  20%,
+  80% {
+    transform: translate(-49%, -50%);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate(-53%, -50.2%);
+  }
+
+  40%,
+  60% {
+    transform: translate(-48%, -50%);
+  }
+}
+
+.applyVerticalShake {
+  animation: verticalShake 1s cubic-bezier(0.1, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes verticalShake {
+  10%,
+  90% {
+    transform: translate(-50%, -53%) scale(0.99);
+  }
+
+  20%,
+  80% {
+    transform: translate(-50%, -48%) scale(1.01);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate(-50%, -52%) scale(1);
+  }
+
+  40%,
+  60% {
+    transform: translate(-50%, -49%) scale(1);
+  }
+}
+
+.applyVerticalSquish {
+  animation: VerticalSquish 1s cubic-bezier(0.1, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes VerticalSquish {
+  0% {
+    transform: translate(-50%, -50%);
+  }
+
+  25% {
+    transform: translate(-50%, -50%) scale(1.2, 0.6);
+  }
+
+  50% {
+    transform: translate(-50%, -50%);
+  }
+  75% {
+    transform: translate(-50%, -50%) scale(1.4, 0.3);
+  }
+
+  100% {
+    transform: translate(-50%, -50%);
+  }
+}
+
+.applyShrink {
+    animation: shrink 1s cubic-bezier(0.1, 0.07, 0.19, 0.97) both;
+  }
+  
+  @keyframes shrink {
+    0% {
+      transform: translate(-50%, -50%);
+    }
+  
+    20% {
+      transform: translate(-50%, -50%) scale(0.1, 0.1);
+    }
+
+    40% {
+        transform: translate(-50%, -10%) scale(0.1, 0.1);
+      }
+
+
+
+      60% {
+        transform: translate(-50%, -50%) scale(0.1, 0.1);
+      }
+
+      
+    80% {
+        transform: translate(-50%, -10%) scale(0.1, 0.1);
+      }
+  
+    100% {
+      transform: translate(-50%, -50%);
+    }
+  }
+  

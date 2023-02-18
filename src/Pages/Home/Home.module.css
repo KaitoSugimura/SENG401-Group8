@@ -1,69 +1,109 @@
-
 /** Still in alot of progress dont touch
 AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
 
-.Home{
-    height: 100vh;
-    width: 100vw;
+.Home {
+  height: 100vh;
+  width: 100vw;
 
-    
-    background: radial-gradient(#eec178, hsl(216, 100%, 80%));
-
+  background: radial-gradient(var(--home-inner-color), var(--home-outer-color));
 }
 
-.MainBanner{
-    position: fixed;
-    top: 15%;
-    left: 50%;
-    transform: translate(-50%, 0%);
-    font-size: 60px;
-    background: linear-gradient(rgba(13,13,13,0.2), rgba(13,13,13,0.0));
+.MainBanner {
+  position: fixed;
+  top: 15%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  font-size: 60px;
+  background: linear-gradient(rgba(13, 13, 13, 0.2), rgba(13, 13, 13, 0));
 
-    width: 40%;
-    height: fit-content;
-    padding: 10px;
+  width: 40%;
+  height: fit-content;
+  padding: 10px;
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.MainBanner hr{
-    border: 2px solid rgba(0,0,0,0.2);
-    width: 100%;
+.MainBanner hr {
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  width: 100%;
 }
 
-.MBNameLevelContainer{
-    width: 100%;
-    display: flex;
-    align-items: end;
-    gap: 10px;
+.MBNameLevelContainer {
+  width: 100%;
+  display: flex;
+  align-items: end;
+  gap: 10px;
 }
 
-.MBName{
-
+.MBName {
 }
 
-.MBLevel{
-    font-size: 40px;
+.MBLevel {
+  font-size: 40px;
 }
 
-.MBRank{
-
+.MBRank {
 }
 
-.characterIMG{
-    position: fixed;
-    top: 65%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    height: 85%;
-    animation: move 2.7s ease-in-out infinite;
+.characterIMG {
+  position: fixed;
+  top: 65%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 85%;
+  animation: move 2.7s ease-in-out infinite;
+  pointer-events: all;
 }
 
 @keyframes move {
-    0%   { transform: scale(1)   translate(-50%, -50%); }
-    50% { transform: scale(1.005)   translate(-50%, -50.6%); }
-    100%   { transform: scale(1)   translate(-50%, -50%);}
+  0% {
+    transform: scale(1) translate(-50%, -50%);
   }
+  50% {
+    transform: scale(1.005) translate(-50%, -50.6%);
+  }
+  100% {
+    transform: scale(1) translate(-50%, -50%);
+  }
+}
+
+
+
+
+.dailyChest {
+  position: fixed;
+  left: 10px;
+  top: 50%;
+  width: 15%;
+  pointer-events: all;
+}
+
+/** Power Particles **/
+.ParticlesWrap {
+  pointer-events: none;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(100vh);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
+.Particles {
+  position: absolute;
+  background: var(--particle-color);
+  border-radius: 50%;
+  top: 0%;
+  animation-name: fall;
+}

@@ -1,4 +1,5 @@
 import styles from "./Home.module.css";
+import animation from "./HomeSlimeAnimations.module.css";
 import slimeImage from "../../../public/assets/GameArt/Slime.png";
 import chestOpen from "../../../public/assets/HomeIcons/chestOpen.png";
 import chestClosed from "../../../public/assets/HomeIcons/chestClosed.png";
@@ -26,6 +27,12 @@ for (var i = 0; i < particleAmount; i++) {
   );
 }
 
+const animations = [animation.applyHorizontalShake, 
+  animation.applyVerticalShake,
+  animation.applyVerticalSquish,
+  animation.applyShrink
+];
+
 export default function Home() {
   const [chestState, setChestState] = useState(false);
   const [petted, setPetted] = useState(false);
@@ -41,17 +48,24 @@ export default function Home() {
         <p className={styles.MBRank}>Rank 200</p>
       </div>
       <button
-      onClick={(event) => {
-        setPetted(true);
-        setTimeout(()=>{setPetted(false)}, 1100);
-      }}
-      disabled={petted}>
-      <img
-        src={slimeImage}
-        className={`${styles.characterIMG} ${petted ? styles.applyShake : ""}`}
-        alt="slime"
-        draggable="false"
-      />
+        onClick={(event) => {
+          setPetted(true);
+          setTimeout(() => {
+            setPetted(false);
+          }, 1100);
+        }}
+        disabled={petted}
+      >
+        <img
+          src={slimeImage}
+          className={`${styles.characterIMG} ${
+            petted
+              ? animations[Math.floor(Math.random() * animations.length)]
+              : ""
+          }`}
+          alt="slime"
+          draggable="false"
+        />
       </button>
 
       <img

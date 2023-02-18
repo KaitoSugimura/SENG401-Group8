@@ -70,27 +70,7 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
 }
 
 
-.applyShake {
-  animation: shake 1s cubic-bezier(.36,.07,.19,.97) both;
-}
 
-@keyframes shake {
-  10%, 90% {
-    transform: translate(-53%, -50%);
-  }
-
-  20%, 80% {
-    transform: translate(-46%, -50%);
-  }
-
-  30%, 50%, 70% {
-    transform: translate(-52%, -50.2%);
-  }
-
-  40%, 60% {
-    transform: translate(-47%, -50%);
-  }
-}
 
 .dailyChest {
   position: fixed;

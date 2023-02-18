@@ -1,30 +1,38 @@
 import styles from "./Character.module.css";
-import slimeImage from "../../../public/assets/GameArt/Slime.png"
-import lockedImage from "../../../public/assets/GameArt/Locked.png"
+import { useState } from "react";
 
-const CharacterSelect = () => {
-    return ( 
-        <div className={styles.imageGrid}>
-            <div className={styles.imageWrapper}>
-                <img src={slimeImage} alt="slime"/>
-            </div>
-            <div className={styles.imageWrapper}>
-                <img src={slimeImage} alt="slime"/>
-            </div>
-            <div className={styles.imageWrapper}>
-                <img src={lockedImage} alt="slime"/>
-            </div>
-            <div className={styles.imageWrapper}>
-                <img src={lockedImage} alt="slime"/>
-            </div>
-            <div className={styles.imageWrapper}>
-                <img src={lockedImage} alt="slime"/>
-            </div>
-            <div className={styles.imageWrapper}>
-                <img src={lockedImage} alt="slime"/>
-            </div>
-        </div>
-     );
-}
- 
+const CharacterSelect = ({ characters, switchCharacter }) => {
+  const [hover, setHover] = useState(false);
+  const imagePath = "";
+
+  const handleClick = (e) => {
+    switchCharacter(e.currentTarget.getAttribute("number"));
+  };
+
+  return (
+    <div className={styles.cgridContainer}>
+      <div className={styles.characterGrid}>
+        {characters.map((character) => (
+          <div
+            className={styles.character}
+            number={character.id}
+            key={character.id}
+            onClick={handleClick}
+          >
+            <img
+              src={
+                character.unlocked
+                  ? character.image
+                  : "assets/GameArt/Locked.png"
+              }
+              alt={character.type}
+              key={character.id}
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 export default CharacterSelect;

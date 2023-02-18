@@ -3,7 +3,8 @@ import animation from "./HomeSlimeAnimations.module.css";
 import slimeImage from "../../../public/assets/GameArt/Slime.png";
 import chestOpen from "../../../public/assets/HomeIcons/chestOpen.png";
 import chestClosed from "../../../public/assets/HomeIcons/chestClosed.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import HomeMusic from "../../../public/Sound/Home.mp3";
 
 const particleAmount = 60;
 const rows = [];
@@ -27,15 +28,23 @@ for (var i = 0; i < particleAmount; i++) {
   );
 }
 
-const animations = [animation.applyHorizontalShake, 
+const animations = [
+  animation.applyHorizontalShake,
   animation.applyVerticalShake,
   animation.applyVerticalSquish,
-  animation.applyShrink
+  animation.applyShrink,
 ];
+
 
 export default function Home() {
   const [chestState, setChestState] = useState(false);
   const [petted, setPetted] = useState(false);
+
+  var audio = new Audio(HomeMusic);
+  audio.volume = 0.3;
+  useEffect(() => {
+    audio.play();
+  }, [audio]);
 
   return (
     <div className={styles.Home}>
@@ -52,7 +61,7 @@ export default function Home() {
           setPetted(true);
           setTimeout(() => {
             setPetted(false);
-          }, 1100);
+          }, 1001);
         }}
         disabled={petted}
       >

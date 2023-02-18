@@ -14,6 +14,11 @@
   /* chat */
   --secondary-color: hsl(144, 56%, 55%);
   --bg-secondary-color: hsl(143, 100%, 97%);
+
+  /* Home */
+  --particle-color: #faf8c1;
+  --home-outer-color: hsl(218, 49%, 44%);
+  --home-inner-color: #91ffff;
 }
 
 

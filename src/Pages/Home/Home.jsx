@@ -3,8 +3,7 @@ import animation from "./HomeSlimeAnimations.module.css";
 import slimeImage from "../../../public/assets/GameArt/Slime.png";
 import chestOpen from "../../../public/assets/HomeIcons/chestOpen.png";
 import chestClosed from "../../../public/assets/HomeIcons/chestClosed.png";
-import { useEffect, useState } from "react";
-import HomeMusic from "../../../public/Sound/Home.mp3";
+import { useState } from "react";
 
 const particleAmount = 60;
 const rows = [];
@@ -36,15 +35,10 @@ const animations = [
 ];
 
 
+
 export default function Home() {
   const [chestState, setChestState] = useState(false);
   const [petted, setPetted] = useState(false);
-
-  var audio = new Audio(HomeMusic);
-  audio.volume = 0.3;
-  useEffect(() => {
-    audio.play();
-  }, [audio]);
 
   return (
     <div className={styles.Home}>

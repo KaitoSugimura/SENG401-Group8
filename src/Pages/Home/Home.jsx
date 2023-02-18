@@ -1,6 +1,26 @@
 import styles from "./Home.module.css";
 import slimeImage from "../../../public/assets/GameArt/Slime.png";
 
+const SnowflakeAmount = 60;
+const rows = [];
+for (var i = 0; i < SnowflakeAmount; i++) {
+  const op = Math.random();
+  const randSize = Math.random() * 20 + 5;
+  const snowStyle = {
+    opacity: op,
+    left: `${Math.random() * 100}vw`,
+    width: `${randSize}px`,
+    height: `${randSize}px`,
+    animationTimingFunction: "ease-in-out",
+    animationDuration: Math.random() * 8 + 2 + "s",
+    animationDelay:  Math.random() * 3 + "s",
+    animationIterationCount: "infinite",
+    animationDirection: "normal",
+    animationFillMode: "forwards",
+  };
+  rows.push(<div className={styles.Snow} key={i} style={snowStyle}></div>);
+}
+
 export default function Home() {
   return (
     <div className={styles.Home}>
@@ -18,6 +38,8 @@ export default function Home() {
         alt="slime"
         draggable="false"
       />
+
+      <div className={styles.SnowWrap}>{rows}</div>
     </div>
   );
 }

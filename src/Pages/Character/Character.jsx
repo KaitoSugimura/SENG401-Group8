@@ -7,17 +7,17 @@ export default function Character() {
 
   const [characters, updateCharacters] = useState([
     {type: "Normal", image:"assets/GameArt/Slime.png", unlocked: true,power:3,speed:3,health:3, id: 1},
-    {type: "Fire", image:"assets/GameArt/Slime.png", unlocked: true,power:5,speed:3,health:3, id: 2},
+    {type: "Fire", image:"assets/GameArt/FireSlime.png", unlocked: true,power:5,speed:3,health:3, id: 2},
     {type: "Ice", image:"assets/GameArt/Slime.png", unlocked: false,power:3,speed:3,health:3, id: 3},
-    {type: "Earth", image:"assets/GameArt/Slime.png", unlocked: true,power:3,speed:3,health:3, id: 4},
-    {type: "Normal", image:"assets/GameArt/Slime.png", unlocked: true,power:3,speed:3,health:3, id: 5},
-    {type: "Normal", image:"assets/GameArt/Slime.png", unlocked: true,power:3,speed:3,health:3, id: 6},
-    {type: "Normal", image:"assets/GameArt/Slime.png", unlocked: true,power:3,speed:3,health:3, id: 7},
-    {type: "Normal", image:"assets/GameArt/Slime.png", unlocked: false,power:3,speed:3,health:3, id: 8},
-    {type: "Normal", image:"assets/GameArt/Slime.png", unlocked: true,power:3,speed:3,health:3, id: 9},
-    {type: "Normal", image:"assets/GameArt/Slime.png", unlocked: false,power:3,speed:3,health:3, id: 10},
-    {type: "Normal", image:"assets/GameArt/Slime.png", unlocked: false,power:3,speed:3,health:3, id: 11},
-    {type: "Normal", image:"assets/GameArt/Slime.png", unlocked: false,power:3,speed:3,health:3, id: 12},
+    {type: "Earth", image:"assets/GameArt/EarthSlime.png", unlocked: true,power:3,speed:3,health:3, id: 4},
+    {type: "Air", image:"assets/GameArt/Slime.png", unlocked: true,power:3,speed:3,health:3, id: 5},
+    {type: "Shadow", image:"assets/GameArt/Slime.png", unlocked: true,power:3,speed:3,health:3, id: 6},
+    {type: "Poison", image:"assets/GameArt/Slime.png", unlocked: true,power:3,speed:3,health:3, id: 7},
+    {type: "Electric", image:"assets/GameArt/Slime.png", unlocked: false,power:3,speed:3,health:3, id: 8},
+    {type: "Jungle", image:"assets/GameArt/Slime.png", unlocked: true,power:3,speed:3,health:3, id: 9},
+    {type: "Water", image:"assets/GameArt/Slime.png", unlocked: false,power:3,speed:3,health:3, id: 10},
+    {type: "Armored", image:"assets/GameArt/Slime.png", unlocked: false,power:3,speed:3,health:3, id: 11},
+    {type: "Jello", image:"assets/GameArt/Slime.png", unlocked: false,power:3,speed:3,health:3, id: 12},
   ])
 
   const [character, updateCharacter] = useState(

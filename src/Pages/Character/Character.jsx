@@ -14,10 +14,12 @@ export default function Character() {
     {type: "Poison", unlocked: true,power:3,speed:3,health:3, id: 6},
     {type: "Shadow", unlocked: true,power:3,speed:3,health:3, id: 7},
     {type: "Electric", unlocked: true,power:3,speed:3,health:3, id: 8},
-    {type: "Jungle", unlocked: false,power:3,speed:3,health:3, id: 9},
+    {type: "Wild", unlocked: false,power:3,speed:3,health:3, id: 9},
     {type: "Honey", unlocked: true,power:3,speed:3,health:3, id: 10},
     {type: "BubbleGum", unlocked: true,power:3,speed:3,health:3, id: 11},
     {type: "Armored", unlocked: true,power:3,speed:3,health:3, id: 12},
+    {type: "Celestial", unlocked: false,power:3,speed:3,health:3, id: 13},
+    {type: "Metal", unlocked: false,power:3,speed:3,health:3, id: 14},
 
         
   ])

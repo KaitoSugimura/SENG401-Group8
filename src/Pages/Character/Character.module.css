@@ -82,12 +82,12 @@
     height: 85%;
     color: silver;
     -webkit-text-stroke: 0.75px black;
+    overflow: hidden;
 }
 
 .characterProfile .selectedCharacter{
     width: 60vh;
     height: 60vh;
-    overflow: hidden;
     transform: translate(-15%, 3vh);
 }
 

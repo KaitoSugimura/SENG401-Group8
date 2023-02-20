@@ -20,7 +20,7 @@ const CharacterProfile = ({character}) => {
                 <div className={styles.characterBox}>
                     <h1>{character.type} Slime</h1>
                     <div className={styles.selectedCharacter}>
-                        <img src={character.image} alt={character.type}/>
+                        <img src={"assets/GameArt/"+character.type+"Slime.gif"} alt={character.type}/>
                     </div>
                     <div className={styles.statsBox}>
                     <div className={styles.statsContainer}>

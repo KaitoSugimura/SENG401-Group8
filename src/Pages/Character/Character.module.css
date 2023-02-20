@@ -74,6 +74,7 @@
 .characterProfile .selectedCharacter{
     width: 60vh;
     height: 60vh;
+    overflow: hidden;
 }
 
 .characterBox{
@@ -96,6 +97,7 @@
     width: 100%;
     height: auto;  
     margin-left: 3vw;
+    transform: translateY(3vh);
 }
 
 .characterProfile h2{
@@ -150,3 +152,12 @@
         font-size: 1.8rem;
     }
   }
+
+@media only screen and (max-height: 800px){
+    .statsBox{
+        top: calc(65px + 6vh);
+        left: 5vw;
+
+    }
+    
+}

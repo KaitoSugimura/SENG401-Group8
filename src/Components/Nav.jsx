@@ -79,7 +79,7 @@ export default function Nav() {
         >
           <img src="Account/TempPFP.png"></img>
         </button>
-        {showBanner && <AccountBanner />}
+        {showBanner && <AccountBanner setShowBanner={setShowBanner} />}
       </div></>}
     </header>
   );

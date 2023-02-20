@@ -1,20 +1,25 @@
 .characterPage{
     box-sizing: border-box;
-    height: 100vh;
+    margin-top: 65px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 
 .cgridContainer{
-    flex-grow: 20;
-    padding-top: 68px;
+    position: fixed;
+    top: calc(65px + 6.5vh);
+    right: 2vw;
+    
+    /* flex-grow: 20; */
     overflow: scroll;
-
-    background-color: rgb(44, 44, 44);
+    height: 80vh;
+    background-color: rgba(44, 44, 44, 0.775);
+    border: 10px solid black;
 }
 
 .cgridContainer::-webkit-scrollbar{
     width: 0px;
+    height: 0px;
     background: transparent;
     scroll-behavior: smooth;
 }
@@ -22,20 +27,20 @@
 .characterGrid{   
     display: flex;
     align-items: start;
-    justify-content: start;
+    justify-content: center;
     flex-wrap: wrap;
-    margin: 10px auto;
-    width: 85vw;
+    width: 41vw;
+    height: 100%;
 }
 
 
 .characterGrid .character{
-    width: 10vw;
-    height: 10vw;
+    width: 13vw;
+    height: 12vw;
     margin: 2px;
     background-position: center;
     padding: 6px;
-    background: linear-gradient(36deg, rgba(233,202,55,1) 0%, rgba(251,240,184,1) 60%);
+    background: linear-gradient(36deg, rgba(233, 203, 55, 0.832) 0%, rgba(251,240,184,1) 60%);
 }
 
 .character img{
@@ -50,36 +55,40 @@
 
 .bottom{
     display: flex;
+    align-items: end;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100vw;
+    height: calc(100vh - 65px);
+    background-image: linear-gradient(to bottom, #28313B 0%, #485461 60%);
 }
 
 .characterProfile{
-    background-image: linear-gradient(to left, #28313B 0%, #485461 60%);
-    width: 50vw;
-    min-height: 41vh;
+    width: 60vw;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-
-.characterProfile .selectedCharacter{
-    width: 150px;
-    height: 150px;
-    background-position: center;
 }
 
 .characterBox{
     box-sizing: border-box;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: end;
     flex-direction: column;
-    background-image: linear-gradient(to right, #28313B 0%, #485461 60%);
-    border: solid black;
     border-width: 7px;
-    width: 95%;
+    width: 50vw;
     height: 85%;
     color: silver;
     -webkit-text-stroke: 0.75px black;
+    overflow: hidden;
+}
+
+.characterProfile .selectedCharacter{
+    width: 60vh;
+    height: 60vh;
+    transform: translate(-22%, 3vh);
 }
 
 
@@ -92,41 +101,58 @@
     text-align: center;
 }
 
-.statsProfile{
-    background-image: linear-gradient(to right, #28313B 0%, #485461 60%);
-    width: 50vw;
-    min-height: 41vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
 .statsBox{
     box-sizing: border-box;
     display: flex;
-    justify-content: center;
     flex-direction: column;
-    padding: 3%;
-    background-image: linear-gradient(to left, #28313B 0%, #485461 60%);
-    border: solid black;
+    justify-content: start;
+    align-items: start;
+
+    position: fixed;
+    top: calc(65px + 8vh);
+    left: 7vw;
+
     border-width: 7px;
-    width: 95%;
-    height: 85%;
     color: silver;
     -webkit-text-stroke: 0.75px black;
+}
+
+.statsBox h1 {
+    font-size: 6.4rem;
 }
 
 .statsContainer{
     margin: 10px;
     display: flex;
     align-items: center;
+    justify-content: center;
+
+    font-size: 2.4rem;
 }
 
+
 .stat{
-    width: 25px;
-    height: 25px;
+    width: 30px;
+    height: 30px;
     background-color: goldenrod;
-    margin: 5px;
-    border-radius: 25px;
+    margin-left: 10px;
+    border-radius: 100%;
+}
+
+@media only screen and (max-width: 1400px) {
+    .statsBox h1 {
+        font-size: 4.8rem;
+    }
+    .statsContainer{
+        font-size: 1.8rem;
+    }
+  }
+
+@media only screen and (max-height: 800px){
+    .statsBox{
+        top: calc(65px + 6vh);
+        left: 5vw;
+
+    }
+    
 }

@@ -69,14 +69,20 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
   }
 }
 
+.DailyChestContainer {
+  position: fixed;
+  left: 11.5vh;
+  bottom: 2vh;
+  font-size: 2.5vw;
+  font-weight: 500;
+  text-align: center;
+  color: #1f1f20cd;
 
-
+  z-index: 2;
+}
 
 .dailyChest {
-  position: fixed;
-  left: 10px;
-  top: 50%;
-  width: 15%;
+  width: 17vw;
   pointer-events: all;
 }
 
@@ -106,4 +112,74 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
   border-radius: 50%;
   top: 0%;
   animation-name: fall;
+}
+
+/** RANKINGS **/
+
+.RankingsContainer {
+  position: fixed;
+  top: 12vh;
+  right: 2vw;
+  display: block;
+  width: 24vw;
+  height: 50vh;
+  padding: 0.3vw 1vw;
+
+  background-color: #ffffff81;
+
+  font-size: 2vw;
+  font-weight: 500;
+}
+
+.RankingsContainer ol {
+  margin-left: 3vw;
+}
+
+/** PLAY BUTTON **/
+
+.PlayButton {
+  position: fixed;
+  bottom: 15vh;
+  right: 3vw;
+  display: block;
+  background: transparent;
+  z-index: 2;
+
+  width: 22vw;
+  height: 6vw;
+  line-height: 6vw;
+  text-align: center;
+  font-size: 5vw;
+  font-weight: 700;
+  border: none;
+  color: #1f1f20;
+}
+
+.PlayButton:after,
+.PlayButton:before {
+  position: absolute;
+  content: "";
+  width: 22vw;
+  left: -0.5vw;
+  height: 5.4vw;
+  z-index: -1;
+  border: 0.5vw solid #1f1f20;
+  background: linear-gradient(90deg, #b5883f, transparent) #f3c921;
+  transition: background-color 1s;
+}
+
+.PlayButton:before {
+  top: -3.25vw;
+  transform: perspective(1.5vw) rotateX(3deg);
+  border-bottom: none;
+}
+.PlayButton:after {
+  top: 3.25vw;
+  transform: perspective(1.5vw) rotateX(-3deg);
+  border-top: none;
+}
+
+.PlayButton:hover:before,
+.PlayButton:hover:after {
+  background-color: #e91e1e;
 }

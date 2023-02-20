@@ -1,12 +1,14 @@
 import { useRef } from "react";
 import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import { useAuthContext } from "../Database/Hooks/useAuthContext";
 import AccountBanner from "./AccountBanner";
 import styles from "./Nav.module.css";
 
 export default function Nav() {
   const locationPath = useLocation().pathname;
   const [showBanner, setShowBanner] = useState(false);
+  const {user} = useAuthContext();
 
   const acctBanner = useRef(null);
 
@@ -25,7 +27,7 @@ export default function Nav() {
   return (
     <header className={styles.navbar}>
       <h1 className={styles.logo}>A Stand in</h1>
-      <nav>
+      {user && <><nav>
         <ul className={styles.navLinks}>
           <li>
             <NavLink exact to="/">
@@ -78,7 +80,7 @@ export default function Nav() {
           <img src="Account/TempPFP.png"></img>
         </button>
         {showBanner && <AccountBanner />}
-      </div>
+      </div></>}
     </header>
   );
 }

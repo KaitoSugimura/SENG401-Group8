@@ -1,8 +1,8 @@
 import styles from "./Home.module.css";
 import animation from "./HomeSlimeAnimations.module.css";
-import slimeImage from "../../../public/assets/GameArt/Slime.png";
-import chestOpen from "../../../public/assets/HomeIcons/chestOpen.png";
-import chestClosed from "../../../public/assets/HomeIcons/chestClosed.png";
+import slimeImage from "/assets/GameArt/Slime.png";
+import chestOpen from "/assets/HomeIcons/chestOpen.png";
+import chestClosed from "/assets/HomeIcons/chestClosed.png";
 import { useState } from "react";
 
 const particleAmount = 60;
@@ -33,8 +33,6 @@ const animations = [
   animation.applyVerticalSquish,
   animation.applyShrink,
 ];
-
-
 
 export default function Home() {
   const [chestState, setChestState] = useState(false);
@@ -71,15 +69,31 @@ export default function Home() {
         />
       </button>
 
-      <img
-        src={chestState ? chestOpen : chestClosed}
-        className={styles.dailyChest}
-        alt="Daily chest click to open"
-        draggable="false"
-        onClick={() => {
-          setChestState(true);
-        }}
-      />
+      <div className={styles.DailyChestContainer}>
+        <p>Daily Login</p>
+        <img
+          src={chestState ? chestOpen : chestClosed}
+          className={styles.dailyChest}
+          alt="Daily chest click to open"
+          draggable="false"
+          onClick={() => {
+            setChestState(true);
+          }}
+        />
+      </div>
+
+      {/* Rankings */}
+      <div className={styles.RankingsContainer}>
+        <p>Rankings:</p>
+        <ol>
+          <li>BAKASATANG</li>
+          <li>FubukiKaito</li>
+          <li>Rimuru Tempest</li>
+        </ol>
+      </div>
+
+      {/* Play banner */}
+      <button className={styles.PlayButton}>PLAY</button>
 
       <div className={styles.ParticlesWrap}>{rows}</div>
     </div>

@@ -18,6 +18,8 @@ export default function Character() {
     {type: "Water", image:"assets/GameArt/Slime.png", unlocked: false,power:3,speed:3,health:3, id: 10},
     {type: "Armored", image:"assets/GameArt/ArmoredSlime.png", unlocked: true,power:3,speed:3,health:3, id: 11},
     {type: "Jello", image:"assets/GameArt/Slime.png", unlocked: false,power:3,speed:3,health:3, id: 12},
+
+        
   ])
 
   const [character, updateCharacter] = useState(
@@ -38,8 +40,9 @@ export default function Character() {
 
   return (
     <div className={styles.characterPage}>
+      {character &&<CharacterProfile character = {character}/>}
       {characters && <CharacterSelect characters = {characters} switchCharacter = {switchCharacter}/>}
-      {character &&<CharacterProfile character = {character}/>}   
+         
     </div>
   )
 }

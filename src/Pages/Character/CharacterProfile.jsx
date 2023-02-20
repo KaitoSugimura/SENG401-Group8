@@ -22,10 +22,7 @@ const CharacterProfile = ({character}) => {
                     <div className={styles.selectedCharacter}>
                         <img src={character.image} alt={character.type}/>
                     </div>
-                </div>
-            </div>
-            <div className={styles.statsProfile}>
-                <div className={styles.statsBox}>
+                    <div className={styles.statsBox}>
                     <div className={styles.statsContainer}>
                         <h2>Power:</h2>
                         {getStat(character.power)}
@@ -41,7 +38,8 @@ const CharacterProfile = ({character}) => {
                         {getStat(character.health)}
                         {statContents}
                     </div>
-                </div>                
+                </div>
+                </div>
             </div>
         </div>
      );

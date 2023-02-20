@@ -11,13 +11,13 @@ export default function Character() {
     {type: "Ice", unlocked: true,power:3,speed:3,health:3, id: 3},
     {type: "Earth", unlocked: true,power:3,speed:3,health:3, id: 4},
     {type: "Air", unlocked: true,power:3,speed:3,health:3, id: 5},
-    {type: "Shadow", unlocked: true,power:3,speed:3,health:3, id: 6},
-    {type: "Poison", unlocked: true,power:3,speed:3,health:3, id: 7},
+    {type: "Poison", unlocked: true,power:3,speed:3,health:3, id: 6},
+    {type: "Shadow", unlocked: true,power:3,speed:3,health:3, id: 7},
     {type: "Electric", unlocked: true,power:3,speed:3,health:3, id: 8},
     {type: "Jungle", unlocked: false,power:3,speed:3,health:3, id: 9},
-    {type: "Water", unlocked: false,power:3,speed:3,health:3, id: 10},
-    {type: "Armored", unlocked: true,power:3,speed:3,health:3, id: 11},
-    {type: "Jello", unlocked: false,power:3,speed:3,health:3, id: 12},
+    {type: "Honey", unlocked: true,power:3,speed:3,health:3, id: 10},
+    {type: "BubbleGum", unlocked: true,power:3,speed:3,health:3, id: 11},
+    {type: "Armored", unlocked: true,power:3,speed:3,health:3, id: 12},
 
         
   ])

@@ -6,14 +6,20 @@
 }
 
 .cgridContainer{
-    flex-grow: 20;
+    position: fixed;
+    top: calc(65px + 6.5vh);
+    right: 2vw;
+    
+    /* flex-grow: 20; */
     overflow: scroll;
-    height: calc(100vh - 65px);
-    background-color: rgb(44, 44, 44);
+    height: 80vh;
+    background-color: rgba(44, 44, 44, 0.775);
+    border: 10px solid black;
 }
 
 .cgridContainer::-webkit-scrollbar{
     width: 0px;
+    height: 0px;
     background: transparent;
     scroll-behavior: smooth;
 }
@@ -23,19 +29,18 @@
     align-items: start;
     justify-content: center;
     flex-wrap: wrap;
-    margin: 10px auto;
-    margin-top: 25px;
     width: 40vw;
+    height: 100%;
 }
 
 
 .characterGrid .character{
-    width: 8vw;
-    height: 8vw;
+    width: 13vw;
+    height: 12vw;
     margin: 2px;
     background-position: center;
     padding: 6px;
-    background: linear-gradient(36deg, rgba(233,202,55,1) 0%, rgba(251,240,184,1) 60%);
+    background: linear-gradient(36deg, rgba(233, 203, 55, 0.832) 0%, rgba(251,240,184,1) 60%);
 }
 
 .character img{
@@ -52,14 +57,15 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    width: 60vw;
+    width: 100vw;
     height: calc(100vh - 65px);
+    background-image: linear-gradient(to bottom, #28313B 0%, #485461 60%);
 }
 
 .characterProfile{
-    background-image: linear-gradient(to bottom, #28313B 0%, #485461 60%);
+    /* background-image: linear-gradient(to bottom, #28313B 0%, #485461 60%); */
     /* min-height: 41vh; */
-    min-width: 60vw;
+    width: 60vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -67,8 +73,8 @@
 }
 
 .characterProfile .selectedCharacter{
-    width: 200px;
-    height: 200px;
+    width: 60%;
+    height: 60%;
     background-position: center;
 }
 
@@ -78,10 +84,10 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    background-image: linear-gradient(to top, #28313B 0%, #485461 60%);
-    border: solid black;
+    /* background-image: linear-gradient(to top, #28313B 0%, #485461 60%); */
+    /* border: solid black; */
     border-width: 7px;
-    width: 95%;
+    width: 55vw;
     height: 85%;
     color: silver;
     -webkit-text-stroke: 0.75px black;
@@ -91,6 +97,7 @@
 .selectedCharacter img{
     width: 100%;
     height: auto;  
+    margin-left: 4vw;
 }
 
 .characterProfile h2{
@@ -100,27 +107,39 @@
 .statsBox{
     box-sizing: border-box;
     display: flex;
-    justify-content: center;
-    flex-direction: row;
-    padding: 3%;
-    background-image: linear-gradient(to bottom, #28313B 0%, #485461 60%);
-    border: solid black;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+
+    position: fixed;
+    top: calc(65px + 8vh);
+    left: 7vw;
+
+    /* background-image: linear-gradient(to bottom, #28313B 0%, #485461 60%); */
+    /* border: solid black; */
     border-width: 7px;
-    width: 95%;
     color: silver;
     -webkit-text-stroke: 0.75px black;
+}
+
+.statsBox h1 {
+    font-size: 6.4rem;
 }
 
 .statsContainer{
     margin: 10px;
     display: flex;
     align-items: center;
+    justify-content: center;
+
+    font-size: 2.4rem;
 }
 
+
 .stat{
-    width: 25px;
-    height: 25px;
+    width: 30px;
+    height: 30px;
     background-color: goldenrod;
-    margin: 5px;
-    border-radius: 25px;
+    margin-left: 10px;
+    border-radius: 100%;
 }

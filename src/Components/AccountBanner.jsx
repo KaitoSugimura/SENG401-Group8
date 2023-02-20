@@ -3,7 +3,7 @@ import { useLogout } from "../Database/Hooks/useLogout";
 import styles from "./AccountBanner.module.css"
 
 
-export default function AccountBanner() {
+export default function AccountBanner({setShowBanner}) {
   const {logout} = useLogout();
   const {user} = useAuthContext();
   
@@ -13,7 +13,7 @@ export default function AccountBanner() {
       <img src="Account/TempPFP.png"></img>
       <p className={styles.Rank}>Rank: 100</p>
       <p className={styles.Status}>Hello my name is Rimuru. I'm not a bad Slime!</p>
-      <button className={styles.SignOut} onClick={logout}>Sign out</button>
+      <button className={styles.SignOut} onClick={() => {if(setShowBanner) setShowBanner(false); logout()}}>Sign out</button>
     </div>
   )
 }

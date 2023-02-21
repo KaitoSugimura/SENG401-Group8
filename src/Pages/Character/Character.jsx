@@ -18,8 +18,8 @@ export default function Character() {
     {type: "Honey", unlocked: true,power:3,speed:3,health:3, id: 10},
     {type: "BubbleGum", unlocked: true,power:3,speed:3,health:3, id: 11},
     {type: "Armored", unlocked: true,power:3,speed:3,health:3, id: 12},
-    {type: "Celestial", unlocked: false,power:3,speed:3,health:3, id: 13},
-    {type: "Metal", unlocked: false,power:3,speed:3,health:3, id: 14},
+    {type: "Celestial", unlocked: true,power:3,speed:3,health:3, id: 13},
+    {type: "Metal", unlocked: true,power:3,speed:3,health:3, id: 14},
 
         
   ])

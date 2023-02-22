@@ -17,7 +17,7 @@ const CharacterProfile = ({ character }) => {
         <div className={styles.characterBox}>
           <div className={styles.selectedCharacter}>
             <img
-              src={"assets/GameArt/" + character.type + "Slime.gif"}
+              src={"assets/GameArt/" + character.type+"Slime/"+character.type + "Slime.gif"}
               alt={character.type}
             />
           </div>

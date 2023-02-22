@@ -25,7 +25,7 @@ export default function Character() {
   ])
 
   const [character, updateCharacter] = useState(
-    {type:"Normal", image:"assets/GameArt/Slime.png", power:3,speed:3,health:3,}
+    {type:"Normal", image:"assets/GameArt/NormalSlime.png", power:3,speed:3,health:3,}
   )
 
   const switchCharacter = (id)=>{

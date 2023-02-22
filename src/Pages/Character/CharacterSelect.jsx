@@ -22,7 +22,7 @@ const CharacterSelect = ({ characters, switchCharacter }) => {
             <img
               src={
                 character.unlocked
-                  ? "assets/GameArt/"+character.type+"Slime.png"
+                  ? "assets/GameArt/" + character.type+"Slime/"+character.type + "Slime.png"
                   : "assets/GameArt/Locked.png"
               }
               alt={character.type}

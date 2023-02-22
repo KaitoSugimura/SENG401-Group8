@@ -18,6 +18,7 @@
     overflow: auto;
 }
 
+
 .global {
     display: flex;
     align-items: center;
@@ -34,7 +35,7 @@
 }
 
 .global:hover {
-    background-color: rgba(0, 0, 0, 0.10);
+    background-color: rgba(0, 0, 0, 0.05);
 }
 
 .friendsHeader {
@@ -55,6 +56,10 @@
 }
 
 .friend:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.global.selected {
     background-color: rgba(0, 0, 0, 0.10);
 }
 
@@ -114,26 +119,37 @@
 .messages {
     display: flex;
     flex-direction: column-reverse;
-    align-items: start;
     gap: 1rem;
     overflow: auto;
-    padding: 0 2rem;
+    padding: 2rem 2rem 0;
 }
 
 .message {
+    display: inline-block;
     background-color: var(--bg-secondary-color);
     border: 1px solid var(--secondary-color);
     padding: 1rem;
     border-radius: .5rem;
     max-width: 90%;
     overflow-wrap: break-word;
+    min-width: min-content;
+    margin-top: .25rem;
 }
 
-.message.mine {
-    align-self: end;
+.mine {
+    text-align: end;
+}
+
+.mine .message {
     border-color: var(--primary-color);
     background-color: var(--bg-color);
 }
+
+.name {
+    color: gray;
+    font-size: 1.4rem;
+}
+
 
 .messageForm {
     display: flex;

@@ -88,7 +88,7 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
 
 .tabs{
   position: fixed;
-  left: 4vw;
+  left: 6vw;
   bottom: 8vh;
   display: flex;
   gap: 1vw;
@@ -113,7 +113,7 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
 }
 
 .dailyChest {
-  width: 10vw;
+  width: 9vw;
   pointer-events: all;
 }
 

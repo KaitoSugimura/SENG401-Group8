@@ -6,7 +6,7 @@ import CharacterProfile from "./CharacterProfile";
 export default function Character() {
 
   const [characters, updateCharacters] = useState([
-    {type: "Normal",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:false, id: 1},
+    {type: "Normal",skin:1, unlocked: true,power:3,speed:3,health:3,two:true,three:true, id: 1},
     {type: "Fire",skin:1, unlocked: true,power:5,speed:3,health:3,two:false,three:false, id: 2},
     {type: "Ice",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:false, id: 3},
     {type: "Earth",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:false, id: 4},
@@ -25,13 +25,14 @@ export default function Character() {
   ])
 
   const [character, updateCharacter] = useState(
-    {type:"Normal",skin:1, power:3,speed:3,health:3,two:false,three:false,id:1}
+    characters[0]
   )
 
   const switchCharacter = (id)=>{
     for (let i = 0; i < characters.length; i++) {
       if(characters[i].id == id){
         if(characters[i].unlocked){
+          //UPDATE DB
           updateCharacter(characters[i]);
         }
         break;

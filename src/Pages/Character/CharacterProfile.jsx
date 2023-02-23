@@ -4,7 +4,6 @@ import styles from "./Character.module.css";
 ///UPDATE SET SKIN PATHS WHEN DB IS IMPLEMENTED
 
 const CharacterProfile = ({ character }) => {
-  let char = character;
   
   const [imagePath,setImagePath]=useState(
     "assets/GameArt/" + character.type+"Slime/"+character.type + "Slime"+character.skin+".gif"
@@ -31,7 +30,7 @@ const CharacterProfile = ({ character }) => {
   }
 
   function skinTwo(){
-    if(char.two){
+    if(character.two){
       //update DB
       setImagePath("assets/GameArt/" + character.type+"Slime/"+character.type + "Slime"+"2"+".gif");
     }
@@ -41,7 +40,7 @@ const CharacterProfile = ({ character }) => {
   }
 
   function skinThree(){
-    if(char.three){
+    if(character.three){
       //update DB
       setImagePath("assets/GameArt/" + character.type+"Slime/"+character.type + "Slime"+"3"+".gif");
     }

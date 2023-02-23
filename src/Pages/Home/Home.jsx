@@ -3,7 +3,9 @@ import animation from "./HomeSlimeAnimations.module.css";
 import slimeImage from "/assets/GameArt/NormalSlime/NormalSlime.png";
 import chestOpen from "/assets/HomeIcons/chestOpen.png";
 import chestClosed from "/assets/HomeIcons/chestClosed.png";
+import achievement from "/assets/HomeIcons/achievement.png";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const particleAmount = 60;
 const rows = [];
@@ -37,13 +39,14 @@ const animations = [
 export default function Home() {
   const [chestState, setChestState] = useState(false);
   const [petted, setPetted] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div className={styles.Home}>
       <div className={styles.MainBanner}>
         <div className={styles.MBNameLevelContainer}>
           <p className={styles.MBName}>Rimuru Tempest</p>
-          <p className={styles.MBLevel}>Lv.1</p>
+          <p className={styles.MBLevel}>23</p>
         </div>
         <hr />
         <p className={styles.MBRank}>Rank 200</p>
@@ -69,17 +72,28 @@ export default function Home() {
         />
       </button>
 
-      <div className={styles.DailyChestContainer}>
-        <p>Daily Login</p>
-        <img
-          src={chestState ? chestOpen : chestClosed}
-          className={styles.dailyChest}
-          alt="Daily chest click to open"
-          draggable="false"
-          onClick={() => {
-            setChestState(true);
-          }}
-        />
+      <div className={styles.tabs}>
+        <div className={styles.tabsIcon}>
+          <p>Daily Login</p>
+          <img
+            src={chestState ? chestOpen : chestClosed}
+            className={styles.dailyChest}
+            alt="Daily chest click to open"
+            draggable="false"
+            onClick={() => {
+              setChestState(true);
+            }}
+          />
+        </div>
+        <div className={styles.tabsIcon}>
+          <p>Achievements</p>
+          <img
+            src={achievement}
+            className={styles.dailyChest}
+            alt="Achievements"
+            draggable="false"
+          />
+        </div>
       </div>
 
       {/* Rankings */}
@@ -93,7 +107,9 @@ export default function Home() {
       </div>
 
       {/* Play banner */}
-      <button className={styles.PlayButton}>PLAY</button>
+      <button className={styles.PlayButton} onClick={() => {
+        navigate("/game");
+      }}>PLAY</button>
 
       <div className={styles.ParticlesWrap}>{rows}</div>
     </div>

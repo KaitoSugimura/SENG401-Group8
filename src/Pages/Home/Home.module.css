@@ -13,12 +13,14 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
   top: 15%;
   left: 50%;
   transform: translate(-50%, 0%);
-  font-size: 60px;
-  background: linear-gradient(rgba(13, 13, 13, 0.2), rgba(13, 13, 13, 0));
+  font-size: 2vw;
+  background: linear-gradient(22deg, rgba(193, 171, 61, 0.832) 0%, rgba(251,240,184,1) 60%);
+  z-index: 10;
+  border: 8px solid black;
 
-  width: 40%;
+  width: 25vw;
   height: fit-content;
-  padding: 10px;
+  padding: 5px;
 
   display: flex;
   flex-direction: column;
@@ -34,6 +36,7 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
   width: 100%;
   display: flex;
   align-items: end;
+  justify-content: center;
   gap: 10px;
 }
 
@@ -41,7 +44,21 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
 }
 
 .MBLevel {
-  font-size: 40px;
+  position: absolute;
+  left: 0%;
+  top:50%;
+  transform: translate(-70%, -50%);
+  z-index: 20;
+  background-color: #1f1f20;
+  color: white;
+  padding: 1.5vw;
+  font-size: 3.5vw;
+  border-radius: 1vw;
+  border: inset #eebd70;
+  background: radial-gradient(#b91d1d, #0f2236);
+  font-weight: 600;
+
+  margin-left: 10px;
 }
 
 .MBRank {
@@ -69,11 +86,21 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
   }
 }
 
-.DailyChestContainer {
+.tabs{
   position: fixed;
-  left: 11.5vh;
-  bottom: 2vh;
-  font-size: 2.5vw;
+  left: 4vw;
+  bottom: 8vh;
+  display: flex;
+  gap: 1vw;
+
+  background-color: #cfcfcf55;
+  padding: 1vw;
+  border-radius: 2vw;
+  z-index: 10;
+}
+
+.tabsIcon {
+  font-size: 1.3vw;
   font-weight: 500;
   text-align: center;
   color: #1f1f20cd;
@@ -81,8 +108,12 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
   z-index: 2;
 }
 
+.tabsIcon:hover{
+  transform: scale(101.5%);
+}
+
 .dailyChest {
-  width: 17vw;
+  width: 10vw;
   pointer-events: all;
 }
 
@@ -126,6 +157,7 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
   padding: 0.3vw 1vw;
 
   background-color: #ffffff81;
+  border: 3px solid black;
 
   font-size: 2vw;
   font-weight: 500;
@@ -152,7 +184,8 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
   font-size: 5vw;
   font-weight: 700;
   border: none;
-  color: #1f1f20;
+  color: #000000;
+
 }
 
 .PlayButton:after,
@@ -163,8 +196,8 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
   left: -0.5vw;
   height: 5.4vw;
   z-index: -1;
-  border: 0.5vw solid #1f1f20;
-  background: linear-gradient(90deg, #b5883f, transparent) #f3c921;
+  border: 0.5vw solid #000000;
+  background: linear-gradient(90deg, #d4a355, transparent) #f3c921;
   transition: background-color 1s;
 }
 
@@ -181,5 +214,5 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
 
 .PlayButton:hover:before,
 .PlayButton:hover:after {
-  background-color: #e91e1e;
+  background-color: #e92c1e;
 }

@@ -6,30 +6,29 @@ import CharacterProfile from "./CharacterProfile";
 export default function Character() {
 
   const [characters, updateCharacters] = useState([
-    {type: "Normal", unlocked: true,power:3,speed:3,health:3, id: 1},
-    {type: "Fire", unlocked: true,power:5,speed:3,health:3, id: 2},
-    {type: "Ice", unlocked: true,power:3,speed:3,health:3, id: 3},
-    {type: "Earth", unlocked: true,power:3,speed:3,health:3, id: 4},
-    {type: "Air", unlocked: true,power:3,speed:3,health:3, id: 5},
-    {type: "Poison", unlocked: true,power:3,speed:3,health:3, id: 6},
-    {type: "Shadow", unlocked: true,power:3,speed:3,health:3, id: 7},
-    {type: "Electric", unlocked: true,power:3,speed:3,health:3, id: 8},
-    {type: "Wild", unlocked: true,power:3,speed:3,health:3, id: 9},
-    {type: "Honey", unlocked: true,power:3,speed:3,health:3, id: 10},
-    {type: "BubbleGum", unlocked: true,power:3,speed:3,health:3, id: 11},
-    {type: "Armored", unlocked: true,power:3,speed:3,health:3, id: 12},
-    {type: "Celestial", unlocked: true,power:3,speed:3,health:3, id: 13},
-    {type: "Metal", unlocked: true,power:3,speed:3,health:3, id: 14},
+    {type: "Normal",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:false, id: 1},
+    {type: "Fire",skin:1, unlocked: true,power:5,speed:3,health:3,two:false,three:false, id: 2},
+    {type: "Ice",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:false, id: 3},
+    {type: "Earth",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:false, id: 4},
+    {type: "Air",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:false, id: 5},
+    {type: "Poison",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:false, id: 6},
+    {type: "Shadow",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:false, id: 7},
+    {type: "Electric",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:false, id: 8},
+    {type: "Wild",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:false, id: 9},
+    {type: "Honey",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:false, id: 10},
+    {type: "BubbleGum",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:false, id: 11},
+    {type: "Armored",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:false, id: 12},
+    {type: "Celestial",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:false, id: 13},
+    {type: "Metal",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:false, id: 14},
 
         
   ])
 
   const [character, updateCharacter] = useState(
-    {type:"Normal", image:"assets/GameArt/NormalSlime/NormalSlime.gif", power:3,speed:3,health:3,}
+    {type:"Normal",skin:1, power:3,speed:3,health:3,two:false,three:false,id:1}
   )
 
   const switchCharacter = (id)=>{
-    let newCharacter;
     for (let i = 0; i < characters.length; i++) {
       if(characters[i].id == id){
         if(characters[i].unlocked){

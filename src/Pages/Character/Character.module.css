@@ -156,3 +156,14 @@
     }
     
 }
+
+.statsContainer img{
+    width: 50px;
+    pointer-events: all;
+    height: auto;
+}
+
+.statsContainer img:hover{
+    transform: scale(110%);
+    cursor: pointer;
+}

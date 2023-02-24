@@ -13,7 +13,10 @@ import GameBGM from "/Sound/Game.mp3";
 export default function Nav() {
   const locationPath = useLocation().pathname;
   const [showBanner, setShowBanner] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const [musicVolume, setMusicVolume] = useState(1);
+  const [originalMusicVolMultiplier, setOriginalMusicVolMultiplier] =
+    useState(1);
   const { user } = useAuthContext();
 
   const acctBanner = useRef(null);
@@ -23,23 +26,23 @@ export default function Nav() {
     switch (locationPath) {
       case "/":
         audioRef.current.src = HomeBGM;
-        audioRef.current.volume = musicVolume * 0.7;
+        setOriginalMusicVolMultiplier(0.7);
         break;
       case "/social":
         audioRef.current.src = SocialBGM;
-        audioRef.current.volume = musicVolume * 0.7;
+        setOriginalMusicVolMultiplier(0.7);
         break;
       case "/game":
         audioRef.current.src = GameBGM;
-        audioRef.current.volume = musicVolume * 0.7;
+        setOriginalMusicVolMultiplier(0.7);
         break;
       case "/character":
         audioRef.current.src = CharacterBGM;
-        audioRef.current.volume = musicVolume * 0.8;
+        setOriginalMusicVolMultiplier(0.7);
         break;
       case "/gacha":
         audioRef.current.src = ShopBGM;
-        audioRef.current.volume = musicVolume * 0.5;
+        setOriginalMusicVolMultiplier(0.4);
         break;
     }
     audioRef.current.play();
@@ -47,7 +50,11 @@ export default function Nav() {
 
   useEffect(() => {
     playAudio();
-  }, [locationPath, musicVolume]);
+  }, [locationPath]);
+
+  useEffect(() => {
+    audioRef.current.volume = musicVolume * originalMusicVolMultiplier;
+  }, [musicVolume, originalMusicVolMultiplier]);
 
   const closeBanner = (e) => {
     if (
@@ -114,28 +121,42 @@ export default function Nav() {
           <div className={styles.rightSideNav} ref={acctBanner}>
             <span className={styles.goldAmount}>2000 Gold</span>
             <button
-              onClick={() => setShowBanner(!showBanner)}
+              onClick={() => {
+                setShowBanner(false);
+                setShowSettings(!showSettings);
+              }}
+              className={styles.setting}
+            >
+              {" "}
+              <img src="/NavIcons/Settings.svg"></img>
+            </button>
+
+            {showSettings && (
+              <div className={styles.VolumeConfig}>
+                <p>Volume: </p>
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  onChange={(e) =>
+                    setMusicVolume((e.target.value * 0.01).toFixed(2))
+                  }
+                  value={musicVolume * 100}
+                ></input>
+                <span>{Math.round(musicVolume * 100)}%</span>
+              </div>
+            )}
+
+            <button
+              onClick={() => {
+                setShowSettings(false);
+                setShowBanner(!showBanner);
+              }}
               className={styles.bannerButton}
             >
               <img src="Account/TempPFP.png"></img>
             </button>
-            {showBanner && (
-              <AccountBanner setShowBanner={setShowBanner} />
-              )}
-              <button></button>
-              {showBanner && <div className={styles.VolumeConfig}>
-                  <p>Volume: </p>
-                  <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    onChange={(e) =>
-                      setMusicVolume((e.target.value * 0.01).toFixed(2))
-                    }
-                    value={musicVolume * 100}
-                  ></input>
-                  <span>{Math.round(musicVolume * 100)}%</span>
-                </div>}
+            {showBanner && <AccountBanner setShowBanner={setShowBanner} />}
           </div>
         </>
       )}

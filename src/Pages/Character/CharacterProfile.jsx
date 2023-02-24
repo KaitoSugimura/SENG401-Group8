@@ -17,6 +17,7 @@ const CharacterProfile = ({ character }) => {
   );
 
   useEffect(() => {
+    setSkinNo(1);
     if (character) {
       setImagePath(
         "assets/GameArt/" +

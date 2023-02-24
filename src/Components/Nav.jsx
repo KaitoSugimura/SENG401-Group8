@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuthContext } from "../Database/Hooks/useAuthContext";
@@ -18,35 +18,39 @@ export default function Nav() {
   const acctBanner = useRef(null);
 
   const audioRef = useRef();
-  const playAudio = (music) => {
-    switch (music) {
-      case "HOME":
+  const playAudio = () => {
+    switch (locationPath) {
+      case "/":
         audioRef.current.src = HomeBGM;
         audioRef.current.volume = 0.7;
         audioRef.current.play();
         break;
-      case "SOCIAL":
+      case "/social":
         audioRef.current.src = SocialBGM;
         audioRef.current.volume = 0.7;
         audioRef.current.play();
         break;
-        case "GAME":
+        case "/game":
         audioRef.current.src = GameBGM;
         audioRef.current.volume = 0.7;
         audioRef.current.play();
         break;
-        case "CHARACTER":
+        case "/character":
           audioRef.current.src = CharacterBGM;
           audioRef.current.volume = 0.8;
           audioRef.current.play();
           break;
-      case "SHOP":
+      case "/gacha":
         audioRef.current.src = ShopBGM;
         audioRef.current.volume = 0.5;
         audioRef.current.play();
         break;
     }
   };
+
+  useEffect(() => {
+    playAudio();
+  }, [locationPath]); 
 
   const closeBanner = (e) => {
     if (
@@ -72,9 +76,6 @@ export default function Nav() {
                 <NavLink
                   exact
                   to="/"
-                  onClick={() => {
-                    playAudio("HOME");
-                  }}
                 >
                   <img src="/NavIcons/Home.svg"></img>
                 </NavLink>
@@ -85,9 +86,6 @@ export default function Nav() {
               <li>
                 <NavLink
                   to="/social"
-                  onClick={() => {
-                    playAudio("SOCIAL");
-                  }}
                 >
                   <img src="/NavIcons/Social.svg"></img>
                 </NavLink>
@@ -96,9 +94,7 @@ export default function Nav() {
                 )}
               </li>
               <li>
-                <NavLink to="/game" onClick={() => {
-                    playAudio("GAME");
-                  }}>
+                <NavLink to="/game" >
                   <img src="/NavIcons/Game.svg"></img>
                 </NavLink>
                 {locationPath === "/game" && (
@@ -106,9 +102,7 @@ export default function Nav() {
                 )}
               </li>
               <li>
-                <NavLink to="/character"onClick={() => {
-                    playAudio("CHARACTER");
-                  }}>
+                <NavLink to="/character">
                   <img src="/NavIcons/Character.svg"></img>
                 </NavLink>
                 {locationPath === "/character" && (
@@ -116,9 +110,7 @@ export default function Nav() {
                 )}
               </li>
               <li>
-                <NavLink to="/gacha" onClick={() => {
-                    playAudio("SHOP");
-                  }}>
+                <NavLink to="/gacha">
                   <img src="/NavIcons/Gacha.svg"></img>
                 </NavLink>
                 {locationPath === "/gacha" && (

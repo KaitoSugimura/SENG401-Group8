@@ -63,6 +63,7 @@ export default function Nav() {
       !acctBanner.current.contains(e.target)
     ) {
       setShowBanner(false);
+      setShowSettings(false);
     }
   };
 

@@ -30,16 +30,16 @@ export default function Nav() {
         audioRef.current.volume = 0.7;
         audioRef.current.play();
         break;
-        case "/game":
+      case "/game":
         audioRef.current.src = GameBGM;
         audioRef.current.volume = 0.7;
         audioRef.current.play();
         break;
-        case "/character":
-          audioRef.current.src = CharacterBGM;
-          audioRef.current.volume = 0.8;
-          audioRef.current.play();
-          break;
+      case "/character":
+        audioRef.current.src = CharacterBGM;
+        audioRef.current.volume = 0.8;
+        audioRef.current.play();
+        break;
       case "/gacha":
         audioRef.current.src = ShopBGM;
         audioRef.current.volume = 0.5;
@@ -50,7 +50,7 @@ export default function Nav() {
 
   useEffect(() => {
     playAudio();
-  }, [locationPath]); 
+  }, [locationPath]);
 
   const closeBanner = (e) => {
     if (
@@ -73,10 +73,7 @@ export default function Nav() {
           <nav>
             <ul className={styles.navLinks}>
               <li>
-                <NavLink
-                  exact
-                  to="/"
-                >
+                <NavLink exact to="/">
                   <img src="/NavIcons/Home.svg"></img>
                 </NavLink>
                 {locationPath === "/" && (
@@ -84,9 +81,7 @@ export default function Nav() {
                 )}
               </li>
               <li>
-                <NavLink
-                  to="/social"
-                >
+                <NavLink to="/social">
                   <img src="/NavIcons/Social.svg"></img>
                 </NavLink>
                 {locationPath === "/social" && (
@@ -94,7 +89,7 @@ export default function Nav() {
                 )}
               </li>
               <li>
-                <NavLink to="/game" >
+                <NavLink to="/game">
                   <img src="/NavIcons/Game.svg"></img>
                 </NavLink>
                 {locationPath === "/game" && (

@@ -94,6 +94,7 @@
 }
 
 
+
 .bannerButton{
     cursor: pointer;
     display: flex;
@@ -102,6 +103,32 @@
     width: 50px;
     height: 50px;
     border-radius: 100%;
+}
+
+.VolumeConfig{
+    font-size: 20px;
+    font-weight: 600;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(20,20,20,0.5);
+    position: fixed;
+    top: 465px;
+    right: 3vw;
+    width: 300px;
+    margin: 4px 0;
+    padding: 12px 24px;
+    background-color: azure;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.VolumeConfig input{
+    width: 40%;
+}
+
+.VolumeConfig span{
+    width: 50px;
 }
 
 .bannerButton img{

@@ -13,6 +13,7 @@ import GameBGM from "/Sound/Game.mp3";
 export default function Nav() {
   const locationPath = useLocation().pathname;
   const [showBanner, setShowBanner] = useState(false);
+  const [musicVolume, setMusicVolume] = useState(1);
   const { user } = useAuthContext();
 
   const acctBanner = useRef(null);
@@ -22,23 +23,23 @@ export default function Nav() {
     switch (locationPath) {
       case "/":
         audioRef.current.src = HomeBGM;
-        audioRef.current.volume = 0.7;
+        audioRef.current.volume = musicVolume * 0.7;
         break;
       case "/social":
         audioRef.current.src = SocialBGM;
-        audioRef.current.volume = 0.7;
+        audioRef.current.volume = musicVolume * 0.7;
         break;
       case "/game":
         audioRef.current.src = GameBGM;
-        audioRef.current.volume = 0.7;
+        audioRef.current.volume = musicVolume * 0.7;
         break;
       case "/character":
         audioRef.current.src = CharacterBGM;
-        audioRef.current.volume = 0.8;
+        audioRef.current.volume = musicVolume * 0.8;
         break;
       case "/gacha":
         audioRef.current.src = ShopBGM;
-        audioRef.current.volume = 0.5;
+        audioRef.current.volume = musicVolume * 0.5;
         break;
     }
     audioRef.current.play();
@@ -46,7 +47,7 @@ export default function Nav() {
 
   useEffect(() => {
     playAudio();
-  }, [locationPath]);
+  }, [locationPath, musicVolume]);
 
   const closeBanner = (e) => {
     if (
@@ -118,7 +119,23 @@ export default function Nav() {
             >
               <img src="Account/TempPFP.png"></img>
             </button>
-            {showBanner && <AccountBanner setShowBanner={setShowBanner} />}
+            {showBanner && (
+              <AccountBanner setShowBanner={setShowBanner} />
+              )}
+              <button></button>
+              {showBanner && <div className={styles.VolumeConfig}>
+                  <p>Volume: </p>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    onChange={(e) =>
+                      setMusicVolume((e.target.value * 0.01).toFixed(2))
+                    }
+                    value={musicVolume * 100}
+                  ></input>
+                  <span>{Math.round(musicVolume * 100)}%</span>
+                </div>}
           </div>
         </>
       )}

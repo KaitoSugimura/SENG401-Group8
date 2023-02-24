@@ -62,7 +62,7 @@ export default function Nav() {
 
   return (
     <header className={styles.navbar}>
-      <audio src={HomeBGM} ref={audioRef}></audio>
+      <audio src={HomeBGM} ref={audioRef} loop="loop"></audio>
       <h1 className={styles.logo}>A Stand in</h1>
       {user && (
         <>

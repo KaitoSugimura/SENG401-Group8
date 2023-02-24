@@ -57,6 +57,7 @@ const CharacterProfile = ({ character }) => {
             <img
               src={imagePath}
               alt={character.type}
+              draggable="false"
             />
           </div>
           <div className={styles.statsBox}>

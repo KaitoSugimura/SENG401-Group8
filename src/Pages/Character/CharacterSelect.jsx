@@ -27,6 +27,7 @@ const CharacterSelect = ({ characters, switchCharacter }) => {
               }
               alt={character.type}
               key={character.id}
+              draggable="false"
             />
           </div>
         ))}

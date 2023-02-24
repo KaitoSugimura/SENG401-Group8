@@ -69,7 +69,7 @@ export default function Nav() {
           <nav>
             <ul className={styles.navLinks}>
               <li>
-                <NavLink exact to="/">
+                <NavLink exact to="/" draggable="false">
                   <img src="/NavIcons/Home.svg"></img>
                 </NavLink>
                 {locationPath === "/" && (
@@ -77,7 +77,7 @@ export default function Nav() {
                 )}
               </li>
               <li>
-                <NavLink to="/social">
+                <NavLink to="/social" draggable="false">
                   <img src="/NavIcons/Social.svg"></img>
                 </NavLink>
                 {locationPath === "/social" && (
@@ -85,7 +85,7 @@ export default function Nav() {
                 )}
               </li>
               <li>
-                <NavLink to="/game">
+                <NavLink to="/game" draggable="false">
                   <img src="/NavIcons/Game.svg"></img>
                 </NavLink>
                 {locationPath === "/game" && (
@@ -93,7 +93,7 @@ export default function Nav() {
                 )}
               </li>
               <li>
-                <NavLink to="/character">
+                <NavLink to="/character" draggable="false">
                   <img src="/NavIcons/Character.svg"></img>
                 </NavLink>
                 {locationPath === "/character" && (
@@ -101,7 +101,7 @@ export default function Nav() {
                 )}
               </li>
               <li>
-                <NavLink to="/gacha">
+                <NavLink to="/gacha" draggable="false">
                   <img src="/NavIcons/Gacha.svg"></img>
                 </NavLink>
                 {locationPath === "/gacha" && (

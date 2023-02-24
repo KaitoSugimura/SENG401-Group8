@@ -9,7 +9,7 @@ export default function Character() {
     {type: "Normal",skin:1, unlocked: true,power:3,speed:3,health:3,two:true,three:true, id: 1},
     {type: "Fire",skin:1, unlocked: true,power:5,speed:3,health:3,two:true,three:true, id: 2},
     {type: "Ice",skin:1, unlocked: true,power:3,speed:3,health:3,two:true,three:true, id: 3},
-    {type: "Earth",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:false, id: 4},
+    {type: "Earth",skin:1, unlocked: true,power:3,speed:3,health:3,two:true,three:true, id: 4},
     {type: "Air",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:false, id: 5},
     {type: "Poison",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:false, id: 6},
     {type: "Shadow",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:false, id: 7},

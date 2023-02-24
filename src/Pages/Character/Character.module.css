@@ -163,6 +163,10 @@
     height: auto;
 }
 
+.statsContainer img.selected {
+    filter: invert(95%);
+}
+
 .statsContainer img:hover{
     transform: scale(110%);
     cursor: pointer;

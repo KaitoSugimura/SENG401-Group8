@@ -23,29 +23,25 @@ export default function Nav() {
       case "/":
         audioRef.current.src = HomeBGM;
         audioRef.current.volume = 0.7;
-        audioRef.current.play();
         break;
       case "/social":
         audioRef.current.src = SocialBGM;
         audioRef.current.volume = 0.7;
-        audioRef.current.play();
         break;
       case "/game":
         audioRef.current.src = GameBGM;
         audioRef.current.volume = 0.7;
-        audioRef.current.play();
         break;
       case "/character":
         audioRef.current.src = CharacterBGM;
         audioRef.current.volume = 0.8;
-        audioRef.current.play();
         break;
       case "/gacha":
         audioRef.current.src = ShopBGM;
         audioRef.current.volume = 0.5;
-        audioRef.current.play();
         break;
     }
+    audioRef.current.play();
   };
 
   useEffect(() => {

@@ -57,13 +57,9 @@ export default function Nav() {
   }, [musicVolume, originalMusicVolMultiplier]);
 
   const closeBanner = (e) => {
-    if (
-      acctBanner.current &&
-      showBanner &&
-      !acctBanner.current.contains(e.target)
-    ) {
-      setShowBanner(false);
-      setShowSettings(false);
+    if (acctBanner.current && !acctBanner.current.contains(e.target)) {
+      if (showBanner) setShowBanner(false);
+      if (showSettings) setShowSettings(false);
     }
   };
 

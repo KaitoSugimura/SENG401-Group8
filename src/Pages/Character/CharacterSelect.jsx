@@ -6,6 +6,7 @@ const CharacterSelect = ({ characters, switchCharacter }) => {
   const imagePath = "";
 
   const handleClick = (e) => {
+    // window.confirm("Hello World!");
     switchCharacter(e.currentTarget.getAttribute("number"));
   };
 
@@ -20,10 +21,9 @@ const CharacterSelect = ({ characters, switchCharacter }) => {
             onClick={handleClick}
           >
             <img
+              
               src={
-                character.unlocked
-                  ? "assets/GameArt/" + character.type+"Slime/"+character.type + "Slime.png"
-                  : "assets/GameArt/Locked.png"
+                "assets/GameArt/" + character.type+"Slime/"+character.type + "Slime.png"
               }
               alt={character.type}
               key={character.id}

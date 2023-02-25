@@ -3,10 +3,26 @@ import styles from "./Character.module.css";
 
 ///UPDATE SET SKIN PATHS WHEN DB IS IMPLEMENTED
 
-const CharacterProfile = ({ character }) => {
+const CharacterProfile = ({ character}) => {
   const [skinNo, setSkinNo] = useState(1);
+  const[lockedButtonStyle, setlockedButtonStyle] = useState({
+    visibility: "hidden"
+  })
+
+  const unlockedStyle ={
+    opacity:"1.0",
+    filter:"grayscale(0%)"
+  }
+
+  const lockedStyle ={
+    opacity:"0.6",
+    filter:"grayscale(0%)"
+  }
+
+  const[imageStyle, setImageStyle]= useState(unlockedStyle);
 
   const [imagePath, setImagePath] = useState(
+    
     "assets/GameArt/" +
       character.type +
       "Slime/" +
@@ -14,6 +30,7 @@ const CharacterProfile = ({ character }) => {
       "Slime" +
       character.skin +
       ".gif"
+    
   );
 
   useEffect(() => {
@@ -29,6 +46,13 @@ const CharacterProfile = ({ character }) => {
           ".gif"
       );
     }
+    if(character.unlocked){
+      setImageStyle(unlockedStyle)
+      setlockedButtonStyle({visibility:"hidden"})
+    }else{
+      setImageStyle(lockedStyle)
+      setlockedButtonStyle({visibility:"visible"})
+    }
   }, [character]);
 
   function getStat(stat) {
@@ -42,21 +66,31 @@ const CharacterProfile = ({ character }) => {
   }
 
   function skinOne() {
-    setImagePath(
-      "assets/GameArt/" +
-        character.type +
-        "Slime/" +
-        character.type +
-        "Slime" +
-        character.skin +
-        ".gif"
-    );
     setSkinNo(1);
+    if (character) {
+      //update DB
+      setImagePath(
+        "assets/GameArt/" +
+          character.type +
+          "Slime/" +
+          character.type +
+          "Slime" +
+          "1" +
+          ".gif"
+      );
+    }
+    if(character.unlocked){
+      setImageStyle(unlockedStyle)
+      setlockedButtonStyle({visibility:"hidden"})
+    }else{
+      setImageStyle(lockedStyle)
+      setlockedButtonStyle({visibility:"visible"})
+    }
   }
 
   function skinTwo() {
     setSkinNo(2);
-    if (character.two) {
+    if (character) {
       //update DB
       setImagePath(
         "assets/GameArt/" +
@@ -67,14 +101,19 @@ const CharacterProfile = ({ character }) => {
           "2" +
           ".gif"
       );
-    } else {
-      setImagePath("assets/GameArt/Locked.png");
+    }
+    if(character.two){
+      setImageStyle(unlockedStyle)
+      setlockedButtonStyle({visibility:"hidden"})
+    }else{
+      setImageStyle(lockedStyle)
+      setlockedButtonStyle({visibility:"visible"})
     }
   }
 
   function skinThree() {
     setSkinNo(3);
-    if (character.three) {
+    if (character) {
       //update DB
       setImagePath(
         "assets/GameArt/" +
@@ -85,8 +124,13 @@ const CharacterProfile = ({ character }) => {
           "3" +
           ".gif"
       );
-    } else {
-      setImagePath("assets/GameArt/Locked.png");
+    }
+    if(character.three){
+      setImageStyle(unlockedStyle)
+      setlockedButtonStyle({visibility:"hidden"})
+    }else{
+      setImageStyle(lockedStyle)
+      setlockedButtonStyle({visibility:"visible"})
     }
   }
 
@@ -95,7 +139,7 @@ const CharacterProfile = ({ character }) => {
       <div className={styles.characterProfile}>
         <div className={styles.characterBox}>
           <div className={styles.selectedCharacter}>
-            <img src={imagePath} alt={character.type} draggable="false" />
+            <img style={imageStyle} src={imagePath} alt={character.type}draggable="false"/>
           </div>
           <div className={styles.statsBox}>
             <h1>{character.type} Slime</h1>
@@ -130,6 +174,9 @@ const CharacterProfile = ({ character }) => {
                 onClick={skinThree}
                 className={skinNo == 3 ? styles.selected : ""}
               />
+            </div>
+            <div style ={lockedButtonStyle}className={styles.unlockButton}>
+              <img src="assets/GameArt/Locked.png" alt="Lockbutton" />
             </div>
           </div>
         </div>

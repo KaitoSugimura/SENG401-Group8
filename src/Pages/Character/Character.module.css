@@ -86,9 +86,17 @@
 }
 
 .characterProfile .selectedCharacter{
+    position: relative;
     width: 60vh;
     height: 60vh;
     transform: translate(-22%, 3vh);
+}
+
+.locked{
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0.8;
 }
 
 
@@ -96,6 +104,8 @@
     width: 100%;
     height: auto;  
 }
+
+
 
 .characterProfile h2{
     text-align: center;
@@ -171,3 +181,21 @@
     transform: scale(110%);
     cursor: pointer;
 }
+
+.unlockButton{
+    margin-left: 3vw;
+    width: 15vh;
+    height: 15vh;
+}
+
+.unlockButton img{
+    width: 100%;
+    height: auto;
+    pointer-events: all;
+}
+
+.unlockButton img:hover{
+    transform: scale(110%);
+    cursor: pointer;    
+}
+

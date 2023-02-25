@@ -128,10 +128,10 @@
   font-size: 20px;
   font-weight: 600;
   border-radius: 5px;
-  box-shadow: 0px 0px 10px rgba(20, 20, 20, 0.5);
+  box-shadow: 0px 2px 10px rgba(20, 20, 20, 0.2);
   position: absolute;
-  top: 100%;
-  right: 3vw;
+  top: 120%;
+  right: 0vw;
   width: 300px;
   margin: 4px 0;
   padding: 12px 24px;

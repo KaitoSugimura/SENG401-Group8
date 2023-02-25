@@ -72,7 +72,7 @@ export default function Nav() {
   return (
     <header className={styles.navbar}>
       <audio src={HomeBGM} ref={audioRef} loop="loop"></audio>
-      <h1 className={styles.logo}>Polyslime</h1>
+      <h1 className={styles.logo}>I'm Slime</h1>
       {user && (
         <>
           <nav>

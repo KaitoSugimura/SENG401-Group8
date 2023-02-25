@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
 import styles from "./Social.module.css"
+import { io } from "socket.io-client";
+
+const ENDPOINT = "http://localhost:5000";
+let socket;
 
 export default function Social() {
   const [selectedChat, setSelectedChat] = useState(null);
@@ -40,6 +44,7 @@ export default function Social() {
     {},
   ]);
 
+  // Should eventually be stored in a context
   const user = {
     _id: "63f67ca701b010b2c4379399",
     name: "Rimuru Tempest",
@@ -59,11 +64,21 @@ export default function Social() {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
+    socket = io(ENDPOINT);
+
+    socket.on('global message', (newMessage) => {
+      if (selectedChat === "global") {
+        setMessages(prev => [newMessage, ...prev]);
+      }
+    })
+  }, []);
+
+  useEffect(() => {
     const getMessages = async () => {
       if (selectedChat === "global") { // If user selected global chat
         setSelectedUser(null);
 
-        const data = await fetch("http://localhost:5000/api/chat/global", {
+        const data = await fetch(`${ENDPOINT}/api/chat/global`, {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },
@@ -80,7 +95,7 @@ export default function Social() {
     }
 
     getMessages();
-  }, [selectedChat])
+  }, [selectedChat]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -91,7 +106,7 @@ export default function Social() {
     }
 
     if (selectedChat === "global" && message) {
-      await fetch("http://localhost:5000/api/chat/global", {
+      await fetch(`${ENDPOINT}/api/chat/global`, {
         headers: {
           Authorization: `Bearer ${user.token}`,
           "Content-type": "application/json",
@@ -100,12 +115,10 @@ export default function Social() {
         body: JSON.stringify(newMessage)
       });
       setMessage('');
-    } else {
 
-    }
-    if (selectedChat && message) {
-      setMessages(prev => [newMessage, ...prev]);
-      setMessage('');
+      // Emit to socket.io
+      socket.emit('global message', newMessage);
+    } else {
     }
   }
 

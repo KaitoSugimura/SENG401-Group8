@@ -100,7 +100,9 @@ const CharacterProfile = ({ character, switchCharacter}) => {
   function handleUnlock(){
     if(!character.unlocked){
       //check currency is enough
-      window.confirm("Unlock Character for 2000 points?")
+      if(!window.confirm("Unlock character for 2000 points?")){
+        return;
+      }
       character.unlocked = true;
       //updated database
       switchCharacter(character.id);
@@ -114,7 +116,9 @@ const CharacterProfile = ({ character, switchCharacter}) => {
     }
     else{
       //check currency is enough
-      window.confirm("Unlock skin for 1000 points?");
+      if(!window.confirm("Unlock skin for 1000 points?")){
+        return;
+      }
       if(skinNo==2){
         character.two = true;
       }

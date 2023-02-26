@@ -13,7 +13,7 @@ export default function Character() {
     {type: "Air",skin:1, unlocked: true,power:3,speed:3,health:3,two:true,three:true, id: 5},
     {type: "Poison",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:true, id: 6},
     {type: "Shadow",skin:1, unlocked: true,power:3,speed:3,health:3,two:true,three:false, id: 7},
-    {type: "Electric",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:false, id: 8},
+    {type: "Electric",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:true, id: 8},
     {type: "Wild",skin:1, unlocked: true,power:3,speed:3,health:3,two:true,three:false, id: 9},
     {type: "Honey",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:false, id: 10},
     {type: "BubbleGum",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:false, id: 11},

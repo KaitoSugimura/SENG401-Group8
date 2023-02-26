@@ -3,7 +3,7 @@ import styles from "./Social.module.css"
 import { io } from "socket.io-client";
 
 const ENDPOINT = "http://localhost:5000";
-let socket;
+const socket = io(ENDPOINT);
 
 export default function Social() {
   const [selectedChat, setSelectedChat] = useState(null);
@@ -63,15 +63,18 @@ export default function Social() {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
 
+  // Socket IO
   useEffect(() => {
-    socket = io(ENDPOINT);
-
     socket.on('global message', (newMessage) => {
       if (selectedChat === "global") {
         setMessages(prev => [newMessage, ...prev]);
       }
     })
-  }, []);
+
+    return () => {
+      socket.off('global message');
+    }
+  }, [selectedChat]);
 
   useEffect(() => {
     const getMessages = async () => {

@@ -1,9 +1,17 @@
 import styles from "./Character.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const CharacterSelect = ({ characters, switchCharacter }) => {
   const [hover, setHover] = useState(false);
-  const imagePath = "";
+  const unlockedStyle ={
+    opacity:"1.0",
+    filter:"grayscale(0%)"
+  }
+
+  const lockedStyle ={
+    opacity:"0.8",
+    filter:"grayscale(100%)"
+  } 
 
   const handleClick = (e) => {
     // window.confirm("Hello World!");
@@ -25,6 +33,7 @@ const CharacterSelect = ({ characters, switchCharacter }) => {
               src={
                 "assets/GameArt/" + character.type+"Slime/"+character.type + "Slime.png"
               }
+              style={character.unlocked?unlockedStyle:lockedStyle}
               alt={character.type}
               key={character.id}
               draggable="false"

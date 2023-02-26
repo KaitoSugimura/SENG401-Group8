@@ -3,7 +3,7 @@ import styles from "./Character.module.css";
 
 ///UPDATE SET SKIN PATHS WHEN DB IS IMPLEMENTED
 
-const CharacterProfile = ({ character}) => {
+const CharacterProfile = ({ character, switchCharacter}) => {
   const [skinNo, setSkinNo] = useState(1);
   const[lockedButtonStyle, setlockedButtonStyle] = useState({
     visibility: "hidden"
@@ -16,7 +16,7 @@ const CharacterProfile = ({ character}) => {
 
   const lockedStyle ={
     opacity:"0.6",
-    filter:"grayscale(0%)"
+    filter:"grayscale(50%)"
   }
 
   const[imageStyle, setImageStyle]= useState(unlockedStyle);
@@ -97,6 +97,30 @@ const CharacterProfile = ({ character}) => {
     }
   }
 
+  function handleUnlock(){
+    if(!character.unlocked){
+      //check currency is enough
+      window.confirm("Unlock Character for 2000 points?")
+      character.unlocked = true;
+      //updated database
+      switchCharacter(character.id);
+      setImageStyle(unlockedStyle);
+      setlockedButtonStyle({visibility: "hidden"})
+    }
+    else{
+      //check currency is enough
+      window.confirm("Unlock skin for 1000 points?");
+      if(skinNo==2){
+        character.two = true;
+      }
+      else if(skinNo==3){
+        character.three = true;
+      }
+      setImageStyle(unlockedStyle)
+      setlockedButtonStyle({visibility: "hidden"})
+    }
+  }
+
   return (
     <div className={styles.bottom}>
       <div className={styles.characterProfile}>
@@ -138,7 +162,7 @@ const CharacterProfile = ({ character}) => {
                 className={skinNo == 3 ? styles.selected : ""}
               />
             </div>
-            <div style ={lockedButtonStyle}className={styles.unlockButton}>
+            <div style ={lockedButtonStyle}className={styles.unlockButton} onClick={handleUnlock}>
               <img src="assets/GameArt/Locked.png" alt="Lockbutton"/>
             </div>
           </div>

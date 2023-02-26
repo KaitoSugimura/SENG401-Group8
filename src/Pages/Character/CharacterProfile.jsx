@@ -65,9 +65,9 @@ const CharacterProfile = ({ character}) => {
     return statContents;
   }
 
-  function skinOne() {
-    setSkinNo(1);
-    if (character) {
+  function changeSkin(num){
+    setSkinNo(num)
+    if(character){
       //update DB
       setImagePath(
         "assets/GameArt/" +
@@ -75,62 +75,25 @@ const CharacterProfile = ({ character}) => {
           "Slime/" +
           character.type +
           "Slime" +
-          "1" +
+          num.toString() +
           ".gif"
       );
-    }
-    if(character.unlocked){
-      setImageStyle(unlockedStyle)
-      setlockedButtonStyle({visibility:"hidden"})
-    }else{
-      setImageStyle(lockedStyle)
-      setlockedButtonStyle({visibility:"visible"})
-    }
-  }
-
-  function skinTwo() {
-    setSkinNo(2);
-    if (character) {
-      //update DB
-      setImagePath(
-        "assets/GameArt/" +
-          character.type +
-          "Slime/" +
-          character.type +
-          "Slime" +
-          "2" +
-          ".gif"
-      );
-    }
-    if(character.two){
-      setImageStyle(unlockedStyle)
-      setlockedButtonStyle({visibility:"hidden"})
-    }else{
-      setImageStyle(lockedStyle)
-      setlockedButtonStyle({visibility:"visible"})
-    }
-  }
-
-  function skinThree() {
-    setSkinNo(3);
-    if (character) {
-      //update DB
-      setImagePath(
-        "assets/GameArt/" +
-          character.type +
-          "Slime/" +
-          character.type +
-          "Slime" +
-          "3" +
-          ".gif"
-      );
-    }
-    if(character.three){
-      setImageStyle(unlockedStyle)
-      setlockedButtonStyle({visibility:"hidden"})
-    }else{
-      setImageStyle(lockedStyle)
-      setlockedButtonStyle({visibility:"visible"})
+      if(character.unlocked&&num==1){
+        setImageStyle(unlockedStyle)
+        setlockedButtonStyle({visibility:"hidden"})
+      }
+      else if(character.two&&num==2){
+        setImageStyle(unlockedStyle)
+        setlockedButtonStyle({visibility:"hidden"})
+      }
+      else if(character.three&&num==3){
+        setImageStyle(unlockedStyle)
+        setlockedButtonStyle({visibility:"hidden"})
+      }
+      else{
+        setImageStyle(lockedStyle)
+        setlockedButtonStyle({visibility:"visible"})
+      }
     }
   }
 
@@ -159,24 +122,24 @@ const CharacterProfile = ({ character}) => {
               <img
                 src="assets/GameArt/Skin1.png"
                 alt="skin 1"
-                onClick={skinOne}
+                onClick={()=>{changeSkin(1)}}
                 className={skinNo == 1 ? styles.selected : ""}
               />
               <img
                 src="assets/GameArt/Skin2.png"
                 alt="skin 2"
-                onClick={skinTwo}
+                onClick={()=>{changeSkin(2)}}
                 className={skinNo == 2 ? styles.selected : ""}
               />
               <img
                 src="assets/GameArt/Skin3.png"
                 alt="skin 3"
-                onClick={skinThree}
+                onClick={()=>{changeSkin(3)}}
                 className={skinNo == 3 ? styles.selected : ""}
               />
             </div>
             <div style ={lockedButtonStyle}className={styles.unlockButton}>
-              <img src="assets/GameArt/Locked.png" alt="Lockbutton" />
+              <img src="assets/GameArt/Locked.png" alt="Lockbutton"/>
             </div>
           </div>
         </div>

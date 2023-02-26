@@ -108,6 +108,9 @@ const CharacterProfile = ({ character, switchCharacter}) => {
         setImageStyle(unlockedStyle);
         setlockedButtonStyle({visibility: "hidden"})
       }
+      else{
+        changeSkin(1);
+      }
     }
     else{
       //check currency is enough

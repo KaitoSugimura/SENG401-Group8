@@ -104,8 +104,10 @@ const CharacterProfile = ({ character, switchCharacter}) => {
       character.unlocked = true;
       //updated database
       switchCharacter(character.id);
-      setImageStyle(unlockedStyle);
-      setlockedButtonStyle({visibility: "hidden"})
+      if(skinNo==1){
+        setImageStyle(unlockedStyle);
+        setlockedButtonStyle({visibility: "hidden"})
+      }
     }
     else{
       //check currency is enough

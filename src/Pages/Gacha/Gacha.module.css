@@ -12,15 +12,12 @@
     padding: 5% 15%;
 }
 
-Button{
-   margin: 0 20%;
-}
-
 .rollButton{
     background-color: grey;
     border-color: whitesmoke;
     font-weight: 900;
     border-width: 0.2em;
+    margin: 0 20%;
 }
 
 .rollButton:hover{

@@ -1,0 +1,47 @@
+.gachaRollImage {
+    width: 100%;
+    height: 75vh;
+}
+
+.brickBackground{
+    background: url('/public/assets/GameArt/GatchaRoll/BrickBackground.png');
+    width:100%;
+    height: 25vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 5% 15%;
+}
+
+Button{
+   margin: 0 20%;
+}
+
+.rollButton{
+    background-color: grey;
+    border-color: whitesmoke;
+    font-weight: 900;
+    border-width: 0.2em;
+}
+
+.rollButton:hover{
+    background-color: orange;
+    border-color: white;
+}
+
+.rollTitle{
+    position: absolute;
+    top: 35vh;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: grey;
+    width:40vw;
+    text-align: center;
+    padding: 3vh 3vw;
+    border-radius: 0.375rem;
+    border-style: solid;
+    border-color: whitesmoke;
+    border-width: 5px;
+    font-weight: bolder;
+    font-size: xx-large;
+    color: white;
+}

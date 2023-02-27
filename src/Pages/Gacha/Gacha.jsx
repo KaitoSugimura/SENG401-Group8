@@ -1,3 +1,4 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from "./Gacha.module.css"
 import Carousel from 'react-bootstrap/Carousel';
 import Button from 'react-bootstrap/Button';

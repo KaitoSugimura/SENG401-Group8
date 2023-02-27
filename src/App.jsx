@@ -6,7 +6,6 @@ import {
   Outlet,
   Navigate,
 } from "react-router-dom";
-import 'bootstrap/dist/css/bootstrap.min.css';
 import Character from "./Pages/Character/Character";
 import Gacha from "./Pages/Gacha/Gacha";
 import Game from "./Pages/Game/Game";

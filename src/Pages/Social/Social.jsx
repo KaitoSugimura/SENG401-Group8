@@ -36,6 +36,7 @@ export default function Social() {
     socket.on('message', (newMessage) => {
       console.log(newMessage);
       if ((newMessage.to === "global" && selectedChat === "global") || (selectedChat.user?._id === newMessage.sender._id)) {
+        // console.log("ADD MESSAGE");
         setMessages(prev => [newMessage, ...prev]);
       }
     });
@@ -114,7 +115,7 @@ export default function Social() {
       });
 
       setMessage('');
-      setMessages(prev => [newMessage, ...prev])
+      // setMessages(prev => [newMessage, ...prev])
       socket.emit("message", newMessage);
     }
   }

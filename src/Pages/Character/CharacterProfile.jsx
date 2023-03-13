@@ -3,8 +3,8 @@ import styles from "./Character.module.css";
 
 ///UPDATE SET SKIN PATHS WHEN DB IS IMPLEMENTED
 
-const CharacterProfile = ({ character, switchCharacter}) => {
-  const [skinNo, setSkinNo] = useState(1);
+const CharacterProfile = ({ character, switchCharacter, characters, updateCharacters, updateCharacter}) => {
+  const [skinNo, setSkinNo] = useState(character.skin);
   const[lockedButtonStyle, setlockedButtonStyle] = useState({
     visibility: "hidden"
   })
@@ -66,7 +66,7 @@ const CharacterProfile = ({ character, switchCharacter}) => {
   }
 
   function changeSkin(num){
-    setSkinNo(num)
+    setSkinNo(num);
     if(character){
       //update DB
       setImagePath(
@@ -78,6 +78,9 @@ const CharacterProfile = ({ character, switchCharacter}) => {
           num.toString() +
           ".gif"
       );
+      characters[character.id - 1].skin = num;
+      updateCharacters(characters);
+      updateCharacter[character];
       if(character.unlocked&&num==1){
         setImageStyle(unlockedStyle)
         setlockedButtonStyle({visibility:"hidden"})

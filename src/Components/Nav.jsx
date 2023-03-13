@@ -30,7 +30,7 @@ export default function Nav() {
         break;
       case "/social":
         audioRef.current.src = SocialBGM;
-        setOriginalMusicVolMultiplier(0.7);
+        setOriginalMusicVolMultiplier(0.6);
         break;
       case "/game":
         audioRef.current.src = GameBGM;

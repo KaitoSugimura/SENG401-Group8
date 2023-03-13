@@ -80,7 +80,7 @@ const CharacterProfile = ({ character, switchCharacter, characters, updateCharac
       );
       characters[character.id - 1].skin = num;
       updateCharacters(characters);
-      updateCharacter[character];
+      updateCharacter(character);
       if(character.unlocked&&num==1){
         setImageStyle(unlockedStyle)
         setlockedButtonStyle({visibility:"hidden"})
@@ -159,19 +159,19 @@ const CharacterProfile = ({ character, switchCharacter, characters, updateCharac
                 src="assets/GameArt/Skin1.png"
                 alt="skin 1"
                 onClick={()=>{changeSkin(1)}}
-                className={skinNo == 1 ? styles.selected : ""}
+                className={character.skin == 1 ? styles.selected : ""}
               />
               <img
                 src="assets/GameArt/Skin2.png"
                 alt="skin 2"
                 onClick={()=>{changeSkin(2)}}
-                className={skinNo == 2 ? styles.selected : ""}
+                className={character.skin == 2 ? styles.selected : ""}
               />
               <img
                 src="assets/GameArt/Skin3.png"
                 alt="skin 3"
                 onClick={()=>{changeSkin(3)}}
-                className={skinNo == 3 ? styles.selected : ""}
+                className={character.skin == 3 ? styles.selected : ""}
               />
             </div>
             <div style ={lockedButtonStyle}className={styles.unlockButton} onClick={handleUnlock}>

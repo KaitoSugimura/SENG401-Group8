@@ -36,9 +36,6 @@ const CharacterSelect = ({ characters, currentlySelectedChar, switchCharacter })
                   "assets/GameArt/" +
                   character.type +
                   "Slime/" +
-                  character.type + "Slime" +
-                  character.skin +
-                  ".svg"
                   character.type +
                   "Slime"+1+".svg"
                 }

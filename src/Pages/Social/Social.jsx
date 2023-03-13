@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import styles from "./Social.module.css"
 
-const ENDPOINT = "http://localhost:5000";
+// const ENDPOINT = "http://localhost:5000";
+const ENDPOINT = "https://seng-401-server.onrender.com";
 const socket = io(ENDPOINT);
 
 export default function Social() {

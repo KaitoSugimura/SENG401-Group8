@@ -4,7 +4,7 @@ import { useCharacterAndThemeContext } from "../../Database/Hooks/useCharacterAn
 
 const CharacterSelect = ({ characters, currentlySelectedChar, switchCharacter }) => {
   const [hover, setHover] = useState(false);
-  const { changeSlimeType, selectedSlimePath } = useCharacterAndThemeContext();
+  const { setSlimeTypeAndSkin } = useCharacterAndThemeContext();
   const unlockedStyle = {
     opacity: "1.0",
     filter: "grayscale(0%)",
@@ -53,7 +53,7 @@ const CharacterSelect = ({ characters, currentlySelectedChar, switchCharacter })
           className={styles.selectionButton}
           onClick={() => {
             if(currentlySelectedChar.unlocked){
-              changeSlimeType(currentlySelectedChar.type);
+              setSlimeTypeAndSkin(currentlySelectedChar.type, currentlySelectedChar.skin);
             }
           }}
         >

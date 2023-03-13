@@ -10,7 +10,7 @@ export const charReducer = (state, action) => {
         ...state,
         selectedSlimeType: action.payload,
         selectedSlimePath:
-          "assets/GameArt/" + slimeName + "/" + slimeName + ".svg",
+          "assets/GameArt/" + slimeName + "/" + slimeName + action.payload2 + ".svg",
       };
     default:
       return state;
@@ -23,12 +23,12 @@ export const CharacterAndThemeContextProvider = ({ children }) => {
     selectedSlimePath: "assets/GameArt/NormalSlime/NormalSlime.svg",
   });
 
-  const changeSlimeType = (type) => {
-    dispatch({ type: "CHARACTER", payload: type });
+  const setSlimeTypeAndSkin = (type, skin) => {
+    dispatch({ type: "CHARACTER", payload: type, payload2: skin });
   };
 
   return (
-    <CharacterAndThemeContext.Provider value={{ ...state, changeSlimeType }}>
+    <CharacterAndThemeContext.Provider value={{ ...state, setSlimeTypeAndSkin }}>
       {children}
     </CharacterAndThemeContext.Provider>
   );

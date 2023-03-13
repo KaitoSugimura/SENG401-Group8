@@ -3,7 +3,7 @@
     margin-top: 68px;
     height: calc(100vh - 68px);
     display: grid;
-    grid-template-columns: 25rem auto 25rem;
+    grid-template-columns: 22vw auto 22vw;
 }
 
 .leftSidebar {
@@ -94,15 +94,14 @@
     background-color: red;
 }
 
-.slimeBody {
+
+.slimeBody{
     width: 6rem;
     height: 6rem;
-    background-color: lightgreen;
-    border-radius: 50%;
-    border: 3px solid green;
-    display: grid;
-    place-content: center;
+    transform: scale(125%)
+    translateY(-3%);
 }
+
 
 .userStatus {
     background-color: var(--bg-color);

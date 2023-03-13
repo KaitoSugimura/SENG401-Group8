@@ -12,7 +12,6 @@ export default function Social() {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
 
-
   // Should eventually be stored in a context
   const user = {
     _id: "63f67ca701b010b2c4379399",
@@ -31,17 +30,19 @@ export default function Social() {
 
   // Socket IO
   useEffect(() => {
+    socket.emit("setup", user._id);
+
     socket.on('message', (newMessage) => {
       console.log(newMessage);
-      if ((newMessage.to === "global" && selectedChat === "global") || (newMessage.to === user._id && selectedChat.user?._id === newMessage.sender._id)) {
+      if ((newMessage.to === "global" && selectedChat === "global") || (selectedChat.user?._id === newMessage.sender._id)) {
         setMessages(prev => [newMessage, ...prev]);
       }
     });
 
     return () => {
-      socket.off('message');
+      socket.removeAllListeners();
     }
-  }, [selectedChat]);
+  }, []);
 
   // Fetch friends
   useEffect(() => {

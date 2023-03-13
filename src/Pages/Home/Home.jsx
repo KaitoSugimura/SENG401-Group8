@@ -1,11 +1,11 @@
 import styles from "./Home.module.css";
 import animation from "./HomeSlimeAnimations.module.css";
-import slimeImage from "/assets/GameArt/NormalSlime/NormalSlime.png";
 import chestOpen from "/assets/HomeIcons/chestOpen.png";
 import chestClosed from "/assets/HomeIcons/chestClosed.png";
 import achievement from "/assets/HomeIcons/achievement.png";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useCharacterAndThemeContext } from "../../Database/Hooks/useCharacterAndThemeContext";
 
 const particleAmount = 60;
 const rows = [];
@@ -39,6 +39,7 @@ const animations = [
 export default function Home() {
   const [chestState, setChestState] = useState(false);
   const [petted, setPetted] = useState(false);
+  const { selectedSlimePath } = useCharacterAndThemeContext();
   const navigate = useNavigate();
 
   return (
@@ -61,7 +62,7 @@ export default function Home() {
         disabled={petted}
       >
         <img
-          src={slimeImage}
+          src={selectedSlimePath}
           className={`${styles.characterIMG} ${
             petted
               ? animations[Math.floor(Math.random() * animations.length)]

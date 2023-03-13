@@ -5,14 +5,20 @@
     flex-direction: row;
 }
 
-.cgridContainer{
+.CharacterSelectRoot {
     position: fixed;
+    display: flex;
+    flex-direction: column;
     top: calc(65px + 6.5vh);
     right: 2vw;
+}   
+
+
+.cgridContainer{
     
     /* flex-grow: 20; */
     overflow: scroll;
-    height: 80vh;
+    height: 65vh;
     background-color: rgba(44, 44, 44, 0.775);
     border: 10px solid black;
 }
@@ -22,6 +28,22 @@
     height: 0px;
     background: transparent;
     scroll-behavior: smooth;
+}
+
+.selectionButtonContainer{
+    position: relative;
+    height: 15vh;
+}
+
+.selectionButton{
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    transform: translate(0%, -50%);
+    width: 100%;
+
+    padding: 2vh 0;
+    font-size: 6vh;
 }
 
 .characterGrid{   
@@ -40,7 +62,7 @@
     margin: 2px;
     background-position: center;
     padding: 6px;
-    background: linear-gradient(36deg, rgba(233, 203, 55, 0.832) 0%, rgba(251,240,184,1) 60%);
+    background: linear-gradient(36deg, rgba(233, 203, 55, 0.8) 0%, rgba(251,240,184,1) 60%);
 }
 
 .character img{

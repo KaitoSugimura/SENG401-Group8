@@ -10,7 +10,7 @@ export const charReducer = (state, action) => {
         ...state,
         selectedSlimeType: action.payload,
         selectedSlimePath:
-          "assets/GameArt/" + slimeName + "/" + slimeName + ".png",
+          "assets/GameArt/" + slimeName + "/" + slimeName + ".svg",
       };
     default:
       return state;

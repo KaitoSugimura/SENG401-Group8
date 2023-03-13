@@ -37,7 +37,7 @@ const CharacterSelect = ({ characters, currentlySelectedChar, switchCharacter })
                   character.type +
                   "Slime/" +
                   character.type +
-                  "Slime.png"
+                  "Slime.svg"
                 }
                 style={character.unlocked ? unlockedStyle : lockedStyle}
                 alt={character.type}

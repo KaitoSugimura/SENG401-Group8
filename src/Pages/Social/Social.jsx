@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
+import { useCharacterAndThemeContext } from "../../Database/Hooks/useCharacterAndThemeContext";
 import styles from "./Social.module.css"
 
 // const ENDPOINT = "http://localhost:5000";
@@ -12,6 +13,8 @@ export default function Social() {
   const [friends, setFriends] = useState([]);
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
+
+  const { selectedSlimePath } = useCharacterAndThemeContext();
 
   // Should eventually be stored in a context
   const user = {
@@ -130,7 +133,7 @@ export default function Social() {
           <ul className={styles.friends}>
             {friends.map((friend, i) => (
               <li className={`${styles.friend} ${selectedChat === friend ? styles.selected : ''}`} key={i} onClick={() => setSelectedChat(friend)}>
-                <div className={styles.slimeBody}>:3</div>
+                <img src={selectedSlimePath} className={styles.slimeBody}></img>
                 <div>
                   <p>{friend.name}</p>
                   <p className={`${styles.presence} ${styles[friend.status]}`}>{friend.status}</p>
@@ -141,7 +144,7 @@ export default function Social() {
         </div>
 
         <div className={styles.userStatus}>
-          <div className={styles.slimeBody}>:3</div>
+        <img src={selectedSlimePath} className={styles.slimeBody}></img>
           <div>
             <p>{user.name}</p>
             <p className={`${styles.presence} ${styles.Online}`}>Online</p>
@@ -174,7 +177,7 @@ export default function Social() {
         {selectedUser ? (
           <>
             <p>{selectedUser.name}</p>
-            <div className={styles.slimeBody}>:3</div>
+            <img src={selectedSlimePath} className={styles.slimeBody}></img>
             <p>Rank {selectedUser.rank}</p>
           </>
         ) : (

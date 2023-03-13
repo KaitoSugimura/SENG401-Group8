@@ -43,8 +43,8 @@ export default function Character() {
 
   return (
     <div className={styles.characterPage}>
-      {character &&<CharacterProfile character = {character} switchCharacter={switchCharacter}/>}
-      {characters && <CharacterSelect characters = {characters} currentlySelectedChar = {character} switchCharacter = {switchCharacter}/>}
+      {character &&<CharacterProfile character = {character} switchCharacter={switchCharacter} characters={characters} updateCharacter={updateCharacters}/>}
+      {characters && <CharacterSelect characters = {characters} currentlySelectedChar = {character} switchCharacter = {switchCharacter} updateCharacter={updateCharacter}/>}
          
     </div>
   )

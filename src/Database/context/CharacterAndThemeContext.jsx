@@ -1,5 +1,4 @@
 import { createContext, useEffect, useReducer } from "react";
-import slimeImage from "/assets/GameArt/NormalSlime/NormalSlime.png";
 
 export const CharacterAndThemeContext = createContext();
 

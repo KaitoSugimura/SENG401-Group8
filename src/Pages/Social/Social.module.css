@@ -6,6 +6,14 @@
     grid-template-columns: 22vw auto 22vw;
 }
 
+.name, .message{
+    -moz-user-select: text;
+    -khtml-user-select: text;
+    -webkit-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
 .leftSidebar {
     background-color: var(--bg-color);
     display: grid;
@@ -125,6 +133,7 @@
     gap: 1rem;
     overflow: auto;
     padding: 2rem 2rem 0;
+    
 }
 
 .message {
@@ -137,6 +146,7 @@
     overflow-wrap: break-word;
     min-width: min-content;
     margin-top: .25rem;
+
 }
 
 .mine {

@@ -34,8 +34,7 @@ export default function Social() {
     socket.emit("setup", user._id);
 
     socket.on('message', (newMessage) => {
-      console.log(newMessage);
-      if ((newMessage.to === "global" && selectedChat === "global") || (selectedChat.user?._id === newMessage.sender._id)) {
+      if ((newMessage.to === "global" && selectedChat === "global") || (selectedChat?.user?._id === newMessage.sender._id)) {
         // console.log("ADD MESSAGE");
         setMessages(prev => [newMessage, ...prev]);
       }

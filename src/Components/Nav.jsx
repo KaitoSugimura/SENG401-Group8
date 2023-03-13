@@ -118,6 +118,18 @@ export default function Nav() {
           </nav>
           <div className={styles.rightSideNav} ref={acctBanner}>
             <span className={styles.goldAmount}>2000 Gold</span>
+
+            <button
+              onClick={() => {
+                setShowSettings(false);
+                setShowBanner(!showBanner);
+              }}
+              className={styles.bannerButton}
+            >
+              <img src={selectedSlimePath}></img>
+            </button>
+            {showBanner && <AccountBanner setShowBanner={setShowBanner} />}
+
             <button
               onClick={() => {
                 setShowBanner(false);
@@ -125,7 +137,6 @@ export default function Nav() {
               }}
               className={styles.setting}
             >
-              {" "}
               <img src="/NavIcons/Settings.svg"></img>
             </button>
 
@@ -144,17 +155,6 @@ export default function Nav() {
                 <span>{Math.round(musicVolume * 100)}%</span>
               </div>
             )}
-
-            <button
-              onClick={() => {
-                setShowSettings(false);
-                setShowBanner(!showBanner);
-              }}
-              className={styles.bannerButton}
-            >
-              <img src={selectedSlimePath}></img>
-            </button>
-            {showBanner && <AccountBanner setShowBanner={setShowBanner} />}
           </div>
         </>
       )}

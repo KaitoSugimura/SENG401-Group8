@@ -59,6 +59,10 @@
     background-color: rgba(0, 0, 0, 0.05);
 }
 
+.friend.selected {
+    background-color: rgba(0, 0, 0, 0.10);
+}
+
 .global.selected {
     background-color: rgba(0, 0, 0, 0.10);
 }

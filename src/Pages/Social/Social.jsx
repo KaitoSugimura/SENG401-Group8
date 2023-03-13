@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import styles from "./Social.module.css"
 
-const ENDPOINT = "http://localhost:5000";
+// const ENDPOINT = "http://localhost:5000";
+const ENDPOINT = "https://seng-401-server.onrender.com";
 const socket = io(ENDPOINT);
 
 export default function Social() {
@@ -33,8 +34,7 @@ export default function Social() {
     socket.emit("setup", user._id);
 
     socket.on('message', (newMessage) => {
-      console.log(newMessage);
-      if ((newMessage.to === "global" && selectedChat === "global") || (selectedChat.user?._id === newMessage.sender._id)) {
+      if ((newMessage.to === "global" && selectedChat === "global") || (selectedChat?._id === newMessage.to)) {
         setMessages(prev => [newMessage, ...prev]);
       }
     });
@@ -113,7 +113,7 @@ export default function Social() {
       });
 
       setMessage('');
-      setMessages(prev => [newMessage, ...prev])
+      // setMessages(prev => [newMessage, ...prev])
       socket.emit("message", newMessage);
     }
   }
@@ -129,7 +129,7 @@ export default function Social() {
           <h2 className={styles.friendsHeader}>Friends</h2>
           <ul className={styles.friends}>
             {friends.map((friend, i) => (
-              <li className={styles.friend} key={i} onClick={() => setSelectedChat(friend)}>
+              <li className={`${styles.friend} ${selectedChat === friend ? styles.selected : ''}`} key={i} onClick={() => setSelectedChat(friend)}>
                 <div className={styles.slimeBody}>:3</div>
                 <div>
                   <p>{friend.name}</p>

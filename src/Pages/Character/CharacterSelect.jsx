@@ -26,7 +26,7 @@ const CharacterSelect = ({ characters, currentlySelectedChar, switchCharacter })
         <div className={styles.characterGrid}>
           {characters.map((character) => (
             <div
-              className={styles.character}
+              className={`${styles.character} ${character.type == currentlySelectedChar.type? styles.Selected : ""}`}
               number={character.id}
               key={character.id}
               onClick={handleClick}

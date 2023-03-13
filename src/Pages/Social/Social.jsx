@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import styles from "./Social.module.css"
 import { io } from "socket.io-client";
+import styles from "./Social.module.css"
 
 const ENDPOINT = "http://localhost:5000";
 const socket = io(ENDPOINT);
@@ -8,41 +8,10 @@ const socket = io(ENDPOINT);
 export default function Social() {
   const [selectedChat, setSelectedChat] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [friends, setFriends] = useState([
-    {
-      username: "funny_man2",
-      status: "Online",
-      slime: {
-        color: "green",
-        face: "happy",
-      },
-      rank: 7,
-    },
-    {
-      username: "Sidekick",
-      status: "Away",
-      slime: {
-        color: "green",
-        face: "happy",
-      },
-      rank: 121,
-    },
-    {
-      username: "xX_GitGud_Xx",
-      status: "Offline",
-      slime: {
-        color: "green",
-        face: "happy",
-      },
-      rank: 2,
-    },
-    {},
-    {},
-    {},
-    {},
-    {},
-    {},
-  ]);
+  const [friends, setFriends] = useState([]);
+  const [message, setMessage] = useState('');
+  const [messages, setMessages] = useState([]);
+
 
   // Should eventually be stored in a context
   const user = {
@@ -60,38 +29,55 @@ export default function Social() {
     token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZjY3Y2E3MDFiMDEwYjJjNDM3OTM5OSIsImlhdCI6MTY3NzA5ODE1MSwiZXhwIjoxNjc5NjkwMTUxfQ.gSXaeP1jQJN84qiWpvt2f5an7OxvHf5xEeytYV57bdw"
   }
 
-  const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState([]);
-
   // Socket IO
   useEffect(() => {
-    socket.on('global message', (newMessage) => {
-      if (selectedChat === "global") {
+    socket.on('message', (newMessage) => {
+      console.log(newMessage);
+      if ((newMessage.to === "global" && selectedChat === "global") || (newMessage.to === user._id && selectedChat.user?._id === newMessage.sender._id)) {
         setMessages(prev => [newMessage, ...prev]);
       }
-    })
+    });
 
     return () => {
-      socket.off('global message');
+      socket.off('message');
     }
   }, [selectedChat]);
 
+  // Fetch friends
+  useEffect(() => {
+    const getFriends = async () => {
+      const data = await fetch(`${ENDPOINT}/api/user/friends`, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      }).then(res => res.json())
+
+      setFriends(data);
+    }
+
+    getFriends();
+  }, []);
+
+  // Fetch messages for selected channel
   useEffect(() => {
     const getMessages = async () => {
-      if (selectedChat === "global") { // If user selected global chat
-        setSelectedUser(null);
+      let channel;
 
-        const data = await fetch(`${ENDPOINT}/api/chat/global`, {
+      if (selectedChat) {
+        if (selectedChat === "global") { // If user selected global chat
+          channel = "global";
+          setSelectedUser(null);
+        } else if (selectedChat) { // If user selected friend
+          channel = selectedChat._id;
+          setSelectedUser(selectedChat);
+        }
+
+        const data = await fetch(`${ENDPOINT}/api/chat/${channel}`, {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },
         }).then(res => res.json());
-
-        console.log(data);
         setMessages(data.reverse());
-      } else if (selectedChat) { // If user selected friend
-        setSelectedUser(selectedChat);
-        setMessages([]);
       } else { // Else, user closed chat
         setSelectedUser(null);
       }
@@ -103,13 +89,20 @@ export default function Social() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const newMessage = {
-      content: message,
-      sender: user
-    }
+    // If message has content and a chat is selected
+    if (message && selectedChat) {
+      const newMessage = {
+        content: message,
+        sender: user
+      }
 
-    if (selectedChat === "global" && message) {
-      await fetch(`${ENDPOINT}/api/chat/global`, {
+      if (selectedChat === "global") { // Send message to global
+        newMessage.to = "global";
+      } else { // Send message to chat
+        newMessage.to = selectedChat._id;
+      }
+
+      await fetch(`${ENDPOINT}/api/chat/${newMessage.to}`, {
         headers: {
           Authorization: `Bearer ${user.token}`,
           "Content-type": "application/json",
@@ -117,11 +110,10 @@ export default function Social() {
         method: "post",
         body: JSON.stringify(newMessage)
       });
-      setMessage('');
 
-      // Emit to socket.io
-      socket.emit('global message', newMessage);
-    } else {
+      setMessage('');
+      setMessages(prev => [newMessage, ...prev])
+      socket.emit("message", newMessage);
     }
   }
 
@@ -139,7 +131,7 @@ export default function Social() {
               <li className={styles.friend} key={i} onClick={() => setSelectedChat(friend)}>
                 <div className={styles.slimeBody}>:3</div>
                 <div>
-                  <p>{friend.username}</p>
+                  <p>{friend.name}</p>
                   <p className={`${styles.presence} ${styles[friend.status]}`}>{friend.status}</p>
                 </div>
               </li>
@@ -180,7 +172,7 @@ export default function Social() {
       <section className={styles.rightSidebar}>
         {selectedUser ? (
           <>
-            <p>{selectedUser.username}</p>
+            <p>{selectedUser.name}</p>
             <div className={styles.slimeBody}>:3</div>
             <p>Rank {selectedUser.rank}</p>
           </>

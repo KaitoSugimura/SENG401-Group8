@@ -78,15 +78,15 @@
     margin-right: .5rem;
 }
 
-.Online.presence::before {
+.ONLINE.presence::before {
     background-color: green;
 }
 
-.Away.presence::before {
+.AWAY.presence::before {
     background-color: orange;
 }
 
-.Offline.presence::before {
+.OFFLINE.presence::before {
     background-color: red;
 }
 

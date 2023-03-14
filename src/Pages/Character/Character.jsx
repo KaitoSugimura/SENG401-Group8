@@ -7,14 +7,14 @@ import { useCharacterAndThemeContext } from "../../Database/Hooks/useCharacterAn
 export default function Character() {
 
   const [characters, updateCharacters] = useState([
-    {type: "Normal",skin:3, unlocked: true,power:3,speed:3,health:3,two:false,three:true, id: 1},
+    {type: "Normal",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:true, id: 1},
     {type: "Fire",skin:1, unlocked: false,power:5,speed:3,health:3,two:false,three:false, id: 2},
     {type: "Ice",skin:2, unlocked: true,power:3,speed:3,health:3,two:true,three:true, id: 3},
     {type: "Earth",skin:1, unlocked: true,power:3,speed:3,health:3,two:true,three:true, id: 4},
     {type: "Air",skin:1, unlocked: true,power:3,speed:3,health:3,two:true,three:true, id: 5},
     {type: "Poison",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:true, id: 6},
     {type: "Shadow",skin:1, unlocked: true,power:3,speed:3,health:3,two:true,three:false, id: 7},
-    {type: "Electric",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:true, id: 8},
+    {type: "Electric",skin:3, unlocked: true,power:3,speed:3,health:3,two:false,three:true, id: 8},
     {type: "Wild",skin:1, unlocked: true,power:3,speed:3,health:3,two:true,three:false, id: 9},
     {type: "Honey",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:false, id: 10},
     {type: "BubbleGum",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:false, id: 11},

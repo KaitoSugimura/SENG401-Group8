@@ -6,9 +6,9 @@ import CharacterProfile from "./CharacterProfile";
 export default function Character() {
 
   const [characters, updateCharacters] = useState([
-    {type: "Normal",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:true, id: 1},
+    {type: "Normal",skin:3, unlocked: true,power:3,speed:3,health:3,two:false,three:true, id: 1},
     {type: "Fire",skin:1, unlocked: false,power:5,speed:3,health:3,two:false,three:false, id: 2},
-    {type: "Ice",skin:1, unlocked: true,power:3,speed:3,health:3,two:true,three:true, id: 3},
+    {type: "Ice",skin:2, unlocked: true,power:3,speed:3,health:3,two:true,three:true, id: 3},
     {type: "Earth",skin:1, unlocked: true,power:3,speed:3,health:3,two:true,three:true, id: 4},
     {type: "Air",skin:1, unlocked: true,power:3,speed:3,health:3,two:true,three:true, id: 5},
     {type: "Poison",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:true, id: 6},
@@ -43,7 +43,7 @@ export default function Character() {
 
   return (
     <div className={styles.characterPage}>
-      {character &&<CharacterProfile character = {character} switchCharacter={switchCharacter} characters={characters} updateCharacter={updateCharacters}/>}
+      {character &&<CharacterProfile character = {character} switchCharacter={switchCharacter} characters={characters} updateCharacters={updateCharacters} updateCharacter={updateCharacter}/>}
       {characters && <CharacterSelect characters = {characters} currentlySelectedChar = {character} switchCharacter = {switchCharacter} updateCharacter={updateCharacter}/>}
          
     </div>

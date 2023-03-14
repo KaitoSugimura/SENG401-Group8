@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { useCharacterAndThemeContext } from "../../Database/Hooks/useCharacterAndThemeContext";
-import styles from "./Social.module.css"
+import styles from "./Social.module.css";
 
 // const ENDPOINT = "http://localhost:5000";
 const ENDPOINT = "https://seng-401-server.onrender.com";
@@ -11,7 +11,7 @@ export default function Social() {
   const [selectedChat, setSelectedChat] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
   const [friends, setFriends] = useState([]);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
 
   const { selectedSlimePath } = useCharacterAndThemeContext();
@@ -29,22 +29,26 @@ export default function Social() {
       color: "green",
       face: "happy",
     },
-    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZjY3Y2E3MDFiMDEwYjJjNDM3OTM5OSIsImlhdCI6MTY3NzA5ODE1MSwiZXhwIjoxNjc5NjkwMTUxfQ.gSXaeP1jQJN84qiWpvt2f5an7OxvHf5xEeytYV57bdw"
-  }
+    token:
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZjY3Y2E3MDFiMDEwYjJjNDM3OTM5OSIsImlhdCI6MTY3NzA5ODE1MSwiZXhwIjoxNjc5NjkwMTUxfQ.gSXaeP1jQJN84qiWpvt2f5an7OxvHf5xEeytYV57bdw",
+  };
 
   // Socket IO
   useEffect(() => {
     socket.emit("setup", user._id);
 
-    socket.on('message', (newMessage) => {
-      if ((newMessage.to === "global" && selectedChat === "global") || (selectedChat?._id === newMessage.to)) {
-        setMessages(prev => [newMessage, ...prev]);
+    socket.on("message", (newMessage) => {
+      if (
+        (newMessage.to === "global" && selectedChat === "global") ||
+        selectedChat?._id === newMessage.to
+      ) {
+        setMessages((prev) => [newMessage, ...prev]);
       }
     });
 
     return () => {
       socket.removeAllListeners();
-    }
+    };
   }, []);
 
   // Fetch friends
@@ -54,10 +58,10 @@ export default function Social() {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
-      }).then(res => res.json())
+      }).then((res) => res.json());
 
       setFriends(data);
-    }
+    };
 
     getFriends();
   }, []);
@@ -68,10 +72,12 @@ export default function Social() {
       let channel;
 
       if (selectedChat) {
-        if (selectedChat === "global") { // If user selected global chat
+        if (selectedChat === "global") {
+          // If user selected global chat
           channel = "global";
           setSelectedUser(null);
-        } else if (selectedChat) { // If user selected friend
+        } else if (selectedChat) {
+          // If user selected friend
           channel = selectedChat._id;
           setSelectedUser(selectedChat);
         }
@@ -80,12 +86,13 @@ export default function Social() {
           headers: {
             Authorization: `Bearer ${user.token}`,
           },
-        }).then(res => res.json());
+        }).then((res) => res.json());
         setMessages(data.reverse());
-      } else { // Else, user closed chat
+      } else {
+        // Else, user closed chat
         setSelectedUser(null);
       }
-    }
+    };
 
     getMessages();
   }, [selectedChat]);
@@ -97,12 +104,14 @@ export default function Social() {
     if (message && selectedChat) {
       const newMessage = {
         content: message,
-        sender: user
-      }
+        sender: user,
+      };
 
-      if (selectedChat === "global") { // Send message to global
+      if (selectedChat === "global") {
+        // Send message to global
         newMessage.to = "global";
-      } else { // Send message to chat
+      } else {
+        // Send message to chat
         newMessage.to = selectedChat._id;
       }
 
@@ -112,31 +121,48 @@ export default function Social() {
           "Content-type": "application/json",
         },
         method: "post",
-        body: JSON.stringify(newMessage)
+        body: JSON.stringify(newMessage),
       });
 
-      setMessage('');
+      setMessage("");
       // setMessages(prev => [newMessage, ...prev])
       socket.emit("message", newMessage);
     }
-  }
+  };
+
+  useEffect(() => {
+    setSelectedChat("global"); // Set global chat to default
+  }, []);
 
   return (
     <div className={styles.social}>
       <section className={styles.leftSidebar}>
         <div className={styles.channels}>
-          <div className={`${styles.global} ${selectedChat === "global" ? styles.selected : ''}`} onClick={() => setSelectedChat("global")}>
+          <div
+            className={`${styles.global} ${
+              selectedChat === "global" ? styles.selected : ""
+            }`}
+            onClick={() => setSelectedChat("global")}
+          >
             <i className="material-symbols-outlined">public</i>
             <p>World</p>
           </div>
           <h2 className={styles.friendsHeader}>Friends</h2>
           <ul className={styles.friends}>
             {friends.map((friend, i) => (
-              <li className={`${styles.friend} ${selectedChat === friend ? styles.selected : ''}`} key={i} onClick={() => setSelectedChat(friend)}>
+              <li
+                className={`${styles.friend} ${
+                  selectedChat === friend ? styles.selected : ""
+                }`}
+                key={i}
+                onClick={() => setSelectedChat(friend)}
+              >
                 <img src={selectedSlimePath} className={styles.slimeBody}></img>
                 <div>
                   <p>{friend.name}</p>
-                  <p className={`${styles.presence} ${styles[friend.status]}`}>{friend.status}</p>
+                  <p className={`${styles.presence} ${styles[friend.status]}`}>
+                    {friend.status}
+                  </p>
                 </div>
               </li>
             ))}
@@ -144,7 +170,7 @@ export default function Social() {
         </div>
 
         <div className={styles.userStatus}>
-        <img src={selectedSlimePath} className={styles.slimeBody}></img>
+          <img src={selectedSlimePath} className={styles.slimeBody}></img>
           <div>
             <p>{user.name}</p>
             <p className={`${styles.presence} ${styles.Online}`}>Online</p>
@@ -154,24 +180,35 @@ export default function Social() {
 
       <section className={styles.chat}>
         <div className={styles.messages}>
-          {selectedChat ?
+          {selectedChat ? (
             messages.map((message, i) => {
               return (
-                <div className={`${styles.messageContainer} ${message.sender._id === user._id ? styles.mine : ''}`} key={i}>
+                <div
+                  className={`${styles.messageContainer} ${
+                    message.sender._id === user._id ? styles.mine : ""
+                  }`}
+                  key={i}
+                >
                   <p className={styles.name}>{message.sender.name}</p>
                   <p className={styles.message}>{message.content}</p>
                 </div>
-              )
+              );
             })
-            : (
-              <div>Select a channel on the left to chat here.</div>
-            )}
+          ) : (
+            <div>Select a channel on the left to chat here.</div>
+          )}
         </div>
         <form className={styles.messageForm} onSubmit={handleSubmit}>
-          <input type="text" value={message} onChange={(e) => setMessage(e.target.value)} />
-          <button><i className="material-symbols-outlined">send</i></button>
+          <input
+            type="text"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+          />
+          <button>
+            <i className="material-symbols-outlined">send</i>
+          </button>
         </form>
-      </section >
+      </section>
 
       <section className={styles.rightSidebar}>
         {selectedUser ? (
@@ -181,9 +218,12 @@ export default function Social() {
             <p>Rank {selectedUser.rank}</p>
           </>
         ) : (
-          <div>Select a user to see their information here.</div>
+          <div className={styles.World}>
+            <p>World chat</p>
+            <i className="material-symbols-outlined">public</i>
+          </div>
         )}
       </section>
-    </div >
-  )
+    </div>
+  );
 }

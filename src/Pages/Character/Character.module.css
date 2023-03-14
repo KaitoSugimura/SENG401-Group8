@@ -99,7 +99,7 @@
   box-shadow: 0 0 1px #2f2f2f11;
     transform: translateY(4px); 
   transform: scale(98%)
-  translateY(2.2%);
+  /* translateY(2.2%); */
 }
 
 .character img {

@@ -25,8 +25,6 @@
 .channels {
     overflow: auto;
 }
-
-
 .global {
     display: flex;
     align-items: center;
@@ -195,15 +193,23 @@
 .rightSidebar {
     background-color: var(--bg-color);
     display: grid;
-    gap: 2rem;
     place-content: center;
     text-align: center;
-    font-size: 2rem;
+    font-size: 1.2vw;
     padding: 2rem;
     border-left: 1px solid var(--primary-color);
 }
 
 .rightSidebar .slimeBody {
-    width: 15rem;
-    height: 15rem;
+    width: 9vw;
+    height: auto;
+    transform: translateX(6%);
+}
+
+.World i{
+    font-size: 9vw;
+}
+
+.rightSidebar p:first-child {
+    font-size: 2vw;
 }

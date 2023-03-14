@@ -20,7 +20,7 @@ export const charReducer = (state, action) => {
 export const CharacterAndThemeContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(charReducer, {
     selectedSlimeType: "Normal",
-    selectedSlimePath: "assets/GameArt/NormalSlime/NormalSlime.svg",
+    selectedSlimePath: "assets/GameArt/NormalSlime/NormalSlime1.svg",
   });
 
   const setSlimeTypeAndSkin = (type, skin) => {

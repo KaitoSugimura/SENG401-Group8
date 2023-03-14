@@ -52,7 +52,10 @@ const CharacterSelect = ({ characters, currentlySelectedChar, switchCharacter })
         <button
           className={styles.selectionButton}
           onClick={() => {
-            if(currentlySelectedChar.unlocked){
+            let skin = "unlocked";
+            if(currentlySelectedChar.skin===2) skin = "two";
+            else if(currentlySelectedChar.skin===3) skin= "three";
+            if(currentlySelectedChar.unlocked &&currentlySelectedChar[skin]){
               setSlimeTypeAndSkin(currentlySelectedChar.type, currentlySelectedChar.skin);
             }
           }}

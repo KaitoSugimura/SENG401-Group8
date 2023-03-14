@@ -2,6 +2,7 @@ import {React, useEffect, useState} from "react";
 import CharacterSelect from './CharacterSelect';
 import  styles from "./Character.module.css";
 import CharacterProfile from "./CharacterProfile";
+import { useCharacterAndThemeContext } from "../../Database/Hooks/useCharacterAndThemeContext";
 
 export default function Character() {
 
@@ -44,7 +45,7 @@ export default function Character() {
   return (
     <div className={styles.characterPage}>
       {character &&<CharacterProfile character = {character} switchCharacter={switchCharacter} characters={characters} updateCharacters={updateCharacters} updateCharacter={updateCharacter}/>}
-      {characters && <CharacterSelect characters = {characters} currentlySelectedChar = {character} switchCharacter = {switchCharacter} updateCharacter={updateCharacter}/>}
+      {characters && <CharacterSelect characters = {characters} currentlySelectedChar = {character} switchCharacter = {switchCharacter} updateCharacters={updateCharacter}/>}
          
     </div>
   )

@@ -17,9 +17,7 @@ export default function Battle({ setGameState }) {
         props.push(value);
         console.log(value);
       }
-      if(!Players.includes(snapshot.val())){
-        setPlayers(props);
-      }
+      setPlayers(props);
     });
 
     // allPlayersRef.on("value", (snapshot) => {

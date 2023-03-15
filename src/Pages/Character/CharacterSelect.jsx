@@ -4,6 +4,7 @@ import { useCharacterAndThemeContext } from "../../Database/Hooks/useCharacterAn
 
 const CharacterSelect = ({ characters, currentlySelectedChar, switchCharacter }) => {
   const [hover, setHover] = useState(false);
+  const [selectedSlime, setSelectedSlime ] = useState(false);
   const { setSlimeTypeAndSkin } = useCharacterAndThemeContext();
   const unlockedStyle = {
     opacity: "1.0",
@@ -17,6 +18,7 @@ const CharacterSelect = ({ characters, currentlySelectedChar, switchCharacter })
 
   const handleClick = (e) => {
     // window.confirm("Hello World!");
+    setSelectedSlime(false);
     switchCharacter(e.currentTarget.getAttribute("number"));
   };
 
@@ -50,13 +52,14 @@ const CharacterSelect = ({ characters, currentlySelectedChar, switchCharacter })
       </div>
       <div className={styles.selectionButtonContainer}>
         <button
-          className={styles.selectionButton}
+          className={`${styles.selectionButton} ${selectedSlime ? styles.selectionButtonPressed : ""}`}
           onClick={() => {
             let skin = "unlocked";
             if(currentlySelectedChar.skin===2) skin = "two";
             else if(currentlySelectedChar.skin===3) skin= "three";
-            if(currentlySelectedChar.unlocked &&currentlySelectedChar[skin]){
+            if(currentlySelectedChar.unlocked &&currentlySelectedChar[skin] && !selectedSlime){
               setSlimeTypeAndSkin(currentlySelectedChar.type, currentlySelectedChar.skin);
+              setSelectedSlime(true);
             }
           }}
         >

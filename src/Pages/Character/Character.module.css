@@ -310,3 +310,28 @@
 .selectionButton:hover:last-child{
   background:#cdd4dd;
 }
+
+.selectionButtonPressed{
+  background: rgba(122, 122, 122, 0.6);
+  animation: selectionFlash 0.18s ease-in-out;
+  animation-iteration-count: 4;
+}
+
+.selectionButtonPressed,
+.selectionButtonPressed:hover:last-child{
+  background: rgba(122, 122, 122, 0.6);
+}
+
+
+@keyframes selectionFlash {
+  0% {
+    background: rgba(255,255,255,0.6);
+  }
+  100% {
+    background: rgba(122, 122, 122, 0.6);
+  } 
+}
+
+
+
+

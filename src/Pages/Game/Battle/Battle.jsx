@@ -50,7 +50,7 @@ export default function Battle({ setGameState }) {
       direction: "right",
       color: "blue",
     });
-    // playerRef.onDisconnect().remove();
+    playerRef.onDisconnect().remove();
   }
 
   useEffect(() => {

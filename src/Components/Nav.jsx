@@ -141,19 +141,19 @@ export default function Nav() {
             </button>
 
             {showSettings && (
-              <div className={styles.VolumeConfig}>
-                <p>Volume: </p>
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  onChange={(e) =>
-                    setMusicVolume((e.target.value * 0.01).toFixed(2))
-                  }
-                  value={musicVolume * 100}
-                ></input>
-                <span>{Math.round(musicVolume * 100)}%</span>
-              </div>
+                <div className={styles.VolumeConfig}>
+                  <p>Volume: </p>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    onChange={(e) =>
+                      setMusicVolume((e.target.value * 0.01).toFixed(2))
+                    }
+                    value={musicVolume * 100}
+                  ></input>
+                  <span>{Math.round(musicVolume * 100)}%</span>
+                </div>
             )}
           </div>
         </>

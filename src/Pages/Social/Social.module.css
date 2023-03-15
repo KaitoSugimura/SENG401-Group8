@@ -3,7 +3,7 @@
     margin-top: 68px;
     height: calc(100vh - 68px);
     display: grid;
-    grid-template-columns: 22vw auto 22vw;
+    grid-template-columns: 21vw auto 21vw;
 }
 
 .name, .message{

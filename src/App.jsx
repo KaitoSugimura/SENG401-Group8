@@ -41,22 +41,22 @@ function App() {
         />
         <Route path="Login" element={user ? <Navigate to="/" /> : <Login />} />
 
-        <Route index element={user ? <Home /> : <Navigate to="Login" />} />
+        <Route index element={user ? <Home /> : <Navigate to="/Login" />} />
         <Route
           path="Social"
-          element={user ? <Social /> : <Navigate to="Login" />}
+          element={user ? <Social /> : <Navigate to="/Login" />}
         />
         <Route
           path="Game"
-          element={user ? <Game /> : <Navigate to="Login" />}
+          element={user ? <Game /> : <Navigate to="/Login" />}
         />
         <Route
           path="Character"
-          element={user ? <Character /> : <Navigate to="Login" />}
+          element={user ? <Character /> : <Navigate to="/Login" />}
         />
         <Route
           path="Gacha"
-          element={user ? <Gacha /> : <Navigate to="Login" />}
+          element={user ? <Gacha /> : <Navigate to="/Login" />}
         />
       </Route>
     )

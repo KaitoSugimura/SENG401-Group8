@@ -1,0 +1,16 @@
+.temp{
+    position: fixed;
+    line-height: 30px;
+    top: 40vh;
+    left: 25vw;
+
+    display: flex;
+    flex-direction: column;
+    gap: 5vh;
+}
+
+.character, .you {
+    width: 50vw;
+    height: 50px;
+    background-color: rgb(192, 192, 255);
+}

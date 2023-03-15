@@ -15,7 +15,7 @@ export default function Nav() {
   const locationPath = useLocation().pathname;
   const [showBanner, setShowBanner] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
-  const [musicVolume, setMusicVolume] = useState(1);
+  const [musicVolume, setMusicVolume] = useState(0); // Turned off music vol for now
   const [originalMusicVolMultiplier, setOriginalMusicVolMultiplier] =
     useState(1);
   const { user } = useAuthContext();
@@ -116,7 +116,11 @@ export default function Nav() {
               </li>
             </ul>
           </nav>
-          <div className={styles.rightSideNav} ref={acctBanner}>
+        </>
+      )}
+      <div className={styles.rightSideNav} ref={acctBanner}>
+        {user && (
+          <>
             <span className={styles.goldAmount}>2000 Gold</span>
 
             <button
@@ -129,35 +133,35 @@ export default function Nav() {
               <img src={selectedSlimePath}></img>
             </button>
             {showBanner && <AccountBanner setShowBanner={setShowBanner} />}
+          </>
+        )}
 
-            <button
-              onClick={() => {
-                setShowBanner(false);
-                setShowSettings(!showSettings);
-              }}
-              className={styles.setting}
-            >
-              <img src="/NavIcons/Settings.svg"></img>
-            </button>
+        <button
+          onClick={() => {
+            setShowBanner(false);
+            setShowSettings(!showSettings);
+          }}
+          className={styles.setting}
+        >
+          <img src="/NavIcons/Settings.svg"></img>
+        </button>
 
-            {showSettings && (
-                <div className={styles.VolumeConfig}>
-                  <p>Volume: </p>
-                  <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    onChange={(e) =>
-                      setMusicVolume((e.target.value * 0.01).toFixed(2))
-                    }
-                    value={musicVolume * 100}
-                  ></input>
-                  <span>{Math.round(musicVolume * 100)}%</span>
-                </div>
-            )}
+        {showSettings && (
+          <div className={styles.VolumeConfig}>
+            <p>Volume: </p>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              onChange={(e) =>
+                setMusicVolume((e.target.value * 0.01).toFixed(2))
+              }
+              value={musicVolume * 100}
+            ></input>
+            <span>{Math.round(musicVolume * 100)}%</span>
           </div>
-        </>
-      )}
+        )}
+      </div>
     </header>
   );
 }

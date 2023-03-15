@@ -286,22 +286,22 @@
 }
 .selectionButton:before{
   width: 40px;
-  background: rgba(255,255,255,0.6);
-  transform: translateX(-130px) skewX(-45deg);
+  background: rgba(255,255,255,0.4);
+  transform: translateX(-5vw) skewX(-45deg);
 }
 .selectionButton:after{
   width: 40px;
-  background: rgba(255,255,255,0.6);
-  transform: translateX(600px) skewX(-45deg);
+  background: rgba(255,255,255,0.4);
+  transform: translateX(45vw) skewX(-45deg);
 }
 .selectionButton:hover:before{
   opacity: 0.4;
-  transform: translateX(600px) skewX(-45deg);
+  transform: translateX(45vw) skewX(-45deg);
 }
 
 .selectionButton:hover:after{
   opacity: 0.4;
-  transform: translateX(-130px) skewX(-45deg);
+  transform: translateX(-5vw) skewX(-45deg);
 }
 
 .selectionButton:hover{

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { projectDatabase } from "../../../Database/firebase/config";
 import { useAuthContext } from "../../../Database/Hooks/useAuthContext";
 import styles from "./Battle.module.css";
@@ -13,11 +13,8 @@ export default function Battle({ setGameState }) {
   let playerRef;
 
   if (user) {
-    console.log("User:", user);
     playerId = user.uid;
     playerRef = projectDatabase.ref(`players/${playerId}`);
-
-    console.log("PLAYER REF: ", playerRef);
   }
 
   const handleKeyPress = (xChange = 0, yChange = 0) => {
@@ -36,7 +33,6 @@ export default function Battle({ setGameState }) {
       }
       playerRef.set(Players[playerId]);
     }
-    console.log("PRESSED: ", Players[playerId].top, playerId);
   };
 
   useEffect(() => {
@@ -57,28 +53,80 @@ export default function Battle({ setGameState }) {
     });
   }, []);
 
-  const move = ({ keyCode }) => {
-    switch (keyCode) {
-      case 87: //W
-        handleKeyPress(0, -1);
-        break;
-      case 65: //A
-        handleKeyPress(-1, 0);
-        break;
-      case 83: //S
-        handleKeyPress(0, 1);
-        break;
-      case 68: //D
-        handleKeyPress(1, 0);
-        break;
+  // const [pressedKeys, setPressedKeys] = useState({});
+
+  const [up, setUp] = useState(false);
+  const [left, setLeft] = useState(false);
+  const [down, setDown] = useState(false);
+  const [right, setRight] = useState(false);
+  const intervalRef = useRef(null);
+
+  function move(event) {
+
+    if (event.keyCode === 87) { // 'W' key
+      setUp(true);
     }
-  };
+    if (event.keyCode === 65) { // 'A' key
+      setLeft(true);
+    }
+    if (event.keyCode === 83) { // 'S' key
+      setDown(true);
+    }
+    if (event.keyCode === 68 ) { // 'D' key
+      setRight(true);
+    }
+  }
+
+  
+  function release(event) {
+    if (event.keyCode === 87) { // 'W' key
+      setUp(false);
+    }
+    if (event.keyCode === 65) { // 'A' key
+      setLeft(false);
+    }
+    if (event.keyCode === 83) { // 'S' key]
+      setDown(false);
+    }
+    if (event.keyCode === 68) { // 'D' key
+      setRight(false);
+    }
+  }
+
+  useEffect(() => {  
+    function moveCharacter() {
+    const speed = 5; // Adjust as needed
+    let dx = 0;
+    let dy = 0;
+
+    if (up) {
+      dy -= 1;
+    }
+    if (left) {
+      dx -= 1;
+    }
+    if (down) {
+      dy += 1;
+    }
+    if (right) {
+      dx += 1;
+    }
+
+    console.log("MOVE", dx, dy)
+
+    handleKeyPress(dx, dy);
+  }
+    intervalRef.current = setInterval(moveCharacter, 16); // Update position every 16ms (60fps)
+    return () => clearInterval(intervalRef.current);
+  }, [Players, up,left, down, right]);
 
   return (
     <div class={styles.ButtonOverlay}
     role="button"
     tabIndex="0"
-    onKeyDown={(e) => move(e)}>
+    onKeyDown={(e) => move(e)}
+    onKeyUp={(e) => release(e)}
+    >
       <div
         class={styles.battleContainer}
       >

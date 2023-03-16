@@ -29,7 +29,7 @@ export default function Battle({ setGameState }) {
       newY = p.top + yChange * 10;
     }
 
-    if (true) {
+    if (newX != 0 || newY !=0) {
       p.left = newX;
       p.top = newY;
       if (xChange > 0) {

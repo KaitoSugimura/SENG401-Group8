@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { projectDatabase } from "../../../Database/firebase/config";
 import { useAuthContext } from "../../../Database/Hooks/useAuthContext";
 import styles from "./Battle.module.css";
-import slime from "/assets/GameArt/EarthSlime/EarthSlime1.gif"
+import slime from "/assets/GameArt/EarthSlime/EarthSlime1.gif";
 // import KeyboardControls from "./KeyboardControls";
 // import { keyPressListener } from "./KeyHandler";
 
@@ -18,20 +18,26 @@ export default function Battle({ setGameState }) {
   }
 
   const handleKeyPress = (xChange = 0, yChange = 0) => {
-    console.log("AUGH-keyPress", Players);
-    const newX = Players[playerId].left + xChange*10;
-    const newY = Players[playerId].top + yChange*10;
+    const p = Players[playerId];
+    let newX;
+    let newY;
+    if(xChange!=0 && yChange!=0){
+      newX = p.left + xChange * 7.5;
+      newY = p.top + yChange * 7.5;
+    } else {
+      let newX = p.left + xChange * 10;
+      let newY = p.top + yChange * 10;
+    }
 
     if (true) {
-      Players[playerId].left = newX;
-      Players[playerId].top = newY;
-      if (xChange === 1) {
-        Players[playerId].direction = "right";
+      p.left = newX;
+      p.top = newY;
+      if (xChange > 0) {
+        p.direction = "right";
+      } else if (xChange < 0) {
+        p.direction = "left";
       }
-      if (yChange === -1) {
-        Players[playerId].direction = "left";
-      }
-      playerRef.set(Players[playerId]);
+      playerRef.set(p);
     }
   };
 
@@ -45,7 +51,7 @@ export default function Battle({ setGameState }) {
       left: 0,
     });
     playerRef.onDisconnect().remove();
-    
+
     const allPlayersRef = projectDatabase.ref("players");
 
     allPlayersRef.on("value", (snapshot) => {
@@ -60,8 +66,7 @@ export default function Battle({ setGameState }) {
   const intervalRef = useRef(null);
 
   function move(event) {
-
-    switch(event.keyCode){
+    switch (event.keyCode) {
       case 87:
         setUp(true);
         break;
@@ -74,13 +79,11 @@ export default function Battle({ setGameState }) {
       case 68:
         setRight(true);
         break;
-      
     }
   }
 
-  
   function release(event) {
-    switch(event.keyCode){
+    switch (event.keyCode) {
       case 87:
         setUp(false);
         break;
@@ -93,47 +96,42 @@ export default function Battle({ setGameState }) {
       case 68:
         setRight(false);
         break;
-      
     }
   }
 
-  useEffect(() => {  
+  useEffect(() => {
     function moveCharacter() {
-    const speed = 5; // Adjust as needed
-    let dx = 0;
-    let dy = 0;
+      const speed = 2; // Adjust as needed
+      let dx = 0;
+      let dy = 0;
 
-    if (up) {
-      dy -= 1;
+      if (up) {
+        dy -= speed;
+      }
+      if (left) {
+        dx -= speed;
+      }
+      if (down) {
+        dy += speed;
+      }
+      if (right) {
+        dx += speed;
+      }
+      handleKeyPress(dx, dy);
     }
-    if (left) {
-      dx -= 1;
-    }
-    if (down) {
-      dy += 1;
-    }
-    if (right) {
-      dx += 1;
-    }
-
-    console.log("MOVE", dx, dy)
-
-    handleKeyPress(dx, dy);
-  }
-    intervalRef.current = setInterval(moveCharacter, 16); // Update position every 16ms (60fps)
+    intervalRef.current = setInterval(moveCharacter, 48); // Update position every 48ms (20fps)
     return () => clearInterval(intervalRef.current);
-  }, [Players, up,left, down, right]);
+  }, [Players, up, left, down, right]);
 
   return (
-    <div class={styles.ButtonOverlay}
-    role="button"
-    tabIndex="0"
-    onKeyDown={(e) => move(e)}
-    onKeyUp={(e) => release(e)}
+    <div
+      class={styles.ButtonOverlay}
+      role="button"
+      tabIndex="0"
+      onKeyDown={(e) => move(e)}
+      onKeyUp={(e) => release(e)}
     >
-      <div
-        class={styles.battleContainer}
-      >
+      <div class={styles.battleContainer}>
         This where you battle
         <button
           onClick={() => {
@@ -150,9 +148,12 @@ export default function Battle({ setGameState }) {
               key={i}
               style={{
                 top: player.top,
-                left: player.left
+                left: player.left,
               }}
-            > <img src={slime} className={styles.slimeImage}></img>
+              data-direction={player.direction}
+            >
+              {" "}
+              <img src={slime} className={styles.slimeImage}></img>
               <p className={styles.characterName}>{player.name}</p>
             </div>
           ))}

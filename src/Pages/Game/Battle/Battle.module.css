@@ -36,8 +36,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: top 0.1s linear, left 0.1s linear
 }
 
+
+.character[data-direction="right"] img{
+    transform: scaleX(-1);
+}
 
 .characterName{
     overflow: hidden;

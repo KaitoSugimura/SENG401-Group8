@@ -53,8 +53,6 @@ export default function Battle({ setGameState }) {
     });
   }, []);
 
-  // const [pressedKeys, setPressedKeys] = useState({});
-
   const [up, setUp] = useState(false);
   const [left, setLeft] = useState(false);
   const [down, setDown] = useState(false);
@@ -63,33 +61,39 @@ export default function Battle({ setGameState }) {
 
   function move(event) {
 
-    if (event.keyCode === 87) { // 'W' key
-      setUp(true);
-    }
-    if (event.keyCode === 65) { // 'A' key
-      setLeft(true);
-    }
-    if (event.keyCode === 83) { // 'S' key
-      setDown(true);
-    }
-    if (event.keyCode === 68 ) { // 'D' key
-      setRight(true);
+    switch(event.keyCode){
+      case 87:
+        setUp(true);
+        break;
+      case 65:
+        setLeft(true);
+        break;
+      case 83:
+        setDown(true);
+        break;
+      case 68:
+        setRight(true);
+        break;
+      
     }
   }
 
   
   function release(event) {
-    if (event.keyCode === 87) { // 'W' key
-      setUp(false);
-    }
-    if (event.keyCode === 65) { // 'A' key
-      setLeft(false);
-    }
-    if (event.keyCode === 83) { // 'S' key]
-      setDown(false);
-    }
-    if (event.keyCode === 68) { // 'D' key
-      setRight(false);
+    switch(event.keyCode){
+      case 87:
+        setUp(false);
+        break;
+      case 65:
+        setLeft(false);
+        break;
+      case 83:
+        setDown(false);
+        break;
+      case 68:
+        setRight(false);
+        break;
+      
     }
   }
 

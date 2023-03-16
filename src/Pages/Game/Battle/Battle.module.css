@@ -36,7 +36,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: top 0.1s linear, left 0.1s linear
+    transition: top 0.075s linear, left 0.075s linear
 }
 
 

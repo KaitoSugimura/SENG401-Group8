@@ -119,7 +119,7 @@ export default function Battle({ setGameState }) {
       }
       handleKeyPress(dx, dy);
     }
-    intervalRef.current = setInterval(moveCharacter, 96); // Update position every 48ms (20fps)
+    intervalRef.current = setInterval(moveCharacter, 32); // Update position every 48ms (20fps)
     return () => clearInterval(intervalRef.current);
   }, [Players, up, left, down, right]);
 

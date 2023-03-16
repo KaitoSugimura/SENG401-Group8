@@ -75,7 +75,7 @@ export default function Nav() {
           <nav>
             <ul className={styles.navLinks}>
               <li>
-                <NavLink exact to="/" draggable="false">
+                <NavLink to="/" draggable="false">
                   <img src="/NavIcons/Home.svg"></img>
                 </NavLink>
                 {locationPath === "/" && (

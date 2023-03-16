@@ -22,11 +22,11 @@ export default function Battle({ setGameState }) {
     let newX;
     let newY;
     if(xChange!=0 && yChange!=0){
-      newX = p.left + xChange * 7.5;
-      newY = p.top + yChange * 7.5;
+      newX = p.left + xChange * 1;
+      newY = p.top + yChange * 1;
     } else {
-      newX = p.left + xChange * 10;
-      newY = p.top + yChange * 10;
+      newX = p.left + xChange * 1.25;
+      newY = p.top + yChange * 1.25;
     }
 
     if (newX != 0 || newY !=0) {
@@ -101,7 +101,7 @@ export default function Battle({ setGameState }) {
 
   useEffect(() => {
     function moveCharacter() {
-      const speed = 2; // Adjust as needed
+      const speed = 1; // Adjust as needed
       let dx = 0;
       let dy = 0;
 
@@ -147,8 +147,8 @@ export default function Battle({ setGameState }) {
               className={styles.character}
               key={i}
               style={{
-                top: player.top,
-                left: player.left,
+                top: player.top + "vw",
+                left: player.left + "vw",
               }}
               data-direction={player.direction}
             >

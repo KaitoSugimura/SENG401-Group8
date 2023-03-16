@@ -1,10 +1,13 @@
 import styles from "./EndScreen.module.css";
+import slime from "/assets/GameArt/EarthSlime/EarthSlime1.gif";
 
 export default function EndScreen({setGameState}) {
   return (
-    <div>
-      Yay you won, cool beans
-      <button onClick={() => setGameState("Lobby")}>Go back to Lobby</button>
+    <div className={styles.EndScreen}>
+      <h1 className={styles.victoryMSG}>Yay you won, cool beans</h1>
+      <img src={slime} className={styles.characterImage}/>
+      <p className={styles.rankGained}>Rank +10</p>
+      <button onClick={() => setGameState("Lobby")} className={styles.returnToLobbyBtn}>Go back to Lobby</button>
     </div>
   )
 }

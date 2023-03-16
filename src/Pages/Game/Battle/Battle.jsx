@@ -25,8 +25,8 @@ export default function Battle({ setGameState }) {
       newX = p.left + xChange * 7.5;
       newY = p.top + yChange * 7.5;
     } else {
-      let newX = p.left + xChange * 10;
-      let newY = p.top + yChange * 10;
+      newX = p.left + xChange * 10;
+      newY = p.top + yChange * 10;
     }
 
     if (true) {

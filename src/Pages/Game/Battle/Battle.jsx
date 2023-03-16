@@ -101,7 +101,7 @@ export default function Battle({ setGameState }) {
 
   useEffect(() => {
     function moveCharacter() {
-      const speed = 2; // Adjust as needed
+      const speed = 4; // Adjust as needed
       let dx = 0;
       let dy = 0;
 
@@ -119,7 +119,7 @@ export default function Battle({ setGameState }) {
       }
       handleKeyPress(dx, dy);
     }
-    intervalRef.current = setInterval(moveCharacter, 48); // Update position every 48ms (20fps)
+    intervalRef.current = setInterval(moveCharacter, 96); // Update position every 48ms (20fps)
     return () => clearInterval(intervalRef.current);
   }, [Players, up, left, down, right]);
 

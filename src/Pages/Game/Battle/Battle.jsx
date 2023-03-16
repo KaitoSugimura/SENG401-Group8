@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { projectDatabase } from "../../../Database/firebase/config";
 import { useAuthContext } from "../../../Database/Hooks/useAuthContext";
 import styles from "./Battle.module.css";
+import slime from "/assets/GameArt/EarthSlime/EarthSlime1.gif"
 // import KeyboardControls from "./KeyboardControls";
 // import { keyPressListener } from "./KeyHandler";
 
@@ -44,7 +45,6 @@ export default function Battle({ setGameState }) {
       id: playerId,
       name: user.displayName,
       direction: "right",
-      color: "rgb(137, 137, 247)",
       top: 0,
       left: 0,
     });
@@ -75,12 +75,12 @@ export default function Battle({ setGameState }) {
   };
 
   return (
-    <div class="ButtonOverlay"
+    <div class={styles.ButtonOverlay}
     role="button"
     tabIndex="0"
     onKeyDown={(e) => move(e)}>
       <div
-        class="battle-container"
+        class={styles.battleContainer}
       >
         This where you battle
         <button
@@ -98,10 +98,9 @@ export default function Battle({ setGameState }) {
               key={i}
               style={{
                 top: player.top,
-                left: player.left,
-                backgroundColor: player.color,
+                left: player.left
               }}
-            >
+            > <img src={slime} className={styles.slimeImage}></img>
               <p className={styles.characterName}>{player.name}</p>
             </div>
           ))}

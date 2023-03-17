@@ -1,14 +1,21 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { projectDatabase } from "../../../Database/firebase/config";
 import { useAuthContext } from "../../../Database/Hooks/useAuthContext";
 import styles from "./Battle.module.css";
 import slime from "/assets/GameArt/EarthSlime/EarthSlime1.gif";
-// import KeyboardControls from "./KeyboardControls";
-// import { keyPressListener } from "./KeyHandler";
 
 export default function Battle({ setGameState }) {
   const { user } = useAuthContext();
-  const [Players, setPlayers] = useState({});
+  const self = useRef({});
+  const [s, ss] = useState({});
+  const [enemy, setEnemy] = useState(null);
+
+  const up = useRef(false);
+  const left = useRef(false);
+  const down= useRef(false);
+  const right = useRef(false);
+  const intervalRef = useRef(null);
+
   let playerId;
   let playerRef;
 
@@ -17,29 +24,30 @@ export default function Battle({ setGameState }) {
     playerRef = projectDatabase.ref(`players/${playerId}`);
   }
 
-  const handleKeyPress = (xChange = 0, yChange = 0) => {
-    const p = Players[playerId];
-    let newX;
-    let newY;
-    if(xChange!=0 && yChange!=0){
-      newX = p.left + xChange * 1;
-      newY = p.top + yChange * 1;
-    } else {
-      newX = p.left + xChange * 1.25;
-      newY = p.top + yChange * 1.25;
-    }
+  const handleKeyPress = 
+    (xChange = 0, yChange = 0) => {
+      if (xChange != 0 || yChange != 0) {
+        const p = self.current;
+        if (xChange != 0 && yChange != 0) {
+          p.left = p.left + xChange * 1;
+          p.top = p.top + yChange * 1;
+        } else {
+          p.left = p.left + xChange * 1.25;
+          p.top = p.top + yChange * 1.25;
+        }
 
-    if (newX != 0 || newY !=0) {
-      p.left = newX;
-      p.top = newY;
-      if (xChange > 0) {
-        p.direction = "right";
-      } else if (xChange < 0) {
-        p.direction = "left";
+        if (xChange > 0) {
+          p.direction = "right";
+        } else if (xChange < 0) {
+          p.direction = "left";
+        }
+        playerRef.set(p);
+        self.current = p;  
+        ss({...p});                            ` `
+        
+        console.log("FAAA:" , self.current);
       }
-      playerRef.set(p);
-    }
-  };
+    };
 
   useEffect(() => {
     // Initialize game
@@ -52,32 +60,42 @@ export default function Battle({ setGameState }) {
     });
     playerRef.onDisconnect().remove();
 
-    const allPlayersRef = projectDatabase.ref("players");
-
-    allPlayersRef.on("value", (snapshot) => {
-      setPlayers(snapshot.val());
-    });
+    self.current = { top: 0, left: 0, direction: "right", name: user.displayName };
   }, []);
 
-  const [up, setUp] = useState(false);
-  const [left, setLeft] = useState(false);
-  const [down, setDown] = useState(false);
-  const [right, setRight] = useState(false);
-  const intervalRef = useRef(null);
+  useEffect(() => {
+    const allPlayersRef = projectDatabase.ref("players");
+    allPlayersRef.on("value", (snapshot) => {
+      if (snapshot.numChildren() >= 2) {
+        allPlayersRef.off();
+        snapshot.forEach((childSnapshot) => {
+          const otherPlayerId = childSnapshot.key;
+          if (playerId != otherPlayerId) {
+            const otherPlayersRef = projectDatabase.ref(
+              `players/${otherPlayerId}`
+            );
+            otherPlayersRef.on("value", (otherSnapshot) => {
+              setEnemy(otherSnapshot.val());
+            });
+          }
+        });
+      }
+    });
+  }, []);
 
   function move(event) {
     switch (event.keyCode) {
       case 87:
-        setUp(true);
+        up.current = true;
         break;
       case 65:
-        setLeft(true);
+        left.current = true;
         break;
       case 83:
-        setDown(true);
+        down.current = true;
         break;
       case 68:
-        setRight(true);
+        right.current = true;
         break;
     }
   }
@@ -85,43 +103,44 @@ export default function Battle({ setGameState }) {
   function release(event) {
     switch (event.keyCode) {
       case 87:
-        setUp(false);
+        up.current = false;
         break;
       case 65:
-        setLeft(false);
+        left.current = false;
         break;
       case 83:
-        setDown(false);
+        down.current = false;
         break;
       case 68:
-        setRight(false);
+        right.current = false;
         break;
     }
   }
 
-  useEffect(() => {
-    function moveCharacter() {
-      const speed = 1; // Adjust as needed
-      let dx = 0;
-      let dy = 0;
+  const moveCharacter = useCallback(() => {
+    const speed = 1;
+    let dx = 0;
+    let dy = 0;
 
-      if (up) {
-        dy -= speed;
-      }
-      if (left) {
-        dx -= speed;
-      }
-      if (down) {
-        dy += speed;
-      }
-      if (right) {
-        dx += speed;
-      }
-      handleKeyPress(dx, dy);
+    if (up.current) {
+      dy -= speed;
     }
-    intervalRef.current = setInterval(moveCharacter, 32); // Update position every 32ms 
+    if (left.current) {
+      dx -= speed;
+    }
+    if (down.current) {
+      dy += speed;
+    }
+    if (right.current) {
+      dx += speed;
+    }
+    handleKeyPress(dx, dy);
+  }, []);
+
+  useEffect(() => {
+    intervalRef.current = setInterval(moveCharacter, 32); // Update position every 32ms
     return () => clearInterval(intervalRef.current);
-  }, [Players, up, left, down, right]);
+  }, [moveCharacter]);
 
   return (
     <div
@@ -142,21 +161,28 @@ export default function Battle({ setGameState }) {
           End Battle
         </button>
         <div className={styles.battleField}>
-          {Object.values(Players).map((player, i) => (
-            <div
+          <div
+            className={styles.character}
+            style={{
+              top: s.top + "vw",
+              left: s.left + "vw",
+            }}
+            data-direction={s.direction}
+          >
+            <img src={slime} className={styles.slimeImage}></img>
+            <p className={styles.characterName}>{s.name}</p>
+          </div>
+          {enemy&& <div
               className={styles.character}
-              key={i}
               style={{
-                top: player.top + "vw",
-                left: player.left + "vw",
+                top: enemy.top + "vw",
+                left: enemy.left + "vw",
               }}
-              data-direction={player.direction}
+              data-direction={enemy.direction}
             >
-              {" "}
               <img src={slime} className={styles.slimeImage}></img>
-              <p className={styles.characterName}>{player.name}</p>
-            </div>
-          ))}
+              <p className={styles.characterName}>{enemy.name}</p>
+            </div>}
         </div>
       </div>
     </div>

@@ -121,7 +121,7 @@ export default function Nav() {
       <div className={styles.rightSideNav} ref={acctBanner}>
         {user && (
           <>
-            <span className={styles.goldAmount}>2000 Gold</span>
+            <span className={styles.goldAmount}>{user.data.gold} Gold</span>
 
             <button
               onClick={() => {

@@ -6,6 +6,7 @@ import achievement from "/assets/HomeIcons/achievement.png";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCharacterAndThemeContext } from "../../Database/Hooks/useCharacterAndThemeContext";
+import { useAuthContext } from "../../Database/Hooks/useAuthContext";
 
 const particleAmount = 60;
 const rows = [];
@@ -41,16 +42,17 @@ export default function Home() {
   const [petted, setPetted] = useState(false);
   const { selectedSlimePath } = useCharacterAndThemeContext();
   const navigate = useNavigate();
+  const { user } = useAuthContext();
 
   return (
     <div className={styles.Home}>
       <div className={styles.MainBanner}>
         <div className={styles.MBNameLevelContainer}>
           <p className={styles.MBName}>Rimuru Tempest</p>
-          <p className={styles.MBLevel}>23</p>
+          <p className={styles.MBLevel}>{user.data.level}</p>
         </div>
         <hr />
-        <p className={styles.MBRank}>Rank 200</p>
+        <p className={styles.MBRank}>Rank {user.data.rank}</p>
       </div>
       <button
         onClick={(event) => {
@@ -63,11 +65,10 @@ export default function Home() {
       >
         <img
           src={selectedSlimePath}
-          className={`${styles.characterIMG} ${
-            petted
-              ? animations[Math.floor(Math.random() * animations.length)]
-              : ""
-          }`}
+          className={`${styles.characterIMG} ${petted
+            ? animations[Math.floor(Math.random() * animations.length)]
+            : ""
+            }`}
           alt="slime"
           draggable="false"
         />

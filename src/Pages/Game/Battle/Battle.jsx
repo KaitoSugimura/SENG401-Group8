@@ -101,7 +101,7 @@ export default function Battle({ setGameState }) {
 
   useEffect(() => {
     function moveCharacter() {
-      const speed = 1; // Adjust as needed
+      const speed = 0.5; // Adjust as needed
       let dx = 0;
       let dy = 0;
 

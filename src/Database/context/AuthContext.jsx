@@ -48,10 +48,10 @@ export const AuthContextProvider = ({ children }) => {
 
         // Attach user information (level, gold, etc.) to data property of user
         user = { ...user, data: userData };
-
-        console.log(user);
-        dispatch({ type: "AUTH_IS_READY", payload: user });
       }
+
+      console.log(user);
+      dispatch({ type: "AUTH_IS_READY", payload: user });
     });
 
     return () => {

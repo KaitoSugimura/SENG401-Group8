@@ -25,12 +25,14 @@ export const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     const unsub = projectAuth.onAuthStateChanged(async (user) => {
+      // If user is logged in
       if (user) {
-        let userData = await projectFirestore.collection("users").doc(user.uid).get();
+        let userData = await projectFirestore.collection("users").doc(user.uid).get().then(res => res.data());
 
-        if (!userData.data()) { // If user data doesn't exist
+        // If user data doesn't exist
+        if (!userData) {
           // Account is new: create user data
-          const userData = {
+          userData = {
             level: 31,
             rank: 15,
             musicVolume: 100,
@@ -40,11 +42,12 @@ export const AuthContextProvider = ({ children }) => {
             bannerFilepath: "/Account/Banners/Sky.jpg"
           }
 
+
           await projectFirestore.collection("users").doc(user.uid).set(userData);
         }
 
         // Attach user information (level, gold, etc.) to data property of user
-        user = { ...user, data: userData.data() };
+        user = { ...user, data: userData };
 
         console.log(user);
         dispatch({ type: "AUTH_IS_READY", payload: user });

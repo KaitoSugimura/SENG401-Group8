@@ -3,6 +3,7 @@ import { projectDatabase } from "../../../Database/firebase/config";
 import { useAuthContext } from "../../../Database/Hooks/useAuthContext";
 import styles from "./Battle.module.css";
 import slime from "/assets/GameArt/EarthSlime/EarthSlime1.gif";
+import mapImage from "/assets/GameMap/Map.webp"
 
 export default function Battle({ setGameState }) {
   const { user } = useAuthContext();
@@ -37,10 +38,15 @@ export default function Battle({ setGameState }) {
         }
 
         if (xChange > 0) {
-          p.direction = "right";
-        } else if (xChange < 0) {
           p.direction = "left";
+        } else if (xChange < 0) {
+          p.direction = "right";
         }
+
+
+        p.top = Math.min(Math.max(p.top, -(2250 - window.innerHeight)), 0);
+        p.left = Math.min(Math.max(p.left, -(3500-window.innerWidth)), 0);
+
         playerRef.set(p);
         self.current = p;  
         ss({...p});                            ` `
@@ -61,6 +67,7 @@ export default function Battle({ setGameState }) {
     playerRef.onDisconnect().remove();
 
     self.current = { top: 0, left: 0, direction: "right", name: user.displayName };
+    ss(self.current);
   }, []);
 
   useEffect(() => {
@@ -118,21 +125,21 @@ export default function Battle({ setGameState }) {
   }
 
   const moveCharacter = useCallback(() => {
-    const speed = 1;
+    const speed = 10;
     let dx = 0;
     let dy = 0;
 
     if (up.current) {
-      dy -= speed;
-    }
-    if (left.current) {
-      dx -= speed;
-    }
-    if (down.current) {
       dy += speed;
     }
-    if (right.current) {
+    if (left.current) {
       dx += speed;
+    }
+    if (down.current) {
+      dy -= speed;
+    }
+    if (right.current) {
+      dx -= speed;
     }
     handleKeyPress(dx, dy);
   }, []);
@@ -160,13 +167,21 @@ export default function Battle({ setGameState }) {
         >
           End Battle
         </button>
+
+          <img className={styles.map} src={mapImage}
+          style={{
+            top: s.top + "px",
+            left: s.left + "px",
+          }}
+          />
+
         <div className={styles.battleField}>
           <div
             className={styles.character}
-            style={{
-              top: s.top + "vw",
-              left: s.left + "vw",
-            }}
+            // style={{
+            //   top: s.top + "vw",
+            //   left: s.left + "vw",
+            // }}
             data-direction={s.direction}
           >
             <img src={slime} className={styles.slimeImage}></img>

@@ -21,17 +21,29 @@
 
 .battleField{
     position: fixed;
-    top: 60%;
+    top: 55%;
     left: 50%;
     transform: translate(-50%,-50%);
-    width: 70vw;
-    height: 60vh;
-    background-color: #ffe0e0;
+    width: 130vh;
+    height: 80vh;
+    /* background-color: #ffe0e0; */
+}
+
+.map{
+    position: fixed;
+    top:0;
+    left: 0;
+    width: 3500px;
+    height: 2250px;
+    transition: 0.032s linear;
 }
 
 .character {
     position: absolute;
     transform: translate(-50%,-50%);
+
+    top: 50%;
+    left: 50%;
 
     display: flex;
     justify-content: center;

@@ -51,6 +51,11 @@
     transition: 0.032s linear;
 }
 
+.enemyOffset{
+    position: absolute;
+    transform: translate(-50%,-50%);
+}
+
 
 .character[data-direction="right"] img{
     transform: scaleX(-1);

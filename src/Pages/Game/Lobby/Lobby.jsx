@@ -13,7 +13,6 @@ export default function Lobby({setGameState}) {
   const [publicLobbyList, setPublicLobbyList] = useState({});
   const [imagePath, updateImagePath]=useState();
 
-  let lobbyRef = projectDatabase.ref("lobby");
   let publicLobbyRef; 
 
   useEffect(()=>{

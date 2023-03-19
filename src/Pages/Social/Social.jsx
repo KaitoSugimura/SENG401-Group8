@@ -9,8 +9,7 @@ const socket = io(ENDPOINT);
 
 export default function Social() {
   const { user } = useContext(AuthContext);
-  const [selectedChat, setSelectedChat] = useState(null);
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedChat, setSelectedChat] = useState("global");
   const [friends, setFriends] = useState([]);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
@@ -74,11 +73,9 @@ export default function Social() {
         if (selectedChat === "global") {
           // If user selected global chat
           channel = "global";
-          setSelectedUser(null);
-        } else if (selectedChat) {
+        } else {
           // If user selected friend
           channel = selectedChat._id;
-          setSelectedUser(selectedChat);
         }
 
         const data = await fetch(`${ENDPOINT}/api/chat/${channel}`, {
@@ -87,9 +84,6 @@ export default function Social() {
           },
         }).then((res) => res.json());
         setMessages(data.reverse());
-      } else {
-        // Else, user closed chat
-        setSelectedUser(null);
       }
     };
 
@@ -124,14 +118,9 @@ export default function Social() {
       });
 
       setMessage("");
-      // setMessages(prev => [newMessage, ...prev])
       socket.emit("message", newMessage);
     }
   };
-
-  useEffect(() => {
-    setSelectedChat("global"); // Set global chat to default
-  }, []);
 
   return (
     <div className={styles.social}>
@@ -170,7 +159,7 @@ export default function Social() {
           <img src={user.data.slimePath} className={styles.slimeBody}></img>
           <div>
             <p>{userPlaceholder.name}</p>
-            <p className={`${styles.presence} ${styles.Online}`}>Online</p>
+            <p className={`${styles.presence} ${styles.ONLINE}`}>ONLINE</p>
           </div>
         </div>
       </section>
@@ -207,11 +196,11 @@ export default function Social() {
       </section>
 
       <section className={styles.rightSidebar}>
-        {selectedUser ? (
+        {selectedChat && selectedChat !== "global" ? (
           <>
-            <p>{selectedUser.name}</p>
+            <p>{selectedChat.name}</p>
             <img src={user.data.slimePath} className={styles.slimeBody}></img>
-            <p>Rank {selectedUser.rank}</p>
+            <p>Rank {selectedChat.rank}</p>
           </>
         ) : (
           <div className={styles.World}>

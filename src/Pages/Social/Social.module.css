@@ -6,7 +6,8 @@
     grid-template-columns: 21vw auto 21vw;
 }
 
-.name, .message{
+.name,
+.message {
     -moz-user-select: text;
     -khtml-user-select: text;
     -webkit-user-select: text;
@@ -25,6 +26,7 @@
 .channels {
     overflow: auto;
 }
+
 .global {
     display: flex;
     align-items: center;
@@ -101,11 +103,9 @@
 }
 
 
-.slimeBody{
+.slimeBody {
     width: 6rem;
     height: 6rem;
-    transform: scale(125%)
-    translateY(-3%);
 }
 
 
@@ -131,7 +131,7 @@
     gap: 1rem;
     overflow: auto;
     padding: 2rem 2rem 0;
-    
+
 }
 
 .message {
@@ -206,7 +206,7 @@
     transform: translateX(6%);
 }
 
-.World i{
+.World i {
     font-size: 9vw;
 }
 

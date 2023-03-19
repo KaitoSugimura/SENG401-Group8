@@ -2,7 +2,6 @@ import { useEffect, useRef } from "react";
 import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAuthContext } from "../Database/Hooks/useAuthContext";
-import { useCharacterAndThemeContext } from "../Database/Hooks/useCharacterAndThemeContext";
 import AccountBanner from "./AccountBanner";
 import styles from "./Nav.module.css";
 import HomeBGM from "/Sound/Home.mp3";
@@ -19,7 +18,6 @@ export default function Nav() {
   const [originalMusicVolMultiplier, setOriginalMusicVolMultiplier] =
     useState(1);
   const { user } = useAuthContext();
-  const { selectedSlimePath } = useCharacterAndThemeContext();
   const acctBanner = useRef(null);
 
   const audioRef = useRef();
@@ -130,7 +128,7 @@ export default function Nav() {
               }}
               className={styles.bannerButton}
             >
-              <img src={selectedSlimePath}></img>
+              <img src={user.data.slimePath}></img>
             </button>
             {showBanner && <AccountBanner setShowBanner={setShowBanner} />}
           </>

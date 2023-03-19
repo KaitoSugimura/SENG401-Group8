@@ -5,7 +5,6 @@ import chestClosed from "/assets/HomeIcons/chestClosed.png";
 import achievement from "/assets/HomeIcons/achievement.png";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useCharacterAndThemeContext } from "../../Database/Hooks/useCharacterAndThemeContext";
 import { useAuthContext } from "../../Database/Hooks/useAuthContext";
 
 const particleAmount = 60;
@@ -40,7 +39,6 @@ const animations = [
 export default function Home() {
   const [chestState, setChestState] = useState(false);
   const [petted, setPetted] = useState(false);
-  const { selectedSlimePath } = useCharacterAndThemeContext();
   const navigate = useNavigate();
   const { user } = useAuthContext();
 
@@ -48,7 +46,7 @@ export default function Home() {
     <div className={styles.Home}>
       <div className={styles.MainBanner}>
         <div className={styles.MBNameLevelContainer}>
-          <p className={styles.MBName}>Rimuru Tempest</p>
+          <p className={styles.MBName}>{user.displayName}</p>
           <p className={styles.MBLevel}>{user.data.level}</p>
         </div>
         <hr />
@@ -64,7 +62,7 @@ export default function Home() {
         disabled={petted}
       >
         <img
-          src={selectedSlimePath}
+          src={user.data.slimePath}
           className={`${styles.characterIMG} ${petted
             ? animations[Math.floor(Math.random() * animations.length)]
             : ""

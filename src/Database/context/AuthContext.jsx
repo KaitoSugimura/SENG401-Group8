@@ -29,22 +29,32 @@ export const AuthContextProvider = ({ children }) => {
             gold: 1234,
             gems: 2,
             chestLastOpenedOn: firebase.firestore.Timestamp.fromMillis(Date.now() - 86400),
-            bannerFilepath: "/Account/Banners/Sky.jpg"
+            bannerFilepath: "/Account/Banners/Sky.jpg",
+            slimeType: "Normal",
+            slimeSkin: 3,
           });
         }
 
         // Subscribe to user data changes
         const unsubFirestore = userRef.onSnapshot((doc) => {
-          console.log({ ...user, data: doc.data() });
+          const data = doc.data();
+          const { slimeType, slimeSkin } = data;
+
           // Attach user data (level, gold, etc.) to data property of user
-          setUser({ ...user, data: doc.data() });
+          setUser({
+            ...user,
+            data: {
+              ...data,
+              slimePath: `assets/GameArt/${slimeType}Slime/${slimeType}Slime${slimeSkin}.svg`,
+            }
+          });
           setuserLoaded(true);
         })
 
         return unsubFirestore;
       } else {
-        setuserLoaded(true);
         setUser(null);
+        setuserLoaded(true);
       }
     });
 
@@ -52,6 +62,13 @@ export const AuthContextProvider = ({ children }) => {
       unsubAuth();
     }
   }, []);
+
+  // DEBUGGING
+  useEffect(() => {
+    if (user) {
+      console.log(user);
+    }
+  }, [user])
 
   return (
     <AuthContext.Provider value={{ user, userRef, userLoaded }}>

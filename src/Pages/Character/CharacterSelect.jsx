@@ -1,11 +1,11 @@
 import styles from "./Character.module.css";
-import { useEffect, useState } from "react";
-import { useCharacterAndThemeContext } from "../../Database/Hooks/useCharacterAndThemeContext";
+import { useState } from "react";
+import { useAuthContext } from "../../Database/Hooks/useAuthContext";
 
 const CharacterSelect = ({ characters, currentlySelectedChar, switchCharacter }) => {
+  const { userRef } = useAuthContext();
   const [hover, setHover] = useState(false);
-  const [selectedSlime, setSelectedSlime ] = useState(false);
-  const { setSlimeTypeAndSkin } = useCharacterAndThemeContext();
+  const [selectedSlime, setSelectedSlime] = useState(false);
   const unlockedStyle = {
     opacity: "1.0",
     filter: "grayscale(0%)",
@@ -28,7 +28,7 @@ const CharacterSelect = ({ characters, currentlySelectedChar, switchCharacter })
         <div className={styles.characterGrid}>
           {characters.map((character) => (
             <div
-              className={`${styles.character} ${character.type == currentlySelectedChar.type? styles.Selected : ""}`}
+              className={`${styles.character} ${character.type == currentlySelectedChar.type ? styles.Selected : ""}`}
               number={character.id}
               key={character.id}
               onClick={handleClick}
@@ -39,7 +39,7 @@ const CharacterSelect = ({ characters, currentlySelectedChar, switchCharacter })
                   character.type +
                   "Slime/" +
                   character.type +
-                  "Slime"+1+".svg"
+                  "Slime" + 1 + ".svg"
                 }
                 style={character.unlocked ? unlockedStyle : lockedStyle}
                 alt={character.type}
@@ -55,10 +55,13 @@ const CharacterSelect = ({ characters, currentlySelectedChar, switchCharacter })
           className={`${styles.selectionButton} ${selectedSlime ? styles.selectionButtonPressed : ""}`}
           onClick={() => {
             let skin = "unlocked";
-            if(currentlySelectedChar.skin===2) skin = "two";
-            else if(currentlySelectedChar.skin===3) skin= "three";
-            if(currentlySelectedChar.unlocked &&currentlySelectedChar[skin] && !selectedSlime){
-              setSlimeTypeAndSkin(currentlySelectedChar.type, currentlySelectedChar.skin);
+            if (currentlySelectedChar.skin === 2) skin = "two";
+            else if (currentlySelectedChar.skin === 3) skin = "three";
+            if (currentlySelectedChar.unlocked && currentlySelectedChar[skin] && !selectedSlime) {
+              userRef.update({
+                slimeType: currentlySelectedChar.type,
+                slimeSkin: currentlySelectedChar.skin,
+              })
               setSelectedSlime(true);
             }
           }}

@@ -1,0 +1,41 @@
+.roomPage{
+    box-sizing: border-box;
+    height: calc(100vh - 65px);
+    margin-top: 65px;
+    display: flex;
+    flex-direction: row;
+    background-image: linear-gradient(to bottom, #28313b 0%, #485461 60%);
+}
+
+.match{
+    width: 40vw;
+}
+
+.player{
+    width: 30vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.player h1{
+    font-size: 3.6rem;
+    color: silver;
+}
+
+.player h2{
+    font-size: 2.4rem;
+    color: silver;
+}
+
+.playerBox{
+    width: 50%;   
+}
+
+.playerBoximage{
+    width: 100%;
+    height: auto;
+    pointer-events: all;
+    object-fit: cover;
+}

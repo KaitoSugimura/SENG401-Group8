@@ -100,8 +100,8 @@ export default function Lobby({ setGameState }) {
 
       <div className={styles.lobbies}>
         <div className={styles.lobbySelect}>
-          {publicLobbyList && Object.values(publicLobbyList).map((OtherPerson) => (
-            <div className={styles.lobby}>
+          {publicLobbyList && Object.values(publicLobbyList).map((OtherPerson, index) => (
+            <div className={styles.lobby} key={index}>
 
               <div className={styles.gold} onClick={() => setGameState("Room")}>
                 <img src="assets/GameArt/Gold.png" alt="" />
@@ -118,8 +118,8 @@ export default function Lobby({ setGameState }) {
               </div>
             </div>
           ))}
-          {privateLobbyList&& Object.values(privateLobbyList).map((OtherPerson)=>(
-             <div className={styles.lobby}>
+          {privateLobbyList&& Object.values(privateLobbyList).map((OtherPerson, index)=>(
+             <div className={styles.lobby} key={index}>
 
              <div className={styles.gold} onClick={() => setGameState("Room")}>
                <img src="assets/GameArt/Gold.png" alt="" />

@@ -1,6 +1,7 @@
 .Lobbypage {
     box-sizing: border-box;
     margin-top: 65px;
+    height: calc(100vh - 65px);
     display: flex;
     flex-direction: row;
     background-image: linear-gradient(to bottom, #28313b 0%, #485461 60%);
@@ -8,7 +9,6 @@
 
 .Character{
     width: 40vw;
-    height: calc(100vh - 65px);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -38,6 +38,7 @@
 
 .lobbies{
     width: 60vw;
+    gap: 5%;
     height: calc(100vh - 65px);
     display: flex;
     flex-direction: column;
@@ -46,10 +47,8 @@
 }
 
 .lobbySelect{
-padding-top: 5%;
   width: 80%;
   height: 80%;
-  gap: 5%;
   overflow: scroll;
   height: 60vh;
   background-color: rgba(242, 242, 242, 0.37);
@@ -70,6 +69,7 @@ padding-top: 5%;
 .lobby{
     box-sizing: border-box;
     padding: 10px;
+    margin: 2%;
     width: 80%;
     height: 30%;
     border: 5px solid black;
@@ -77,10 +77,6 @@ padding-top: 5%;
     display: flex;
     align-items: center;
     gap: 7.5%;
-}
-
-.lobbyDetails{
-
 }
 
 .lobbyDetails h2{

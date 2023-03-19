@@ -7,8 +7,21 @@ export default function Lobby({setGameState}) {
   const {user}= useAuthContext();
 
   const [character,updateCharacter]=useState({
-    type: "Normal",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:true, id: 1
+    type: "Earth",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:true, 
   })
+
+  const [lobbyList, updateLobbies]=useState([
+    {name:"Lobby1", ownerID: 1234, ownerName: "MisterMan", ownerRank:2, private:true, password:1234, gold:1234, id:1},
+    {name:"Lobby2", ownerID: 1234, ownerName: "MisterMan", ownerRank:2, private:true, password:1234, gold:1234, id:2},
+    {name:"Lobby3", ownerID: 1234, ownerName: "MisterMan", ownerRank:2, private:true, password:1234, gold:1234, id:3},
+    {name:"Lobby4", ownerID: 1234, ownerName: "MisterMan", ownerRank:2, private:false, password:null, gold:1234, id:4},
+    {name:"Lobby5", ownerID: 1234, ownerName: "MisterMan", ownerRank:2, private:false, password:null, gold:1234, id:5},
+    {name:"Lobby6", ownerID: 1234, ownerName: "MisterMan", ownerRank:2, private:false, password:null, gold:1234, id:6},
+    {name:"Lobby7", ownerID: 1234, ownerName: "MisterMan", ownerRank:2, private:false, password:null, gold:1234, id:7},
+    {name:"Lobby8", ownerID: 1234, ownerName: "MisterMan", ownerRank:2, private:false, password:null, gold:1234, id:8},
+    {name:"Lobby9", ownerID: 1234, ownerName: "MisterMan", ownerRank:2, private:true, password:1234, gold:1234, id:9},
+    {name:"Lobby10", ownerID: 1234, ownerName: "MisterMan", ownerRank:2, private:true, password:1234, gold:1234, id:10}
+  ])
 
   const [imagePath, updateImagePath]=useState()
 
@@ -38,7 +51,15 @@ export default function Lobby({setGameState}) {
       </div>
 
       <div className={styles.Lobbies}>
-        <button onClick={() => setGameState("Room")}>Join Room</button>
+        <div className={styles.lobbySelect}>
+          {lobbyList.map((lobby)=>(
+            <div>
+              <button onClick={() => setGameState("Room")}>Join Room</button>
+            </div>
+          ))}
+          
+        </div>
+        
       </div>
       
     </div>

@@ -39,4 +39,24 @@
 .Lobbies{
     width: 60vw;
     height: calc(100vh - 65px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
+
+.lobbySelect{
+    width: 80%;
+overflow: scroll;
+  height: 65vh;
+  background-color: rgba(242, 242, 242, 0.37);
+  border: 10px solid black;
+
+}
+
+.lobbySelect::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+    background: transparent;
+    scroll-behavior: smooth;
+  }

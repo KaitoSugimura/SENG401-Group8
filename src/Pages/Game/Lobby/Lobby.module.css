@@ -56,7 +56,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  
 
 }
 
@@ -87,8 +86,10 @@
 }
 
 .lobbyDetails h3{
-    font-size: 1.2rem;
+    font-weight: 500;
+    font-size: 1.6rem;
     color: black;
+    text-align: start;
 }
 
 .goldInfo{

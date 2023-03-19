@@ -9,6 +9,7 @@
     gap: 5vh;
 } */
 
+
 .ButtonOverlay{
     position: fixed;
     top: 0;
@@ -25,12 +26,39 @@
     background-image: linear-gradient(to bottom, #28313b 0%, #485461 60%);
 }
 
+.mainCanvas{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: rgba(223, 236, 255, 0.726);
+}
+
+.self{
+    z-index: 10000;
+}
+.self img{
+    filter: drop-shadow(0px 0px 3px #ff0000);
+}
+
+.projectile{
+    position: absolute;
+    transform: translate(-50%,-50%);
+    transition: 0.032s linear;
+
+    background-color: red;
+    width: 2vw;
+    height: 2vw;
+    border-radius: 100%;
+    border: 2px solid #000;
+}
+
 .battleField{
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
-    background-color: #f2f6ff;
+    background-color:none;
     border: 5px solid #000;
 }
 
@@ -54,6 +82,13 @@
     transition: 0.032s linear;
 }
 
+.TestHitBoxPoints{
+    position: absolute;
+    transform: translate(-50%,-50%);
+    background-color: red;
+    width: 10px;
+    height: 10px;
+}
 
 .character[data-direction="right"] img{
     transform: scaleX(-1);

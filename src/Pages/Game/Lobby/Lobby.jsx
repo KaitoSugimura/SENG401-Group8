@@ -13,6 +13,7 @@ export default function Lobby({setGameState}) {
   const [publicLobbyList, setPublicLobbyList] = useState({});
   const [imagePath, updateImagePath]=useState();
 
+  let lobbyRef = projectDatabase.ref("lobby");
   let publicLobbyRef; 
 
   useEffect(()=>{
@@ -39,6 +40,7 @@ export default function Lobby({setGameState}) {
     publicLobbyRef = projectDatabase.ref(`lobby/public/${user.uid}`);
     publicLobbyRef.set({
       name: user.displayName,
+      rank: user.data.rank
     });
     publicLobbyRef.onDisconnect().remove();
   }
@@ -56,27 +58,48 @@ export default function Lobby({setGameState}) {
         <h2>Rank: {user.data.rank}</h2>
       </div>
 
-      <div className={styles.Lobbies}>
+      <div className={styles.lobbies}>
         <div className={styles.lobbySelect}>
           {publicLobbyList && Object.values(publicLobbyList).map((OtherPerson)=>(
-            <div>
-              <button onClick={() => setGameState("Room")}>{OtherPerson.name}</button>
+            <div className={styles.lobby}>
+              <div className={styles.lobbyDetails}>
+                <h2>{OtherPerson.name}</h2>
+                <h2>Rank:{OtherPerson.rank}</h2>
+              </div>
+              <div className={styles.gold} onClick={() => setGameState("Room")}>
+                <img src="assets/GameArt/Gold.png" alt="" />
+              </div>
+              <div className={styles.goldInfo}>
+                x{user.data.gold}
+              </div>
+              <div className={styles.selectRoomButton} onClick={() => setGameState("Room")}>
+                <img src="assets/GameArt/Locked.png" alt="" />
+              </div>
             </div>
           ))}
 
-          <div>
-              <button onClick={() => setGameState("Room")}>Fake</button>
-            </div>
+        <div className={styles.lobby}>
+          <div className={styles.lobbyDetails}>
+            <h2>Fake Name</h2>
+            <h2>Rank:0</h2>
+          </div>
+          <div className={styles.gold} onClick={() => setGameState("Room")}>
+            <img src="assets/GameArt/Gold.png" alt="" />
+          </div>
+          <div className={styles.goldInfo}>
+            x0
+          </div>
+          <div className={styles.selectRoomButton} onClick={() => setGameState("Room")}>
+            <img src="assets/GameArt/Locked.png" alt="" />
+          </div>
+        </div>
 
           {/* TEMP PLEASE DELETE */}
-          <button onClick={()=>{createPublicRoom()}} style={{
-              position: "absolute",
-              width: "50%",
-              bottom: "10px",
-              left: "40%",
-              fontSize: "36px"
-            }}>Temp Create Public Lobby Button</button>
           
+          
+        </div>
+        <div className={styles.createButton} onClick={()=>{createPublicRoom()}}>
+          Create Lobby
         </div>
         
       </div>

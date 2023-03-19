@@ -1,15 +1,42 @@
 import Player from "./Player";
 import styles from "./Room.module.css";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import { AuthContext } from "../../../Database/context/AuthContext";
 
 export default function Room({setGameState}) {
   const { user } = useContext(AuthContext);
+  const battleFieldWidth = useRef(50); 
+  const battleFieldHeight = useRef(28.125);
+
+  useEffect(()=>{
+    battleFieldWidth.current = 50;
+    battleFieldHeight.current = 28.125;
+    const ratio = (window.innerHeight - 65) / window.innerWidth;
+    if (ratio < 0.5625) {
+      battleFieldWidth.current = battleFieldWidth.current * (ratio / 0.5625);
+      battleFieldHeight.current = battleFieldWidth.current * 0.5625;
+    }
+  }, [window.innerWidth, window.innerHeight]);
+
   return (
     <div className={styles.roomPage}>
       <Player number={1} user={user}></Player>
       <div className={styles.match}>
-        <button onClick={() => setGameState("Battle")}>Start Battle</button>
+        <div className={styles.map}
+        style={{width:battleFieldWidth.current + "vw",height: battleFieldHeight.current + "vw",}}>
+          <img src="" alt="" /> 
+          {/* ADD MAP IMAGE HERE! */}
+        </div>
+        <div className={styles.goldContainer}>
+          <div className={styles.mapName}>Slime Meadows</div>
+          <div className={styles.goldImage}><img src="assets/GameArt/Gold.png" alt="" /></div>
+          <div className={styles.goldText}>x{user.data.gold}</div>
+        </div>
+        <div className={styles.buttonContainer}>
+          <div className={styles.selectionButton} onClick={()=>setGameState("Battle")}><img src="assets/GameArt/PlayButton.png" alt="" /></div>
+          <div className={styles.selectionButton} onClick={()=>setGameState("Lobby")}><img src="assets/GameArt/RestartButton.png" alt="" /></div>
+        </div>
+        
       </div>
       <Player number={2} user={user}></Player>
     </div>

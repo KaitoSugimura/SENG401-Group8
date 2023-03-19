@@ -9,7 +9,73 @@
 
 .match{
     width: 40vw;
+    padding: 2%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 2%;
 }
+
+.map{
+    background-color: darkgray;
+    border: solid 7.5px black;
+    border-radius: 5px;
+}
+
+.mapName{
+    margin: 2%;
+    padding: 2%;
+    border-radius: 5px;
+    font-size: 2.2rem;
+    color: silver;
+}
+
+.goldContainer{
+    display: flex;
+    width: 90%;
+    height: 15%;
+    flex-direction: row;
+    justify-content: center;
+    gap: 2%;
+    background-color: black;
+    padding: 2%;
+    border: solid 2px silver;
+    border-radius: 10px;
+}
+
+
+.goldImage img{
+    height: 100%;
+    width: auto;
+    object-fit: cover;
+}
+
+.goldText{
+    color: gold;
+    font-weight: bold;
+    font-size: 3.0rem;
+}
+
+.buttonContainer{
+    display: flex;
+    width: 90%;
+    height: 20%;
+    flex-direction: row;
+    justify-content: center;
+    gap: 2%;
+}
+
+.selectionButton img{
+    height: 100%;
+    width: auto;
+    pointer-events: all;
+    cursor: pointer;
+}
+.selectionButton:hover{
+    transform: scale(1.1);
+}
+
+
 
 .player{
     width: 30vw;
@@ -22,6 +88,7 @@
 .player h1{
     font-size: 3.6rem;
     color: silver;
+    margin-bottom: 2%;
 }
 
 .player h2{

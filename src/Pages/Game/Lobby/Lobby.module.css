@@ -1,6 +1,7 @@
 .Lobbypage {
     box-sizing: border-box;
     margin-top: 65px;
+    height: calc(100vh - 65px);
     display: flex;
     flex-direction: row;
     background-image: linear-gradient(to bottom, #28313b 0%, #485461 60%);
@@ -8,7 +9,6 @@
 
 .Character{
     width: 40vw;
-    height: calc(100vh - 65px);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -78,10 +78,6 @@
     display: flex;
     align-items: center;
     gap: 7.5%;
-}
-
-.lobbyDetails{
-
 }
 
 .lobbyDetails h2{

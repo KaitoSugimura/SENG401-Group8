@@ -7,7 +7,7 @@ export const AuthContext = createContext();
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [userRef, setUserRef] = useState(null);
-  const [userLoaded, setuserLoaded] = useState(false);
+  const [userLoaded, setUserLoaded] = useState(false);
 
   useEffect(() => {
     const unsubAuth = projectAuth.onAuthStateChanged(async (user) => {
@@ -48,19 +48,17 @@ export const AuthContextProvider = ({ children }) => {
               slimePath: `assets/GameArt/${slimeType}Slime/${slimeType}Slime${slimeSkin}.svg`,
             }
           });
-          setuserLoaded(true);
+          setUserLoaded(true);
         })
 
         return unsubFirestore;
       } else {
         setUser(null);
-        setuserLoaded(true);
+        setUserLoaded(true);
       }
     });
 
-    return () => {
-      unsubAuth();
-    }
+    return unsubAuth;
   }, []);
 
   // DEBUGGING

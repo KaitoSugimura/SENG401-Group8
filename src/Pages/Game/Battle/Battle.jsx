@@ -24,6 +24,14 @@ export default function Battle({ setGameState }) {
     playerRef = projectDatabase.ref(`players/${playerId}`);
   }
 
+  // Calculate battle field dimensions
+  // (window.innerHeight - 65)/window.innerWidth
+
+  // if(window.innerWidth*0.5625)
+
+  const battleFieldWidth = 71;
+  const battleFieldHeight = 40;
+
   const handleKeyPress = 
     (xChange = 0, yChange = 0) => {
       if (xChange != 0 || yChange != 0) {
@@ -41,6 +49,10 @@ export default function Battle({ setGameState }) {
         } else if (xChange < 0) {
           p.direction = "left";
         }
+
+        p.left = Math.min(Math.max(p.left, 0), battleFieldWidth);
+        p.top = Math.min(Math.max(p.top, 0), battleFieldHeight);
+
         playerRef.set(p);
         self.current = p;  
         ss({...p});                            ` `
@@ -61,6 +73,7 @@ export default function Battle({ setGameState }) {
     playerRef.onDisconnect().remove();
 
     self.current = { top: 0, left: 0, direction: "right", name: user.displayName };
+    ss(self.current);
   }, []);
 
   useEffect(() => {
@@ -160,7 +173,12 @@ export default function Battle({ setGameState }) {
         >
           End Battle
         </button>
-        <div className={styles.battleField}>
+        <div className={styles.battleField}
+        style={{
+          width: battleFieldWidth + "vw",
+          height: battleFieldHeight + "vw",
+        }}
+        >
           <div
             className={styles.character}
             style={{

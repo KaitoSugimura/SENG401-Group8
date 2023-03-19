@@ -21,11 +21,11 @@
 
 .battleField{
     position: fixed;
-    top: 60%;
+    top: calc(50%);
     left: 50%;
     transform: translate(-50%,-50%);
     width: 70vw;
-    height: 60vh;
+    height: 40vw;
     background-color: #ffe0e0;
 }
 

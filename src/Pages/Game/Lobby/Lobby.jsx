@@ -1,29 +1,20 @@
 import { useEffect, useState } from "react";
 import styles from "./Lobby.module.css";
 import {useAuthContext} from "../../../Database/Hooks/useAuthContext"
+import { projectDatabase } from "../../../Database/firebase/config";
 
 export default function Lobby({setGameState}) {
 
   const {user}= useAuthContext();
-
   const [character,updateCharacter]=useState({
     type: "Earth",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:true, 
   })
 
-  const [lobbyList, updateLobbies]=useState([
-    {name:"Lobby1", ownerID: 1234, ownerName: "MisterMan", ownerRank:2, private:true, password:1234, gold:1234, id:1},
-    {name:"Lobby2", ownerID: 1234, ownerName: "MisterMan", ownerRank:2, private:true, password:1234, gold:1234, id:2},
-    {name:"Lobby3", ownerID: 1234, ownerName: "MisterMan", ownerRank:2, private:true, password:1234, gold:1234, id:3},
-    {name:"Lobby4", ownerID: 1234, ownerName: "MisterMan", ownerRank:2, private:false, password:null, gold:1234, id:4},
-    {name:"Lobby5", ownerID: 1234, ownerName: "MisterMan", ownerRank:2, private:false, password:null, gold:1234, id:5},
-    {name:"Lobby6", ownerID: 1234, ownerName: "MisterMan", ownerRank:2, private:false, password:null, gold:1234, id:6},
-    {name:"Lobby7", ownerID: 1234, ownerName: "MisterMan", ownerRank:2, private:false, password:null, gold:1234, id:7},
-    {name:"Lobby8", ownerID: 1234, ownerName: "MisterMan", ownerRank:2, private:false, password:null, gold:1234, id:8},
-    {name:"Lobby9", ownerID: 1234, ownerName: "MisterMan", ownerRank:2, private:true, password:1234, gold:1234, id:9},
-    {name:"Lobby10", ownerID: 1234, ownerName: "MisterMan", ownerRank:2, private:true, password:1234, gold:1234, id:10}
-  ])
+  const [publicLobbyList, setPublicLobbyList] = useState({});
+  const [imagePath, updateImagePath]=useState();
 
-  const [imagePath, updateImagePath]=useState()
+  let lobbyRef = projectDatabase.ref("lobby");
+  let publicLobbyRef; 
 
   useEffect(()=>{
     updateImagePath(
@@ -36,6 +27,22 @@ export default function Lobby({setGameState}) {
     ".gif")
 
   }, [character])
+
+  useEffect(() => {
+    const publicLobbyRef = projectDatabase.ref("lobby/public");
+    publicLobbyRef.on("value", (snapshot) => {
+      setPublicLobbyList(snapshot.val());
+    });
+  }, []);
+
+  const createPublicRoom = () => {
+    console.log("AAAAAAAA", user.id);
+    publicLobbyRef = projectDatabase.ref(`lobby/public/${user.uid}`);
+    publicLobbyRef.set({
+      name: user.displayName,
+    });
+    publicLobbyRef.onDisconnect().remove();
+  }
 
 
   return (
@@ -52,11 +59,24 @@ export default function Lobby({setGameState}) {
 
       <div className={styles.Lobbies}>
         <div className={styles.lobbySelect}>
-          {lobbyList.map((lobby)=>(
+          {publicLobbyList && Object.values(publicLobbyList).map((OtherPerson)=>(
             <div>
-              <button onClick={() => setGameState("Room")}>Join Room</button>
+              <button onClick={() => setGameState("Room")}>{OtherPerson.name}</button>
             </div>
           ))}
+
+          <div>
+              <button onClick={() => setGameState("Room")}>Fake</button>
+            </div>
+
+          {/* TEMP PLEASE DELETE */}
+          <button onClick={()=>{createPublicRoom()}} style={{
+              position: "absolute",
+              width: "50%",
+              bottom: "10px",
+              left: "40%",
+              fontSize: "36px"
+            }}>Temp Create Public Lobby Button</button>
           
         </div>
         

@@ -5,12 +5,12 @@ import { AuthContext } from "../../../Database/context/AuthContext";
 
 export default function Room({setGameState}) {
   const { user } = useContext(AuthContext);
-  const battleFieldWidth = useRef(16); 
-  const battleFieldHeight = useRef(9);
+  const battleFieldWidth = useRef(48); 
+  const battleFieldHeight = useRef(27);
 
   useEffect(()=>{
-    battleFieldWidth.current = 16;
-    battleFieldHeight.current = 9;
+    battleFieldWidth.current = 48;
+    battleFieldHeight.current = 27;
     const ratio = (window.innerHeight - 65) / window.innerWidth;
     if (ratio < 0.5625) {
       battleFieldWidth.current = battleFieldWidth.current * (ratio / 0.5625);

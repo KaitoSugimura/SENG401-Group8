@@ -46,7 +46,10 @@
 }
 
 .lobbySelect{
+padding-top: 5%;
   width: 80%;
+  height: 80%;
+  gap: 5%;
   overflow: scroll;
   height: 60vh;
   background-color: rgba(242, 242, 242, 0.37);
@@ -54,7 +57,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  
 
 }
 
@@ -65,8 +68,7 @@
     scroll-behavior: smooth;
   }
 
-  .lobby{
-    margin: 5%;
+.lobby{
     box-sizing: border-box;
     padding: 10px;
     width: 80%;
@@ -75,61 +77,90 @@
     background-color:rgba(242, 242, 242, 0.37); 
     display: flex;
     align-items: center;
-    gap: 5%;
-  }
+    gap: 7.5%;
+}
 
-  .lobbyDetails{
+.lobbyDetails{
 
-  }
+}
 
-  .lobbyDetails h2{
-        font-size: 2.4rem;
-        color: black;
-    
-  }
+.lobbyDetails h2{
+    font-weight: 650;
+    font-size: 2.4rem;
+    color: black;
+}
 
-  .goldInfo{
-    color: gold;
-  }
+.lobbyDetails h3{
+    font-size: 1.2rem;
+    color: black;
+}
 
-  .gold{
-    width: 10%;
-  }
+.goldInfo{
+color: gold;
+font-weight: bold;
+font-size: 2.4rem;
+}
 
-  .gold img{
-    width: 100%;
-    height: auto;
-    pointer-events: all;
-    object-fit: cover;
+.gold{
+width: 13%;
+}
 
-  }
+.gold img{
+width: 100%;
+height: auto;
+pointer-events: all;
+object-fit: cover;
 
-  .selectRoomButton{
-    width: 15%;
-    margin-left: auto;
-    display: block;
-  }
+}
 
-  .selectRoomButton:hover{
-    transform: scale(110%);
-    cursor: pointer;
-  }
+.selectRoomButton{
+width: 15%;
+margin-left: auto;
+display: block;
+}
 
-  .selectRoomButton img{
-    width: 100%;
-    height: auto;
-    pointer-events: all;
-    object-fit: cover;
-  }
+.selectRoomButton:hover{
+transform: scale(110%);
+cursor: pointer;
+}
 
-  .createButton:last-child{
+.selectRoomButton img{
+width: 100%;
+height: auto;
+pointer-events: all;
+object-fit: cover;
+}
+
+.createButton:last-child{
+width: 50%;
+margin: 25px;
+background-color: rgba(242, 242, 242, 0.37);
+border: 5px solid black;
+}
+
+.createButton:hover{
+transform: scale(110%);
+cursor: pointer;
+}
+
+.createOptions{
+    box-sizing: border-box;
     width: 50%;
     margin: 25px;
-    background-color: rgba(242, 242, 242, 0.37);
-    border: 5px solid black;
-  }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.createOption{
+    width: 20%;
+}
 
-  .createButton:hover{
+.createOption:hover{
     transform: scale(110%);
     cursor: pointer;
-  }
+    }
+
+.createOption img{
+    width: 100%;
+    height:auto;
+}

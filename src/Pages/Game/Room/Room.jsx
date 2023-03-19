@@ -28,9 +28,9 @@ export default function Room({setGameState}) {
           {/* ADD MAP IMAGE HERE! */}
         </div>
         <div className={styles.goldContainer}>
-          <div className={styles.mapName}>Slime Meadows</div>
+          <p className={styles.mapName}>Slime Meadows</p>
           <div className={styles.goldImage}><img src="assets/GameArt/Gold.png" alt="" /></div>
-          <div className={styles.goldText}>x{user.data.gold}</div>
+          <p className={styles.goldText}>x{user.data.gold}</p>
         </div>
         <div className={styles.buttonContainer}>
           <div className={styles.selectionButton} onClick={()=>setGameState("Battle")}><img src="assets/GameArt/PlayButton.png" alt="" /></div>

@@ -58,15 +58,31 @@ export default function Lobby({ setGameState }) {
   }
 
   const createPrivateRoom = () => {
-    console.log("AAAAAAAA", user.id);
+    let password = window.prompt("Please enter room password.");
     privateLobbyRef = projectDatabase.ref(`lobby/private/${user.uid}`);
     privateLobbyRef.set({
+      uid: user.uid,
       name: user.displayName,
       rank: user.data.rank,
-      password: 1234
+      password: password
     });
     privateLobbyRef.onDisconnect().remove();
     setcreateRoomOptions(false);
+  }
+
+  const enterPrivateRoom=(uid)=>{
+    let ogpass;
+    privateLobbyRef = projectDatabase.ref('lobby/private/'+uid);
+    privateLobbyRef.on('value', (snapshot)=>{
+      ogpass = snapshot.val().password;
+      console.log(snapshot.val().password);
+    }, (errorObject)=>{
+      console.log("The read failed: "+errorObject.name);
+    })
+    let password = window.prompt("Please enter room password.");
+    if(ogpass===password){
+      setGameState("Room");
+    }
   }
 
 
@@ -98,9 +114,29 @@ export default function Lobby({ setGameState }) {
                 <h3>Rank:{OtherPerson.rank}</h3>
               </div>
               <div className={styles.selectRoomButton} onClick={() => setGameState("Room")}>
-                <img src="assets/GameArt/Locked.png" alt="" />
+                <img src="assets/GameArt/Door.png" alt="" />
               </div>
             </div>
+          ))}
+          {privateLobbyList&& Object.values(privateLobbyList).map((OtherPerson)=>(
+             <div className={styles.lobby}>
+
+             <div className={styles.gold} onClick={() => setGameState("Room")}>
+               <img src="assets/GameArt/Gold.png" alt="" />
+             </div>
+             <div className={styles.goldInfo}>
+               x{user.data.gold}
+             </div>
+             <div className={styles.lobbyDetails}>
+               <h2>{OtherPerson.name}</h2>
+               <h3>Rank:{OtherPerson.rank}</h3>
+             </div>
+             <div className={styles.selectRoomButton} onClick={(e) => {
+              enterPrivateRoom(OtherPerson.uid.toString());
+             }}>
+               <img src="assets/GameArt/Locked.png" alt="" />
+             </div>
+           </div>
           ))}
 
           <div className={styles.lobby}>
@@ -115,7 +151,7 @@ export default function Lobby({ setGameState }) {
               <h3>Rank:0</h3>
             </div>
             <div className={styles.selectRoomButton} onClick={() => setGameState("Room")}>
-              <img src="assets/GameArt/Locked.png" alt="" />
+              <img src="assets/GameArt/Door.png" alt="" />
             </div>
           </div>
 
@@ -127,11 +163,11 @@ export default function Lobby({ setGameState }) {
           Create Lobby
         </div>}
         {createRoomOptions && <div className={styles.createOptions}>
-          <div className={styles.createOption} onClick={() => createPublicRoom()}>
+          <div className={styles.createOption} onClick={() => createPrivateRoom()}>
             <img src="assets/GameArt/Locked.png" alt="" />
           </div>
           <div className={styles.createOption} onClick={() => createPublicRoom()}>
-            <img src="assets/GameArt/Locked.png" alt="" />
+            <img src="assets/GameArt/Door.png" alt="" />
           </div>
         </div>}
 

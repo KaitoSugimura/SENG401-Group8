@@ -10,10 +10,14 @@ export default function Lobby({setGameState}) {
     type: "Earth",skin:1, unlocked: true,power:3,speed:3,health:3,two:false,three:true, 
   })
 
+  const [createRoomOptions, setcreateRoomOptions]=useState(false);
   const [publicLobbyList, setPublicLobbyList] = useState({});
+  const [privateLobbyList, setPrivateLobbyList] = useState({});
   const [imagePath, updateImagePath]=useState();
 
-  let publicLobbyRef; 
+  let lobbyRef = projectDatabase.ref("lobby");
+  let publicLobbyRef;
+  let privateLobbyRef;
 
   useEffect(()=>{
     updateImagePath(
@@ -32,15 +36,37 @@ export default function Lobby({setGameState}) {
     publicLobbyRef.on("value", (snapshot) => {
       setPublicLobbyList(snapshot.val());
     });
+    const privateLobbyRef = projectDatabase.ref("lobby/private");
+    privateLobbyRef.on("value", (snapshot)=>{
+      setPrivateLobbyList(snapshot.val());
+    })
   }, []);
+
+  const showRoomOptions=()=>{
+    setcreateRoomOptions(true);
+  }
 
   const createPublicRoom = () => {
     console.log("AAAAAAAA", user.id);
     publicLobbyRef = projectDatabase.ref(`lobby/public/${user.uid}`);
     publicLobbyRef.set({
       name: user.displayName,
+      rank: user.data.rank
     });
     publicLobbyRef.onDisconnect().remove();
+    setcreateRoomOptions(false);
+  }
+
+  const createPrivateRoom = () => {
+    console.log("AAAAAAAA", user.id);
+    privateLobbyRef = projectDatabase.ref(`lobby/private/${user.uid}`);
+    privateLobbyRef.set({
+      name: user.displayName,
+      rank: user.data.rank,
+      password: 1234
+    });
+    privateLobbyRef.onDisconnect().remove();
+    setcreateRoomOptions(false);
   }
 
 
@@ -56,28 +82,58 @@ export default function Lobby({setGameState}) {
         <h2>Rank: {user.data.rank}</h2>
       </div>
 
-      <div className={styles.Lobbies}>
+      <div className={styles.lobbies}>
         <div className={styles.lobbySelect}>
           {publicLobbyList && Object.values(publicLobbyList).map((OtherPerson)=>(
-            <div>
-              <button onClick={() => setGameState("Room")}>{OtherPerson.name}</button>
+            <div className={styles.lobby}>
+              
+              <div className={styles.gold} onClick={() => setGameState("Room")}>
+                <img src="assets/GameArt/Gold.png" alt="" />
+              </div>
+              <div className={styles.goldInfo}>
+                x{user.data.gold}
+              </div>
+              <div className={styles.lobbyDetails}>
+                <h2>{OtherPerson.name}</h2>
+                <h3>Rank:{OtherPerson.rank}</h3>
+              </div>
+              <div className={styles.selectRoomButton} onClick={() => setGameState("Room")}>
+                <img src="assets/GameArt/Locked.png" alt="" />
+              </div>
             </div>
           ))}
 
-          <div>
-              <button onClick={() => setGameState("Room")}>Fake</button>
-            </div>
+        <div className={styles.lobby}>
+          <div className={styles.gold} onClick={() => setGameState("Room")}>
+            <img src="assets/GameArt/Gold.png" alt="" />
+          </div>
+          <div className={styles.goldInfo}>
+            x0
+          </div>
+          <div className={styles.lobbyDetails}>
+            <h2>Fake Name</h2>
+            <h3>Rank:0</h3>
+          </div>
+          <div className={styles.selectRoomButton} onClick={() => setGameState("Room")}>
+            <img src="assets/GameArt/Locked.png" alt="" />
+          </div>
+        </div>
 
           {/* TEMP PLEASE DELETE */}
-          <button onClick={()=>{createPublicRoom()}} style={{
-              position: "absolute",
-              width: "50%",
-              bottom: "10px",
-              left: "40%",
-              fontSize: "36px"
-            }}>Temp Create Public Lobby Button</button>
+          
           
         </div>
+        {!createRoomOptions&&<div className={styles.createButton} onClick={()=>{showRoomOptions()}}>
+          Create Lobby
+        </div>}
+        {createRoomOptions&&<div className={styles.createOptions}>
+          <div className={styles.createOption} onClick={()=>createPublicRoom()}>
+            <img src="assets/GameArt/Locked.png" alt="" />
+          </div>
+          <div className={styles.createOption} onClick={()=>createPublicRoom()}>
+            <img src="assets/GameArt/Locked.png" alt="" />
+          </div>
+        </div>}
         
       </div>
       

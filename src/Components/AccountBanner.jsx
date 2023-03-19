@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useAuthContext } from "../Database/Hooks/useAuthContext";
+import { useContext, useState } from "react";
+import { AuthContext } from "../Database/context/AuthContext";
 import { useLogout } from "../Database/Hooks/useLogout";
 import styles from "./AccountBanner.module.css"
 import banner from "/Account/Banners/Sky.jpg"
@@ -7,7 +7,7 @@ import banner from "/Account/Banners/Sky.jpg"
 
 export default function AccountBanner({ setShowBanner }) {
   const { logout } = useLogout();
-  const { user } = useAuthContext();
+  const { user } = useContext(AuthContext);
   const [bSelectionOn, setBSelectionOn] = useState(false);
 
   return (

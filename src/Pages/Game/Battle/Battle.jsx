@@ -1,11 +1,11 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { AuthContext } from "../../../Database/context/AuthContext";
 import { projectDatabase } from "../../../Database/firebase/config";
-import { useAuthContext } from "../../../Database/Hooks/useAuthContext";
 import styles from "./Battle.module.css";
 import slime from "/assets/GameArt/IceSlime/IceSlime1.gif";
 
 export default function Battle({ setGameState }) {
-  const { user } = useAuthContext();
+  const { user } = useContext(AuthContext);
   const self = useRef({});
   const [s, ss] = useState({});
   const [enemy, setEnemy] = useState(null);

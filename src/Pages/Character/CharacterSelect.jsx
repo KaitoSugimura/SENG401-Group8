@@ -1,9 +1,9 @@
 import styles from "./Character.module.css";
-import { useState } from "react";
-import { useAuthContext } from "../../Database/Hooks/useAuthContext";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../Database/context/AuthContext";
 
 const CharacterSelect = ({ characters, currentlySelectedChar, switchCharacter }) => {
-  const { userRef } = useAuthContext();
+  const { userRef } = useContext(AuthContext);
   const [hover, setHover] = useState(false);
   const [selectedSlime, setSelectedSlime] = useState(false);
   const unlockedStyle = {

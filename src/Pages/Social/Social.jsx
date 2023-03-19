@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
-import { useAuthContext } from "../../Database/Hooks/useAuthContext";
+import { AuthContext } from "../../Database/context/AuthContext";
 import styles from "./Social.module.css";
 
 // const ENDPOINT = "http://localhost:5000";
@@ -8,7 +8,7 @@ const ENDPOINT = "https://seng-401-server.onrender.com";
 const socket = io(ENDPOINT);
 
 export default function Social() {
-  const { user } = useAuthContext();
+  const { user } = useContext(AuthContext);
   const [selectedChat, setSelectedChat] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
   const [friends, setFriends] = useState([]);

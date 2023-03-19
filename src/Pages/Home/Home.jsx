@@ -3,9 +3,9 @@ import animation from "./HomeSlimeAnimations.module.css";
 import chestOpen from "/assets/HomeIcons/chestOpen.png";
 import chestClosed from "/assets/HomeIcons/chestClosed.png";
 import achievement from "/assets/HomeIcons/achievement.png";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuthContext } from "../../Database/Hooks/useAuthContext";
+import { AuthContext } from "../../Database/context/AuthContext";
 
 const particleAmount = 60;
 const rows = [];
@@ -40,7 +40,7 @@ export default function Home() {
   const [chestState, setChestState] = useState(false);
   const [petted, setPetted] = useState(false);
   const navigate = useNavigate();
-  const { user } = useAuthContext();
+  const { user } = useContext(AuthContext);
 
   return (
     <div className={styles.Home}>

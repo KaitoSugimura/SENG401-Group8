@@ -1,7 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useContext, useEffect, useRef } from "react";
 import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { useAuthContext } from "../Database/Hooks/useAuthContext";
 import AccountBanner from "./AccountBanner";
 import styles from "./Nav.module.css";
 import HomeBGM from "/Sound/Home.mp3";
@@ -9,6 +8,7 @@ import ShopBGM from "/Sound/Shop.mp3";
 import CharacterBGM from "/Sound/Character.mp3";
 import SocialBGM from "/Sound/Social.mp3";
 import GameBGM from "/Sound/Game.mp3";
+import { AuthContext } from "../Database/context/AuthContext";
 
 export default function Nav() {
   const locationPath = useLocation().pathname;
@@ -17,7 +17,7 @@ export default function Nav() {
   const [musicVolume, setMusicVolume] = useState(0); // Turned off music vol for now
   const [originalMusicVolMultiplier, setOriginalMusicVolMultiplier] =
     useState(1);
-  const { user } = useAuthContext();
+  const { user } = useContext(AuthContext);
   const acctBanner = useRef(null);
 
   const audioRef = useRef();

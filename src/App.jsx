@@ -14,10 +14,11 @@ import Social from "./Pages/Social/Social";
 import Nav from "./Components/Nav";
 import Signup from "./Pages/Authentication/Signup";
 import Login from "./Pages/Authentication/Login";
-import { useAuthContext } from "./Database/Hooks/useAuthContext";
+import { useContext } from "react";
+import { AuthContext } from "./Database/context/AuthContext";
 
 const RootLayout = () => {
-  const { userLoaded } = useAuthContext();
+  const { userLoaded } = useContext(AuthContext);
   return (
     <div className="root-layout">
       {userLoaded && (
@@ -31,7 +32,7 @@ const RootLayout = () => {
 };
 
 function App() {
-  const { user } = useAuthContext();
+  const { user } = useContext(AuthContext);
   const router = createHashRouter(
     createRoutesFromElements(
       <Route path="/" element={<RootLayout />}>

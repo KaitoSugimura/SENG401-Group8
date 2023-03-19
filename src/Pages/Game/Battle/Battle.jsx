@@ -1,23 +1,38 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../../Database/context/AuthContext";
 import { projectDatabase } from "../../../Database/firebase/config";
+import BallMovement from "./BallMovement";
 import styles from "./Battle.module.css";
+import data from "./Util/data";
+import WallCollisionHandle from "./Util/WallCollisionHandle";
 import slime from "/assets/GameArt/IceSlime/IceSlime1.gif";
 
 export default function Battle({ setGameState }) {
   const { user } = useContext(AuthContext);
   const self = useRef({});
-  const [s, ss] = useState({});
-  const [enemy, setEnemy] = useState(null);
+  const enemy = useRef(null);
+  const [reRender, Render] = useState({});
 
   const up = useRef(false);
   const left = useRef(false);
   const down = useRef(false);
   const right = useRef(false);
+
   const intervalRef = useRef(null);
 
   const battleFieldWidth = useRef(90); // If these numbers are to be changed, change in the useEffect below
   const battleFieldHeight = useRef(50.625);
+
+  const projectile = useRef({
+    x: 6,
+    y: 4,
+    dx: 1,
+    dy: 1,
+    rad: 1,
+    speed: 30,
+  });
+
+  const canvasRef = useRef(null);
 
   let playerId;
   let playerRef;
@@ -41,7 +56,8 @@ export default function Battle({ setGameState }) {
   }, [window.innerWidth, window.innerHeight]);
 
   const handleKeyPress = (xChange = 0, yChange = 0) => {
-    if (xChange != 0 || yChange != 0) {
+    //xChange != 0 || yChange != 0
+    if (true) {
       const p = self.current;
       if (xChange != 0 && yChange != 0) {
         p.left = p.left + xChange * 1;
@@ -60,31 +76,33 @@ export default function Battle({ setGameState }) {
       p.left = Math.min(Math.max(p.left, 2.1), battleFieldWidth.current - 2.5);
       p.top = Math.min(Math.max(p.top, 1.2), battleFieldHeight.current - 2);
 
-      playerRef.set(p);
       self.current = p;
-      ss({ ...p });
-      ` `;
+
+      if(projectile.current.x <= self.current.left + 2.5 
+        && projectile.current.x >= self.current.left - 2.5
+        && projectile.current.y <= self.current.top + 2.5
+        && projectile.current.y >= self.current.top - 2.5){
+        self.current.top = 1.2;
+        self.current.left = 2.1;
+      }
+
+      playerRef.set({...self.current, left: self.current.left/battleFieldWidth.current, top: self.current.top/battleFieldHeight.current});
     }
   };
 
   useEffect(() => {
     // Initialize game
-    playerRef.set({
-      id: playerId,
-      name: user.displayName,
-      direction: "right",
-      top: 1.2,
-      left: 2.1,
-    });
-    playerRef.onDisconnect().remove();
-
     self.current = {
       top: 1.2,
       left: 2.1,
       direction: "right",
       name: user.displayName,
     };
-    ss(self.current);
+
+    playerRef.set({...self.current, left: self.current.left/battleFieldWidth.current, top: self.current.top/battleFieldHeight.current});
+    playerRef.onDisconnect().remove();
+
+    Render(Date.now());
   }, []);
 
   useEffect(() => {
@@ -99,7 +117,9 @@ export default function Battle({ setGameState }) {
               `players/${otherPlayerId}`
             );
             otherPlayersRef.on("value", (otherSnapshot) => {
-              setEnemy(otherSnapshot.val());
+              const p = otherSnapshot.val();   
+              if(p === null) enemy.current = null;
+              else enemy.current = {...p, left: p.left*battleFieldWidth.current, top: p.top*battleFieldHeight.current};
             });
           }
         });
@@ -159,12 +179,58 @@ export default function Battle({ setGameState }) {
       dx += speed;
     }
     handleKeyPress(dx, dy);
+    projectile.current.x += projectile.current.dx;
+    projectile.current.y += projectile.current.dy;
+
+    if(projectile.current.y - projectile.current.rad <= 0 || projectile.current.y + projectile.current.rad >= battleFieldHeight.current){
+      projectile.current.dy *= -1;
+    }
+    if(projectile.current.x - projectile.current.rad <= 0 || projectile.current.x + projectile.current.rad >= battleFieldWidth.current){
+      projectile.current.dx *= -1;
+    }
+    Render(Date.now());
   }, []);
 
   useEffect(() => {
     intervalRef.current = setInterval(moveCharacter, 32); // Update position every 32ms
     return () => clearInterval(intervalRef.current);
   }, [moveCharacter]);
+
+  // useEffect(() => {
+    
+  //   //Render graphics
+  //   const render = () => {
+  //     const currentTime = Date.now();
+  //     const timeDiff = currentTime - lastUpdateTime.current;
+  //     const deltaTime = timeDiff / 1000;
+
+  //     console.log(timeDiff);
+
+  //     if (timeDiff > 25) {
+  //       moveCharacter();
+  //       lastUpdateTime.current = currentTime;
+  //     }
+
+  //     const canvas = canvasRef.current;
+  //     const rect = canvas.getBoundingClientRect();
+  //     const context = canvas.getContext("2d");
+  //     context.clearRect(0, 0, rect.width, rect.height); // Reset canvas
+  //     var dpr = window.devicePixelRatio || 1;
+  //     canvas.width = rect.width * dpr;
+  //     canvas.height = rect.height * dpr;
+  //     context.scale(dpr, dpr);
+
+  //     let { ballObj } = data;
+
+  //     BallMovement(context, ballObj);
+
+  //     WallCollisionHandle(ballObj, rect);
+
+  //     requestAnimationFrame(render);
+  //   };
+
+  //   render();
+  // }, []);
 
   return (
     <div
@@ -185,6 +251,15 @@ export default function Battle({ setGameState }) {
           End Battle
         </button>
         <div className={styles.battleFieldContainer}>
+          
+          <canvas
+            className={styles.mainCanvas}
+            ref={canvasRef}
+            style={{
+              width: battleFieldWidth.current + "vw",
+              height: battleFieldHeight.current + "vw",
+            }}
+          ></canvas>
           <div
             className={styles.battleField}
             style={{
@@ -192,28 +267,55 @@ export default function Battle({ setGameState }) {
               height: battleFieldHeight.current + "vw",
             }}
           >
+            {/* PROJECTILES START */}
+            <div className={styles.projectile}
+          style={{
+              top: projectile.current.y + "vw",
+              left: projectile.current.x + "vw",
+            }}
+            ></div>
+            {/* PROJECTILES END */}
+            {/* TEMP HIT BOX POINTS */}
+            <span className={styles.TestHitBoxPoints} style={{
+                top: self.current.top + 2 + "vw",
+                left: self.current.left + "vw",
+              }}></span>
+              <span className={styles.TestHitBoxPoints} style={{
+                top: self.current.top -2 + "vw",
+                left: self.current.left + "vw",
+              }}></span>
+              <span className={styles.TestHitBoxPoints}style={{
+                top: self.current.top + "vw",
+                left: self.current.left +2+ "vw",
+              }}></span>
+              <span className={styles.TestHitBoxPoints}style={{
+                top: self.current.top + "vw",
+                left: self.current.left-2 + "vw",
+              }}></span>
+              {/* TEMP HIT BOX POINTS END */}
             <div
-              className={styles.character}
+              className={`${styles.character} ${styles.self}`}
               style={{
-                top: s.top + "vw",
-                left: s.left + "vw",
+                top: self.current.top + "vw",
+                left: self.current.left + "vw",
               }}
-              data-direction={s.direction}
+              data-direction={self.current.direction}
             >
+              
               <img src={slime} className={styles.slimeImage}></img>
-              <p className={styles.characterName}>{s.name}</p>
+              <p className={styles.characterName}>{self.current.name}</p>
             </div>
-            {enemy && (
+            {enemy.current && (
               <div
                 className={styles.character}
                 style={{
-                  top: enemy.top + "vw",
-                  left: enemy.left + "vw",
+                  top: enemy.current.top + "vw",
+                  left: enemy.current.left + "vw",
                 }}
-                data-direction={enemy.direction}
+                data-direction={enemy.current.direction}
               >
                 <img src={slime} className={styles.slimeImage}></img>
-                <p className={styles.characterName}>{enemy.name}</p>
+                <p className={styles.characterName}>{enemy.current.name}</p>
               </div>
             )}
           </div>

@@ -1,38 +1,28 @@
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 import { projectAuth, projectFirestore } from "../firebase/config";
 import firebase from "firebase";
 
 export const AuthContext = createContext();
 
-export const authReducer = (state, action) => {
-  switch (action.type) {
-    case "LOGIN":
-      return { ...state, user: action.payload };
-    case "LOGOUT":
-      return { ...state, user: null };
-    case "AUTH_IS_READY":
-      return { ...state, user: action.payload, authIsReady: true };
-    default:
-      return state;
-  }
-};
-
 export const AuthContextProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(authReducer, {
-    user: null,
-    authIsReady: false,
-  });
+  const [user, setUser] = useState(null);
+  const [userRef, setUserRef] = useState(null);
+  const [userLoaded, setuserLoaded] = useState(false);
 
   useEffect(() => {
-    const unsub = projectAuth.onAuthStateChanged(async (user) => {
+    const unsubAuth = projectAuth.onAuthStateChanged(async (user) => {
       // If user is logged in
       if (user) {
-        let userData = await projectFirestore.collection("users").doc(user.uid).get().then(res => res.data());
+        // Get reference to user data document
+        const userRef = projectFirestore.collection("users").doc(user.uid);
+        setUserRef(userRef);
+
+        const userData = await userRef.get();
 
         // If user data doesn't exist
-        if (!userData) {
+        if (!userData.exists) {
           // Account is new: create user data
-          userData = {
+          await userRef.set({
             level: 31,
             rank: 15,
             musicVolume: 100,
@@ -40,27 +30,31 @@ export const AuthContextProvider = ({ children }) => {
             gems: 2,
             chestLastOpenedOn: firebase.firestore.Timestamp.fromMillis(Date.now() - 86400),
             bannerFilepath: "/Account/Banners/Sky.jpg"
-          }
-
-
-          await projectFirestore.collection("users").doc(user.uid).set(userData);
+          });
         }
 
-        // Attach user information (level, gold, etc.) to data property of user
-        user = { ...user, data: userData };
-      }
+        // Subscribe to user data changes
+        const unsubFirestore = userRef.onSnapshot((doc) => {
+          console.log({ ...user, data: doc.data() });
+          // Attach user data (level, gold, etc.) to data property of user
+          setUser({ ...user, data: doc.data() });
+          setuserLoaded(true);
+        })
 
-      console.log(user);
-      dispatch({ type: "AUTH_IS_READY", payload: user });
+        return unsubFirestore;
+      } else {
+        setuserLoaded(true);
+        setUser(null);
+      }
     });
 
     return () => {
-      unsub();
+      unsubAuth();
     }
   }, []);
 
   return (
-    <AuthContext.Provider value={{ ...state, dispatch }}>
+    <AuthContext.Provider value={{ user, userRef, userLoaded }}>
       {children}
     </AuthContext.Provider>
   );

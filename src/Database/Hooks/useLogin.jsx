@@ -6,7 +6,6 @@ export const useLogin = () => {
   const [isCancelled, setIsCancelled] = useState(false);
   const [error, setError] = useState(null);
   const [isPending, setIsPending] = useState(false);
-  const { dispatch } = useAuthContext();
 
   const login = async (email, password) => {
     setError(null);
@@ -22,8 +21,6 @@ export const useLogin = () => {
         throw new Error("Could not complete login");
       }
 
-      dispatch({ type: "LOGIN", payload: response.user });
-
       if (!isCancelled) {
         setIsPending(false);
         setError(null);
@@ -35,10 +32,11 @@ export const useLogin = () => {
         setIsPending(false);
       }
     }
-    useEffect(() => {
-      return () => setIsCancelled(true);
-    }, []);
   };
+
+  useEffect(() => {
+    return () => setIsCancelled(true);
+  }, []);
 
   return { login, error, isPending };
 };

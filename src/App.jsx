@@ -17,10 +17,10 @@ import Login from "./Pages/Authentication/Login";
 import { useAuthContext } from "./Database/Hooks/useAuthContext";
 
 const RootLayout = () => {
-  const { authIsReady } = useAuthContext();
+  const { userLoaded } = useAuthContext();
   return (
     <div className="root-layout">
-      {authIsReady && (
+      {userLoaded && (
         <>
           <Nav />
           <Outlet />

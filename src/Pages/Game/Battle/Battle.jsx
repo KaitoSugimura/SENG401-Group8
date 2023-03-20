@@ -1,10 +1,7 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../../Database/context/AuthContext";
 import { projectDatabase } from "../../../Database/firebase/config";
-import BallMovement from "./BallMovement";
 import styles from "./Battle.module.css";
-import data from "./Util/data";
-import WallCollisionHandle from "./Util/WallCollisionHandle";
 import slime from "/assets/GameArt/IceSlime/IceSlime1.gif";
 
 export default function Battle({ setGameState }) {

@@ -3,6 +3,7 @@ import { AuthContext } from "../../../Database/context/AuthContext";
 import { projectDatabase } from "../../../Database/firebase/config";
 import styles from "./Battle.module.css";
 import slime from "/assets/GameArt/IceSlime/IceSlime1.gif";
+import map from "/assets/GameMap/SlimeMeadows.svg";
 
 export default function Battle({ setGameState }) {
   const { user } = useContext(AuthContext);
@@ -212,14 +213,6 @@ export default function Battle({ setGameState }) {
       <div class={styles.battleContainer}>
         <div className={styles.battleFieldContainer}>
           
-          <canvas
-            className={styles.mainCanvas}
-            ref={canvasRef}
-            style={{
-              width: battleFieldWidth.current + "vw",
-              height: battleFieldHeight.current + "vw",
-            }}
-          ></canvas>
           <div
             className={styles.battleField}
             style={{
@@ -227,6 +220,11 @@ export default function Battle({ setGameState }) {
               height: battleFieldHeight.current + "vw",
             }}
           >
+            {/* <img src={map} className={styles.battleFieldImage}></img> */}
+            <video width="100%" height="100%" autoPlay>
+            <source src="/assets/video.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
             {/* PROJECTILES START */}
             <div className={styles.projectile}
           style={{

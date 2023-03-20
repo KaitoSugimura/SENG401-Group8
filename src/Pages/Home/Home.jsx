@@ -6,6 +6,7 @@ import achievement from "/assets/HomeIcons/achievement.png";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Database/context/AuthContext";
+import firebase from "firebase";
 
 const particleAmount = 60;
 const rows = [];
@@ -40,7 +41,19 @@ export default function Home() {
   const [chestState, setChestState] = useState(false);
   const [petted, setPetted] = useState(false);
   const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
+  const { user, userRef } = useContext(AuthContext);
+
+  const chestAvailable = user.data.daysSinceLastChest > 1;
+  console.log(chestAvailable);
+
+  const openChest = async () => {
+    if (chestAvailable) {
+      await userRef.update({
+        gold: firebase.firestore.FieldValue.increment(50),
+        chestLastOpenedOn: firebase.firestore.Timestamp.now(),
+      })
+    }
+  }
 
   return (
     <div className={styles.Home}>
@@ -76,13 +89,11 @@ export default function Home() {
         <div className={styles.tabsIcon}>
           <p>Daily Login</p>
           <img
-            src={chestState ? chestOpen : chestClosed}
+            src={chestAvailable ? chestClosed : chestOpen}
             className={styles.dailyChest}
             alt="Daily chest click to open"
             draggable="false"
-            onClick={() => {
-              setChestState(true);
-            }}
+            onClick={openChest}
           />
         </div>
         <div className={styles.tabsIcon}>

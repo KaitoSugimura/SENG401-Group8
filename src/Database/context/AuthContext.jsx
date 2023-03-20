@@ -27,8 +27,7 @@ export const AuthContextProvider = ({ children }) => {
             rank: 15,
             musicVolume: 100,
             gold: 1234,
-            gems: 2,
-            chestLastOpenedOn: firebase.firestore.Timestamp.fromMillis(Date.now() - 86400),
+            chestLastOpenedOn: firebase.firestore.Timestamp.fromMillis(0),
             bannerFilepath: "/Account/Banners/Sky.jpg",
             slimeType: "Normal",
             slimeSkin: 3,
@@ -46,6 +45,7 @@ export const AuthContextProvider = ({ children }) => {
             data: {
               ...data,
               slimePath: `assets/GameArt/${slimeType}Slime/${slimeType}Slime${slimeSkin}.svg`,
+              daysSinceLastChest: (Date.now() - data.chestLastOpenedOn.toDate()) / 1000 / 60 / 60 / 24,
             }
           });
           setUserLoaded(true);

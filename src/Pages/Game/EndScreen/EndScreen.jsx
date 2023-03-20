@@ -6,7 +6,7 @@ export default function EndScreen({setGameState}) {
     <div className={styles.EndScreen}>
       <h1 className={styles.victoryMSG}>Your fucking trash</h1>
       <img src={slime} className={styles.characterImage}/>
-      <p className={styles.rankGained}>Rank +10</p>
+      <p className={styles.rankGained}>Rank -2147483647</p>
       <button onClick={() => setGameState("Lobby")} className={styles.returnToLobbyBtn}>Go back to Lobby in shame</button>
     </div>
   )

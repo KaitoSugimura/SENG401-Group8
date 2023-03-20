@@ -80,10 +80,11 @@ export default function Battle({ setGameState }) {
 
       if(projectile.current.x <= self.current.left + 2.5 
         && projectile.current.x >= self.current.left - 2.5
-        && projectile.current.y <= self.current.top + 2.5
-        && projectile.current.y >= self.current.top - 2.5){
+        && projectile.current.y <= self.current.top + 2
+        && projectile.current.y >= self.current.top - 2){
         self.current.top = 1.2;
         self.current.left = 2.1;
+        setGameState("EndScreen");
       }
 
       playerRef.set({...self.current, left: self.current.left/battleFieldWidth.current, top: self.current.top/battleFieldHeight.current});
@@ -241,15 +242,6 @@ export default function Battle({ setGameState }) {
       onKeyUp={(e) => release(e)}
     >
       <div class={styles.battleContainer}>
-        This where you battle
-        <button
-          onClick={() => {
-            playerRef.remove();
-            setGameState("EndScreen");
-          }}
-        >
-          End Battle
-        </button>
         <div className={styles.battleFieldContainer}>
           
           <canvas
@@ -277,11 +269,11 @@ export default function Battle({ setGameState }) {
             {/* PROJECTILES END */}
             {/* TEMP HIT BOX POINTS */}
             <span className={styles.TestHitBoxPoints} style={{
-                top: self.current.top + 2 + "vw",
+                top: self.current.top + 1.5 + "vw",
                 left: self.current.left + "vw",
               }}></span>
               <span className={styles.TestHitBoxPoints} style={{
-                top: self.current.top -2 + "vw",
+                top: self.current.top -1.5 + "vw",
                 left: self.current.left + "vw",
               }}></span>
               <span className={styles.TestHitBoxPoints}style={{

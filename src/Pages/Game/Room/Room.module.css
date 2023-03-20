@@ -17,16 +17,22 @@
 }
 
 .map{
+    box-sizing: content-box;
     background-color: darkgray;
     border: solid 7.5px black;
     border-radius: 5px;
+}
+
+.map img{
+    width: 100%;
+    height: auto;
 }
 
 .mapName{
     margin: 2%;
     padding: 2%;
     border-radius: 5px;
-    font-size: 3.0rem;
+    font-size: 2.5rem;
     font-weight: bold;
     color: silver;
 }
@@ -56,7 +62,7 @@
     padding: 2%;
     color: gold;
     font-weight: bold;
-    font-size: 3.0rem;
+    font-size: 2.5rem;
 }
 
 .buttonContainer{

@@ -145,6 +145,10 @@ export default function Battle({ setGameState }) {
     }
   }
 
+  const shoot = () => {
+
+  }
+
   function release(event) {
     switch (event.keyCode) {
       case 87:
@@ -158,6 +162,9 @@ export default function Battle({ setGameState }) {
         break;
       case 68:
         right.current = false;
+        break;
+      case 32:
+        shoot();
         break;
     }
   }
@@ -196,42 +203,6 @@ export default function Battle({ setGameState }) {
     intervalRef.current = setInterval(moveCharacter, 32); // Update position every 32ms
     return () => clearInterval(intervalRef.current);
   }, [moveCharacter]);
-
-  // useEffect(() => {
-    
-  //   //Render graphics
-  //   const render = () => {
-  //     const currentTime = Date.now();
-  //     const timeDiff = currentTime - lastUpdateTime.current;
-  //     const deltaTime = timeDiff / 1000;
-
-  //     console.log(timeDiff);
-
-  //     if (timeDiff > 25) {
-  //       moveCharacter();
-  //       lastUpdateTime.current = currentTime;
-  //     }
-
-  //     const canvas = canvasRef.current;
-  //     const rect = canvas.getBoundingClientRect();
-  //     const context = canvas.getContext("2d");
-  //     context.clearRect(0, 0, rect.width, rect.height); // Reset canvas
-  //     var dpr = window.devicePixelRatio || 1;
-  //     canvas.width = rect.width * dpr;
-  //     canvas.height = rect.height * dpr;
-  //     context.scale(dpr, dpr);
-
-  //     let { ballObj } = data;
-
-  //     BallMovement(context, ballObj);
-
-  //     WallCollisionHandle(ballObj, rect);
-
-  //     requestAnimationFrame(render);
-  //   };
-
-  //   render();
-  // }, []);
 
   return (
     <div

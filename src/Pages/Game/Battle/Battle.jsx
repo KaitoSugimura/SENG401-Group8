@@ -1,7 +1,9 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../../Database/context/AuthContext";
 import { projectDatabase } from "../../../Database/firebase/config";
+import LoadingScreen from "../LoadingScreen";
 import styles from "./Battle.module.css";
+import GameCountDown from "./GameCountDown";
 import map from "/assets/GameMap/SlimeMeadows.webp";
 
 export default function Battle({ setGameState }) {
@@ -9,6 +11,10 @@ export default function Battle({ setGameState }) {
   const self = useRef({});
   const enemy = useRef(null);
   const [reRender, Render] = useState({});
+
+  const [loading, setLoading] = useState(true);
+  const controlsDead = useRef(true);
+  const [countDown, setCountDown] = useState(false);
 
   const up = useRef(false);
   const left = useRef(false);
@@ -25,6 +31,8 @@ export default function Battle({ setGameState }) {
 
   const projectiles = useRef([]);
   const enemyProjectiles = useRef([]);
+
+  const buttonDivRef = useRef(null);
 
   let ProjectileKey = useRef(0);
 
@@ -92,6 +100,7 @@ export default function Battle({ setGameState }) {
   }
 
   useEffect(() => {
+    buttonDivRef.current.focus();
     // Initialize game
     self.current = {
       top: 1.2,
@@ -161,6 +170,7 @@ export default function Battle({ setGameState }) {
   }
 
   const shoot = () => {
+    if(controlsDead.current)return;
     if (!self.current.shooting && projectiles.current.length < 5) {
       self.current.shooting = true;
       const SlimeToMouseVectorX =
@@ -218,6 +228,7 @@ export default function Battle({ setGameState }) {
   }
 
   const moveCharacter = useCallback(() => {
+    if(controlsDead.current)return;
     if (!self.current.shooting) {
       const speed = 1;
       let dx = 0;
@@ -251,6 +262,7 @@ export default function Battle({ setGameState }) {
         if (projectile.bulletState >= 3) {
           projectiles.current.splice(i, 1);
         } else {
+          playerRef.onDisconnect().remove();
           setGameState("EndScreen");
         }
       }
@@ -281,12 +293,15 @@ export default function Battle({ setGameState }) {
 
   return (
     <div
+    ref={buttonDivRef}
       class={styles.ButtonOverlay}
       role="button"
       tabIndex="0"
       onKeyDown={(e) => move(e)}
       onKeyUp={(e) => release(e)}
     >
+      {loading&&<LoadingScreen />}
+      {countDown&& <GameCountDown/>}
       <div class={styles.battleContainer}>
         <div className={styles.battleFieldContainer}>
           <div
@@ -296,7 +311,16 @@ export default function Battle({ setGameState }) {
               height: battleFieldHeight.current + "vw",
             }}
           >
-            <img src={map} className={styles.battleFieldImage}></img>
+            <img src={map} className={styles.battleFieldImage} onLoad={() => {setTimeout(()=>{
+              setCountDown(true);
+              setLoading(false);
+              setTimeout(()=>{
+                controlsDead.current = false;
+                setTimeout(()=>{
+                  setCountDown(false);
+                }, 1000);
+              }, 3000);
+            }, 1500)}}></img>
             {/* <video width="100%" height="100%" autoPlay>
             <source src="/assets/video.mp4" type="video/mp4" />
       Your browser does not support the video tag.

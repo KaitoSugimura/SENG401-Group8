@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+
+.container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  background-color: none;
+  z-index: 10000;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container p {
+  font-size: 6vw;
+  text-align: center;
+  font-family: 'Press Start 2P', cursive;
+  text-shadow: 1px 1px 5px #000;
+  color: rgba(229, 229, 9, 0.903);
+}
+

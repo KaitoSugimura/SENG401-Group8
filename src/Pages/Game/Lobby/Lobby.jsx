@@ -3,6 +3,7 @@ import styles from "./Lobby.module.css";
 import { projectDatabase } from "../../../Database/firebase/config";
 import { AuthContext } from "../../../Database/context/AuthContext";
 import Popup from "../../../Components/Popup.jsx";
+import CreateLobby from "./CreateLobby";
 
 export default function Lobby({ setGameState }) {
 
@@ -94,7 +95,7 @@ export default function Lobby({ setGameState }) {
       <div className={styles.Character}>
         <h1>{user.displayName}</h1>
         <div className={styles.characterBox}>
-          <img src={user.data.slimePath} alt={character.type} draggable="false" />
+          <img src={user.data.slimePath+".svg"} alt={character.type} draggable="false" />
         </div>
         <h2>{character.type} Slime</h2>
         <h2>Rank: {user.data.rank}</h2>
@@ -166,7 +167,7 @@ export default function Lobby({ setGameState }) {
         </div>}
 
         {popup && <Popup setPopUp={setPopup}>
-          <h3>my Popup</h3>
+          <CreateLobby></CreateLobby>
         </Popup>}
 
       </div>

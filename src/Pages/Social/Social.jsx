@@ -143,7 +143,7 @@ export default function Social() {
                 key={i}
                 onClick={() => setSelectedChat(friend)}
               >
-                <img src={user.data.slimePath} className={styles.slimeBody}></img>
+                <img src={user.data.slimePath+".svg"} className={styles.slimeBody}></img>
                 <div>
                   <p>{friend.name}</p>
                   <p className={`${styles.presence} ${styles[friend.status]}`}>
@@ -156,7 +156,7 @@ export default function Social() {
         </div>
 
         <div className={styles.userStatus}>
-          <img src={user.data.slimePath} className={styles.slimeBody}></img>
+          <img src={user.data.slimePath+".svg"} className={styles.slimeBody}></img>
           <div>
             <p>{userPlaceholder.name}</p>
             <p className={`${styles.presence} ${styles.ONLINE}`}>ONLINE</p>
@@ -199,7 +199,7 @@ export default function Social() {
         {selectedChat && selectedChat !== "global" ? (
           <>
             <p>{selectedChat.name}</p>
-            <img src={user.data.slimePath} className={styles.slimeBody}></img>
+            <img src={user.data.slimePath+".svg"} className={styles.slimeBody}></img>
             <p>Rank {selectedChat.rank}</p>
           </>
         ) : (

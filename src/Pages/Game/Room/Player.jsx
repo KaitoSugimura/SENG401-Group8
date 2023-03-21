@@ -6,7 +6,7 @@ const Player = ({number, user}) => {
         <div className={styles.playerBox}>
             <img className={styles.playerBoximage} 
             style ={{transform: number === 1 ? 'scaleX(-1)':'scaleX(1)'}}
-            src={user.data.slimePath.substring(0,user.data.slimePath.length-3)+"gif"} 
+            src={user.data.slimePath+".gif"} 
             alt={user.data.slimeType} draggable="false" />
         </div>
         <h2>{user.data.slimeType} Slime</h2>

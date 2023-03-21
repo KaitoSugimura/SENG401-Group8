@@ -3,6 +3,7 @@ import { AuthContext } from "../../../Database/context/AuthContext";
 import { projectDatabase } from "../../../Database/firebase/config";
 import styles from "./Battle.module.css";
 import slime from "/assets/GameArt/IceSlime/IceSlime1.gif";
+import slimeAnim from "/assets/GameArt/IceSlime/IceSlime2.gif";
 import map from "/assets/GameMap/SlimeMeadows.webp";
 
 export default function Battle({ setGameState }) {
@@ -30,7 +31,7 @@ export default function Battle({ setGameState }) {
     dx: 1,
     dy: 1,
     rad: 1,
-    speed: 30,
+    show: true,
   });
 
   const canvasRef = useRef(null);
@@ -178,29 +179,33 @@ export default function Battle({ setGameState }) {
   }
 
   const shoot = () => {
-    self.current.shooting = true;
-    setTimeout(() => {
-      const SlimeToMouseVectorX =
-        mousePos.current.x - selfCompRef.current.getBoundingClientRect().left;
-      const SlimeToMouseVectorY =
-        mousePos.current.y - selfCompRef.current.getBoundingClientRect().top;
-
-      // Normalize Slime to mouse vectors
-      const length = Math.sqrt(
-        SlimeToMouseVectorX * SlimeToMouseVectorX +
-          SlimeToMouseVectorY * SlimeToMouseVectorY
-      );
-      const normalizedX = SlimeToMouseVectorX / length;
-      const normalizedY = SlimeToMouseVectorY / length;
-      projectile.current.dx = normalizedX;
-      projectile.current.dy = normalizedY;
-
-      projectile.current.x = self.current.left + normalizedX * 3;
-      projectile.current.y = self.current.top + normalizedY * 3;
+    if (!self.current.shooting) {
+      self.current.shooting = true;
+      projectile.current.show = false;
       setTimeout(() => {
-        self.current.shooting = false;
-      }, 200);
-    }, 300);
+        const SlimeToMouseVectorX =
+          mousePos.current.x - selfCompRef.current.getBoundingClientRect().left;
+        const SlimeToMouseVectorY =
+          mousePos.current.y - selfCompRef.current.getBoundingClientRect().top;
+
+        // Normalize Slime to mouse vectors
+        const length = Math.sqrt(
+          SlimeToMouseVectorX * SlimeToMouseVectorX +
+            SlimeToMouseVectorY * SlimeToMouseVectorY
+        );
+        const normalizedX = SlimeToMouseVectorX / length;
+        const normalizedY = SlimeToMouseVectorY / length;
+        projectile.current.dx = normalizedX * 1.5;
+        projectile.current.dy = normalizedY * 1.5;
+
+        projectile.current.x = self.current.left + normalizedX * 3;
+        projectile.current.y = self.current.top + normalizedY * 3;
+        projectile.current.show = true;
+        setTimeout(() => {
+          self.current.shooting = false;
+        }, 100);
+      }, 300);
+    }
   };
 
   function release(event) {
@@ -290,16 +295,18 @@ export default function Battle({ setGameState }) {
       Your browser does not support the video tag.
     </video> */}
             {/* PROJECTILES START */}
-            <div
-              className={styles.projectile}
-              style={{
-                top: projectile.current.y + "vw",
-                left: projectile.current.x + "vw",
-              }}
-            ></div>
+            {projectile.current.show && (
+              <div
+                className={styles.projectile}
+                style={{
+                  top: projectile.current.y + "vw",
+                  left: projectile.current.x + "vw",
+                }}
+              ></div>
+            )}
             {/* PROJECTILES END */}
             {/* TEMP HIT BOX POINTS */}
-            <span
+            {/* <span
               className={styles.TestHitBoxPoints}
               style={{
                 top: self.current.top + 1.5 + "vw",
@@ -326,7 +333,7 @@ export default function Battle({ setGameState }) {
                 top: self.current.top + "vw",
                 left: self.current.left - 2 + "vw",
               }}
-            ></span>
+            ></span> */}
             {/* TEMP HIT BOX POINTS END */}
             <div
               className={`${styles.character} ${styles.self}`}
@@ -337,7 +344,9 @@ export default function Battle({ setGameState }) {
               data-direction={self.current.direction}
             >
               <span ref={selfCompRef} className={styles.selfCenter}></span>
-              <img src={slime} className={styles.slimeImage}></img>
+              <div className={self.current.shooting ? styles.shootingAnim : ""}>
+                <img src={slime} className={styles.slimeImage}></img>
+              </div>
               <p className={styles.characterName}>{self.current.name}</p>
             </div>
             {enemy.current && (

@@ -9,110 +9,130 @@
     gap: 5vh;
 } */
 
-
-.ButtonOverlay{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 1000;
-
+.ButtonOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
 }
 
-.background{
-    width: 100%;
-    height: 100%;
-    background-image: linear-gradient(to bottom, #28313b 0%, #485461 60%);
+.background {
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(to bottom, #28313b 0%, #485461 60%);
 }
 
-.self{
-    z-index: 10000;
+.self {
+  z-index: 10000;
 }
-.self img{
-    filter: drop-shadow(0px 0px 3px #ff0808);
-}
-
-.projectile{
-    position: absolute;
-    transform: translate(-50%,-50%);
-    transition: 0.032s linear;
-
-    background-color: red;
-    width: 2vw;
-    height: 2vw;
-    border-radius: 100%;
-    border: 2px solid #000;
+.self img {
+  filter: drop-shadow(0px 0px 3px #ff0000) drop-shadow(0px 0px 4px #ff0000);
 }
 
-.battleField{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    border: 5px solid #000;
-    background-size: cover;
+.projectile {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  transition: 0.032s linear;
+
+  background-color: red;
+  width: 2vw;
+  height: 2vw;
+  border-radius: 100%;
+  border: 2px solid #000;
 }
 
-.battleFieldImage{
-    width: 100%;
-    height: 100%;
+.battleField {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 5px solid #000;
+  background-size: cover;
 }
 
-
-
-.battleFieldContainer{
-    position: fixed;
-    top:65px;
-    left:0;
-    width: 100vw;
-    height: calc(100vh - 65px);
-    background-image: linear-gradient(to bottom, #28313b 0%, #485461 60%);
+.battleFieldImage {
+  width: 100%;
+  height: 100%;
 }
 
+.battleFieldContainer {
+  position: fixed;
+  top: 65px;
+  left: 0;
+  width: 100vw;
+  height: calc(100vh - 65px);
+  background-image: linear-gradient(to bottom, #28313b 0%, #485461 60%);
+}
 
 .character {
-    position: absolute;
-    transform: translate(-50%,-50%);
+  position: absolute;
+  transform: translate(-50%, -50%);
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: 0.032s linear;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.032s linear;
 }
 
-.selfCenter{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 1px;
-    height: 1px;
+.selfCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1px;
+  height: 1px;
 }
 
-
-.TestHitBoxPoints{
-    position: absolute;
-    transform: translate(-50%,-50%);
-    background-color: red;
-    width: 10px;
-    height: 10px;
+.shootingAnim {
+    animation: shooting 0.3s ease-out infinite;
 }
 
-.character[data-direction="right"] img{
-    transform: scaleX(-1);
+@keyframes shooting {
+  0% {
+    transform: translate(-0%, 0%)
+    scaleY(100%);
+  }
+  25% {
+    transform: translate(-10%, 0%);
+  }
+  50% {
+    transform: translate(0%, 0%)
+    scaleY(80%);
+  }
+  75% {
+    transform: translate(10%, 0%)
+    scaleY(110%);
+  }
+  100% {
+    transform: translate(0%, 0%)
+    scaleY(130%);
+  }
 }
 
-.characterName{
-    overflow: hidden;
-    position: absolute;
-    font-size: 24px;
-    width: 200px;
-    top: 0;
-    left: 50%;
-    transform: translate(-50%,-120%);
+.TestHitBoxPoints {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  background-color: red;
+  width: 10px;
+  height: 10px;
 }
 
-.slimeImage{
-    width: 5vw;
-    height: auto;
+.character[data-direction="right"] img {
+  transform: scaleX(-1);
+}
+
+.characterName {
+  overflow: hidden;
+  position: absolute;
+  font-size: 24px;
+  width: 200px;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -120%);
+}
+
+.slimeImage {
+  width: 5vw;
+  height: auto;
 }

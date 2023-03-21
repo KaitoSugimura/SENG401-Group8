@@ -3,10 +3,11 @@ import animation from "./HomeSlimeAnimations.module.css";
 import chestOpen from "/assets/HomeIcons/chestOpen.png";
 import chestClosed from "/assets/HomeIcons/chestClosed.png";
 import achievement from "/assets/HomeIcons/achievement.png";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Database/context/AuthContext";
 import firebase from "firebase";
+import { projectAuth, projectFirestore } from "../../Database/firebase/config";
 
 const particleAmount = 60;
 const rows = [];
@@ -38,22 +39,36 @@ const animations = [
 ];
 
 export default function Home() {
-  const [chestState, setChestState] = useState(false);
   const [petted, setPetted] = useState(false);
+  const [leaderboard, setLeaderboard] = useState([]);
   const navigate = useNavigate();
   const { user, userRef } = useContext(AuthContext);
 
   const chestAvailable = user.data.daysSinceLastChest > 1;
-  console.log(chestAvailable);
 
   const openChest = async () => {
     if (chestAvailable) {
       await userRef.update({
         gold: firebase.firestore.FieldValue.increment(50),
         chestLastOpenedOn: firebase.firestore.Timestamp.now(),
-      })
+      });
     }
   }
+
+  useEffect(() => {
+    const fetchLeaderboard = async () => {
+      const newLeaderboard = [];
+
+      const querySnapshot = await projectFirestore.collection("users").orderBy("rank", "desc").limit(5).get();
+      querySnapshot.forEach(doc => {
+        newLeaderboard.push({ username: doc.data().username, rank: doc.data().rank })
+      })
+
+      setLeaderboard(newLeaderboard);
+    }
+
+    fetchLeaderboard();
+  }, []);
 
   return (
     <div className={styles.Home}>
@@ -111,9 +126,7 @@ export default function Home() {
       <div className={styles.RankingsContainer}>
         <p>Rankings:</p>
         <ol>
-          <li>BAKASATANG</li>
-          <li>FubukiKaito</li>
-          <li>Rimuru Tempest</li>
+          {leaderboard.map(user => <li>{user.username} [{user.rank}]</li>)}
         </ol>
       </div>
 

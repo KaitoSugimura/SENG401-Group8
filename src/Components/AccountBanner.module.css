@@ -13,6 +13,22 @@
   font-weight: 400;
 }
 
+.bannerInfo{
+  display: flex;
+}
+
+.editBannerButton{
+  width: 6%;
+}
+
+.editBannerButton img{
+  width: 100%;
+  height: auto;
+  pointer-events: all;
+  cursor: pointer;
+
+}
+
 .AccountBanner .character {
   object-fit: cover;
   width: 120px;

@@ -24,7 +24,7 @@ export default function Room({setGameState}) {
       <div className={styles.match}>
         <div className={styles.map}
         style={{width:battleFieldWidth.current + "vw",height: battleFieldHeight.current + "vw",}}>
-          <img src="assets/GameMap/SlimeMeadows.jpg" alt="" /> 
+          <img src="assets/GameMap/SlimeMeadows.webp" alt="" /> 
         </div>
         <div className={styles.goldContainer}>
           <p className={styles.mapName}>Slime Meadows</p>

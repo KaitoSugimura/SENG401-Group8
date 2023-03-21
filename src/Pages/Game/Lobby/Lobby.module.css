@@ -165,3 +165,23 @@ cursor: pointer;
 .createLobby{
     background-color: white;
 }
+
+.createLobby p{
+    font-size: 3.0rem;
+    background-color: black;
+    border: solid 5px #938c88;
+    color: silver;
+    padding: 2%;
+
+}
+
+.createLobby label{
+    font-size: 2.0rem;
+    margin: 10px;
+}
+
+.createLobby .formFields label{
+    text-align: right;
+    
+}
+

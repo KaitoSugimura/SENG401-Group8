@@ -34,6 +34,10 @@ export default function Lobby({ setGameState }) {
 
   }, [character])
 
+  useEffect(()=>{
+
+  }, [popup])
+
   useEffect(() => {
     const publicLobbyRef = projectDatabase.ref("lobby/public");
     publicLobbyRef.on("value", (snapshot) => {
@@ -49,24 +53,25 @@ export default function Lobby({ setGameState }) {
     setPopup(true);
   }
 
-  const createPublicRoom = () => {
+  const createPublicRoom = (goldAmount) => {
     console.log("AAAAAAAA", user.id);
     publicLobbyRef = projectDatabase.ref(`lobby/public/${user.uid}`);
     publicLobbyRef.set({
       name: user.displayName,
-      rank: user.data.rank
+      rank: user.data.rank,
+      gold: goldAmount
     });
     publicLobbyRef.onDisconnect().remove();
     setcreateRoomOptions(false);
   }
 
-  const createPrivateRoom = () => {
-    let password = window.prompt("Please enter room password.");
+  const createPrivateRoom = (password, goldAmount) => {
     privateLobbyRef = projectDatabase.ref(`lobby/private/${user.uid}`);
     privateLobbyRef.set({
       uid: user.uid,
       name: user.displayName,
       rank: user.data.rank,
+      gold: goldAmount,
       password: password
     });
     privateLobbyRef.onDisconnect().remove();
@@ -110,7 +115,7 @@ export default function Lobby({ setGameState }) {
                 <img src="assets/GameArt/Gold.png" alt="" />
               </div>
               <div className={styles.goldInfo}>
-                x{user.data.gold}
+                x{OtherPerson.gold}
               </div>
               <div className={styles.lobbyDetails}>
                 <h2>{OtherPerson.name}</h2>
@@ -128,7 +133,7 @@ export default function Lobby({ setGameState }) {
                <img src="assets/GameArt/Gold.png" alt="" />
              </div>
              <div className={styles.goldInfo}>
-               x{user.data.gold}
+               x{OtherPerson.gold}
              </div>
              <div className={styles.lobbyDetails}>
                <h2>{OtherPerson.name}</h2>
@@ -167,7 +172,9 @@ export default function Lobby({ setGameState }) {
         </div>}
 
         {popup && <Popup setPopUp={setPopup}>
-          <CreateLobby></CreateLobby>
+          <CreateLobby setPopUp={setPopup} 
+          createPublicRoom={createPublicRoom} createPrivateRoom = {createPrivateRoom}>
+          </CreateLobby>
         </Popup>}
 
       </div>

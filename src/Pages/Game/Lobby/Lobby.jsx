@@ -3,6 +3,7 @@ import styles from "./Lobby.module.css";
 import { projectDatabase } from "../../../Database/firebase/config";
 import { AuthContext } from "../../../Database/context/AuthContext";
 import Popup from "../../../Components/Popup.jsx";
+import CreateLobby from "./CreateLobby";
 
 export default function Lobby({ setGameState }) {
 
@@ -166,7 +167,7 @@ export default function Lobby({ setGameState }) {
         </div>}
 
         {popup && <Popup setPopUp={setPopup}>
-          <h3>my Popup</h3>
+          <CreateLobby></CreateLobby>
         </Popup>}
 
       </div>

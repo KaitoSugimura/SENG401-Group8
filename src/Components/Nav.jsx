@@ -128,7 +128,7 @@ export default function Nav() {
               }}
               className={styles.bannerButton}
             >
-              <img src={user.data.slimePath}></img>
+              <img src={user.data.slimePath+".svg"}></img>
             </button>
             {showBanner && <AccountBanner setShowBanner={setShowBanner} />}
           </>

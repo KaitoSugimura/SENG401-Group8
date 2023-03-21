@@ -128,7 +128,32 @@ pointer-events: all;
 object-fit: cover;
 }
 
-.createButton:last-child{
+.lobbySelection{
+    display: flex;
+    width: 90%;
+    height: 20%;
+    flex-direction: row;
+    justify-content: center;
+    gap: 2%;
+    
+}
+
+.returnButton{
+    height: 80%;
+}
+
+.returnButton:hover{
+    transform: scale(110%);
+    cursor: pointer;
+}
+
+.returnButton img{
+    height: 100%;
+    width: auto;
+}
+
+.createButton{
+    font-size: 3.0rem;
 width: 50%;
 margin: 25px;
 background-color: rgba(242, 242, 242, 0.37);

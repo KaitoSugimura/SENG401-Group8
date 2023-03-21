@@ -12,11 +12,11 @@ export default function Lobby({ setGameState }) {
     type: "Earth", skin: 1, unlocked: true, power: 3, speed: 3, health: 3, two: false, three: true,
   })
   const [popup, setPopup]=useState(false);
-
-  const [createRoomOptions, setcreateRoomOptions] = useState(false);
   const [publicLobbyList, setPublicLobbyList] = useState({});
   const [privateLobbyList, setPrivateLobbyList] = useState({});
   const [imagePath, updateImagePath] = useState();
+  const[lobbyList, setLobbyList]=useState(false);
+  const[mode, setMode]=useState(true);
 
   let lobbyRef = projectDatabase.ref("lobby");
   let publicLobbyRef;
@@ -62,7 +62,7 @@ export default function Lobby({ setGameState }) {
       gold: goldAmount
     });
     publicLobbyRef.onDisconnect().remove();
-    setcreateRoomOptions(false);
+    setGameState("Room");
   }
 
   const createPrivateRoom = (password, goldAmount) => {
@@ -75,7 +75,7 @@ export default function Lobby({ setGameState }) {
       password: password
     });
     privateLobbyRef.onDisconnect().remove();
-    setcreateRoomOptions(false);
+    setGameState("Room");
   }
 
   const enterPrivateRoom=(uid)=>{
@@ -107,7 +107,7 @@ export default function Lobby({ setGameState }) {
       </div>
 
       <div className={styles.lobbies}>
-        <div className={styles.lobbySelect}>
+        {lobbyList&&<div className={styles.lobbySelect}>
           {publicLobbyList && Object.values(publicLobbyList).map((OtherPerson, index) => (
             <div className={styles.lobby} key={index}>
 
@@ -163,13 +163,31 @@ export default function Lobby({ setGameState }) {
             </div>
           </div>
 
-          {/* TEMP PLEASE DELETE */}
+          
 
 
-        </div>
-        {!popup && <div className={styles.createButton} onClick={() => { showRoomOptions() }}>
-          Create Lobby
         </div>}
+        {mode&& <div className={styles.createButton} onClick={()=>{
+          setMode(false);
+          setLobbyList(true);
+
+        }}>
+          Play a Friend
+          </div>}
+        {mode&& <div className={styles.createButton} onClick={()=>{
+          setGameState("Battle");
+        }}>
+        Play a Ranked
+        </div>}
+        {!mode&&lobbyList&&!popup && <div className={styles.lobbySelection}>
+            <div className={styles.createButton} onClick={() => { showRoomOptions() }}>
+            Create Lobby
+           </div>
+           <div className={styles.returnButton} onClick={()=>{setMode(true);
+            setLobbyList(false);}}>
+            <img src="assets/GameArt/RestartButton.png" alt="" /></div>
+          </div>}
+        
 
         {popup && <Popup setPopUp={setPopup}>
           <CreateLobby setPopUp={setPopup} 

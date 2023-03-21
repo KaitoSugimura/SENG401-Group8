@@ -35,7 +35,7 @@ export default function AccountBanner({ setShowBanner }) {
             
       <img src={user.data.slimePath+".svg"} className={styles.character}></img>
       <p className={styles.Rank}>Rank: {user.data.rank}</p>
-      <p className={styles.Status}>Hello my name is Rimuru. I'm not a bad Slime!</p>
+      <p className={styles.Status}>Hello my name is {user.displayName}. I'm not a bad Slime!</p>
       <button className={styles.SignOut} onClick={() => { if (setShowBanner) setShowBanner(false); logout() }}>Sign out</button>
 
       <img src={banner} className={styles.banner} onClick={() => { setBSelectionOn(true) }}></img>

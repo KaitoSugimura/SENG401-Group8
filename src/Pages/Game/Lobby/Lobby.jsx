@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import styles from "./Lobby.module.css";
 import { projectDatabase } from "../../../Database/firebase/config";
 import { AuthContext } from "../../../Database/context/AuthContext";
+import Popup from "../../../Components/Popup.jsx";
 
 export default function Lobby({ setGameState }) {
 
@@ -9,6 +10,7 @@ export default function Lobby({ setGameState }) {
   const [character, updateCharacter] = useState({
     type: "Earth", skin: 1, unlocked: true, power: 3, speed: 3, health: 3, two: false, three: true,
   })
+  const [popup, setPopup]=useState(false);
 
   const [createRoomOptions, setcreateRoomOptions] = useState(false);
   const [publicLobbyList, setPublicLobbyList] = useState({});
@@ -43,7 +45,7 @@ export default function Lobby({ setGameState }) {
   }, []);
 
   const showRoomOptions = () => {
-    setcreateRoomOptions(true);
+    setPopup(true);
   }
 
   const createPublicRoom = () => {
@@ -159,17 +161,13 @@ export default function Lobby({ setGameState }) {
 
 
         </div>
-        {!createRoomOptions && <div className={styles.createButton} onClick={() => { showRoomOptions() }}>
+        {!popup && <div className={styles.createButton} onClick={() => { showRoomOptions() }}>
           Create Lobby
         </div>}
-        {createRoomOptions && <div className={styles.createOptions}>
-          <div className={styles.createOption} onClick={() => createPrivateRoom()}>
-            <img src="assets/GameArt/Locked.png" alt="" />
-          </div>
-          <div className={styles.createOption} onClick={() => createPublicRoom()}>
-            <img src="assets/GameArt/Door.png" alt="" />
-          </div>
-        </div>}
+
+        <Popup popup={popup} setPopUp={setPopup}>
+          <h3>my Popup</h3>
+        </Popup>
 
       </div>
 

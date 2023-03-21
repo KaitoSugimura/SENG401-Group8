@@ -188,9 +188,8 @@ export default function Battle({ setGameState }) {
           dy: normalizedY * 1.5,
           rad: 1,
           bulletState: 0, // 0-2 damage, >=3 for healing
-          key: "div" + ProjectileKey.current,
+          key: ProjectileKey.current++,
         });
-        ProjectileKey.current++;
         setTimeout(() => {
           self.current.shooting = false;
         }, 100);
@@ -304,7 +303,7 @@ export default function Battle({ setGameState }) {
     </video> */}
             {/* PROJECTILES START */}
             {projectiles.current.map((projectile, i) => (
-              <projectile.key
+              <div
                className={`${styles.projectile} ${
                   projectile.bulletState > 2 ? styles.healing : ""
                 }`}
@@ -315,7 +314,7 @@ export default function Battle({ setGameState }) {
                   height: projectile.rad * 2 + "vw",
                 }}
                 key={projectile.key}
-              ></projectile.key>
+              ></div>
             ))}
             {/* PROJECTILES END */}
             {/* TEMP HIT BOX POINTS */}

@@ -59,7 +59,7 @@ export default function Home() {
     const fetchLeaderboard = async () => {
       const newLeaderboard = [];
 
-      const querySnapshot = await projectFirestore.collection("users").orderBy("rank", "desc").limit(5).get();
+      const querySnapshot = await projectFirestore.collection("users").orderBy("rank", "asc").limit(5).get();
       querySnapshot.forEach(doc => {
         newLeaderboard.push({ username: doc.data().username, rank: doc.data().rank })
       })

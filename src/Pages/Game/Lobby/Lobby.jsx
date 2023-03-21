@@ -54,10 +54,15 @@ export default function Lobby({ setGameState }) {
     setServerPlayerID(uid);
     setClientPlayerID(user.uid);
     let ogpass;
+    let isOpen;
     const roomRef = projectDatabase.ref(`lobby/rooms/${uid}`);
     roomRef.once('value', (snapshot)=>{
       ogpass = snapshot.val().password;
+      isOpen = snapshot.val().empty;
     })
+    if(!isOpen){
+      return; 
+    }
     if(ogpass != ""){
       let password = window.prompt("Please enter room password.");
       if(ogpass!==password){
@@ -87,7 +92,7 @@ export default function Lobby({ setGameState }) {
       <div className={styles.Character}>
         <h1>{user.displayName}</h1>
         <div className={styles.characterBox}>
-          <img src={user.data.slimePath+".svg"} alt={user.data.slimeType} draggable="false" />
+          <img src={user.data.slimePath+".gif"} alt={user.data.slimeType} draggable="false" />
         </div>
         <h2>{user.data.slimeType} Slime</h2>
         <h2>Rank: {user.data.rank}</h2>

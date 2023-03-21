@@ -7,10 +7,9 @@ import styles from "./Battle.module.css";
 import GameCountDown from "./GameCountDown";
 import map from "/assets/GameMap/SlimeMeadows.webp";
 
-export default function Battle({ setGameState}) {
+export default function Battle({ setGameState }) {
   const { user } = useContext(AuthContext);
   const { serverPlayerID, clientPlayerID } = useContext(gameContext);
-
 
   const self = useRef({});
   const enemy = useRef(null);
@@ -45,10 +44,14 @@ export default function Battle({ setGameState}) {
 
   if (user) {
     playerId = user.uid;
-    if(playerId === serverPlayerID){
-      playerRef = projectDatabase.ref(`battle/${serverPlayerID}/${serverPlayerID}`);
-    } else{
-      playerRef = projectDatabase.ref(`battle/${serverPlayerID}/${clientPlayerID}`);
+    if (playerId === serverPlayerID) {
+      playerRef = projectDatabase.ref(
+        `battle/${serverPlayerID}/${serverPlayerID}`
+      );
+    } else {
+      playerRef = projectDatabase.ref(
+        `battle/${serverPlayerID}/${clientPlayerID}`
+      );
     }
   }
 
@@ -100,24 +103,50 @@ export default function Battle({ setGameState}) {
       x: event.pageX,
       y: event.pageY,
     };
-    console.log(
-      mousePos.current,
-      selfCompRef.current.getBoundingClientRect().left,
-      selfCompRef.current.getBoundingClientRect().top
-    );
   }
 
   useEffect(() => {
+    let loadWaitRef = projectDatabase.ref(
+      `battle/${serverPlayerID}/loadComplete`
+    );
+ 
+
+    loadWaitRef.on("value", (snapshot) => {
+      if (snapshot.val().Server && snapshot.val().Client) {
+        loadWaitRef.off();
+        setCountDown(true);
+        setLoading(false);
+        setTimeout(() => {
+          controlsDead.current = false;
+          setTimeout(() => {
+            setCountDown(false);
+          }, 1000);
+        }, 3000);
+      }
+    });
+
+
+  
+
     buttonDivRef.current.focus();
     // Initialize game
-    self.current = {
-      top: 1.2,
-      left: 2.1,
-      direction: "right",
-      name: user.displayName,
-      shooting: false,
-    };
-
+    if (serverPlayerID === playerId) {
+      self.current = {
+        top: battleFieldHeight.current / 2,
+        left: battleFieldWidth.current / 5,
+        direction: "right",
+        name: user.displayName,
+        shooting: false,
+      };
+    } else {
+      self.current = {
+        top: battleFieldHeight.current / 2,
+        left: (4 * battleFieldWidth.current) / 5,
+        direction: "right",
+        name: user.displayName,
+        shooting: false,
+      };
+    }
     playerRef.set({
       ...self.current,
       left: self.current.left / battleFieldWidth.current,
@@ -134,12 +163,15 @@ export default function Battle({ setGameState}) {
   }, []);
 
   useEffect(() => {
-
     let enemyRef;
-    if(playerId === serverPlayerID){
-      enemyRef = projectDatabase.ref(`battle/${serverPlayerID}/${clientPlayerID}`);
-    } else{
-      enemyRef = projectDatabase.ref(`battle/${serverPlayerID}/${serverPlayerID}`);
+    if (playerId === serverPlayerID) {
+      enemyRef = projectDatabase.ref(
+        `battle/${serverPlayerID}/${clientPlayerID}`
+      );
+    } else {
+      enemyRef = projectDatabase.ref(
+        `battle/${serverPlayerID}/${serverPlayerID}`
+      );
     }
 
     enemyRef.on("value", (otherSnapshot) => {
@@ -147,15 +179,13 @@ export default function Battle({ setGameState}) {
       if (p === null) {
         // Enemy disconnected
         enemy.current = null;
-      }
-      else
+      } else
         enemy.current = {
           ...p,
           left: p.left * battleFieldWidth.current,
           top: p.top * battleFieldHeight.current,
         };
     });
-
   }, []);
 
   function move(event) {
@@ -176,7 +206,7 @@ export default function Battle({ setGameState}) {
   }
 
   const shoot = () => {
-    if(controlsDead.current)return;
+    if (controlsDead.current) return;
     if (!self.current.shooting && projectiles.current.length < 5) {
       self.current.shooting = true;
       const SlimeToMouseVectorX =
@@ -234,7 +264,7 @@ export default function Battle({ setGameState}) {
   }
 
   const moveCharacter = useCallback(() => {
-    if(controlsDead.current)return;
+    if (controlsDead.current) return;
     if (!self.current.shooting) {
       const speed = 1;
       let dx = 0;
@@ -299,15 +329,15 @@ export default function Battle({ setGameState}) {
 
   return (
     <div
-    ref={buttonDivRef}
+      ref={buttonDivRef}
       class={styles.ButtonOverlay}
       role="button"
       tabIndex="0"
       onKeyDown={(e) => move(e)}
       onKeyUp={(e) => release(e)}
     >
-      {loading&&<LoadingScreen />}
-      {countDown&& <GameCountDown/>}
+      {loading && <LoadingScreen />}
+      {countDown && <GameCountDown />}
       <div class={styles.battleContainer}>
         <div className={styles.battleFieldContainer}>
           <div
@@ -317,16 +347,20 @@ export default function Battle({ setGameState}) {
               height: battleFieldHeight.current + "vw",
             }}
           >
-            <img src={map} className={styles.battleFieldImage} onLoad={() => {setTimeout(()=>{
-              setCountDown(true);
-              setLoading(false);
-              setTimeout(()=>{
-                controlsDead.current = false;
-                setTimeout(()=>{
-                  setCountDown(false);
+            <img
+              src={map}
+              className={styles.battleFieldImage}
+              onLoad={() => {
+                setTimeout(() => {
+                  let loadCompleteRef = projectDatabase.ref(
+                    `battle/${serverPlayerID}/loadComplete/${
+                      serverPlayerID === playerId ? "Server" : "Client"
+                    }`
+                  );
+                  loadCompleteRef.set(true);
                 }, 1000);
-              }, 3000);
-            }, 1500)}}></img>
+              }}
+            ></img>
             {/* <video width="100%" height="100%" autoPlay>
             <source src="/assets/video.mp4" type="video/mp4" />
       Your browser does not support the video tag.
@@ -334,7 +368,7 @@ export default function Battle({ setGameState}) {
             {/* PROJECTILES START */}
             {projectiles.current.map((projectile, i) => (
               <div
-               className={`${styles.projectile} ${
+                className={`${styles.projectile} ${
                   projectile.bulletState > 2 ? styles.healing : ""
                 }`}
                 style={{

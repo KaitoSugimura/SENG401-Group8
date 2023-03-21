@@ -19,16 +19,20 @@ export default function Room({ setGameState }) {
   const [lockButtons, setLockButtons] = useState(false);
 
   let lockRef = projectDatabase.ref(`lobby/rooms/${serverPlayerID}/lock`);
+  let StubLobbyRef = projectDatabase.ref(
+    `battle/${serverPlayerID}/loadComplete`
+  );
 
   useEffect(() => {
     lockRef.on("value", (otherSnapshot) => {
       setLockButtons(otherSnapshot.val());
-      if(otherSnapshot.val()){
-        setTimeout(()=>{
+      if (otherSnapshot.val()) {
+        setTimeout(() => {
           setGameState("Battle");
         }, 500);
       }
     });
+    StubLobbyRef.set({ server: false, client: false });
   }, []);
 
   useEffect(() => {
@@ -95,7 +99,9 @@ export default function Room({ setGameState }) {
         </div>
         <div className={styles.buttonContainer}>
           <div
-            className={`${styles.selectionButton} ${lockButtons?styles.lockedButton:""}`}
+            className={`${styles.selectionButton} ${
+              lockButtons ? styles.lockedButton : ""
+            }`}
             onClick={() => {
               if (!lockButtons && serverPlayerID == user.uid && enemy) {
                 lockRef.set(true);
@@ -105,12 +111,14 @@ export default function Room({ setGameState }) {
             <img src="assets/GameArt/PlayButton.png" alt="" />
           </div>
           <div
-            className={`${styles.selectionButton} ${lockButtons?styles.lockedButton:""}`}
+            className={`${styles.selectionButton} ${
+              lockButtons ? styles.lockedButton : ""
+            }`}
             onClick={() => {
               if (!lockButtons) {
-                if(serverPlayerID == user.uid){
+                if (serverPlayerID == user.uid) {
                   projectDatabase.ref(`lobby/rooms/${user.uid}`).remove();
-                } else{
+                } else {
                   const clientSlot = projectDatabase.ref(
                     `lobby/rooms/${serverPlayerID}/client`
                   );

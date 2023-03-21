@@ -1,91 +1,77 @@
 import { useContext, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { AuthContext } from "../../Database/context/AuthContext";
+import { projectFirestore } from "../../Database/firebase/config";
 import styles from "./Social.module.css";
+import firebase from "firebase";
 
 // const ENDPOINT = "http://localhost:5000";
-const ENDPOINT = "https://seng-401-server.onrender.com";
-const socket = io(ENDPOINT);
+// const ENDPOINT = "https://seng-401-server.onrender.com";
+// const socket = io(ENDPOINT);
 
 export default function Social() {
   const { user } = useContext(AuthContext);
   const [selectedChat, setSelectedChat] = useState("global");
-  const [friends, setFriends] = useState([]);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
-
-  // Should eventually be stored in a context
-  const userPlaceholder = {
-    _id: "63f67ca701b010b2c4379399",
-    name: "Rimuru Tempest",
-    email: "rimuru@example.com",
-    status: "ONLINE",
-    rank: 7,
-    friends: [],
-    friendRequests: [],
-    slime: {
-      color: "green",
-      face: "happy",
-    },
-    token:
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZjY3Y2E3MDFiMDEwYjJjNDM3OTM5OSIsImlhdCI6MTY3NzA5ODE1MSwiZXhwIjoxNjc5NjkwMTUxfQ.gSXaeP1jQJN84qiWpvt2f5an7OxvHf5xEeytYV57bdw",
-  };
-
-  // Socket IO
-  useEffect(() => {
-    socket.emit("setup", userPlaceholder._id);
-
-    socket.on("message", (newMessage) => {
-      if (
-        (newMessage.to === "global" && selectedChat === "global") ||
-        selectedChat?._id === newMessage.to
-      ) {
-        setMessages((prev) => [newMessage, ...prev]);
-      }
-    });
-
-    return () => {
-      socket.removeAllListeners();
-    };
-  }, [selectedChat]);
+  const [friends, setFriends] = useState([]);
+  const [chatRef, setChatRef] = useState(projectFirestore.collection("chats").doc("global"));
 
   // Fetch friends
   useEffect(() => {
     const getFriends = async () => {
-      const data = await fetch(`${ENDPOINT}/api/user/friends`, {
-        headers: {
-          Authorization: `Bearer ${userPlaceholder.token}`,
-        },
-      }).then((res) => res.json());
+      const friends = await Promise.all(user.data.friends.map(async friend => {
+        const doc = await friend.get();
+        const { slimeType, slimeSkin } = doc.data();
+        return {
+          _id: doc.id,
+          ...doc.data(),
+          slimePath: `assets/GameArt/${slimeType}Slime/${slimeType}Slime${slimeSkin}`,
+        };
+      }))
 
-      setFriends(data);
-    };
+      setFriends(friends);
+    }
 
     getFriends();
   }, []);
 
+  // Stupid stupid stupid code
+  useEffect(() => {
+    const unsub = chatRef.collection("messages").orderBy("sentAt", "asc").onSnapshot(snapshot => {
+      snapshot.docChanges().forEach(change => {
+        setMessages(prev => [change.doc.data(), ...prev])
+      })
+    });
+
+    return () => unsub();
+  }, [chatRef]);
+
   // Fetch messages for selected channel
+  // World's stupidest code right here
   useEffect(() => {
     const getMessages = async () => {
-      let channel;
+      setMessages([]);
+      if (selectedChat === "global") {
+        setChatRef(projectFirestore.collection("chats").doc("global"));
+      } else {
+        const docs1 = await projectFirestore.collection("chats").where("users", "array-contains", user.uid).get().then(res => res.docs);
+        const docs2 = await projectFirestore.collection("chats").where("users", "array-contains", selectedChat).get().then(res => res.docs);
 
-      if (selectedChat) {
-        if (selectedChat === "global") {
-          // If user selected global chat
-          channel = "global";
-        } else {
-          // If user selected friend
-          channel = selectedChat._id;
+        const intersectDocs = docs1.filter((doc1) => {
+          return docs2.some((doc2) => doc2.id === doc1.id);
+        });
+
+        // Create chat if it doesn't exist
+        if (!intersectDocs[0]) {
+          await projectFirestore.collection("chats").add({
+            users: [user.uid, selectedChat]
+          })
         }
 
-        const data = await fetch(`${ENDPOINT}/api/chat/${channel}`, {
-          headers: {
-            Authorization: `Bearer ${userPlaceholder.token}`,
-          },
-        }).then((res) => res.json());
-        setMessages(data.reverse());
+        setChatRef(intersectDocs[0].ref);
       }
-    };
+    }
 
     getMessages();
   }, [selectedChat]);
@@ -97,28 +83,12 @@ export default function Social() {
     if (message && selectedChat) {
       const newMessage = {
         content: message,
-        sender: userPlaceholder,
+        sender: user.data.username,
+        sentAt: firebase.firestore.Timestamp.now(),
       };
 
-      if (selectedChat === "global") {
-        // Send message to global
-        newMessage.to = "global";
-      } else {
-        // Send message to chat
-        newMessage.to = selectedChat._id;
-      }
-
-      await fetch(`${ENDPOINT}/api/chat/${newMessage.to}`, {
-        headers: {
-          Authorization: `Bearer ${userPlaceholder.token}`,
-          "Content-type": "application/json",
-        },
-        method: "post",
-        body: JSON.stringify(newMessage),
-      });
-
       setMessage("");
-      socket.emit("message", newMessage);
+      await chatRef.collection("messages").add(newMessage);
     }
   };
 
@@ -141,11 +111,11 @@ export default function Social() {
                 className={`${styles.friend} ${selectedChat === friend ? styles.selected : ""
                   }`}
                 key={i}
-                onClick={() => setSelectedChat(friend)}
+                onClick={() => setSelectedChat(friend._id)}
               >
-                <img src={user.data.slimePath + ".svg"} className={styles.slimeBody}></img>
+                <img src={friend.slimePath + ".svg"} className={styles.slimeBody}></img>
                 <div>
-                  <p>{friend.name}</p>
+                  <p>{friend.username}</p>
                   <p className={`${styles.presence} ${styles[friend.status]}`}>
                     {friend.status}
                   </p>
@@ -158,7 +128,7 @@ export default function Social() {
         <div className={styles.userStatus}>
           <img src={user.data.slimePath + ".svg"} className={styles.slimeBody}></img>
           <div>
-            <p>{userPlaceholder.name}</p>
+            <p>{user.data.username}</p>
             <p className={`${styles.presence} ${styles.ONLINE}`}>ONLINE</p>
           </div>
         </div>
@@ -170,11 +140,11 @@ export default function Social() {
             messages.map((message, i) => {
               return (
                 <div
-                  className={`${styles.messageContainer} ${message.sender._id === userPlaceholder._id ? styles.mine : ""
+                  className={`${styles.messageContainer} ${message.sender === user.data.username ? styles.mine : ""
                     }`}
                   key={i}
                 >
-                  <p className={styles.name}>{message.sender.name}</p>
+                  <p className={styles.name}>{message.sender}</p>
                   <p className={styles.message}>{message.content}</p>
                 </div>
               );

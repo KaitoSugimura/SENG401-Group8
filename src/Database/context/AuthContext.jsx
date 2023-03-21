@@ -19,6 +19,14 @@ export const AuthContextProvider = ({ children }) => {
 
         const userData = await userRef.get();
 
+        // Placeholder friends
+        const friends = [];
+        ["dThrxOT2NHNboaRNGkpsY2JBUf22", "zfF4DaVYqnep4a266euByoWbcLl1", "FRlFwdxGq1cToR3ttvXqhEFJScA3"].forEach(friendID => {
+          if (friendID != user.uid) {
+            friends.push(projectFirestore.collection("users").doc(friendID));
+          }
+        })
+
         // If user data doesn't exist
         if (!userData.exists) {
           // Account is new: create user data
@@ -32,6 +40,8 @@ export const AuthContextProvider = ({ children }) => {
             bannerFilepath: "/Account/Banners/Sky.jpg",
             slimeType: "Normal",
             slimeSkin: 3,
+            status: "ONLINE",
+            friends
           });
         }
 
@@ -62,12 +72,12 @@ export const AuthContextProvider = ({ children }) => {
     return unsubAuth;
   }, []);
 
-  // DEBUGGING
-  useEffect(() => {
-    if (user) {
-      console.log(user);
-    }
-  }, [user])
+  // // DEBUGGING
+  // useEffect(() => {
+  //   if (user) {
+  //     console.log(user);
+  //   }
+  // }, [user])
 
   return (
     <AuthContext.Provider value={{ user, userRef, userLoaded }}>

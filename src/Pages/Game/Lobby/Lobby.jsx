@@ -4,10 +4,12 @@ import { projectDatabase } from "../../../Database/firebase/config";
 import { AuthContext } from "../../../Database/context/AuthContext";
 import Popup from "../../../Components/Popup.jsx";
 import CreateLobby from "./CreateLobby";
+import { gameContext } from "../Game";
 
 export default function Lobby({ setGameState }) {
-
   const { user } = useContext(AuthContext);
+  const { setServerPlayerID, setClientPlayerID } = useContext(gameContext);
+
   const [character, updateCharacter] = useState({
     type: "Earth", skin: 1, unlocked: true, power: 3, speed: 3, health: 3, two: false, three: true,
   })
@@ -54,31 +56,67 @@ export default function Lobby({ setGameState }) {
   }
 
   const createPublicRoom = (goldAmount) => {
-    console.log("AAAAAAAA", user.id);
+    setServerPlayerID(user.uid);
+
     publicLobbyRef = projectDatabase.ref(`lobby/public/${user.uid}`);
     publicLobbyRef.set({
+      uid: user.uid,
       name: user.displayName,
       rank: user.data.rank,
-      gold: goldAmount
+      gold: goldAmount,
+      slimePath: user.data.slimePath,
+      slimeType: user.data.slimeType,
+      empty: false
+    });
+    const clientSlot = projectDatabase.ref(`lobby/public/${user.uid}/client`);
+    clientSlot.set({
+      empty: true
     });
     publicLobbyRef.onDisconnect().remove();
     setGameState("Room");
   }
 
   const createPrivateRoom = (password, goldAmount) => {
+    setServerPlayerID(user.uid);
     privateLobbyRef = projectDatabase.ref(`lobby/private/${user.uid}`);
     privateLobbyRef.set({
       uid: user.uid,
       name: user.displayName,
       rank: user.data.rank,
       gold: goldAmount,
-      password: password
+      password: password,
+      slimePath: user.data.slimePath,
+      slimeType: user.data.slimeType
+    });
+    const clientSlot = projectDatabase.ref(`lobby/private/${user.uid}/client`);
+    clientSlot.set({
+      empty: true
     });
     privateLobbyRef.onDisconnect().remove();
     setGameState("Room");
   }
 
+  const enterPublicRoom = (uid) => {
+    console.log("UID:", uid);
+    publicLobbyRef = projectDatabase.ref(`lobby/public/${uid}/client`);
+    publicLobbyRef.set({
+      uid: user.uid,
+      name: user.displayName,
+      rank: user.data.rank,
+      slimePath: user.data.slimePath,
+      slimeType: user.data.slimeType,
+      empty: false
+    });
+    publicLobbyRef.onDisconnect().remove();
+    setServerPlayerID(uid);
+    setClientPlayerID(user.uid);
+    setGameState("Room");
+  }
+
   const enterPrivateRoom=(uid)=>{
+    setServerPlayerID(uid);
+    setClientPlayerID(user.uid);
+    console.log(uid, user.uid);
     let ogpass;
     privateLobbyRef = projectDatabase.ref('lobby/private/'+uid);
     privateLobbyRef.on('value', (snapshot)=>{
@@ -111,7 +149,7 @@ export default function Lobby({ setGameState }) {
           {publicLobbyList && Object.values(publicLobbyList).map((OtherPerson, index) => (
             <div className={styles.lobby} key={index}>
 
-              <div className={styles.gold} onClick={() => setGameState("Room")}>
+              <div className={styles.gold}>
                 <img src="assets/GameArt/Gold.png" alt="" />
               </div>
               <div className={styles.goldInfo}>
@@ -121,7 +159,9 @@ export default function Lobby({ setGameState }) {
                 <h2>{OtherPerson.name}</h2>
                 <h3>Rank:{OtherPerson.rank}</h3>
               </div>
-              <div className={styles.selectRoomButton} onClick={() => setGameState("Room")}>
+              <div className={styles.selectRoomButton} onClick={() => {
+                enterPublicRoom(OtherPerson.uid);
+              }}>
                 <img src="assets/GameArt/Door.png" alt="" />
               </div>
             </div>
@@ -129,7 +169,7 @@ export default function Lobby({ setGameState }) {
           {privateLobbyList&& Object.values(privateLobbyList).map((OtherPerson, index)=>(
              <div className={styles.lobby} key={index}>
 
-             <div className={styles.gold} onClick={() => setGameState("Room")}>
+             <div className={styles.gold}>
                <img src="assets/GameArt/Gold.png" alt="" />
              </div>
              <div className={styles.goldInfo}>
@@ -140,30 +180,14 @@ export default function Lobby({ setGameState }) {
                <h3>Rank:{OtherPerson.rank}</h3>
              </div>
              <div className={styles.selectRoomButton} onClick={(e) => {
-              enterPrivateRoom(OtherPerson.uid.toString());
+              enterPrivateRoom(OtherPerson.uid);
              }}>
                <img src="assets/GameArt/Locked.png" alt="" />
              </div>
            </div>
           ))}
 
-          <div className={styles.lobby}>
-            <div className={styles.gold} onClick={() => setGameState("Room")}>
-              <img src="assets/GameArt/Gold.png" alt="" />
-            </div>
-            <div className={styles.goldInfo}>
-              x0
-            </div>
-            <div className={styles.lobbyDetails}>
-              <h2>Fake Name</h2>
-              <h3>Rank:0</h3>
-            </div>
-            <div className={styles.selectRoomButton} onClick={() => setGameState("Room")}>
-              <img src="assets/GameArt/Door.png" alt="" />
-            </div>
-          </div>
 
-          
 
 
         </div>}
@@ -172,12 +196,12 @@ export default function Lobby({ setGameState }) {
           setLobbyList(true);
 
         }}>
-          Play a Friend
+          Create/Join custom
           </div>}
         {mode&& <div className={styles.createButton} onClick={()=>{
           setGameState("Battle");
         }}>
-        Play a Ranked
+        Play ranked
         </div>}
         {!mode&&lobbyList&&!popup && <div className={styles.lobbySelection}>
             <div className={styles.createButton} onClick={() => { showRoomOptions() }}>

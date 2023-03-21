@@ -95,7 +95,7 @@ export default function Lobby({ setGameState }) {
       <div className={styles.Character}>
         <h1>{user.displayName}</h1>
         <div className={styles.characterBox}>
-          <img src={user.data.slimePath} alt={character.type} draggable="false" />
+          <img src={user.data.slimePath+".svg"} alt={character.type} draggable="false" />
         </div>
         <h2>{character.type} Slime</h2>
         <h2>Rank: {user.data.rank}</h2>

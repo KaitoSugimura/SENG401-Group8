@@ -23,8 +23,9 @@ export const AuthContextProvider = ({ children }) => {
         if (!userData.exists) {
           // Account is new: create user data
           await userRef.set({
-            level: 31,
-            rank: 15,
+            username: user.displayName,
+            level: Math.floor(Math.random() * 50),
+            rank: Math.floor(Math.random() * 30),
             musicVolume: 100,
             gold: 1234,
             chestLastOpenedOn: firebase.firestore.Timestamp.fromMillis(0),

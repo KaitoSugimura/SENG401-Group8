@@ -84,7 +84,9 @@
     transform: scale(1.1);
 }
 
-
+.selectionButton.lockedButton{
+    opacity: 0.3;
+}
 
 .player{
     width: 30vw;

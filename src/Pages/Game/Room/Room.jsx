@@ -16,14 +16,29 @@ export default function Room({ setGameState }) {
   const [self, setSelf] = useState(null);
   const [enemy, setEnemy] = useState(null);
 
+  const [lockButtons, setLockButtons] = useState(false);
+
+  let lockRef = projectDatabase.ref(`lobby/rooms/${serverPlayerID}/lock`);
+
+  useEffect(() => {
+    lockRef.on("value", (otherSnapshot) => {
+      setLockButtons(otherSnapshot.val());
+      if(otherSnapshot.val()){
+        setTimeout(()=>{
+          setGameState("Battle");
+        }, 500);
+      }
+    });
+  }, []);
+
   useEffect(() => {
     if (serverPlayerID == user.uid) {
-      const selfRef = projectDatabase.ref(`lobby/public/${user.uid}`);
+      const selfRef = projectDatabase.ref(`lobby/rooms/${user.uid}`);
       selfRef.once("value", (otherSnapshot) => {
         setSelf(otherSnapshot.val());
       });
       const enemyRef = projectDatabase.ref(
-        `lobby/public/${serverPlayerID}/client`
+        `lobby/rooms/${serverPlayerID}/client`
       );
       enemyRef.on("value", (otherSnapshot) => {
         if (!otherSnapshot.val().empty) {
@@ -36,12 +51,12 @@ export default function Room({ setGameState }) {
       });
     } else {
       const selfRef = projectDatabase.ref(
-        `lobby/public/${serverPlayerID}/client`
+        `lobby/rooms/${serverPlayerID}/client`
       );
       selfRef.once("value", (otherSnapshot) => {
         setSelf(otherSnapshot.val());
       });
-      const enemyRef = projectDatabase.ref(`lobby/public/${serverPlayerID}`);
+      const enemyRef = projectDatabase.ref(`lobby/rooms/${serverPlayerID}`);
       enemyRef.once("value", (otherSnapshot) => {
         setEnemy(otherSnapshot.val());
       });
@@ -80,21 +95,31 @@ export default function Room({ setGameState }) {
         </div>
         <div className={styles.buttonContainer}>
           <div
-            className={styles.selectionButton}
-            onClick={() => setGameState("Battle")}
+            className={`${styles.selectionButton} ${lockButtons?styles.lockedButton:""}`}
+            onClick={() => {
+              if (!lockButtons && serverPlayerID == user.uid && enemy) {
+                lockRef.set(true);
+              }
+            }}
           >
             <img src="assets/GameArt/PlayButton.png" alt="" />
           </div>
           <div
-            className={styles.selectionButton}
+            className={`${styles.selectionButton} ${lockButtons?styles.lockedButton:""}`}
             onClick={() => {
-              const clientSlot = projectDatabase.ref(
-                `lobby/public/${serverPlayerID}/client`
-              );
-              clientSlot.set({
-                empty: true,
-              });
-              setGameState("Lobby");
+              if (!lockButtons) {
+                if(serverPlayerID == user.uid){
+                  projectDatabase.ref(`lobby/rooms/${user.uid}`).remove();
+                } else{
+                  const clientSlot = projectDatabase.ref(
+                    `lobby/rooms/${serverPlayerID}/client`
+                  );
+                  clientSlot.set({
+                    empty: true,
+                  });
+                }
+                setGameState("Lobby");
+              }
             }}
           >
             <img src="assets/GameArt/RestartButton.png" alt="" />

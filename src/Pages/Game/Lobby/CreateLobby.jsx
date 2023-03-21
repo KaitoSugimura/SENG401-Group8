@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import styles from "./Lobby.module.css";
 
 
-const CreateLobby = ({setPopUp, createPublicRoom, createPrivateRoom}) => {
+const CreateLobby = ({setPopUp, createRoom}) => {
     const arenaTypes = ['Public', 'Private'];
     const[type, setType]=useState("public");
     const[password, setPassword]= useState("");
@@ -11,10 +11,10 @@ const CreateLobby = ({setPopUp, createPublicRoom, createPrivateRoom}) => {
     const handleSubmit = (event)=>{
         event.preventDefault();
         if(type==='public'){
-            createPublicRoom(gold);
+            createRoom("", gold);
         }
         else if(type==='private'){
-            createPrivateRoom(password, gold);
+            createRoom(password, gold);
         } 
     }
 

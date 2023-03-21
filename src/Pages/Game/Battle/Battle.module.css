@@ -37,10 +37,14 @@
   transition: 0.032s linear;
 
   background-color: red;
-  width: 2vw;
-  height: 2vw;
   border-radius: 100%;
   border: 2px solid #000;
+}
+
+.projectile.healing{
+    background-color: rgb(255, 77, 0);
+    filter: drop-shadow(0px 0px 3px rgb(13, 255, 0)) drop-shadow(0px 0px 4px rgb(13, 255, 0));
+    border: none;
 }
 
 .battleField {

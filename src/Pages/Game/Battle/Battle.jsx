@@ -23,16 +23,10 @@ export default function Battle({ setGameState }) {
   const battleFieldWidth = useRef(90); // If these numbers are to be changed, change in the useEffect below
   const battleFieldHeight = useRef(50.625);
 
-  const projectile = useRef({
-    x: 6,
-    y: 4,
-    dx: 1,
-    dy: 1,
-    rad: 1,
-    show: true,
-  });
+  const projectiles = useRef([]);
+  const enemyProjectiles = useRef([]);
 
-  const canvasRef = useRef(null);
+  let ProjectileKey = useRef(0);
 
   let playerId;
   let playerRef;
@@ -77,16 +71,6 @@ export default function Battle({ setGameState }) {
       p.top = Math.min(Math.max(p.top, 1.2), battleFieldHeight.current - 2);
 
       self.current = p;
-
-      if (
-        projectile.current.x <= self.current.left + 2.5 &&
-        projectile.current.x >= self.current.left - 2.5 &&
-        projectile.current.y <= self.current.top + 2 &&
-        projectile.current.y >= self.current.top - 2
-      ) {
-        setGameState("EndScreen");
-      }
-
       playerRef.set({
         ...self.current,
         left: self.current.left / battleFieldWidth.current,
@@ -177,20 +161,18 @@ export default function Battle({ setGameState }) {
   }
 
   const shoot = () => {
-    if (!self.current.shooting) {
+    if (!self.current.shooting && projectiles.current.length < 5) {
       self.current.shooting = true;
-      projectile.current.show = false;
       const SlimeToMouseVectorX =
         mousePos.current.x - selfCompRef.current.getBoundingClientRect().left;
       const SlimeToMouseVectorY =
         mousePos.current.y - selfCompRef.current.getBoundingClientRect().top;
-      if(SlimeToMouseVectorX > 0){
+      if (SlimeToMouseVectorX > 0) {
         self.current.direction = "right";
-      } else{
+      } else {
         self.current.direction = "left";
       }
       setTimeout(() => {
-
         // Normalize Slime to mouse vectors
         const length = Math.sqrt(
           SlimeToMouseVectorX * SlimeToMouseVectorX +
@@ -198,12 +180,17 @@ export default function Battle({ setGameState }) {
         );
         const normalizedX = SlimeToMouseVectorX / length;
         const normalizedY = SlimeToMouseVectorY / length;
-        projectile.current.dx = normalizedX * 1.5;
-        projectile.current.dy = normalizedY * 1.5;
 
-        projectile.current.x = self.current.left + normalizedX * 3;
-        projectile.current.y = self.current.top + normalizedY * 3;
-        projectile.current.show = true;
+        projectiles.current.push({
+          x: self.current.left + normalizedX * 3,
+          y: self.current.top + normalizedY * 3,
+          dx: normalizedX * 1.5,
+          dy: normalizedY * 1.5,
+          rad: 1,
+          bulletState: 0, // 0-2 damage, >=3 for healing
+          key: "div" + ProjectileKey.current,
+        });
+        ProjectileKey.current++;
         setTimeout(() => {
           self.current.shooting = false;
         }, 100);
@@ -251,20 +238,38 @@ export default function Battle({ setGameState }) {
       }
       handleKeyPress(dx, dy);
     }
-    projectile.current.x += projectile.current.dx;
-    projectile.current.y += projectile.current.dy;
+    for (let i = 0; i < projectiles.current.length; i++) {
+      let projectile = projectiles.current[i];
+      projectile.x += projectile.dx;
+      projectile.y += projectile.dy;
 
-    if (
-      projectile.current.y - projectile.current.rad <= 0 ||
-      projectile.current.y + projectile.current.rad >= battleFieldHeight.current
-    ) {
-      projectile.current.dy *= -1;
-    }
-    if (
-      projectile.current.x - projectile.current.rad <= 0 ||
-      projectile.current.x + projectile.current.rad >= battleFieldWidth.current
-    ) {
-      projectile.current.dx *= -1;
+      if (
+        projectile.x <= self.current.left + 2.5 &&
+        projectile.x >= self.current.left - 2.5 &&
+        projectile.y <= self.current.top + 2 &&
+        projectile.y >= self.current.top - 2
+      ) {
+        if (projectile.bulletState >= 3) {
+          projectiles.current.splice(i, 1);
+        } else {
+          setGameState("EndScreen");
+        }
+      }
+
+      if (
+        projectile.y - projectile.rad <= 0 ||
+        projectile.y + projectile.rad >= battleFieldHeight.current
+      ) {
+        projectile.dy *= -1;
+        projectile.bulletState++;
+      }
+      if (
+        projectile.x - projectile.rad <= 0 ||
+        projectile.x + projectile.rad >= battleFieldWidth.current
+      ) {
+        projectile.dx *= -1;
+        projectile.bulletState++;
+      }
     }
 
     Render(Date.now());
@@ -298,15 +303,20 @@ export default function Battle({ setGameState }) {
       Your browser does not support the video tag.
     </video> */}
             {/* PROJECTILES START */}
-            {projectile.current.show && (
-              <div
-                className={styles.projectile}
+            {projectiles.current.map((projectile, i) => (
+              <projectile.key
+               className={`${styles.projectile} ${
+                  projectile.bulletState > 2 ? styles.healing : ""
+                }`}
                 style={{
-                  top: projectile.current.y + "vw",
-                  left: projectile.current.x + "vw",
+                  top: projectile.y + "vw",
+                  left: projectile.x + "vw",
+                  width: projectile.rad * 2 + "vw",
+                  height: projectile.rad * 2 + "vw",
                 }}
-              ></div>
-            )}
+                key={projectile.key}
+              ></projectile.key>
+            ))}
             {/* PROJECTILES END */}
             {/* TEMP HIT BOX POINTS */}
             {/* <span
@@ -348,7 +358,10 @@ export default function Battle({ setGameState }) {
             >
               <span ref={selfCompRef} className={styles.selfCenter}></span>
               <div className={self.current.shooting ? styles.shootingAnim : ""}>
-                <img src={user.data.slimePath + ".gif"} className={styles.slimeImage}></img>
+                <img
+                  src={user.data.slimePath + ".gif"}
+                  className={styles.slimeImage}
+                ></img>
               </div>
               <p className={styles.characterName}>{self.current.name}</p>
             </div>
@@ -361,7 +374,10 @@ export default function Battle({ setGameState }) {
                 }}
                 data-direction={enemy.current.direction}
               >
-                <img src={user.data.slimePath + ".gif"} className={styles.slimeImage}></img>
+                <img
+                  src={user.data.slimePath + ".gif"}
+                  className={styles.slimeImage}
+                ></img>
                 <p className={styles.characterName}>{enemy.current.name}</p>
               </div>
             )}

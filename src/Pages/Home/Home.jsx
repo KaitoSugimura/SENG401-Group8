@@ -90,7 +90,7 @@ export default function Home() {
         disabled={petted}
       >
         <img
-          src={user.data.slimePath}
+          src={user.data.slimePath+".svg"}
           className={`${styles.characterIMG} ${petted
             ? animations[Math.floor(Math.random() * animations.length)]
             : ""

@@ -2,8 +2,6 @@ import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../../Database/context/AuthContext";
 import { projectDatabase } from "../../../Database/firebase/config";
 import styles from "./Battle.module.css";
-import slime from "/assets/GameArt/IceSlime/IceSlime1.gif";
-import slimeAnim from "/assets/GameArt/IceSlime/IceSlime2.gif";
 import map from "/assets/GameMap/SlimeMeadows.webp";
 
 export default function Battle({ setGameState }) {
@@ -350,7 +348,7 @@ export default function Battle({ setGameState }) {
             >
               <span ref={selfCompRef} className={styles.selfCenter}></span>
               <div className={self.current.shooting ? styles.shootingAnim : ""}>
-                <img src={slime} className={styles.slimeImage}></img>
+                <img src={user.data.slimePath + ".gif"} className={styles.slimeImage}></img>
               </div>
               <p className={styles.characterName}>{self.current.name}</p>
             </div>
@@ -363,7 +361,7 @@ export default function Battle({ setGameState }) {
                 }}
                 data-direction={enemy.current.direction}
               >
-                <img src={slime} className={styles.slimeImage}></img>
+                <img src={user.data.slimePath + ".gif"} className={styles.slimeImage}></img>
                 <p className={styles.characterName}>{enemy.current.name}</p>
               </div>
             )}

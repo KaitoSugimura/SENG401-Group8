@@ -1,15 +1,18 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../Database/context/AuthContext";
 import { useLogout } from "../Database/Hooks/useLogout";
 import styles from "./AccountBanner.module.css"
 import Banner from "./Banner";
+import { projectAuth, projectFirestore } from "../Database/firebase/config";
+import firebase from "firebase";
 
 
 export default function AccountBanner({ setShowBanner }) {
   const { logout } = useLogout();
+  const [userRef, setUserRef]=useState(null);
   const { user } = useContext(AuthContext);
   const [bSelectionOn, setBSelectionOn] = useState(false);
-  const [banner, setBanner]=useState("/Account/Banners/cloudyMountains.jpg");
+  const [banner, setBanner]=useState(user.data.bannerFilepath);
 
   const[banners,setBanners]=useState([
     "/Account/Banners/Sky.jpg",
@@ -22,6 +25,16 @@ export default function AccountBanner({ setShowBanner }) {
     "/Account/Banners/cloudyMountains.jpg",
     "/Account/Banners/Sky.jpg",
   ]);
+
+  useEffect(()=>{
+    const userRef= projectFirestore.collection("users").doc(user.uid);
+    setUserRef(userRef);
+  },[]);
+
+  const changeBanner=(bannerPath)=>{
+    userRef.update({bannerFilepath: bannerPath});
+    setBanner(bannerPath);
+  }
 
   return (
     <div className={styles.AccountBanner} >
@@ -40,15 +53,12 @@ export default function AccountBanner({ setShowBanner }) {
 
       <img src={banner} className={styles.banner} onClick={() => { setBSelectionOn(true) }}></img>
       
-      
-
-
       <div className={`${styles.bannerSelectionContainer} ${bSelectionOn ? styles.ShowBannerSelection : ""}`}>
         <h1>Select a Banner</h1>
         <div className={styles.bannerOptions}>
           
           {banners.map((bannerx, index)=>(
-            <Banner index = {index} banner={bannerx} setBanner={setBanner} banners={banners}></Banner>
+            <Banner index = {index} banner={bannerx} setBanner={changeBanner} banners={banners}></Banner>
           ))}
         </div>
         <button className={styles.bannerSelectionExit} onClick={() => { setBSelectionOn(false); }}>X</button>

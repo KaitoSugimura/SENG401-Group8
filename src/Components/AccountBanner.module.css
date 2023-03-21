@@ -88,7 +88,7 @@
   width: 60vw;
   height: 70vh;
   top: 15vh;
-  left: 20vw;
+  left: 5vw;
   z-index: 100002;
   background-color: #000;
 
@@ -105,9 +105,61 @@
   width: 40px;
   height: 40px;
   color: #ffffff;
-  background: none;
+  background: black;
 }
 
 .bannerSelectionExit:hover {
   color: #d7d7d7;
+}
+
+.bannerOptions{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4%;
+  overflow: scroll;
+  background-color: black;
+  width: 100%;
+  height: 100%;
+  
+}
+
+.bannerSelectionContainer h1{
+  position: absolute;
+  top: 0;
+  background-color: black;
+  width: 100%;
+  font-size: 3.0rem;
+  color: silver;
+  margin-bottom: 20px;
+}
+
+.bannerOptions{
+  padding-top: 10%;
+}
+
+.bannerContainer{
+  
+  height: 50%;
+  background-color: blue;
+}
+
+.bannerContainer img{
+  width: auto;
+  height: 100%;
+}
+
+.bannerContainer:hover{
+  border: solid 5px black;
+  pointer-events: all;
+  cursor: pointer;
+}
+
+
+
+.bannerOptions::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+  background: transparent;
+  scroll-behavior: smooth;
 }

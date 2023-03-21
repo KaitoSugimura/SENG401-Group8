@@ -1,13 +1,17 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../../Database/context/AuthContext";
 import { projectDatabase } from "../../../Database/firebase/config";
+import { gameContext } from "../Game";
 import LoadingScreen from "../LoadingScreen";
 import styles from "./Battle.module.css";
 import GameCountDown from "./GameCountDown";
 import map from "/assets/GameMap/SlimeMeadows.webp";
 
-export default function Battle({ setGameState }) {
+export default function Battle({ setGameState}) {
   const { user } = useContext(AuthContext);
+  const { serverPlayerID, clientPlayerID } = useContext(gameContext);
+
+
   const self = useRef({});
   const enemy = useRef(null);
   const [reRender, Render] = useState({});
@@ -41,7 +45,11 @@ export default function Battle({ setGameState }) {
 
   if (user) {
     playerId = user.uid;
-    playerRef = projectDatabase.ref(`players/${playerId}`);
+    if(playerId === serverPlayerID){
+      playerRef = projectDatabase.ref(`battle/${serverPlayerID}/${serverPlayerID}`);
+    } else{
+      playerRef = projectDatabase.ref(`battle/${serverPlayerID}/${clientPlayerID}`);
+    }
   }
 
   // Calculate battle field dimensions
@@ -126,30 +134,28 @@ export default function Battle({ setGameState }) {
   }, []);
 
   useEffect(() => {
-    const allPlayersRef = projectDatabase.ref("players");
-    allPlayersRef.on("value", (snapshot) => {
-      if (snapshot.numChildren() >= 2) {
-        allPlayersRef.off();
-        snapshot.forEach((childSnapshot) => {
-          const otherPlayerId = childSnapshot.key;
-          if (playerId != otherPlayerId) {
-            const otherPlayersRef = projectDatabase.ref(
-              `players/${otherPlayerId}`
-            );
-            otherPlayersRef.on("value", (otherSnapshot) => {
-              const p = otherSnapshot.val();
-              if (p === null) enemy.current = null;
-              else
-                enemy.current = {
-                  ...p,
-                  left: p.left * battleFieldWidth.current,
-                  top: p.top * battleFieldHeight.current,
-                };
-            });
-          }
-        });
+
+    let enemyRef;
+    if(playerId === serverPlayerID){
+      enemyRef = projectDatabase.ref(`battle/${serverPlayerID}/${clientPlayerID}`);
+    } else{
+      enemyRef = projectDatabase.ref(`battle/${serverPlayerID}/${serverPlayerID}`);
+    }
+
+    enemyRef.on("value", (otherSnapshot) => {
+      const p = otherSnapshot.val();
+      if (p === null) {
+        // Enemy disconnected
+        enemy.current = null;
       }
+      else
+        enemy.current = {
+          ...p,
+          left: p.left * battleFieldWidth.current,
+          top: p.top * battleFieldHeight.current,
+        };
     });
+
   }, []);
 
   function move(event) {

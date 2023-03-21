@@ -44,7 +44,7 @@ export const AuthContextProvider = ({ children }) => {
             ...user,
             data: {
               ...data,
-              slimePath: `assets/GameArt/${slimeType}Slime/${slimeType}Slime${slimeSkin}.svg`,
+              slimePath: `assets/GameArt/${slimeType}Slime/${slimeType}Slime${slimeSkin}`,
               daysSinceLastChest: (Date.now() - data.chestLastOpenedOn.toDate()) / 1000 / 60 / 60 / 24,
             }
           });

@@ -165,9 +165,9 @@ export default function Lobby({ setGameState }) {
           Create Lobby
         </div>}
 
-        <Popup popup={popup} setPopUp={setPopup}>
+        {popup && <Popup setPopUp={setPopup}>
           <h3>my Popup</h3>
-        </Popup>
+        </Popup>}
 
       </div>
 

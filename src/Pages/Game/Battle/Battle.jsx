@@ -3,7 +3,7 @@ import { AuthContext } from "../../../Database/context/AuthContext";
 import { projectDatabase } from "../../../Database/firebase/config";
 import styles from "./Battle.module.css";
 import slime from "/assets/GameArt/IceSlime/IceSlime1.gif";
-import map from "/assets/GameMap/SlimeMeadows.svg";
+import map from "/assets/GameMap/SlimeMeadows.webp";
 
 export default function Battle({ setGameState }) {
   const { user } = useContext(AuthContext);
@@ -15,6 +15,9 @@ export default function Battle({ setGameState }) {
   const left = useRef(false);
   const down = useRef(false);
   const right = useRef(false);
+  const mousePos = useRef({ x: null, y: null });
+
+  const selfCompRef = useRef(null);
 
   const intervalRef = useRef(null);
 
@@ -76,18 +79,34 @@ export default function Battle({ setGameState }) {
 
       self.current = p;
 
-      if(projectile.current.x <= self.current.left + 2.5 
-        && projectile.current.x >= self.current.left - 2.5
-        && projectile.current.y <= self.current.top + 2
-        && projectile.current.y >= self.current.top - 2){
-        self.current.top = 1.2;
-        self.current.left = 2.1;
+      if (
+        projectile.current.x <= self.current.left + 2.5 &&
+        projectile.current.x >= self.current.left - 2.5 &&
+        projectile.current.y <= self.current.top + 2 &&
+        projectile.current.y >= self.current.top - 2
+      ) {
         setGameState("EndScreen");
       }
 
-      playerRef.set({...self.current, left: self.current.left/battleFieldWidth.current, top: self.current.top/battleFieldHeight.current});
+      playerRef.set({
+        ...self.current,
+        left: self.current.left / battleFieldWidth.current,
+        top: self.current.top / battleFieldHeight.current,
+      });
     }
   };
+
+  function handleMouseMove(event) {
+    mousePos.current = {
+      x: event.pageX,
+      y: event.pageY,
+    };
+    console.log(
+      mousePos.current,
+      selfCompRef.current.getBoundingClientRect().left,
+      selfCompRef.current.getBoundingClientRect().top
+    );
+  }
 
   useEffect(() => {
     // Initialize game
@@ -96,12 +115,22 @@ export default function Battle({ setGameState }) {
       left: 2.1,
       direction: "right",
       name: user.displayName,
+      shooting: false,
     };
 
-    playerRef.set({...self.current, left: self.current.left/battleFieldWidth.current, top: self.current.top/battleFieldHeight.current});
+    playerRef.set({
+      ...self.current,
+      left: self.current.left / battleFieldWidth.current,
+      top: self.current.top / battleFieldHeight.current,
+    });
     playerRef.onDisconnect().remove();
 
     Render(Date.now());
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
   }, []);
 
   useEffect(() => {
@@ -116,9 +145,14 @@ export default function Battle({ setGameState }) {
               `players/${otherPlayerId}`
             );
             otherPlayersRef.on("value", (otherSnapshot) => {
-              const p = otherSnapshot.val();   
-              if(p === null) enemy.current = null;
-              else enemy.current = {...p, left: p.left*battleFieldWidth.current, top: p.top*battleFieldHeight.current};
+              const p = otherSnapshot.val();
+              if (p === null) enemy.current = null;
+              else
+                enemy.current = {
+                  ...p,
+                  left: p.left * battleFieldWidth.current,
+                  top: p.top * battleFieldHeight.current,
+                };
             });
           }
         });
@@ -144,8 +178,30 @@ export default function Battle({ setGameState }) {
   }
 
   const shoot = () => {
+    self.current.shooting = true;
+    setTimeout(() => {
+      const SlimeToMouseVectorX =
+        mousePos.current.x - selfCompRef.current.getBoundingClientRect().left;
+      const SlimeToMouseVectorY =
+        mousePos.current.y - selfCompRef.current.getBoundingClientRect().top;
 
-  }
+      // Normalize Slime to mouse vectors
+      const length = Math.sqrt(
+        SlimeToMouseVectorX * SlimeToMouseVectorX +
+          SlimeToMouseVectorY * SlimeToMouseVectorY
+      );
+      const normalizedX = SlimeToMouseVectorX / length;
+      const normalizedY = SlimeToMouseVectorY / length;
+      projectile.current.dx = normalizedX;
+      projectile.current.dy = normalizedY;
+
+      projectile.current.x = self.current.left + normalizedX * 3;
+      projectile.current.y = self.current.top + normalizedY * 3;
+      setTimeout(() => {
+        self.current.shooting = false;
+      }, 200);
+    }, 300);
+  };
 
   function release(event) {
     switch (event.keyCode) {
@@ -168,32 +224,41 @@ export default function Battle({ setGameState }) {
   }
 
   const moveCharacter = useCallback(() => {
-    const speed = 1;
-    let dx = 0;
-    let dy = 0;
+    if (!self.current.shooting) {
+      const speed = 1;
+      let dx = 0;
+      let dy = 0;
 
-    if (up.current) {
-      dy -= speed;
+      if (up.current) {
+        dy -= speed;
+      }
+      if (left.current) {
+        dx -= speed;
+      }
+      if (down.current) {
+        dy += speed;
+      }
+      if (right.current) {
+        dx += speed;
+      }
+      handleKeyPress(dx, dy);
     }
-    if (left.current) {
-      dx -= speed;
-    }
-    if (down.current) {
-      dy += speed;
-    }
-    if (right.current) {
-      dx += speed;
-    }
-    handleKeyPress(dx, dy);
     projectile.current.x += projectile.current.dx;
     projectile.current.y += projectile.current.dy;
 
-    if(projectile.current.y - projectile.current.rad <= 0 || projectile.current.y + projectile.current.rad >= battleFieldHeight.current){
+    if (
+      projectile.current.y - projectile.current.rad <= 0 ||
+      projectile.current.y + projectile.current.rad >= battleFieldHeight.current
+    ) {
       projectile.current.dy *= -1;
     }
-    if(projectile.current.x - projectile.current.rad <= 0 || projectile.current.x + projectile.current.rad >= battleFieldWidth.current){
+    if (
+      projectile.current.x - projectile.current.rad <= 0 ||
+      projectile.current.x + projectile.current.rad >= battleFieldWidth.current
+    ) {
       projectile.current.dx *= -1;
     }
+
     Render(Date.now());
   }, []);
 
@@ -212,7 +277,6 @@ export default function Battle({ setGameState }) {
     >
       <div class={styles.battleContainer}>
         <div className={styles.battleFieldContainer}>
-          
           <div
             className={styles.battleField}
             style={{
@@ -220,37 +284,50 @@ export default function Battle({ setGameState }) {
               height: battleFieldHeight.current + "vw",
             }}
           >
-            {/* <img src={map} className={styles.battleFieldImage}></img> */}
-            <video width="100%" height="100%" autoPlay>
+            <img src={map} className={styles.battleFieldImage}></img>
+            {/* <video width="100%" height="100%" autoPlay>
             <source src="/assets/video.mp4" type="video/mp4" />
       Your browser does not support the video tag.
-    </video>
+    </video> */}
             {/* PROJECTILES START */}
-            <div className={styles.projectile}
-          style={{
-              top: projectile.current.y + "vw",
-              left: projectile.current.x + "vw",
-            }}
+            <div
+              className={styles.projectile}
+              style={{
+                top: projectile.current.y + "vw",
+                left: projectile.current.x + "vw",
+              }}
             ></div>
             {/* PROJECTILES END */}
             {/* TEMP HIT BOX POINTS */}
-            <span className={styles.TestHitBoxPoints} style={{
+            <span
+              className={styles.TestHitBoxPoints}
+              style={{
                 top: self.current.top + 1.5 + "vw",
                 left: self.current.left + "vw",
-              }}></span>
-              <span className={styles.TestHitBoxPoints} style={{
-                top: self.current.top -1.5 + "vw",
+              }}
+            ></span>
+            <span
+              className={styles.TestHitBoxPoints}
+              style={{
+                top: self.current.top - 1.5 + "vw",
                 left: self.current.left + "vw",
-              }}></span>
-              <span className={styles.TestHitBoxPoints}style={{
+              }}
+            ></span>
+            <span
+              className={styles.TestHitBoxPoints}
+              style={{
                 top: self.current.top + "vw",
-                left: self.current.left +2+ "vw",
-              }}></span>
-              <span className={styles.TestHitBoxPoints}style={{
+                left: self.current.left + 2 + "vw",
+              }}
+            ></span>
+            <span
+              className={styles.TestHitBoxPoints}
+              style={{
                 top: self.current.top + "vw",
-                left: self.current.left-2 + "vw",
-              }}></span>
-              {/* TEMP HIT BOX POINTS END */}
+                left: self.current.left - 2 + "vw",
+              }}
+            ></span>
+            {/* TEMP HIT BOX POINTS END */}
             <div
               className={`${styles.character} ${styles.self}`}
               style={{
@@ -259,7 +336,7 @@ export default function Battle({ setGameState }) {
               }}
               data-direction={self.current.direction}
             >
-              
+              <span ref={selfCompRef} className={styles.selfCenter}></span>
               <img src={slime} className={styles.slimeImage}></img>
               <p className={styles.characterName}>{self.current.name}</p>
             </div>

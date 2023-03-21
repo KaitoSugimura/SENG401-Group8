@@ -81,6 +81,15 @@
     transition: 0.032s linear;
 }
 
+.selfCenter{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1px;
+    height: 1px;
+}
+
+
 .TestHitBoxPoints{
     position: absolute;
     transform: translate(-50%,-50%);

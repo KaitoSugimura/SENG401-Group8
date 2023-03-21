@@ -1,14 +1,14 @@
 import styles from "./Popup.module.css"
 import { useState } from "react";
-const Popup = (props) => {
-    return (props.popup) ?(
+const Popup = ({children, setPopUp}) => {
+    return (
         <div className={styles.popup}>
             <div className={styles.inner}>
-                <button className={styles.close} onClick={()=>props.setPopup(false)}>X</button>
-                {props.children}
+                <button className={styles.close} onClick={()=>setPopUp(false)}>X</button>
+                {children}
             </div>
         </div>
-     ):"";
+     );
 }
  
 export default Popup;

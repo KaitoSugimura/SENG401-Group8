@@ -182,11 +182,16 @@ export default function Battle({ setGameState }) {
     if (!self.current.shooting) {
       self.current.shooting = true;
       projectile.current.show = false;
+      const SlimeToMouseVectorX =
+        mousePos.current.x - selfCompRef.current.getBoundingClientRect().left;
+      const SlimeToMouseVectorY =
+        mousePos.current.y - selfCompRef.current.getBoundingClientRect().top;
+      if(SlimeToMouseVectorX > 0){
+        self.current.direction = "right";
+      } else{
+        self.current.direction = "left";
+      }
       setTimeout(() => {
-        const SlimeToMouseVectorX =
-          mousePos.current.x - selfCompRef.current.getBoundingClientRect().left;
-        const SlimeToMouseVectorY =
-          mousePos.current.y - selfCompRef.current.getBoundingClientRect().top;
 
         // Normalize Slime to mouse vectors
         const length = Math.sqrt(

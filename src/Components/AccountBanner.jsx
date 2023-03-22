@@ -5,14 +5,17 @@ import styles from "./AccountBanner.module.css";
 import Banner from "./Banner";
 import { projectAuth, projectFirestore } from "../Database/firebase/config";
 import firebase from "firebase";
+import { useDispatch } from "react-redux";
+import { logout } from "../Slices/authSlice";
 
 export default function AccountBanner({ setShowBanner, isNavBanner }) {
-  const { logout } = useLogout();
+  // const { logout } = useLogout();
   const [userRef, setUserRef] = useState(null);
   const { user } = useContext(AuthContext);
   const [bSelectionOn, setBSelectionOn] = useState(false);
   const [banner, setBanner] = useState(user.data.bannerFilepath);
   const [tempBannerIndex, setTempBannerIndex] = useState(user.data.bannerFilepath);
+  const dispatch = useDispatch();
 
   const width = window.innerWidth * 0.4;
   const widthStep = window.innerWidth * 0.025;
@@ -107,7 +110,7 @@ export default function AccountBanner({ setShowBanner, isNavBanner }) {
           className={styles.SignOut}
           onClick={() => {
             if (setShowBanner) setShowBanner(false);
-            logout();
+            dispatch(logout({}));
           }}
         >
           Sign out

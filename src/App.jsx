@@ -14,9 +14,10 @@ import Social from "./Pages/Social/Social";
 import Nav from "./Components/Nav";
 import Signup from "./Pages/Authentication/Signup";
 import Login from "./Pages/Authentication/Login";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContext } from "./Database/context/AuthContext";
 import { useSelector, useDispatch } from 'react-redux'
+import { check_login } from "./Slices/authSlice";
 
 const RootLayout = () => {
   const { userLoaded } = useContext(AuthContext);
@@ -33,34 +34,40 @@ const RootLayout = () => {
 };
 
 function App() {
-  // const { user } = useContext(AuthContext);
-  const user = useSelector((state) => state.auth.value.username)
-  console.log(user)
+  const dispatch = useDispatch();
+  
+  useEffect(() => {
+    console.log("hiya")
+    dispatch(check_login({}))
+  }, [])
+
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn)
+  console.log(isLoggedIn)
   const router = createHashRouter(
     createRoutesFromElements(
       <Route path="/" element={<RootLayout />}>
         <Route
           path="Signup"
-          element={user ? <Navigate to="/" /> : <Signup />}
+          element={isLoggedIn ? <Navigate to="/" /> : <Signup />}
         />
-        <Route path="Login" element={user ? <Navigate to="/" /> : <Login />} />
+        <Route path="Login" element={isLoggedIn ? <Navigate to="/" /> : <Login />} />
 
-        <Route index element={user ? <Home /> : <Navigate to="/Login" />} />
+        <Route index element={isLoggedIn ? <Home /> : <Navigate to="/Login" />} />
         <Route
           path="Social"
-          element={user ? <Social /> : <Navigate to="/Login" />}
+          element={isLoggedIn ? <Social /> : <Navigate to="/Login" />}
         />
         <Route
           path="Game"
-          element={user ? <Game /> : <Navigate to="/Login" />}
+          element={isLoggedIn ? <Game /> : <Navigate to="/Login" />}
         />
         <Route
           path="Character"
-          element={user ? <Character /> : <Navigate to="/Login" />}
+          element={isLoggedIn ? <Character /> : <Navigate to="/Login" />}
         />
         <Route
           path="Gacha"
-          element={user ? <Gacha /> : <Navigate to="/Login" />}
+          element={isLoggedIn ? <Gacha /> : <Navigate to="/Login" />}
         />
       </Route>
     )

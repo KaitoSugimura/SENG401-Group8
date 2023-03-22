@@ -129,22 +129,22 @@ export default function Lobby({ setGameState }) {
 
 
         </div>}
-        {mode&& <div className={styles.createButton} onClick={()=>{
+        {mode&& <button className={styles.createButton} onClick={()=>{
           setMode(false);
           setLobbyList(true);
 
         }}>
-          Create/Join custom
-          </div>}
-        {mode&& <div className={styles.createButton} onClick={()=>{
+  Custom          </button>}
+        {mode&& <button className={styles.createButton} onClick={()=>{
           setGameState("Battle");
         }}>
-        Play ranked
-        </div>}
+        Ranked
+        </button>}
         {!mode&&lobbyList&&!popup && <div className={styles.lobbySelection}>
-            <div className={styles.createButton} onClick={() => { showRoomOptions() }}>
+            <button className={styles.createButton} onClick={() => { showRoomOptions() }}>
+            
             Create Lobby
-           </div>
+           </button>
            <div className={styles.returnButton} onClick={()=>{setMode(true);
             setLobbyList(false);}}>
             <img src="assets/GameArt/RestartButton.png" alt="" /></div>

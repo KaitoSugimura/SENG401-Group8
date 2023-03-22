@@ -39,19 +39,10 @@
   object-fit: cover;
 }
 
-.lobbies {
-  width: 60vw;
-  gap: 5%;
-  height: calc(100vh - 65px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
 
 .lobbySelect {
-  width: 80%;
-  height: 80%;
+  width: 50vw;
+  height: 40vh;
   overflow: scroll;
   height: 60vh;
   background-color: rgba(242, 242, 242, 0.37);
@@ -131,20 +122,21 @@
 
 .lobbySelection {
   display: flex;
-  width: 90%;
-  height: 20%;
-  flex-direction: row;
-  justify-content: center;
+  width: 50vw;
+  height: 20vh;
+  justify-content: start;
   align-items: center;
 }
 
 .returnButton {
-  height: 80%;
+  display: block;
+  height: 70%;
+  margin: 0 2vw;
+  cursor: pointer;
 }
 
 .returnButton:hover {
   transform: scale(105%);
-  cursor: pointer;
 }
 
 .returnButton img {
@@ -152,23 +144,61 @@
   width: auto;
 }
 
+.lobbies {
+  width: 60vw;
+  height: calc(100vh - 65px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .createButton {
+  position: relative;
   width: 40vw;
   height: 15vh;
-  margin: 25px;
-  background-color: rgba(255, 255, 255, 0.473);
+  margin: 5vh 0;
+  background: linear-gradient(transparent , #42478061);
   font-size: 2.3vw;
   font-weight: 500;
-  border: 5px solid black;
+  border: 5px solid rgb(0, 0, 0);
+  box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.735);
   display: flex;
   justify-content: center;
   align-items: center;
+  color: white;
+  cursor: pointer;
 }
 
 .createButton:hover {
-  transform: scale(102%);
-  cursor: pointer;
+  transform: translate(3px, 3px);
+  box-shadow: 5px 5px 0px black;
 }
+
+
+/* .createButton:before{
+  content: "";
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  width: calc(100% + 6px);
+  height: calc(100%);
+  border: 12px solid transparent; 
+  border-bottom: 8px solid #9dc3ff;
+  filter: blur(1px);
+  drop-shadow(0px -6px 6px rgb(255, 14, 6));
+}
+
+.createButton:after{
+  content:"";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 10vw;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top: 5px solid white;
+} */
 
 .createOptions {
   box-sizing: border-box;

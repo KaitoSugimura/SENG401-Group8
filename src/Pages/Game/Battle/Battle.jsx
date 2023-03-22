@@ -1,7 +1,7 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../../Database/context/AuthContext";
 import { projectDatabase } from "../../../Database/firebase/config";
-import { gameContext } from "../Game";
+import { gameStateContext } from "../gameStateContext";
 import LoadingScreen from "../LoadingScreen";
 import styles from "./Battle.module.css";
 import GameCountDown from "./GameCountDown";
@@ -9,7 +9,7 @@ import map from "/assets/GameMap/SlimeMeadows.webp";
 
 export default function Battle({ setGameState }) {
   const { user } = useContext(AuthContext);
-  const { serverPlayerID, clientPlayerID } = useContext(gameContext);
+  const { serverPlayerID, clientPlayerID } = useContext(gameStateContext);
 
   const self = useRef({});
   const enemy = useRef(null);

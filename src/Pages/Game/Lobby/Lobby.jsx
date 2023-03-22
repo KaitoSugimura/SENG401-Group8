@@ -4,11 +4,11 @@ import { projectDatabase } from "../../../Database/firebase/config";
 import { AuthContext } from "../../../Database/context/AuthContext";
 import Popup from "../../../Components/Popup.jsx";
 import CreateLobby from "./CreateLobby";
-import { gameContext } from "../Game";
+import { gameStateContext } from "../gameStateContext";
 
 export default function Lobby({ setGameState }) {
   const { user } = useContext(AuthContext);
-  const { setServerPlayerID, setClientPlayerID } = useContext(gameContext);
+  const { setServerPlayerID, setClientPlayerID } = useContext(gameStateContext);
 
   const [popup, setPopup]=useState(false);
   const [roomList, setRoomList] = useState({});

@@ -6,8 +6,6 @@ import { gameStateContext } from "./gameStateContext";
 import Lobby from "./Lobby/Lobby";
 import Room from "./Room/Room";
 
-export const gameContext = createContext();
-
 export default function Game() {
   /**
    * FOUR GAME STATES
@@ -18,8 +16,6 @@ export default function Game() {
    */
 
   const {gameState, setGameState} = useContext(gameStateContext);
-  const {serverPlayerID, setServerPlayerID} = useContext(gameStateContext);
-  const {clientPlayerID, setClientPlayerID} = useContext(gameStateContext);
 
   console.log(gameState);
 
@@ -41,15 +37,7 @@ export default function Game() {
   }
 
   return (
-    <gameContext.Provider
-      value={{
-        serverPlayerID,
-        setServerPlayerID,
-        clientPlayerID,
-        setClientPlayerID,
-      }}
-    >
+
       <div className={styles.game}>{gamePage}</div>
-    </gameContext.Provider>
   );
 }

@@ -2,13 +2,13 @@ import Player from "./Player";
 import styles from "./Room.module.css";
 import { useContext, useEffect, useState, useRef } from "react";
 import { AuthContext } from "../../../Database/context/AuthContext";
-import { gameContext } from "../Game";
 import { projectDatabase } from "../../../Database/firebase/config";
+import { gameStateContext } from "../gameStateContext";
 
 export default function Room({ setGameState }) {
   const { user } = useContext(AuthContext);
   const { serverPlayerID, clientPlayerID, setClientPlayerID } =
-    useContext(gameContext);
+    useContext(gameStateContext);
 
   const battleFieldWidth = useRef(35);
   const battleFieldHeight = useRef(19.6875);

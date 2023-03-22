@@ -54,8 +54,7 @@ export default function AccountBanner({ setShowBanner }) {
       <img src={banner} className={styles.banner} onClick={() => { setBSelectionOn(true) }}></img>
       
       <div className={`${styles.bannerSelectionContainer} ${bSelectionOn ? styles.ShowBannerSelection : ""}`}>
-        <h1>Select a Banner</h1>
-        <div className={styles.bannerOptions}>
+        <div className={styles.bannerOptions} style={{backgroundImage: `url(${banner})`}}>
           
           {banners.map((bannerx, index)=>(
             <Banner index = {index} banner={bannerx} setBanner={changeBanner} banners={banners}></Banner>

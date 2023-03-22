@@ -190,6 +190,7 @@
   box-shadow: 10px 5px 5px rgba(0, 0, 0, 0.704);
   opacity: 100%;
   display: flex;
+  overflow: hidden;
 }
 
 .bannerRow:hover .bannerContainer {

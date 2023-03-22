@@ -55,7 +55,7 @@ export default function Room({ setGameState }) {
         `lobby/rooms/${serverPlayerID}/client`
       );
       enemyRef.on("value", (otherSnapshot) => {
-        if (!otherSnapshot.val().empty) {
+        if (otherSnapshot.val() && !otherSnapshot.val().empty) {
           setClientPlayerID(otherSnapshot.val().uid);
           setEnemy(otherSnapshot.val());
         } else {

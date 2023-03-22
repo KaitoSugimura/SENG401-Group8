@@ -13,20 +13,41 @@ export default function AccountBanner({ setShowBanner, isNavBanner }) {
   const [bSelectionOn, setBSelectionOn] = useState(false);
   const [banner, setBanner] = useState(user.data.bannerFilepath);
 
+  const width = window.innerWidth * 0.4;
+  const widthStep = window.innerWidth * 0.02;
+
   const [refresh, setRefresh] = useState(Date.now());
 
   const scrollPane = useRef(null);
 
   const [banners, setBanners] = useState([
-    "/Account/Banners/Sky.jpg",
-    "/Account/Banners/Cloudy Mountains.jpg",
+    "/Account/Banners/Adventurer.jpg",
+    "/Account/Banners/Awe Inspiring Aurora.jpg",
+    "/Account/Banners/Bed of Flowers.jpg",
     "/Account/Banners/Brain Power.jpg",
-    "/Account/Banners/Cloudy Mountains.jpg",
+    "/Account/Banners/Everlasting Expanse.jpg",
+    "/Account/Banners/Formidable Forest.jpg",
+    "/Account/Banners/Gradient Sunset.jpg",
+    "/Account/Banners/Green in the Gray.jpg",
+    "/Account/Banners/Head in the Clouds.jpg",
+    "/Account/Banners/Inception.jpg",
+    "/Account/Banners/Interstellar.jpg",
+    "/Account/Banners/Jovial Jungle.jpg",
+    "/Account/Banners/Lush Leaves.jpg",
+    "/Account/Banners/Magical Mountains.jpg",
+    "/Account/Banners/Michelangelo.jpg",
+    "/Account/Banners/Mist Mountain.jpg",
+    "/Account/Banners/Scenic Solitude.jpg",
+    "/Account/Banners/Sea of Serenity.jpg",
     "/Account/Banners/Sky.jpg",
-    "/Account/Banners/Sky.jpg",
-    "/Account/Banners/Sky.jpg",
-    "/Account/Banners/Cloudy Mountains.jpg",
-    "/Account/Banners/Sky.jpg",
+    "/Account/Banners/Submerged Sunlight.jpg",
+    "/Account/Banners/Time for Reflection.jpg",
+    "/Account/Banners/Tranquil Tide.jpg",
+    "/Account/Banners/Tranquility of Gaia.jpg",
+    "/Account/Banners/Tree of Wisdom.jpg",
+    "/Account/Banners/Tyndalls Trees.jpg",
+    "/Account/Banners/Winter Wonderland.jpg",
+
   ]);
 
   useEffect(() => {
@@ -109,6 +130,8 @@ export default function AccountBanner({ setShowBanner, isNavBanner }) {
                 setBanner={changeBanner}
                 banners={banners}
                 centerIndex={centerIndex}
+                width={width}
+                widthStep={widthStep}
                 key={index}
               ></Banner>
             ))}

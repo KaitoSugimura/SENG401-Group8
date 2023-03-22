@@ -178,10 +178,14 @@
   width: 33vw;
   padding: 1vh 0;
   display: flex;
-  transform: translateX(5vw);
-  transition: all 0.3s;
   z-index: 1;
 }
+
+.closeInRange{
+  transform: translateX(5vw);
+  transition: all 0.3s;
+}
+
 .bannerContainer {
   height: 100%;
   width: 100%;

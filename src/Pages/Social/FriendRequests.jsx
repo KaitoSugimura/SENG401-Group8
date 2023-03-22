@@ -42,12 +42,12 @@ const FriendRequests = ({ close }) => {
     userRef.update({
       friendRequests: firebase.firestore.FieldValue.arrayRemove(friendRef),
       friends: firebase.firestore.FieldValue.arrayUnion(friendRef)
-    })
+    });
 
     // Update friend's friend list
     friendRef.update({
       friends: firebase.firestore.FieldValue.arrayUnion(userRef)
-    })
+    });
   }
 
   return (

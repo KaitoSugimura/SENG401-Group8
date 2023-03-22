@@ -11,7 +11,7 @@ import FriendRequests from "./FriendRequests";
 // const socket = io(ENDPOINT);
 
 export default function Social() {
-  const { user } = useContext(AuthContext);
+  const { user, userRef } = useContext(AuthContext);
   const [selectedChat, setSelectedChat] = useState("global");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
@@ -32,10 +32,6 @@ export default function Social() {
         };
       }))
 
-      // const unsub = userRef.onSnapshot(doc => {
-      //   const
-      // })
-
       setFriends(friends.sort((a, b) => a.username > b.username));
     }
 
@@ -53,7 +49,7 @@ export default function Social() {
     return () => unsub();
   }, [chatRef]);
 
-  // Fetch messages for selected channel
+  // Set chatRef for selected channel, then above useEffect listens for messages
   // World's stupidest code right here
   useEffect(() => {
     const getMessages = async () => {
@@ -99,6 +95,22 @@ export default function Social() {
       await chatRef.collection("messages").add(newMessage);
     }
   };
+
+  const unfriend = async (id) => {
+    const friendRef = projectFirestore.collection("users").doc(id);
+
+    // Update user's friend requests and friends list
+    userRef.update({
+      friends: firebase.firestore.FieldValue.arrayRemove(friendRef)
+    });
+
+    // Update friend's friend list
+    friendRef.update({
+      friends: firebase.firestore.FieldValue.arrayRemove(userRef)
+    });
+
+    setSelectedChat("global");
+  }
 
   return (
     <div className={styles.social}>
@@ -180,9 +192,13 @@ export default function Social() {
       <section className={styles.rightSidebar}>
         {selectedChat && selectedChat !== "global" ? (
           <>
-            <p>{selectedChat.username}</p>
+            <p className={styles.username}>{selectedChat.username}</p>
             <img src={selectedChat.slimePath + ".svg"} className={styles.slimeBody}></img>
             <p>RankPoints: {selectedChat.rankPoints}</p>
+            <button className={styles.unfriend} onClick={() => unfriend(selectedChat._id)}>
+              <p>Unfriend</p>
+              <i className="material-symbols-outlined">person_remove</i>
+            </button>
           </>
         ) : (
           <div className={styles.World}>

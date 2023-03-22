@@ -59,9 +59,9 @@ export default function Home() {
     const fetchLeaderboard = async () => {
       const newLeaderboard = [];
 
-      const querySnapshot = await projectFirestore.collection("users").orderBy("rank", "asc").limit(5).get();
+      const querySnapshot = await projectFirestore.collection("users").orderBy("rankPoints", "desc").limit(5).get();
       querySnapshot.forEach(doc => {
-        newLeaderboard.push({ username: doc.data().username, rank: doc.data().rank })
+        newLeaderboard.push({ username: doc.data().username, rankPoints: doc.data().rankPoints })
       })
 
       setLeaderboard(newLeaderboard);
@@ -78,7 +78,7 @@ export default function Home() {
           <p className={styles.MBLevel}>{user.data.level}</p>
         </div>
         <hr />
-        <p className={styles.MBRank}>RankPoints: {user.data.rank}</p>
+        <p className={styles.MBRank}>RankPoints: {user.data.rankPoints}</p>
       </div>
       <button
         onClick={(event) => {
@@ -90,7 +90,7 @@ export default function Home() {
         disabled={petted}
       >
         <img
-          src={user.data.slimePath+".svg"}
+          src={user.data.slimePath + ".svg"}
           className={`${styles.characterIMG} ${petted
             ? animations[Math.floor(Math.random() * animations.length)]
             : ""
@@ -126,7 +126,7 @@ export default function Home() {
       <div className={styles.RankingsContainer}>
         <p>Rankings:</p>
         <ol>
-          {leaderboard.map(user => <li>{user.username} [{user.rank}]</li>)}
+          {leaderboard.map(user => <li>{user.username} [{user.rankPoints}]</li>)}
         </ol>
       </div>
 

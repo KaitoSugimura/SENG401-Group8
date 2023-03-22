@@ -138,11 +138,10 @@
   align-items: flex-end;
   /* gap: 4%; */
   overflow: scroll;
-  background-color: red;
   width: 100%;
   height: 100%;
   background-size: cover;
-  padding-top: 10%;
+  padding: 27vh;
   padding-right: 0;
 }
 

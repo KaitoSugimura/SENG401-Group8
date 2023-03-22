@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./AccountBanner.module.css";
-const Banner = ({ index, banner, setBanner, banners, centerIndex, width, widthStep }) => {
+const Banner = ({ index, banner, setBanner, banners, centerIndex, width, widthStep, setTempBannerIndex }) => {
     const [ImageName, setImageName] = useState("");
     useEffect(()=>{
     const lastSlashIndex = banner.lastIndexOf("/");
@@ -10,6 +10,9 @@ const Banner = ({ index, banner, setBanner, banners, centerIndex, width, widthSt
     }, [])
 
   const distanceFromCenter = Math.abs(index - centerIndex);
+  if(distanceFromCenter === 0){
+    setTempBannerIndex(index);
+  }
   const thisBannerWidth = distanceFromCenter<4?(width - widthStep * distanceFromCenter):NaN;
 
   const scrollRef = useRef(null);
@@ -19,8 +22,6 @@ const Banner = ({ index, banner, setBanner, banners, centerIndex, width, widthSt
       className={`${styles.bannerRow} ${thisBannerWidth?styles.closeInRange:""}`}
       style={{
         width: thisBannerWidth ? thisBannerWidth : 0,
-        marginTop: index === 0 ? "15vh" : "",
-        marginBottom: index === banners.length - 1 ? "25vh" : "",
       }}
       ref={scrollRef}
       onClick={() => {
@@ -31,6 +32,7 @@ const Banner = ({ index, banner, setBanner, banners, centerIndex, width, widthSt
           });
         }
         setBanner(banners[index]);
+        setTempBannerIndex(index);
       }}
     >
       <div className={styles.bannerContainer} onClick={() => {}}>

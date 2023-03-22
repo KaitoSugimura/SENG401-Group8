@@ -12,9 +12,10 @@ export default function AccountBanner({ setShowBanner, isNavBanner }) {
   const { user } = useContext(AuthContext);
   const [bSelectionOn, setBSelectionOn] = useState(false);
   const [banner, setBanner] = useState(user.data.bannerFilepath);
+  const [tempBannerIndex, setTempBannerIndex] = useState(user.data.bannerFilepath);
 
   const width = window.innerWidth * 0.4;
-  const widthStep = window.innerWidth * 0.02;
+  const widthStep = window.innerWidth * 0.025;
 
   const [refresh, setRefresh] = useState(Date.now());
 
@@ -41,7 +42,6 @@ export default function AccountBanner({ setShowBanner, isNavBanner }) {
     "/Account/Banners/Sea of Serenity.jpg",
     "/Account/Banners/Sky.jpg",
     "/Account/Banners/Submerged Sunlight.jpg",
-    "/Account/Banners/Time for Reflection.jpg",
     "/Account/Banners/Tranquil Tide.jpg",
     "/Account/Banners/Tranquility of Gaia.jpg",
     "/Account/Banners/Tree of Wisdom.jpg",
@@ -122,7 +122,7 @@ export default function AccountBanner({ setShowBanner, isNavBanner }) {
             className={styles.bannerOptions}
             ref={scrollPane}
           >
-            <img src={banner} className={styles.backgroundBanner}></img>
+            <img src={banners[tempBannerIndex]} className={styles.backgroundBanner}></img>
             {banners.map((bannerx, index) => (
               <Banner
                 index={index}
@@ -132,6 +132,7 @@ export default function AccountBanner({ setShowBanner, isNavBanner }) {
                 centerIndex={centerIndex}
                 width={width}
                 widthStep={widthStep}
+                setTempBannerIndex={setTempBannerIndex}
                 key={index}
               ></Banner>
             ))}

@@ -102,12 +102,10 @@
     background-color: red;
 }
 
-
 .slimeBody {
     width: 6rem;
     height: 6rem;
 }
-
 
 .userStatus {
     background-color: var(--bg-color);
@@ -140,11 +138,9 @@
     border: 1px solid var(--secondary-color);
     padding: 1rem;
     border-radius: .5rem;
-    max-width: 90%;
-    overflow-wrap: break-word;
-    min-width: min-content;
+    word-break: break-all;
     margin-top: .25rem;
-
+    max-width: 90%;
 }
 
 .mine {

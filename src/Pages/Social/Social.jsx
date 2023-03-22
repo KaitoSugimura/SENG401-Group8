@@ -50,7 +50,6 @@ export default function Social() {
   // Fetch messages for selected channel
   // World's stupidest code right here
   useEffect(() => {
-    console.log(selectedChat);
     const getMessages = async () => {
       setMessages([]);
       if (selectedChat === "global") {

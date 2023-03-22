@@ -4,11 +4,14 @@ import { useContext, useEffect, useState, useRef } from "react";
 import { AuthContext } from "../../../Database/context/AuthContext";
 import { projectDatabase } from "../../../Database/firebase/config";
 import { gameStateContext } from "../gameStateContext";
+import LoadingScreen from "../LoadingScreen";
 
 export default function Room({ setGameState }) {
   const { user } = useContext(AuthContext);
   const { serverPlayerID, clientPlayerID, setClientPlayerID } =
     useContext(gameStateContext);
+
+    const [loading, setLoading] = useState(true);
 
   const battleFieldWidth = useRef(35);
   const battleFieldHeight = useRef(19.6875);
@@ -86,6 +89,7 @@ export default function Room({ setGameState }) {
 
   return (
     <div className={styles.roomPage}>
+       {loading && <LoadingScreen/>}
       {self && <Player number={1} user={self}></Player>}
       <div className={styles.match}>
         <div
@@ -95,7 +99,9 @@ export default function Room({ setGameState }) {
             height: battleFieldHeight.current + "vw",
           }}
         >
-          <img src="assets/GameMap/SlimeMeadows.webp" alt="" />
+          <img src="assets/GameMap/SlimeMeadows.webp" alt="" onLoad={()=>{
+            setLoading(false);
+          }}/>
         </div>
         <div className={styles.goldContainer}>
           <p className={styles.mapName}>Slime Meadows</p>

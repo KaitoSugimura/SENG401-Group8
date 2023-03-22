@@ -17,7 +17,7 @@ export default function Social() {
   const [messages, setMessages] = useState([]);
   const [friends, setFriends] = useState([]);
   const [chatRef, setChatRef] = useState(projectFirestore.collection("chats").doc("global"));
-  const [showRequests, setShowRequests] = useState(true);
+  const [showRequests, setShowRequests] = useState(false);
 
   // Fetch friends
   useEffect(() => {

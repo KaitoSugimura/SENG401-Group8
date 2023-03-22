@@ -78,7 +78,7 @@ export default function Home() {
           <p className={styles.MBLevel}>{user.data.level}</p>
         </div>
         <hr />
-        <p className={styles.MBRank}>Rank {user.data.rank}</p>
+        <p className={styles.MBRank}>RankPoints: {user.data.rank}</p>
       </div>
       <button
         onClick={(event) => {

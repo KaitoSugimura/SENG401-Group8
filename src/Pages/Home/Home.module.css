@@ -19,12 +19,13 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
   border: 8px solid black;
 
   width: 25vw;
-  height: fit-content;
+  height: 7.5vw;
   padding: 5px;
 
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .MainBanner hr {
@@ -62,6 +63,8 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
 }
 
 .MBRank {
+  font-size: 1.5vw;
+  margin-top: 0.4vw;
 }
 
 .characterIMG {

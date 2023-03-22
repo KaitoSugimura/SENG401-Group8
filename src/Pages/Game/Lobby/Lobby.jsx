@@ -53,16 +53,20 @@ export default function Lobby({ setGameState }) {
   const enterRoom = (uid) => {
     setServerPlayerID(uid);
     setClientPlayerID(user.uid);
+    const openRef = projectDatabase.ref(`lobby/rooms/${uid}/client/empty`);
+    let isEmpty;
+    openRef.once('value', (snapshot)=>{
+      isEmpty = snapshot.val();
+    });
+    if(!isEmpty){
+      window.alert("Room is full");
+      return;
+    }
     let ogpass;
-    let isOpen;
     const roomRef = projectDatabase.ref(`lobby/rooms/${uid}`);
     roomRef.once('value', (snapshot)=>{
       ogpass = snapshot.val().password;
-      isOpen = snapshot.val().empty;
     })
-    if(!isOpen){
-      return; 
-    }
     if(ogpass != ""){
       let password = window.prompt("Please enter room password.");
       if(ogpass!==password){

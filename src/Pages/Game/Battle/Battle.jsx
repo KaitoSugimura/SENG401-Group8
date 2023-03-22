@@ -13,7 +13,7 @@ export default function Battle({ setGameState }) {
 
   const self = useRef({});
   const enemy = useRef(null);
-  const [reRender, Render] = useState({});
+  const [reRender, Render] = useState(null);
 
   const [loading, setLoading] = useState(true);
   const controlsDead = useRef(true);
@@ -94,6 +94,7 @@ export default function Battle({ setGameState }) {
         ...self.current,
         left: self.current.left / battleFieldWidth.current,
         top: self.current.top / battleFieldHeight.current,
+        time: Date.now()
       });
     }
   };
@@ -137,6 +138,8 @@ export default function Battle({ setGameState }) {
         direction: "right",
         name: user.displayName,
         shooting: false,
+        slimePath: user.data.slimePath,
+        time: Date.now()
       };
     } else {
       self.current = {
@@ -145,6 +148,8 @@ export default function Battle({ setGameState }) {
         direction: "right",
         name: user.displayName,
         shooting: false,
+        slimePath: user.data.slimePath,
+        time: Date.now()
       };
     }
     playerRef.set({
@@ -154,7 +159,7 @@ export default function Battle({ setGameState }) {
     });
     playerRef.onDisconnect().remove();
 
-    Render(Date.now());
+    Render({time: 0});
 
     window.addEventListener("mousemove", handleMouseMove);
     return () => {
@@ -318,8 +323,7 @@ export default function Battle({ setGameState }) {
         projectile.bulletState++;
       }
     }
-
-    Render(Date.now());
+    Render({time: Date.now() - enemy.current.time});
   }, []);
 
   useEffect(() => {
@@ -338,6 +342,7 @@ export default function Battle({ setGameState }) {
     >
       {loading && <LoadingScreen />}
       {countDown && <GameCountDown />}
+      <span className={styles.ping}>{reRender?reRender.time:0} ms</span>
       <div class={styles.battleContainer}>
         <div className={styles.battleFieldContainer}>
           <div
@@ -438,7 +443,7 @@ export default function Battle({ setGameState }) {
                 data-direction={enemy.current.direction}
               >
                 <img
-                  src={user.data.slimePath + ".gif"}
+                  src={enemy.current.slimePath + ".gif"}
                   className={styles.slimeImage}
                 ></img>
                 <p className={styles.characterName}>{enemy.current.name}</p>

@@ -33,6 +33,12 @@ export default function Room({ setGameState }) {
       }
     });
     StubLobbyRef.set({ server: false, client: false });
+    projectDatabase.ref(`lobby/rooms/${serverPlayerID}`).on("value", (snapShot)=>{
+      if(!snapShot.exists()){
+        lockRef.off();
+        setGameState("Lobby");
+      }
+    })
   }, []);
 
   useEffect(() => {
@@ -100,7 +106,7 @@ export default function Room({ setGameState }) {
         <div className={styles.buttonContainer}>
           <div
             className={`${styles.selectionButton} ${
-              lockButtons ? styles.lockedButton : ""
+              lockButtons || enemy==null ? styles.lockedButton : ""
             }`}
             onClick={() => {
               if (!lockButtons && serverPlayerID == user.uid && enemy) {
@@ -116,6 +122,7 @@ export default function Room({ setGameState }) {
             }`}
             onClick={() => {
               if (!lockButtons) {
+                lockRef.off();
                 if (serverPlayerID == user.uid) {
                   projectDatabase.ref(`lobby/rooms/${user.uid}`).remove();
                 } else {

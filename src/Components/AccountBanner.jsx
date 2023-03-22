@@ -19,13 +19,13 @@ export default function AccountBanner({ setShowBanner, isNavBanner }) {
 
   const [banners, setBanners] = useState([
     "/Account/Banners/Sky.jpg",
-    "/Account/Banners/cloudyMountains.jpg",
+    "/Account/Banners/Cloudy Mountains.jpg",
     "/Account/Banners/Sky.jpg",
-    "/Account/Banners/cloudyMountains.jpg",
+    "/Account/Banners/Cloudy Mountains.jpg",
     "/Account/Banners/Sky.jpg",
     "/Account/Banners/Sky.jpg",
     "/Account/Banners/Sky.jpg",
-    "/Account/Banners/cloudyMountains.jpg",
+    "/Account/Banners/Cloudy Mountains.jpg",
     "/Account/Banners/Sky.jpg",
   ]);
 
@@ -99,9 +99,9 @@ export default function AccountBanner({ setShowBanner, isNavBanner }) {
         >
           <div
             className={styles.bannerOptions}
-            style={{ backgroundImage: `url(${banner})` }}
             ref={scrollPane}
           >
+            <img src={banner} className={styles.backgroundBanner}></img>
             {banners.map((bannerx, index) => (
               <Banner
                 index={index}

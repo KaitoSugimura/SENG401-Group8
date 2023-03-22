@@ -55,8 +55,10 @@ export default function Social() {
       if (selectedChat === "global") {
         setChatRef(projectFirestore.collection("chats").doc("global"));
       } else {
-        const docs1 = await projectFirestore.collection("chats").where("users", "array-contains", user.uid).get().then(res => res.docs);
-        const docs2 = await projectFirestore.collection("chats").where("users", "array-contains", selectedChat._id).get().then(res => res.docs);
+        const [docs1, docs2] = await Promise.all([
+          projectFirestore.collection("chats").where("users", "array-contains", user.uid).get().then(res => res.docs),
+          projectFirestore.collection("chats").where("users", "array-contains", selectedChat._id).get().then(res => res.docs)
+        ]);
 
         const intersectDocs = docs1.filter((doc1) => {
           return docs2.some((doc2) => doc2.id === doc1.id);

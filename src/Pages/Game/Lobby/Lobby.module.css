@@ -46,7 +46,7 @@
   overflow: scroll;
   height: 60vh;
   background-color: rgba(242, 242, 242, 0.37);
-  border: 10px solid black;
+  border: 6px solid black;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -124,23 +124,42 @@
   display: flex;
   width: 50vw;
   height: 20vh;
-  justify-content: start;
+  justify-content: end;
   align-items: center;
+}
+
+.noRoomsText{
+  font-size: 2.5vw;
+  margin-top: 3vh;
+  color: rgba(0, 0, 0, 0.603);
 }
 
 .returnButton {
   display: block;
-  height: 70%;
-  margin: 0 2vw;
   cursor: pointer;
+  margin: 0 1vw 0 1.5vw;
+  width: 5vw;
+  height: 5vw;
+  border: 5px solid rgb(0, 0, 0);
+  box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.735);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(transparent , #42478061);
 }
-
 .returnButton:hover {
-  transform: scale(105%);
+  transform: translate(3px, 3px);
+  box-shadow: 5px 5px 0px black;
 }
 
-.returnButton img {
-  height: 100%;
+.returnButton svg {
+  height: 80%;
+  width: auto;
+  color:silver;
+}
+
+.createButton.createLobbyButton {
+  flex-grow: 4;
   width: auto;
 }
 
@@ -166,7 +185,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
+  color: silver;
   cursor: pointer;
 }
 

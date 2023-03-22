@@ -33,7 +33,7 @@ export const AuthContextProvider = ({ children }) => {
           await userRef.set({
             username: user.displayName,
             level: Math.floor(Math.random() * 50),
-            rank: Math.floor(Math.random() * 30),
+            rankPoints: Math.floor(Math.random() * 30),
             musicVolume: 100,
             gold: 1234,
             chestLastOpenedOn: firebase.firestore.Timestamp.fromMillis(0),

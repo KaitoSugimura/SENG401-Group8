@@ -62,6 +62,7 @@ export default function Home() {
       const querySnapshot = await projectFirestore.collection("users").orderBy("rankPoints", "desc").limit(5).get();
       querySnapshot.forEach(doc => {
         newLeaderboard.push({ username: doc.data().username, rankPoints: doc.data().rankPoints })
+        console.log(doc.data());
       })
 
       setLeaderboard(newLeaderboard);

@@ -26,6 +26,7 @@ export default function AccountBanner({ setShowBanner, isNavBanner }) {
     "/Account/Banners/Awe Inspiring Aurora.jpg",
     "/Account/Banners/Bed of Flowers.jpg",
     "/Account/Banners/Brain Power.jpg",
+    "/Account/Banners/DJ Genericname - Dear You.jpg",
     "/Account/Banners/Everlasting Expanse.jpg",
     "/Account/Banners/Formidable Forest.jpg",
     "/Account/Banners/Gradient Sunset.jpg",
@@ -38,6 +39,7 @@ export default function AccountBanner({ setShowBanner, isNavBanner }) {
     "/Account/Banners/Magical Mountains.jpg",
     "/Account/Banners/Michelangelo.jpg",
     "/Account/Banners/Mist Mountain.jpg",
+    "/Account/Banners/Reol - No title.jpg",
     "/Account/Banners/Scenic Solitude.jpg",
     "/Account/Banners/Sea of Serenity.jpg",
     "/Account/Banners/Sky.jpg",
@@ -47,6 +49,7 @@ export default function AccountBanner({ setShowBanner, isNavBanner }) {
     "/Account/Banners/Tranquility of Gaia.jpg",
     "/Account/Banners/Tree of Wisdom.jpg",
     "/Account/Banners/Tyndalls Trees.jpg",
+    "/Account/Banners/UNDEAD CORPORATION - Everything will freeze.jpg",
     "/Account/Banners/Winter Wonderland.jpg",
 
   ]);

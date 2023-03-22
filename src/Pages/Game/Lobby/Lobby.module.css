@@ -1,52 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 .Lobbypage {
-    box-sizing: border-box;
-    margin-top: 65px;
-    height: calc(100vh - 65px);
-    display: flex;
-    flex-direction: row;
-    background-image: linear-gradient(to bottom, #28313b 0%, #485461 60%);
+  box-sizing: border-box;
+  margin-top: 65px;
+  height: calc(100vh - 65px);
+  display: flex;
+  flex-direction: row;
+  background-image: linear-gradient(to bottom, #28313b 0%, #485461 60%);
 }
 
-.Character{
-    width: 40vw;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.Character {
+  width: 40vw;
+  transform: translateX(10%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.Character h1{
-    font-size: 4.8rem;
-    color: silver;
+.Character h1 {
+  font-size: 4.8rem;
+  color: silver;
 }
 
-.Character h2{
-    font-size: 2.4rem;
-    color: silver;
+.Character h2 {
+  font-size: 2.4rem;
+  color: silver;
 }
 
-.characterBox{
-    width: 50%;   
+.characterBox {
+  width: 50%;
+  transform: scaleX(-1);
 }
 
-.characterBox img{
-    width: 100%;
-    height: auto;
-    pointer-events: all;
-    object-fit: cover;
+.characterBox img {
+  width: 100%;
+  height: auto;
+  pointer-events: all;
+  object-fit: cover;
 }
 
-.lobbies{
-    width: 60vw;
-    gap: 5%;
-    height: calc(100vh - 65px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.lobbies {
+  width: 60vw;
+  gap: 5%;
+  height: calc(100vh - 65px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.lobbySelect{
+.lobbySelect {
   width: 80%;
   height: 80%;
   overflow: scroll;
@@ -56,157 +59,193 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-
 }
 
 .lobbySelect::-webkit-scrollbar {
-    width: 0px;
-    height: 0px;
-    background: transparent;
-    scroll-behavior: smooth;
+  width: 0px;
+  height: 0px;
+  background: transparent;
+  scroll-behavior: smooth;
+}
+
+.lobby {
+  box-sizing: border-box;
+  padding: 10px;
+  margin: 2%;
+  width: 80%;
+  height: 30%;
+  border: 5px solid black;
+  background-color: rgba(242, 242, 242, 0.37);
+  display: flex;
+  align-items: center;
+  gap: 7.5%;
+}
+
+.lobbyDetails h2 {
+  font-weight: 650;
+  font-size: 2.4rem;
+  color: black;
+}
+
+.lobbyDetails h3 {
+  font-weight: 500;
+  font-size: 1.6rem;
+  color: black;
+  text-align: start;
+}
+
+.goldInfo {
+  color: gold;
+  font-weight: bold;
+  font-size: 2.4rem;
+}
+
+.gold {
+  width: 13%;
+}
+
+.gold img {
+  width: 100%;
+  height: auto;
+  pointer-events: all;
+  object-fit: cover;
+}
+
+.selectRoomButton {
+  width: 15%;
+  margin-left: auto;
+  display: block;
+}
+
+.selectRoomButton:hover {
+  transform: scale(110%);
+  cursor: pointer;
+}
+
+.selectRoomButton img {
+  width: 100%;
+  height: auto;
+  pointer-events: all;
+  object-fit: cover;
+}
+
+.lobbySelection {
+  display: flex;
+  width: 90%;
+  height: 20%;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.returnButton {
+  height: 80%;
+}
+
+.returnButton:hover {
+  transform: scale(105%);
+  cursor: pointer;
+}
+
+.returnButton img {
+  height: 100%;
+  width: auto;
+}
+
+.createButton {
+  width: 40vw;
+  height: 15vh;
+  margin: 25px;
+  background-color: rgba(255, 255, 255, 0.473);
+  font-size: 2.3vw;
+  font-weight: 500;
+  border: 5px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.createButton:hover {
+  transform: scale(102%);
+  cursor: pointer;
+}
+
+.createOptions {
+  box-sizing: border-box;
+  width: 50%;
+  margin: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.createOption {
+  width: 20%;
+}
+
+.createOption:hover {
+  transform: scale(110%);
+  cursor: pointer;
+}
+
+.createOption img {
+  width: 100%;
+  height: auto;
+}
+
+.createLobby {
+
+  width: 50vw;
+  height: 60vh;
+  font-family: 'Press Start 2P', cursive;
+  padding: 2vh;
+}
+
+.createLobby p {
+  font-size: 2vw;
+  color: rgb(255, 255, 255);
+  padding: 2%;
+}
+
+.createLobby label {
+    color: rgb(255, 255, 255);
+  font-size: 1.2vw;
+  margin: 10px;
+}
+
+.createLobby .formFields label {
+  text-align: right;
+}
+
+.LobbyInput{
+    font-family: 'Press Start 2P', cursive;
+    padding: 0.6vw 2vw;
+    background-color: transparent;
+    color: #fff;
+    border: none;
+    border-bottom: 3px solid white;
+}
+
+.LobbyInput option {
+    color: black;
+    line-height: 20;
   }
 
-.lobby{
-    box-sizing: border-box;
-    padding: 10px;
-    margin: 2%;
-    width: 80%;
-    height: 30%;
-    border: 5px solid black;
-    background-color:rgba(242, 242, 242, 0.37); 
-    display: flex;
-    align-items: center;
-    gap: 7.5%;
+.Input{
+    padding: 0.6vw 0vw;
+    font-family: 'Press Start 2P', cursive;
 }
 
-.lobbyDetails h2{
-    font-weight: 650;
-    font-size: 2.4rem;
-    color: black;
+.submit{
+    position: absolute;
+    bottom: 10vh;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.8vw 2vw;
+    font-size: 1.5vw;
+    font-family: 'Press Start 2P', cursive;
+    border: none;
 }
 
-.lobbyDetails h3{
-    font-weight: 500;
-    font-size: 1.6rem;
-    color: black;
-    text-align: start;
+.submit:hover{
+    transform: translate(-50%, 2%);
 }
-
-.goldInfo{
-color: gold;
-font-weight: bold;
-font-size: 2.4rem;
-}
-
-.gold{
-width: 13%;
-}
-
-.gold img{
-width: 100%;
-height: auto;
-pointer-events: all;
-object-fit: cover;
-
-}
-
-.selectRoomButton{
-width: 15%;
-margin-left: auto;
-display: block;
-}
-
-.selectRoomButton:hover{
-transform: scale(110%);
-cursor: pointer;
-}
-
-.selectRoomButton img{
-width: 100%;
-height: auto;
-pointer-events: all;
-object-fit: cover;
-}
-
-.lobbySelection{
-    display: flex;
-    width: 90%;
-    height: 20%;
-    flex-direction: row;
-    justify-content: center;
-    gap: 2%;
-    
-}
-
-.returnButton{
-    height: 80%;
-}
-
-.returnButton:hover{
-    transform: scale(110%);
-    cursor: pointer;
-}
-
-.returnButton img{
-    height: 100%;
-    width: auto;
-}
-
-.createButton{
-    font-size: 3.0rem;
-width: 50%;
-margin: 25px;
-background-color: rgba(242, 242, 242, 0.37);
-border: 5px solid black;
-}
-
-.createButton:hover{
-transform: scale(110%);
-cursor: pointer;
-}
-
-.createOptions{
-    box-sizing: border-box;
-    width: 50%;
-    margin: 25px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.createOption{
-    width: 20%;
-}
-
-.createOption:hover{
-    transform: scale(110%);
-    cursor: pointer;
-    }
-
-.createOption img{
-    width: 100%;
-    height:auto;
-}
-
-.createLobby{
-    background-color: white;
-}
-
-.createLobby p{
-    font-size: 3.0rem;
-    background-color: black;
-    border: solid 5px #938c88;
-    color: silver;
-    padding: 2%;
-
-}
-
-.createLobby label{
-    font-size: 2.0rem;
-    margin: 10px;
-}
-
-.createLobby .formFields label{
-    text-align: right;
-    
-}
-

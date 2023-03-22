@@ -47,8 +47,8 @@ const CreateLobby = ({setPopUp, createRoom}) => {
                 setPopUp(false);                
             }}>
                 <div className={styles.formFields}>
-                    <label>Lobby Type</label>
-                        <select onChange={typeHandler}>
+                    <label >Lobby Type:</label>
+                        <select onChange={typeHandler} className={styles.LobbyInput}>
                             {arenaTypes.map((type, index) => {
                                 return <option key={index} >
                                     {type}
@@ -56,12 +56,13 @@ const CreateLobby = ({setPopUp, createRoom}) => {
                             })}
                         </select>
                         <div>
-                            <label>Gold Amount</label>
+                            <label>Gold Amount:</label>
                             <input
                             type="number"
                             min={100}
                             value={gold}
                             onChange={goldHandler}
+                            className={styles.Input}
                             />
                         </div>
                         {type==='private'&&
@@ -72,12 +73,13 @@ const CreateLobby = ({setPopUp, createRoom}) => {
                                 maxLength={"10"}
                                 value={password}
                                 onChange={passwordHandler}
+                                className={styles.Input}
                                 />
                             </div>
                         }
                     
                     <div>
-                    <input type="submit"/>
+                    <input className={styles.submit} type="submit"/>
                     </div>
                     
 

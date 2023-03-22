@@ -124,7 +124,7 @@ export default function Lobby({ setGameState }) {
               </div>
             </div>
           ))}
-
+          {!roomList && <p style={{marginTop: "3vh"}}>No rooms to display</p>}
 
 
 

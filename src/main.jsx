@@ -4,12 +4,17 @@ import App from "./App";
 import "./index.css";
 import { AuthContextProvider } from "./Database/context/AuthContext";
 import { GameStateProvider } from "./Pages/Game/gameStateContext";
+import store from './store';
+import { Provider } from 'react-redux';
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthContextProvider>
       <GameStateProvider>
-        <App />
+        {/* Adding Redux store globally */}
+        <Provider store={store}>
+          <App />
+        </Provider>
       </GameStateProvider>
     </AuthContextProvider>
   </React.StrictMode>

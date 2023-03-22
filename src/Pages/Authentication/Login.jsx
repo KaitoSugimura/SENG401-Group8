@@ -1,24 +1,28 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useLogin } from "../../Database/Hooks/useLogin";
+import { useSelector, useDispatch } from 'react-redux'
 import "./SL.css";
+import { login } from "../../Slices/authSlice";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
 
-  const { login, isPending, error } = useLogin();
+  // const { login, isPending, error } = useLogin();
 
   const onSubmit = (e) => {
     e.preventDefault();
-    login(email, password);
+    dispatch(login({email, password}));
+    // login(email, password);
   };
 
   return (
     <div className="SLFormContainer">
       <form onSubmit={onSubmit} className="SLform">
         <h2>Login to an existing account</h2>
-        <p className={`errorMSG ${error ? "displayError" : ""}`}>Error: {error}</p>
+        {/* <p className={`errorMSG ${error ? "displayError" : ""}`}>Error: {error}</p> */}
 
         <label>
           <span>Email:</span>
@@ -36,12 +40,12 @@ export default function Login() {
             value={password}
           />
         </label>
-        {!isPending && <button className="submitButton">Login</button>}
-        {isPending && (
+        {<button className="submitButton">Login</button>}
+        {/* {isPending && (
           <button className="submitButton" disabled>
             loading...
           </button>
-        )}
+        )} */}
 
         <Link to="/Signup">I don't have an account</Link>
       </form>

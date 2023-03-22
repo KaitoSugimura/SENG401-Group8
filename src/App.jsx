@@ -16,6 +16,7 @@ import Signup from "./Pages/Authentication/Signup";
 import Login from "./Pages/Authentication/Login";
 import { useContext } from "react";
 import { AuthContext } from "./Database/context/AuthContext";
+import { useSelector, useDispatch } from 'react-redux'
 
 const RootLayout = () => {
   const { userLoaded } = useContext(AuthContext);
@@ -32,7 +33,9 @@ const RootLayout = () => {
 };
 
 function App() {
-  const { user } = useContext(AuthContext);
+  // const { user } = useContext(AuthContext);
+  const user = useSelector((state) => state.auth.value.username)
+  console.log(user)
   const router = createHashRouter(
     createRoutesFromElements(
       <Route path="/" element={<RootLayout />}>

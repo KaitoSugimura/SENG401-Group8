@@ -41,7 +41,8 @@ export const AuthContextProvider = ({ children }) => {
             slimeType: "Normal",
             slimeSkin: 1,
             status: "ONLINE",
-            friends
+            friends,
+            friendRequests: []
           });
         }
 

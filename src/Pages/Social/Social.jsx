@@ -4,6 +4,7 @@ import { AuthContext } from "../../Database/context/AuthContext";
 import { projectFirestore } from "../../Database/firebase/config";
 import styles from "./Social.module.css";
 import firebase from "firebase";
+import FriendRequests from "./FriendRequests";
 
 // const ENDPOINT = "http://localhost:5000";
 // const ENDPOINT = "https://seng-401-server.onrender.com";
@@ -16,6 +17,7 @@ export default function Social() {
   const [messages, setMessages] = useState([]);
   const [friends, setFriends] = useState([]);
   const [chatRef, setChatRef] = useState(projectFirestore.collection("chats").doc("global"));
+  const [showRequests, setShowRequests] = useState(true);
 
   // Fetch friends
   useEffect(() => {
@@ -30,11 +32,15 @@ export default function Social() {
         };
       }))
 
-      setFriends(friends);
+      // const unsub = userRef.onSnapshot(doc => {
+      //   const
+      // })
+
+      setFriends(friends.sort((a, b) => a.username > b.username));
     }
 
     getFriends();
-  }, []);
+  }, [user.data.friends]);
 
   // Stupid stupid stupid code
   useEffect(() => {
@@ -96,6 +102,7 @@ export default function Social() {
 
   return (
     <div className={styles.social}>
+
       <section className={styles.leftSidebar}>
         <div className={styles.channels}>
           <div
@@ -106,7 +113,10 @@ export default function Social() {
             <i className="material-symbols-outlined">public</i>
             <p>World</p>
           </div>
-          <h2 className={styles.friendsHeader}>Friends</h2>
+          <div className={styles.friendsHeader}>
+            <h2 >Friends</h2>
+            <i className="material-symbols-outlined" onClick={() => setShowRequests(true)}>markunread_mailbox</i>
+          </div>
           <ul className={styles.friends}>
             {friends.map((friend, i) => (
               <li
@@ -181,6 +191,8 @@ export default function Social() {
           </div>
         )}
       </section>
+
+      {showRequests && <FriendRequests close={() => setShowRequests(false)} />}
     </div>
   );
 }

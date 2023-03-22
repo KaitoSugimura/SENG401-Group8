@@ -99,7 +99,7 @@ export default function Lobby({ setGameState }) {
           <img src={user.data.slimePath+".gif"} alt={user.data.slimeType} draggable="false" />
         </div>
         <h2>{user.data.slimeType} Slime</h2>
-        <h2>Rank: {user.data.rank}</h2>
+        <h3>Rank Points: {user.data.rank}</h3>
       </div>
 
       <div className={styles.lobbies}>

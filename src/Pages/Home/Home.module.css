@@ -16,7 +16,7 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
   font-size: 2vw;
   background: linear-gradient(22deg, rgba(193, 171, 61, 0.832) 0%, rgba(251,240,184,1) 60%);
   z-index: 10;
-  border: 8px solid black;
+  border: 5px solid black;
 
   width: 25vw;
   height: 7.5vw;
@@ -55,7 +55,7 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
   padding: 1.5vw;
   font-size: 3.5vw;
   border-radius: 1vw;
-  border: inset #eebd70;
+  border: 3px inset #eebd70;
   background: radial-gradient(#b91d1d, #0f2236);
   font-weight: 600;
 
@@ -64,7 +64,8 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
 
 .MBRank {
   font-size: 1.5vw;
-  margin-top: 0.4vw;
+  margin-top: 0.2vw;
+  color: #1c1c1c;
 }
 
 .characterIMG {

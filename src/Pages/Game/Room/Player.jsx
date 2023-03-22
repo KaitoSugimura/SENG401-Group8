@@ -15,7 +15,7 @@ const Player = ({ number, user }) => {
             />
           </div>
           <h2>{user.slimeType} Slime</h2>
-          <h2>Rank: {user.rank}</h2>
+          <h3>Rank Points: {user.rank}</h3>
         </>
       )}
     </div>

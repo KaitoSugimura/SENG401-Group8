@@ -61,6 +61,7 @@ export default function Room({ setGameState }) {
         } else {
           setClientPlayerID("");
           setEnemy(null);
+          enemyRef.off();
         }
       });
     } else {

@@ -34,7 +34,7 @@ export default function Lobby({ setGameState }) {
     LobbyRef.set({
       uid: user.uid,
       name: user.displayName,
-      rank: user.data.rank,
+      rank: user.data.rankPoints,
       gold: goldAmount,
       password: password,
       slimePath: user.data.slimePath,
@@ -77,7 +77,7 @@ export default function Lobby({ setGameState }) {
     clientSlotRef.set({
       uid: user.uid,
       name: user.displayName,
-      rank: user.data.rank,
+      rank: user.data.rankPoints,
       slimePath: user.data.slimePath,
       slimeType: user.data.slimeType,
       empty: false
@@ -99,7 +99,7 @@ export default function Lobby({ setGameState }) {
           <img src={user.data.slimePath+".gif"} alt={user.data.slimeType} draggable="false" />
         </div>
         <h2>{user.data.slimeType} Slime</h2>
-        <h3>Rank Points: {user.data.rank}</h3>
+        <h3>Rank Points: {user.data.rankPoints}</h3>
       </div>
 
       <div className={styles.lobbies}>
@@ -147,8 +147,8 @@ export default function Lobby({ setGameState }) {
            </button>
            <div className={styles.returnButton} onClick={()=>{setMode(true);
             setLobbyList(false);}}>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+  <path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
 </svg>
 </div>
           </div>}

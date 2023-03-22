@@ -171,6 +171,7 @@
   width: 100%;
   height: 100%;
   z-index: 0;
+  object-fit: cover;
 }
 .bannerRow {
   height: 15vh;
@@ -204,7 +205,8 @@
 }
 
 .bannerContainer img {
-  width: auto;
-  height: 100%;
-  opacity: 100%;
+  width: 20%;
+  height: 12vh;
+  opacity: 1;
+  object-fit: cover;
 }

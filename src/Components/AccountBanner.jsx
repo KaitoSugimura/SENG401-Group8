@@ -20,7 +20,7 @@ export default function AccountBanner({ setShowBanner, isNavBanner }) {
   const [banners, setBanners] = useState([
     "/Account/Banners/Sky.jpg",
     "/Account/Banners/Cloudy Mountains.jpg",
-    "/Account/Banners/Sky.jpg",
+    "/Account/Banners/Brain Power.jpg",
     "/Account/Banners/Cloudy Mountains.jpg",
     "/Account/Banners/Sky.jpg",
     "/Account/Banners/Sky.jpg",

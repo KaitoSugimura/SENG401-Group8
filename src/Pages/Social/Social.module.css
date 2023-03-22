@@ -223,7 +223,7 @@
     font-size: 9vw;
 }
 
-.rightSidebar p:first-child {
+.rightSidebar .username {
     font-size: 2vw;
 }
 
@@ -269,4 +269,26 @@
 
 .friendRequestsHeader {
     margin-bottom: 1rem;
+}
+
+.unfriend {
+    margin-top: 1rem;
+    background-color: rgba(0, 0, 0, 0.05);
+    border: 1px solid transparent;
+    padding: 1rem;
+    border-radius: .5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+}
+
+.unfriend:hover {
+    border-color: var(--tertiary-color);
+    color: var(--tertiary-color);
+}
+
+.unfriend p {
+    font-size: 1vw;
 }

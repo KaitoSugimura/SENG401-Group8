@@ -33,6 +33,7 @@ export default function Room({ setGameState }) {
       }
     });
     StubLobbyRef.set({ server: false, client: false });
+    StubLobbyRef.onDisconnect().remove();
     projectDatabase.ref(`lobby/rooms/${serverPlayerID}`).on("value", (snapShot)=>{
       if(!snapShot.exists()){
         lockRef.off();
@@ -133,6 +134,7 @@ export default function Room({ setGameState }) {
                     empty: true,
                   });
                 }
+                StubLobbyRef.remove();
                 setGameState("Lobby");
               }
             }}

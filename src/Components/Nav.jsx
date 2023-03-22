@@ -10,6 +10,8 @@ import SocialBGM from "/Sound/Social.mp3";
 import GameBGM from "/Sound/Game.mp3";
 import { AuthContext } from "../Database/context/AuthContext";
 
+
+
 export default function Nav() {
   const locationPath = useLocation().pathname;
   const [showBanner, setShowBanner] = useState(false);

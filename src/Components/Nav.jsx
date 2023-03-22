@@ -8,7 +8,9 @@ import ShopBGM from "/Sound/Shop.mp3";
 import CharacterBGM from "/Sound/Character.mp3";
 import SocialBGM from "/Sound/Social.mp3";
 import GameBGM from "/Sound/Game.mp3";
+import BattleBGM from "/Sound/Battle.mp3";
 import { AuthContext } from "../Database/context/AuthContext";
+import { gameStateContext } from "../Pages/Game/gameStateContext";
 
 
 
@@ -20,6 +22,7 @@ export default function Nav() {
   const [originalMusicVolMultiplier, setOriginalMusicVolMultiplier] =
     useState(1);
   const { user } = useContext(AuthContext);
+  const {gameState} = useContext(gameStateContext);
   const acctBanner = useRef(null);
 
   const audioRef = useRef();
@@ -34,7 +37,11 @@ export default function Nav() {
         setOriginalMusicVolMultiplier(0.6);
         break;
       case "/game":
-        audioRef.current.src = GameBGM;
+        if(gameState === "Battle"){
+          audioRef.current.src = BattleBGM;
+        } else{
+          audioRef.current.src = GameBGM;
+        }
         setOriginalMusicVolMultiplier(0.7);
         break;
       case "/character":
@@ -51,7 +58,7 @@ export default function Nav() {
 
   useEffect(() => {
     playAudio();
-  }, [locationPath]);
+  }, [locationPath, gameState]);
 
   useEffect(() => {
     audioRef.current.volume = musicVolume * originalMusicVolMultiplier;

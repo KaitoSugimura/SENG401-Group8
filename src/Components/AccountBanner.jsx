@@ -42,6 +42,7 @@ export default function AccountBanner({ setShowBanner, isNavBanner }) {
     "/Account/Banners/Sea of Serenity.jpg",
     "/Account/Banners/Sky.jpg",
     "/Account/Banners/Submerged Sunlight.jpg",
+    "/Account/Banners/The Quick Brown Fox - The Big Black.jpg",
     "/Account/Banners/Tranquil Tide.jpg",
     "/Account/Banners/Tranquility of Gaia.jpg",
     "/Account/Banners/Tree of Wisdom.jpg",

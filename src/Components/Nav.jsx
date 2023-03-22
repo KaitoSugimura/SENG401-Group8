@@ -130,7 +130,7 @@ export default function Nav() {
             >
               <img src={user.data.slimePath+".svg"}></img>
             </button>
-            {showBanner && <AccountBanner setShowBanner={setShowBanner} />}
+            {showBanner && <AccountBanner setShowBanner={setShowBanner} isNavBanner={true} />}
           </>
         )}
 

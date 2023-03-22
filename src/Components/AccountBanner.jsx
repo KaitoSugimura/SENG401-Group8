@@ -7,7 +7,7 @@ import { projectAuth, projectFirestore } from "../Database/firebase/config";
 import firebase from "firebase";
 
 
-export default function AccountBanner({ setShowBanner }) {
+export default function AccountBanner({ setShowBanner, isNavBanner }) {
   const { logout } = useLogout();
   const [userRef, setUserRef]=useState(null);
   const { user } = useContext(AuthContext);
@@ -40,20 +40,20 @@ export default function AccountBanner({ setShowBanner }) {
     <div className={styles.AccountBanner} >
       <div className={styles.bannerInfo}>
         <h1 className={styles.Handle}>{user.displayName}</h1>
-        <div className={styles.editBannerButton} onClick={()=>{setBSelectionOn(true)}}>
+        {isNavBanner && <div className={styles.editBannerButton} onClick={()=>{setBSelectionOn(true)}}>
           <img src="/Account/editBanner.png" alt="" />
-        </div>      
+        </div> }     
 
       </div>
             
       <img src={user.data.slimePath+".svg"} className={styles.character}></img>
       <p className={styles.Rank}>Rank: {user.data.rank}</p>
       <p className={styles.Status}>Hello my name is {user.displayName}. I'm not a bad Slime!</p>
-      <button className={styles.SignOut} onClick={() => { if (setShowBanner) setShowBanner(false); logout() }}>Sign out</button>
+      {isNavBanner && <button className={styles.SignOut} onClick={() => { if (setShowBanner) setShowBanner(false); logout() }}>Sign out</button>}
 
-      <img src={banner} className={styles.banner} onClick={() => { setBSelectionOn(true) }}></img>
+      <img src={banner} className={styles.banner} ></img>
       
-      <div className={`${styles.bannerSelectionContainer} ${bSelectionOn ? styles.ShowBannerSelection : ""}`}>
+      {isNavBanner && <div className={`${styles.bannerSelectionContainer} ${bSelectionOn ? styles.ShowBannerSelection : ""}`}>
         <div className={styles.bannerOptions} style={{backgroundImage: `url(${banner})`}}>
           
           {banners.map((bannerx, index)=>(
@@ -61,7 +61,7 @@ export default function AccountBanner({ setShowBanner }) {
           ))}
         </div>
         <button className={styles.bannerSelectionExit} onClick={() => { setBSelectionOn(false); }}>X</button>
-      </div>
+      </div>}
     </div>
   )
 }

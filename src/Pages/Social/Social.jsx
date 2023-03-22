@@ -32,10 +32,6 @@ export default function Social() {
         };
       }))
 
-      // const unsub = userRef.onSnapshot(doc => {
-      //   const
-      // })
-
       setFriends(friends.sort((a, b) => a.username > b.username));
     }
 
@@ -53,7 +49,7 @@ export default function Social() {
     return () => unsub();
   }, [chatRef]);
 
-  // Fetch messages for selected channel
+  // Set chatRef for selected channel, then above useEffect listens for messages
   // World's stupidest code right here
   useEffect(() => {
     const getMessages = async () => {

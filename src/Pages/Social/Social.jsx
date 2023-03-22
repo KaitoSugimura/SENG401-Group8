@@ -182,7 +182,7 @@ export default function Social() {
           <>
             <p>{selectedChat.username}</p>
             <img src={selectedChat.slimePath + ".svg"} className={styles.slimeBody}></img>
-            <p>Rank {selectedChat.rank}</p>
+            <p>RankPoints: {selectedChat.rankPoints}</p>
           </>
         ) : (
           <div className={styles.World}>

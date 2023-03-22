@@ -50,13 +50,14 @@ export default function Social() {
   // Fetch messages for selected channel
   // World's stupidest code right here
   useEffect(() => {
+    console.log(selectedChat);
     const getMessages = async () => {
       setMessages([]);
       if (selectedChat === "global") {
         setChatRef(projectFirestore.collection("chats").doc("global"));
       } else {
         const docs1 = await projectFirestore.collection("chats").where("users", "array-contains", user.uid).get().then(res => res.docs);
-        const docs2 = await projectFirestore.collection("chats").where("users", "array-contains", selectedChat).get().then(res => res.docs);
+        const docs2 = await projectFirestore.collection("chats").where("users", "array-contains", selectedChat._id).get().then(res => res.docs);
 
         const intersectDocs = docs1.filter((doc1) => {
           return docs2.some((doc2) => doc2.id === doc1.id);
@@ -65,7 +66,7 @@ export default function Social() {
         // Create chat if it doesn't exist
         if (!intersectDocs[0]) {
           await projectFirestore.collection("chats").add({
-            users: [user.uid, selectedChat]
+            users: [user.uid, selectedChat._id]
           })
         }
 
@@ -111,7 +112,7 @@ export default function Social() {
                 className={`${styles.friend} ${selectedChat === friend ? styles.selected : ""
                   }`}
                 key={i}
-                onClick={() => setSelectedChat(friend._id)}
+                onClick={() => setSelectedChat(friend)}
               >
                 <img src={friend.slimePath + ".svg"} className={styles.slimeBody}></img>
                 <div>
@@ -168,8 +169,8 @@ export default function Social() {
       <section className={styles.rightSidebar}>
         {selectedChat && selectedChat !== "global" ? (
           <>
-            <p>{selectedChat.name}</p>
-            <img src={user.data.slimePath + ".svg"} className={styles.slimeBody}></img>
+            <p>{selectedChat.username}</p>
+            <img src={selectedChat.slimePath + ".svg"} className={styles.slimeBody}></img>
             <p>Rank {selectedChat.rank}</p>
           </>
         ) : (

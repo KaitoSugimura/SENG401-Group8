@@ -39,7 +39,7 @@ export const AuthContextProvider = ({ children }) => {
             chestLastOpenedOn: firebase.firestore.Timestamp.fromMillis(0),
             bannerFilepath: "/Account/Banners/Sky.jpg",
             slimeType: "Normal",
-            slimeSkin: 3,
+            slimeSkin: 1,
             status: "ONLINE",
             friends
           });

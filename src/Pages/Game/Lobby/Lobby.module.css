@@ -158,7 +158,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background:linear-gradient(#9e5151, #760303);
+  background:radial-gradient(#8e2e2e, #760303);
   transition: 0.2s all;
 }
 .returnButton:hover {
@@ -175,7 +175,7 @@
 .createButton.createLobbyButton {
   flex-grow: 4;
   width: auto;
-  background:linear-gradient(#368bd1,#043c82);
+  background:radial-gradient(#368bd1,#043c82);
 }
 
 .lobbies {

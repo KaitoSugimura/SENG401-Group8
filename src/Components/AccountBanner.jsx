@@ -6,10 +6,9 @@ import Banner from "./Banner";
 import { projectAuth, projectFirestore } from "../Database/firebase/config";
 import firebase from "firebase";
 
-export default function AccountBanner({ setShowBanner, isNavBanner }) {
+export default function AccountBanner({ setShowBanner, isNavBanner, user, bannerWidth, bannerHeight }) {
   const { logout } = useLogout();
   const [userRef, setUserRef] = useState(null);
-  const { user } = useContext(AuthContext);
   const [bSelectionOn, setBSelectionOn] = useState(false);
   const [banner, setBanner] = useState(user.data.bannerFilepath);
   const [tempBannerIndex, setTempBannerIndex] = useState(user.data.bannerFilepath);
@@ -79,7 +78,10 @@ export default function AccountBanner({ setShowBanner, isNavBanner }) {
   }
 
   return (
-    <div className={styles.AccountBanner}>
+    <div className={styles.thisBannerRoot} style={{
+      width: bannerWidth,
+      height: bannerHeight
+    }}>
       <div className={styles.bannerInfo}>
         <h1 className={styles.Handle}>{user.displayName}</h1>
         {isNavBanner && (

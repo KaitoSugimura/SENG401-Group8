@@ -15,6 +15,16 @@
   z-index: 10000;
 }
 
+.AccountBannerContainer{
+  position: fixed;
+  z-index: 100000;
+  top: 62px;
+  right: 7%;
+  width: fit-content;
+  height: fit-content;
+  background-color: none;
+}
+
 .CloseArea{
   background-color: red;
   position: fixed;

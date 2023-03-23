@@ -158,7 +158,9 @@ export default function Nav() {
               <img src={user.data.slimePath + ".svg"}></img>
             </button>
             {showBanner && (
-              <AccountBanner setShowBanner={setShowBanner} isNavBanner={true} />
+              <div className={styles.AccountBannerContainer}>
+              <AccountBanner setShowBanner={setShowBanner} isNavBanner={true} user={user} bannerWidth={"300px"} bannerHeight={"410px"}/>
+              </div>
             )}
           </>
         )}

@@ -214,9 +214,6 @@ export default function Battle({ setGameState }) {
       if (p === null) {
         // Enemy disconnected
         if(enemy.current != null){
-          // playerRef.remove();
-          // projectileRef.remove();
-          // projectileDeletionRef.remove();
           projectDatabase.ref(
             `battle/${serverPlayerID}`
           ).remove();

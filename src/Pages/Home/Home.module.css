@@ -48,6 +48,8 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
   position: absolute;
   left: 0%;
   top:50%;
+  width: 8vw;
+  text-align: center;
   transform: translate(-70%, -50%);
   z-index: 20;
   background-color: #1f1f20;
@@ -116,9 +118,28 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
   transform: scale(101.5%);
 }
 
-.dailyChest {
-  width: 9vw;
+.sideIcons {
+  position: relative;
+  width: 10vw;
+  height: 8vw;
   pointer-events: all;
+}
+
+.dailyChest{
+  position: absolute;
+  top: 0;
+  left:0;
+  width: 12vw;
+  transform: translate(-8%, -10%);
+}
+
+.achivementsIcon{
+  position: absolute;
+  top: 0;
+  left:0;
+  width: 15vw;
+  pointer-events: all;
+  transform: translate(-18%, -5%);
 }
 
 /** Power Particles **/

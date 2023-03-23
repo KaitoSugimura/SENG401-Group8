@@ -53,20 +53,27 @@ export default function Home() {
         chestLastOpenedOn: firebase.firestore.Timestamp.now(),
       });
     }
-  }
+  };
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
       const newLeaderboard = [];
 
-      const querySnapshot = await projectFirestore.collection("users").orderBy("rankPoints", "desc").limit(5).get();
-      querySnapshot.forEach(doc => {
-        newLeaderboard.push({ username: doc.data().username, rankPoints: doc.data().rankPoints })
+      const querySnapshot = await projectFirestore
+        .collection("users")
+        .orderBy("rankPoints", "desc")
+        .limit(5)
+        .get();
+      querySnapshot.forEach((doc) => {
+        newLeaderboard.push({
+          username: doc.data().username,
+          rankPoints: doc.data().rankPoints,
+        });
         console.log(doc.data());
-      })
+      });
 
       setLeaderboard(newLeaderboard);
-    }
+    };
 
     fetchLeaderboard();
   }, []);
@@ -92,10 +99,11 @@ export default function Home() {
       >
         <img
           src={user.data.slimePath + ".svg"}
-          className={`${styles.characterIMG} ${petted
-            ? animations[Math.floor(Math.random() * animations.length)]
-            : ""
-            }`}
+          className={`${styles.characterIMG} ${
+            petted
+              ? animations[Math.floor(Math.random() * animations.length)]
+              : ""
+          }`}
           alt="slime"
           draggable="false"
         />
@@ -104,22 +112,26 @@ export default function Home() {
       <div className={styles.tabs}>
         <div className={styles.tabsIcon}>
           <p>Daily Login</p>
-          <img
-            src={chestAvailable ? chestClosed : chestOpen}
-            className={styles.dailyChest}
-            alt="Daily chest click to open"
-            draggable="false"
-            onClick={openChest}
-          />
+          <div className={styles.sideIcons}>
+            <img
+              src={chestAvailable ? chestClosed : chestOpen}
+              className={styles.dailyChest}
+              alt="Daily chest click to open"
+              draggable="false"
+              onClick={openChest}
+            />
+          </div>
         </div>
         <div className={styles.tabsIcon}>
           <p>Achievements</p>
-          <img
-            src={achievement}
-            className={styles.dailyChest}
-            alt="Achievements"
-            draggable="false"
-          />
+          <div className={styles.sideIcons}>
+            <img
+              src={achievement}
+              className={styles.achivementsIcon}
+              alt="Achievements"
+              draggable="false"
+            />
+          </div>
         </div>
       </div>
 
@@ -127,14 +139,23 @@ export default function Home() {
       <div className={styles.RankingsContainer}>
         <p>Rankings:</p>
         <ol>
-          {leaderboard.map(user => <li>{user.username} [{user.rankPoints}]</li>)}
+          {leaderboard.map((user) => (
+            <li>
+              {user.username} [{user.rankPoints}]
+            </li>
+          ))}
         </ol>
       </div>
 
       {/* Play banner */}
-      <button className={styles.PlayButton} onClick={() => {
-        navigate("/game");
-      }}>PLAY</button>
+      <button
+        className={styles.PlayButton}
+        onClick={() => {
+          navigate("/game");
+        }}
+      >
+        PLAY
+      </button>
 
       <div className={styles.ParticlesWrap}>{rows}</div>
     </div>

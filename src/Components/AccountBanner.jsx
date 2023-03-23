@@ -98,7 +98,7 @@ export default function AccountBanner({ setShowBanner, isNavBanner }) {
         src={user.data.slimePath + ".svg"}
         className={styles.character}
       ></img>
-      <p className={styles.Rank}>Rank points: {user.data.rankPoints}</p>
+      <p className={styles.Rank}>RP: {user.data.rankPoints}</p>
       <p className={styles.Status}>
         Hello my name is {user.displayName}. I'm not a bad Slime!
       </p>

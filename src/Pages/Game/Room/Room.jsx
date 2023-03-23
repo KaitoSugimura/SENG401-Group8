@@ -66,12 +66,7 @@ export default function Room({ setGameState }) {
           // enemyRef.off();
         }
       });
-      const goldRef = projectDatabase.ref( `lobby/rooms/${serverPlayerID}`);
-      goldRef.on("value", (otherSnapshot)=>{
-        setGold(otherSnapshot.child("gold").val());
-      }, (errorObject)=>{
-        console.log('The read failed: '+errorObject.name)
-      });
+      
     } else {
       const selfRef = projectDatabase.ref(
         `lobby/rooms/${serverPlayerID}/client`
@@ -83,13 +78,13 @@ export default function Room({ setGameState }) {
       enemyRef.once("value", (otherSnapshot) => {
         setEnemy(otherSnapshot.val());
       });
-      const goldRef = projectDatabase.ref( `lobby/rooms/${serverPlayerID}`);
-      goldRef.on("value", (otherSnapshot)=>{
+    }
+    const goldRef = projectDatabase.ref( `lobby/rooms/${serverPlayerID}`);
+      goldRef.once("value", (otherSnapshot)=>{
         setGold(otherSnapshot.child("gold").val());
       }, (errorObject)=>{
         console.log('The read failed: '+errorObject.name)
       });
-    }
   }, []);
 
   useEffect(() => {

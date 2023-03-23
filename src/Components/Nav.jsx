@@ -21,7 +21,7 @@ export default function Nav() {
   if(user){
     musicVol = user.data.musicVolume;
   }
-  const [musicVolume, setMusicVolume] = useState(musicVol); // Turned off music vol for now
+  const [musicVolume, setMusicVolume] = useState(musicVol); 
   const lastMusicVolume = useRef(musicVol);
   const [originalMusicVolMultiplier, setOriginalMusicVolMultiplier] =
     useState(1);

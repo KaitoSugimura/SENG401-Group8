@@ -5,9 +5,12 @@
     display: flex;
     flex-direction: row;
     background-image: linear-gradient(to bottom, #28313b 0%, #485461 60%);
+    background-image: url("../../../../public/assets/BackgroundImages/Lobby.jpg");
+    background-size:cover;
 }
 
 .match{
+    margin-top: 3vh;
     width: 40vw;
     padding: 2%;
     display: flex;
@@ -21,6 +24,7 @@
     background-color: darkgray;
     border: solid 7.5px black;
     border-radius: 5px;
+    border: 8px solid rgb(0, 0, 0);
 }
 
 .map img{
@@ -32,9 +36,12 @@
     margin: 2%;
     padding: 2%;
     border-radius: 5px;
-    font-size: 2.5rem;
+    font-size: 2.0rem;
     font-weight: bold;
-    color: silver;
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 500;
+    color: black;
+    text-shadow: #28313b;
 }
 
 .goldContainer{
@@ -46,8 +53,12 @@
     gap: 2%;
     background-color: black;
     padding: 2%;
-    border: solid 2px silver;
+    border: solid 2px black;
     border-radius: 10px;
+    background:linear-gradient(#8b939a, #5B6467);
+    border: 5px solid rgb(0, 0, 0);
+    box-shadow: 8px 8px 8px rgb(0, 0, 0);
+    margin-bottom: 10px;
 }
 
 
@@ -60,9 +71,11 @@
 .goldText{
     margin: 2%;
     padding: 2%;
-    color: gold;
+    color: darkgoldenrod;
+    font-size: 2.0rem;
     font-weight: bold;
-    font-size: 2.5rem;
+    font-weight: bold;
+    font-size: 2.5em;
 }
 
 .buttonContainer{
@@ -107,15 +120,16 @@
     color: silver;
 }
   
-  .player h3 {
+.player h3 {
     font-size: 2.2rem;
     font-weight: 400;
     line-height: 2;
     color: silver;
+    font-weight: bold;
   }
 
 .playerBox{
-    width: 50%;   
+    width: 50%; 
 }
 
 .playerBoximage{

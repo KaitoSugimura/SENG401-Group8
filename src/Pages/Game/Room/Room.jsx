@@ -7,14 +7,15 @@ import { gameStateContext } from "../gameStateContext";
 import LoadingScreen from "../LoadingScreen";
 
 export default function Room({ setGameState }) {
+
   const { user } = useContext(AuthContext);
   const { serverPlayerID, clientPlayerID, setClientPlayerID } =
     useContext(gameStateContext);
 
     const [loading, setLoading] = useState(true);
 
-  const battleFieldWidth = useRef(35);
-  const battleFieldHeight = useRef(19.6875);
+  const battleFieldWidth = useRef(48);
+  const battleFieldHeight = useRef(27);
 
   const [self, setSelf] = useState(null);
   const [enemy, setEnemy] = useState(null);
@@ -79,8 +80,8 @@ export default function Room({ setGameState }) {
   }, []);
 
   useEffect(() => {
-    battleFieldWidth.current = 35;
-    battleFieldHeight.current = 19.6875;
+    battleFieldWidth.current = 48;
+    battleFieldHeight.current = 27;
     const ratio = (window.innerHeight - 65) / window.innerWidth;
     if (ratio < 0.5625) {
       battleFieldWidth.current = battleFieldWidth.current * (ratio / 0.5625);
@@ -109,12 +110,12 @@ export default function Room({ setGameState }) {
           <div className={styles.goldImage}>
             <img src="assets/GameArt/Gold.png" alt="" />
           </div>
-          <p className={styles.goldText}>x{user.data.gold}</p>
+          <p className={styles.goldText}>x{lockRef.gold}</p>
         </div>
         <div className={styles.buttonContainer}>
           <div
             className={`${styles.selectionButton} ${
-              lockButtons || enemy==null ? styles.lockedButton : ""
+              lockButtons || enemy==null ||user.uid ==clientPlayerID ? styles.lockedButton : ""
             }`}
             onClick={() => {
               if (!lockButtons && serverPlayerID == user.uid && enemy) {

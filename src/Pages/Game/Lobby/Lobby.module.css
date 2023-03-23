@@ -351,5 +351,6 @@
 }
 
 .submit:hover {
-  transform: translate(-50%, 2%);
+  transform: translate(calc(-50% + 3px), 3px);
+  box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.735);
 }

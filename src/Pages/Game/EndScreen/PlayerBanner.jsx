@@ -16,30 +16,38 @@ const PlayerBanner = ({ left, winner }) => {
   }, []);
 
   let imageDirection;
-  if(winner){
-    imageDirection = {right: 0, width: winner ? `30vw` : `20vw`};
-  } else{
-    imageDirection = {right: 0, width: winner ? `30vw` : `20vw`};
+  if (winner) {
+    imageDirection = {
+      right: 0,
+      width: `30vw`,
+      top: 0,
+      transform: "scaleX(-1)",
+    };
+  } else {
+    imageDirection = { left: 0, width: `20vw`, bottom: 0 };
   }
 
   return (
     <div
       className={styles.playerBanner}
       style={{
-        transform: winner ? `scale(100%) translate(-80%, -50%)` : `scale(75%) translate(-10%, -60%)`,
+        transform: winner
+          ? `scale(100%) translate(-75%, -45%)`
+          : `scale(75%) translate(-15%, -55%)`,
         flexDirection: left ? `row-reverse` : `row`,
-        // width: winner ? `60vw` : `40vw`,
       }}
     >
+        <div className={styles.AB}>
       <AccountBanner
         setShowBanner={null}
         isNavBanner={false}
         user={user}
-        width={"max-content"}
-        height={"max-content"}
-      ></AccountBanner>
+        bannerWidth={"19"}
+        widthUnits={"vw"}
+        friend_able={!left}
+      ></AccountBanner></div>
       <div className={styles.slime}>
-        <img src={slime} alt="" style={imageDirection}/>
+        <img src={slime} alt="" style={imageDirection} />
       </div>
     </div>
   );

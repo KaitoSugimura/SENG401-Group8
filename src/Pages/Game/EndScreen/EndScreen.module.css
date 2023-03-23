@@ -27,6 +27,10 @@
 }
 
 .returnToLobbyBtn {
+  position: fixed;
+  bottom: 10vh;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 36px;
   padding: 10px 30px;
   border-radius: 5px;
@@ -72,50 +76,9 @@
   position: absolute;
   width: 100%;
   height: auto;
-  bottom: 0;
-  left: 0;
+  filter: drop-shadow(30px 20px 5px #000);
 }
 
-.AccountBanner {
-  background-color: green;
-  background-color: var(--bg-color);
-  width: 15vw;
-  height: 50vh;
-  border-radius: 7px;
-  box-shadow: 1px 3px 7px rgba(0, 0, 0, 0.5);
-  border: 5px solid rgb(47, 83, 151);
-
-  font-weight: 400;
-}
-
-.bannerInfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.Handle {
-  margin: 30px auto 0 auto;
-  padding: 2px 10px;
-  border-radius: 7px;
-  font-size: 1.8rem;
-  font-weight: 500;
-  text-shadow: 0px 0px 10px #000000, 0px 0px 10px #000000, 0px 0px 10px #000000,
-    0px 0px 10px #000000;
-  color: rgb(255, 255, 255);
-  width: fit-content;
-}
-
-.playerBanner .character {
-  position: absolute;
-  object-fit: cover;
-  top: 25%;
-  width: 15%;
-  z-index: 1000;
-  filter: drop-shadow(1px 2px 3px rgb(0 0 0 / 0.4));
-}
-
-.bannerInfo{
-  background-size: cover;
-  height: 45%;
+.AB {
+  width: 20vw;
 }

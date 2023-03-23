@@ -6,12 +6,21 @@ import Banner from "./Banner";
 import { projectAuth, projectFirestore } from "../Database/firebase/config";
 import firebase from "firebase";
 
-export default function AccountBanner({ setShowBanner, isNavBanner, user, bannerWidth, bannerHeight }) {
+export default function AccountBanner({
+  setShowBanner,
+  isNavBanner,
+  user,
+  bannerWidth,
+  widthUnits,
+  friend_able = false,
+}) {
   const { logout } = useLogout();
   const [userRef, setUserRef] = useState(null);
   const [bSelectionOn, setBSelectionOn] = useState(false);
   const [banner, setBanner] = useState(user.data.bannerFilepath);
-  const [tempBannerIndex, setTempBannerIndex] = useState(user.data.bannerFilepath);
+  const [tempBannerIndex, setTempBannerIndex] = useState(
+    user.data.bannerFilepath
+  );
 
   const width = window.innerWidth * 0.4;
   const widthStep = window.innerWidth * 0.025;
@@ -50,7 +59,6 @@ export default function AccountBanner({ setShowBanner, isNavBanner, user, banner
     "/Account/Banners/Tyndalls Trees.jpg",
     "/Account/Banners/UNDEAD CORPORATION - Everything will freeze.jpg",
     "/Account/Banners/Winter Wonderland.jpg",
-
   ]);
 
   useEffect(() => {
@@ -78,12 +86,20 @@ export default function AccountBanner({ setShowBanner, isNavBanner, user, banner
   }
 
   return (
-    <div className={styles.thisBannerRoot} style={{
-      width: bannerWidth,
-      height: bannerHeight
-    }}>
+    <div
+      className={styles.thisBannerRoot}
+      style={{
+        width: bannerWidth + widthUnits,
+        height: bannerWidth * 1.35 + widthUnits,
+      }}
+    >
       <div className={styles.bannerInfo}>
-        <h1 className={styles.Handle}>{user.displayName}</h1>
+        <h1
+          className={styles.Handle}
+          style={{ fontSize: bannerWidth / 12 + widthUnits }}
+        >
+          {user.displayName}
+        </h1>
         {isNavBanner && (
           <div
             className={styles.editBannerButton}
@@ -100,8 +116,16 @@ export default function AccountBanner({ setShowBanner, isNavBanner, user, banner
         src={user.data.slimePath + ".svg"}
         className={styles.character}
       ></img>
-      <p className={styles.Rank}>RP: {user.data.rankPoints}</p>
-      <p className={styles.Status}>
+      <p
+        className={styles.Rank}
+        style={{ fontSize: bannerWidth / 15 + widthUnits }}
+      >
+        RP: {user.data.rankPoints}
+      </p>
+      <p
+        className={styles.Status}
+        style={{ fontSize: bannerWidth / 17 + widthUnits }}
+      >
         Hello my name is {user.displayName}. I'm not a bad Slime!
       </p>
       {isNavBanner && (
@@ -116,6 +140,10 @@ export default function AccountBanner({ setShowBanner, isNavBanner, user, banner
         </button>
       )}
 
+      {friend_able && (
+        <button className={styles.Friend}>Friend</button>
+      ) }
+
       <img src={banner} className={styles.banner}></img>
 
       {isNavBanner && (
@@ -124,11 +152,11 @@ export default function AccountBanner({ setShowBanner, isNavBanner, user, banner
             bSelectionOn ? styles.ShowBannerSelection : ""
           }`}
         >
-          <div
-            className={styles.bannerOptions}
-            ref={scrollPane}
-          >
-            <img src={banners[tempBannerIndex]} className={styles.backgroundBanner}></img>
+          <div className={styles.bannerOptions} ref={scrollPane}>
+            <img
+              src={banners[tempBannerIndex]}
+              className={styles.backgroundBanner}
+            ></img>
             {banners.map((bannerx, index) => (
               <Banner
                 index={index}

@@ -159,7 +159,7 @@ export default function Nav() {
             </button>
             {showBanner && (
               <div className={styles.AccountBannerContainer}>
-              <AccountBanner setShowBanner={setShowBanner} isNavBanner={true} user={user} bannerWidth={"300px"} bannerHeight={"410px"}/>
+              <AccountBanner setShowBanner={setShowBanner} isNavBanner={true} user={user} bannerWidth={300} widthUnits={"px"}/>
               </div>
             )}
           </>

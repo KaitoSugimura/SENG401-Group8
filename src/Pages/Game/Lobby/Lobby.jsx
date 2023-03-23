@@ -152,6 +152,7 @@ export default function Lobby({ setGameState }) {
 </svg>
 </div>
           </div>}
+          <button onClick={()=>{setGameState("EndScreen")}}>TMP</button >
         
 
         {popup && <Popup setPopUp={setPopup}>

@@ -12,17 +12,16 @@ import BattleBGM from "/Sound/Battle.mp3";
 import { AuthContext } from "../Database/context/AuthContext";
 import { gameStateContext } from "../Pages/Game/gameStateContext";
 
-
-
 export default function Nav() {
-  const { user } = useContext(AuthContext);
+  const { user, userRef } = useContext(AuthContext);
   const locationPath = useLocation().pathname;
   const [showBanner, setShowBanner] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [musicVolume, setMusicVolume] = useState(user.data.musicVolume); // Turned off music vol for now
+  const lastMusicVolume = useRef(user.data.musicVolume);
   const [originalMusicVolMultiplier, setOriginalMusicVolMultiplier] =
     useState(1);
-  const {gameState} = useContext(gameStateContext);
+  const { gameState } = useContext(gameStateContext);
   const acctBanner = useRef(null);
 
   const audioRef = useRef();
@@ -37,9 +36,9 @@ export default function Nav() {
         setOriginalMusicVolMultiplier(0.6);
         break;
       case "/game":
-        if(gameState === "Battle"){
+        if (gameState === "Battle") {
           audioRef.current.src = BattleBGM;
-        } else{
+        } else {
           audioRef.current.src = GameBGM;
         }
         setOriginalMusicVolMultiplier(0.7);
@@ -69,13 +68,28 @@ export default function Nav() {
       if (showBanner) setShowBanner(false);
       if (showSettings) setShowSettings(false);
     }
+   if(musicVolume != lastMusicVolume.current){
+    lastMusicVolume.current = musicVolume;
+    userRef.update({
+      volumeData: musicVolume
+    });
+    console.log("UPDATED SOUND");
+   }
   };
 
-  document.addEventListener("click", closeBanner);
+  useEffect(() => {
+    document.addEventListener("click", closeBanner);
+
+    return () => {
+      document.removeEventListener("click", closeBanner);
+    };
+  }, [closeBanner]);
 
   return (
     <header className={styles.navbar}>
       <audio src={HomeBGM} ref={audioRef} loop="loop"></audio>
+      {/* {showBanner && <div className={styles.CloseArea} onClick={()=>closeBanner} ></div>}
+      {showSettings && <div className={styles.CloseArea} onClick={()=>closeBanner} ></div>} */}
       <h1 className={styles.logo}>I'm Slime</h1>
       {user && (
         <>
@@ -137,9 +151,11 @@ export default function Nav() {
               }}
               className={styles.bannerButton}
             >
-              <img src={user.data.slimePath+".svg"}></img>
+              <img src={user.data.slimePath + ".svg"}></img>
             </button>
-            {showBanner && <AccountBanner setShowBanner={setShowBanner} isNavBanner={true} />}
+            {showBanner && (
+              <AccountBanner setShowBanner={setShowBanner} isNavBanner={true} />
+            )}
           </>
         )}
 

@@ -50,13 +50,14 @@
     display: flex;
     margin: 0 2rem;
     align-items: center;
-    gap: 1.5rem;
+    /* gap: 1rem; */
 }
 
 .friendsHeader i {
     border-radius: 50%;
     font-size: 2.5rem;
     padding: .5rem;
+    margin-left: .5rem;
     cursor: pointer;
 }
 

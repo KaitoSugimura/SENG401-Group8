@@ -5,6 +5,8 @@ import { projectFirestore } from "../../Database/firebase/config";
 import styles from "./Social.module.css";
 import firebase from "firebase";
 import FriendRequests from "./FriendRequests";
+import Modal from "./Modal";
+import Search from "./Search";
 
 // const ENDPOINT = "http://localhost:5000";
 // const ENDPOINT = "https://seng-401-server.onrender.com";
@@ -17,6 +19,7 @@ export default function Social() {
   const [messages, setMessages] = useState([]);
   const [friends, setFriends] = useState([]);
   const [chatRef, setChatRef] = useState(projectFirestore.collection("chats").doc("global"));
+  const [showSearch, setShowSearch] = useState(false);
   const [showRequests, setShowRequests] = useState(false);
 
   // Fetch friends
@@ -127,6 +130,7 @@ export default function Social() {
           </div>
           <div className={styles.friendsHeader}>
             <h2 >Friends</h2>
+            <i className="material-symbols-outlined" onClick={() => setShowSearch(true)}>add</i>
             <i className="material-symbols-outlined" onClick={() => setShowRequests(true)}>markunread_mailbox</i>
           </div>
           <ul className={styles.friends}>
@@ -208,7 +212,8 @@ export default function Social() {
         )}
       </section>
 
-      {showRequests && <FriendRequests close={() => setShowRequests(false)} />}
+      {showSearch && <Modal close={() => setShowSearch(false)} ><Search /></Modal>}
+      {showRequests && <Modal close={() => setShowRequests(false)} ><FriendRequests /></Modal>}
     </div>
   );
 }

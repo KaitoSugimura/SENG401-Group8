@@ -17,8 +17,12 @@ export default function Nav() {
   const locationPath = useLocation().pathname;
   const [showBanner, setShowBanner] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
-  const [musicVolume, setMusicVolume] = useState(user.data.musicVolume); // Turned off music vol for now
-  const lastMusicVolume = useRef(user.data.musicVolume);
+  let musicVol = 0;
+  if(user){
+    musicVol = user.data.musicVolume;
+  }
+  const [musicVolume, setMusicVolume] = useState(musicVol); // Turned off music vol for now
+  const lastMusicVolume = useRef(musicVol);
   const [originalMusicVolMultiplier, setOriginalMusicVolMultiplier] =
     useState(1);
   const { gameState } = useContext(gameStateContext);

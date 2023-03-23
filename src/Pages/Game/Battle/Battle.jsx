@@ -42,6 +42,8 @@ export default function Battle({ setGameState }) {
   let playerId;
   let playerRef;
   let projectileRef;
+  let projectileDeletionRef;
+  const nextProjectileToDeleteQueue = useRef(0);
 
   if (user) {
     playerId = user.uid;
@@ -52,6 +54,9 @@ export default function Battle({ setGameState }) {
       projectileRef = projectDatabase.ref(
         `battle/${serverPlayerID}/serverProjectile`
       );
+      projectileDeletionRef = projectDatabase.ref(
+        `battle/${serverPlayerID}/serverProjectileDeletion`
+      );
     } else {
       playerRef = projectDatabase.ref(
         `battle/${serverPlayerID}/${clientPlayerID}`
@@ -59,11 +64,15 @@ export default function Battle({ setGameState }) {
       projectileRef = projectDatabase.ref(
         `battle/${serverPlayerID}/clientProjectile`
       );
+      projectileDeletionRef = projectDatabase.ref(
+        `battle/${serverPlayerID}/clientProjectileDeletion`
+      );
     }
     playerRef.onDisconnect().remove();
     projectileRef.onDisconnect().remove();
+    projectileDeletionRef.onDisconnect().remove();
   }
-  let ProjectileKey = useRef(playerId === serverPlayerID ? 10000 : 0);
+  let ProjectileKey = useRef(playerId === serverPlayerID ? 10000 : 1);
 
   // Calculate battle field dimensions
   // (window.innerHeight - 65)/window.innerWidth
@@ -123,7 +132,7 @@ export default function Battle({ setGameState }) {
 
     loadWaitRef.off();
     loadWaitRef.on("value", (snapshot) => {
-      if (snapshot.val().Server && snapshot.val().Client) {
+      if (snapshot.val().server && snapshot.val().client) {
         loadWaitRef.off();
         setCountDown(true);
         setLoading(false);
@@ -177,12 +186,16 @@ export default function Battle({ setGameState }) {
   useEffect(() => {
     let enemyRef;
     let enemyProjectileRef;
+    let enemyProjectileDeletionRef;
     if (playerId === serverPlayerID) {
       enemyRef = projectDatabase.ref(
         `battle/${serverPlayerID}/${clientPlayerID}`
       );
       enemyProjectileRef = projectDatabase.ref(
         `battle/${serverPlayerID}/clientProjectile`
+      );
+      enemyProjectileDeletionRef = projectDatabase.ref(
+        `battle/${serverPlayerID}/clientProjectileDeletion`
       );
     } else {
       enemyRef = projectDatabase.ref(
@@ -191,12 +204,26 @@ export default function Battle({ setGameState }) {
       enemyProjectileRef = projectDatabase.ref(
         `battle/${serverPlayerID}/serverProjectile`
       );
+      enemyProjectileDeletionRef = projectDatabase.ref(
+        `battle/${serverPlayerID}/serverProjectileDeletion`
+      );
     }
     enemyRef.off();
     enemyRef.on("value", (otherSnapshot) => {
       const p = otherSnapshot.val();
       if (p === null) {
         // Enemy disconnected
+        if(enemy.current != null){
+          // playerRef.remove();
+          // projectileRef.remove();
+          // projectileDeletionRef.remove();
+          setTimeout(()=>{
+            projectDatabase.ref(
+              `battle/${serverPlayerID}`
+            ).remove();
+          }, 1000);
+          setGameState("EndScreen");
+        }
         enemy.current = null;
       } else
         enemy.current = {
@@ -214,7 +241,17 @@ export default function Battle({ setGameState }) {
           ...snapshot.val(),
           x: p.x * battleFieldWidth.current,
           y: p.y * battleFieldHeight.current,
+          dx: p.dx * battleFieldWidth.current,
+          dy: p.dy * battleFieldHeight.current,
         });
+      }
+    });
+
+    enemyProjectileDeletionRef.off();
+    enemyProjectileDeletionRef.on("value", (snapshot) => {
+      const p = snapshot.val();
+      if (p) {
+        nextProjectileToDeleteQueue.current = p.key;
       }
     });
   }, []);
@@ -273,11 +310,13 @@ export default function Battle({ setGameState }) {
           ...newProjectile,
           x: newProjectile.x / battleFieldWidth.current,
           y: newProjectile.y / battleFieldHeight.current,
+          dx: newProjectile.dx ? newProjectile.dx / battleFieldWidth.current : 0,
+          dy: newProjectile.dx ? newProjectile.dy / battleFieldHeight.current : 0,
         },()=>{
           projectiles.current.push(newProjectile);
         });
         
-        shootSoundRef.current.play();
+        // shootSoundRef.current.play();
         
         setTimeout(() => {
           self.current.shooting = false;
@@ -328,6 +367,11 @@ export default function Battle({ setGameState }) {
       handleKeyPress(dx, dy);
     }
     for (let i = 0; i < projectiles.current.length; i++) {
+      console.log(nextProjectileToDeleteQueue.current);
+      if(nextProjectileToDeleteQueue.current === projectiles.current[i].key){
+        projectiles.current.splice(i, 1);
+        return;
+      }
       let projectile = projectiles.current[i];
       projectile.x += projectile.dx;
       projectile.y += projectile.dy;
@@ -339,11 +383,13 @@ export default function Battle({ setGameState }) {
         projectile.y >= self.current.top - 2
       ) {
         if (projectile.bulletState >= 3) {
-          projectiles.current.splice(i, 1);
+
         } else {
-          playerRef.onDisconnect().remove();
+          playerRef.remove();
           setGameState("EndScreen");
         }
+        projectileDeletionRef.set({key: projectiles.current[i].key});
+        projectiles.current.splice(i, 1);
       }
 
       if (
@@ -359,6 +405,9 @@ export default function Battle({ setGameState }) {
       ) {
         projectile.dx *= -1;
         projectile.bulletState++;
+      }
+      if (projectile.bulletState >= 5) {
+        projectiles.current.splice(i, 1);
       }
     }
     Render({ time: Date.now() /*- enemy.current.time*/ });
@@ -398,7 +447,7 @@ export default function Battle({ setGameState }) {
                 setTimeout(() => {
                   let loadCompleteRef = projectDatabase.ref(
                     `battle/${serverPlayerID}/loadComplete/${
-                      serverPlayerID === playerId ? "Server" : "Client"
+                      serverPlayerID === playerId ? "server" : "client"
                     }`
                   );
                   loadCompleteRef.set(true);

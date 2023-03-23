@@ -37,10 +37,9 @@ export default function Battle({ setGameState }) {
 
   const buttonDivRef = useRef(null);
 
-  let ProjectileKey = useRef(0);
-
   let playerId;
   let playerRef;
+  let projectileRef;
 
   if (user) {
     playerId = user.uid;
@@ -48,12 +47,21 @@ export default function Battle({ setGameState }) {
       playerRef = projectDatabase.ref(
         `battle/${serverPlayerID}/${serverPlayerID}`
       );
+      projectileRef = projectDatabase.ref(
+        `battle/${serverPlayerID}/serverProjectile`
+      );
     } else {
       playerRef = projectDatabase.ref(
         `battle/${serverPlayerID}/${clientPlayerID}`
       );
+      projectileRef = projectDatabase.ref(
+        `battle/${serverPlayerID}/clientProjectile`
+      );
     }
+    playerRef.onDisconnect().remove();
+    projectileRef.onDisconnect().remove();
   }
+  let ProjectileKey = useRef(playerId === serverPlayerID ? 10000 : 0);
 
   // Calculate battle field dimensions
   // (window.innerHeight - 65)/window.innerWidth
@@ -94,7 +102,7 @@ export default function Battle({ setGameState }) {
         ...self.current,
         left: self.current.left / battleFieldWidth.current,
         top: self.current.top / battleFieldHeight.current,
-        time: Date.now()
+        // time: Date.now(),
       });
     }
   };
@@ -110,8 +118,8 @@ export default function Battle({ setGameState }) {
     let loadWaitRef = projectDatabase.ref(
       `battle/${serverPlayerID}/loadComplete`
     );
- 
 
+    loadWaitRef.off();
     loadWaitRef.on("value", (snapshot) => {
       if (snapshot.val().Server && snapshot.val().Client) {
         loadWaitRef.off();
@@ -126,9 +134,6 @@ export default function Battle({ setGameState }) {
       }
     });
 
-
-  
-
     buttonDivRef.current.focus();
     // Initialize game
     if (serverPlayerID === playerId) {
@@ -139,7 +144,7 @@ export default function Battle({ setGameState }) {
         name: user.displayName,
         shooting: false,
         slimePath: user.data.slimePath,
-        time: Date.now()
+        // time: Date.now(),
       };
     } else {
       self.current = {
@@ -149,7 +154,7 @@ export default function Battle({ setGameState }) {
         name: user.displayName,
         shooting: false,
         slimePath: user.data.slimePath,
-        time: Date.now()
+        // time: Date.now(),
       };
     }
     playerRef.set({
@@ -159,7 +164,7 @@ export default function Battle({ setGameState }) {
     });
     playerRef.onDisconnect().remove();
 
-    Render({time: 0});
+    Render({ time: 0 });
 
     window.addEventListener("mousemove", handleMouseMove);
     return () => {
@@ -169,16 +174,23 @@ export default function Battle({ setGameState }) {
 
   useEffect(() => {
     let enemyRef;
+    let enemyProjectileRef;
     if (playerId === serverPlayerID) {
       enemyRef = projectDatabase.ref(
         `battle/${serverPlayerID}/${clientPlayerID}`
+      );
+      enemyProjectileRef = projectDatabase.ref(
+        `battle/${serverPlayerID}/clientProjectile`
       );
     } else {
       enemyRef = projectDatabase.ref(
         `battle/${serverPlayerID}/${serverPlayerID}`
       );
+      enemyProjectileRef = projectDatabase.ref(
+        `battle/${serverPlayerID}/serverProjectile`
+      );
     }
-
+    enemyRef.off();
     enemyRef.on("value", (otherSnapshot) => {
       const p = otherSnapshot.val();
       if (p === null) {
@@ -190,6 +202,18 @@ export default function Battle({ setGameState }) {
           left: p.left * battleFieldWidth.current,
           top: p.top * battleFieldHeight.current,
         };
+    });
+
+    enemyProjectileRef.off();
+    enemyProjectileRef.on("value", (snapshot) => {
+      const p = snapshot.val();
+      if (p) {
+        projectiles.current.push({
+          ...snapshot.val(),
+          x: p.x * battleFieldWidth.current,
+          y: p.y * battleFieldHeight.current,
+        });
+      }
     });
   }, []);
 
@@ -232,7 +256,7 @@ export default function Battle({ setGameState }) {
         const normalizedX = SlimeToMouseVectorX / length;
         const normalizedY = SlimeToMouseVectorY / length;
 
-        projectiles.current.push({
+        const newProjectile = {
           x: self.current.left + normalizedX * 3,
           y: self.current.top + normalizedY * 3,
           dx: normalizedX * 1.5,
@@ -240,7 +264,18 @@ export default function Battle({ setGameState }) {
           rad: 1,
           bulletState: 0, // 0-2 damage, >=3 for healing
           key: ProjectileKey.current++,
+          projectileType: 0, // 0: Damage, 1: Healing, 2: AttackBuff
+        };
+        
+        projectileRef.set({
+          ...newProjectile,
+          x: newProjectile.x / battleFieldWidth.current,
+          y: newProjectile.y / battleFieldHeight.current,
+        },()=>{
+          projectiles.current.push(newProjectile);
         });
+        
+        
         setTimeout(() => {
           self.current.shooting = false;
         }, 100);
@@ -323,7 +358,7 @@ export default function Battle({ setGameState }) {
         projectile.bulletState++;
       }
     }
-    Render({time: Date.now() - enemy.current.time});
+    Render({ time: Date.now() /*- enemy.current.time*/ });
   }, []);
 
   useEffect(() => {
@@ -334,7 +369,7 @@ export default function Battle({ setGameState }) {
   return (
     <div
       ref={buttonDivRef}
-      class={styles.ButtonOverlay}
+      className={styles.ButtonOverlay}
       role="button"
       tabIndex="0"
       onKeyDown={(e) => move(e)}
@@ -342,7 +377,7 @@ export default function Battle({ setGameState }) {
     >
       {loading && <LoadingScreen />}
       {countDown && <GameCountDown />}
-      <span className={styles.ping}>{reRender?reRender.time:0} ms</span>
+      <span className={styles.ping}>{reRender ? reRender.time : 0} ms</span>
       <div class={styles.battleContainer}>
         <div className={styles.battleFieldContainer}>
           <div

@@ -257,31 +257,57 @@
   height: auto;
 }
 
+/*CREATE LOBBY COMPONENT*/
+
 .createLobby {
   width: 50vw;
   height: 60vh;
-  font-family: "Press Start 2P", cursive;
+  font-family: 'Exo 2', sans-serif;
   padding: 2vh;
+  background: -moz-linear-gradient(360deg, #1C1C1C 10%, #494949 360%); background: linear-gradient(360deg, #1C1C1C 10%, #494949 360%);
+  background-size: contain;
 }
+
+
 
 .createLobby p {
   font-size: 2vw;
-  color: rgb(255, 255, 255);
+  color: silver;
+  border-bottom: solid 3px silver;
   padding: 2%;
+  text-align: center;
+}
+
+.publicOptions{
+  margin-top: 2%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.password{
+  margin: 3vh;
+  display: flex;
+  justify-content: center;
+}
+
+.createLobby select{
+  margin: 30px;
 }
 
 .createLobby label {
-  color: rgb(255, 255, 255);
+  color: silver;
   font-size: 1.2vw;
   margin: 10px;
 }
 
 .createLobby .formFields label {
   text-align: right;
+  gap: 10%;
 }
 
 .LobbyInput {
-  font-family: "Press Start 2P", cursive;
+  font-family: 'Exo 2', sans-serif;
   padding: 0.6vw 2vw;
   background-color: transparent;
   color: #fff;
@@ -296,18 +322,26 @@
 
 .Input {
   padding: 0.6vw 0vw;
-  font-family: "Press Start 2P", cursive;
+  font-family: 'Exo 2', sans-serif;
 }
 
 .submit {
+  display: block;
   position: absolute;
-  bottom: 10vh;
+  bottom: 6vh;
   left: 50%;
   transform: translateX(-50%);
   padding: 0.8vw 2vw;
   font-size: 1.5vw;
-  font-family: "Press Start 2P", cursive;
+  margin: 10px;
   border: none;
+  background:radial-gradient(#368bd1,#043c82);
+  border: 5px solid rgb(0, 0, 0);
+  box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.735);
+  font-family: 'Exo 2', sans-serif;
+  font-size: 1.3vw;
+  font-weight: 500
+  
 }
 
 .submit:hover {

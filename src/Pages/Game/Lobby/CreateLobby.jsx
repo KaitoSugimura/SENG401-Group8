@@ -47,6 +47,7 @@ const CreateLobby = ({setPopUp, createRoom}) => {
                 setPopUp(false);                
             }}>
                 <div className={styles.formFields}>
+                    <div className={styles.publicOptions}>
                     <label >Lobby Type:</label>
                         <select onChange={typeHandler} className={styles.LobbyInput}>
                             {arenaTypes.map((type, index) => {
@@ -65,8 +66,10 @@ const CreateLobby = ({setPopUp, createRoom}) => {
                             className={styles.Input}
                             />
                         </div>
+                    </div>
+                   
                         {type==='private'&&
-                            <div>
+                            <div className={styles.password}>
                                 <label>Password</label>
                                 <input
                                 type="text"

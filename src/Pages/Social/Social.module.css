@@ -230,40 +230,45 @@
 .modalBackdrop {
     position: fixed;
     width: 100%;
-    min-height: calc(100vh - 68px);
+    height: calc(100vh - 68px);
     background-color: hsla(0, 0%, 0%, 0.432);
-    display: grid;
-    place-content: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* padding: 5rem; */
+    /* overflow: hidden; */
 }
 
 .modal {
-    background-color: var(--bg-secondary-color);
-    border: 1px solid var(--secondary-color);
+    background-color: white;
+    border: 1px solid var(--gray-color);
     padding: 1rem;
     margin: 1rem;
     width: 40rem;
     border-radius: .5rem;
     text-align: center;
+
+    height: 70vh;
+    overflow-y: scroll;
 }
 
 .modal .friend {
     justify-content: center;
-    /* pointer-events: all; */
 }
 
-.requestActions {
+.actions {
     display: flex;
     align-items: center;
     font-size: 5rem;
 }
 
-.requestActions i {
+.actions i {
     font-size: 3rem;
     cursor: pointer;
     border-radius: 50%;
 }
 
-.requestActions i:hover {
+.actions i:hover {
     background-color: rgba(0, 0, 0, 0.05);
 }
 
@@ -291,4 +296,11 @@
 
 .unfriend p {
     font-size: 1vw;
+}
+
+.textInput {
+    padding: 1rem;
+    border: 1px solid var(--gray-color);
+    border-radius: .5rem;
+    margin-block: .5rem 1rem;
 }

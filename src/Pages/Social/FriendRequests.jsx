@@ -3,6 +3,7 @@ import { AuthContext } from "../../Database/context/AuthContext";
 import { projectFirestore } from "../../Database/firebase/config";
 import styles from "./Social.module.css";
 import firebase from "firebase";
+import Modal from "./Modal";
 
 const FriendRequests = ({ close }) => {
   const { user, userRef } = useContext(AuthContext);
@@ -51,30 +52,28 @@ const FriendRequests = ({ close }) => {
   }
 
   return (
-    <div className={styles.modalBackdrop} onClick={close}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-        <h2 className={styles.friendRequestsHeader}>Incoming Friend Requests</h2>
-        {user.data.friendRequests.length > 0 ?
-          <ul>
-            {requests.map((request, i) =>
-              <li className={styles.friend} key={request._id} >
-                <img src={request.slimePath + ".svg"} className={styles.slimeBody}></img>
-                <div>
-                  <p>{request.username}</p>
-                  <p className={`${styles.presence} ${styles[request.status]}`}>
-                    {request.status}
-                  </p>
-                </div>
-                <div className={styles.requestActions}>
-                  <i className="material-symbols-outlined" onClick={() => rejectRequest(request._id)}>close</i>
-                  <i className="material-symbols-outlined" onClick={() => acceptRequest(request._id)}>done</i>
-                </div>
-              </li>
-            )}
-          </ul>
-          : <p>You have no incoming friend requests.</p>}
-      </div>
-    </div>
+    <>
+      <h2 className={styles.friendRequestsHeader}>Incoming Friend Requests</h2>
+      {user.data.friendRequests.length > 0 ?
+        <ul className={styles.results}>
+          {requests.map((request, i) =>
+            <li className={styles.friend} key={request._id} >
+              <img src={request.slimePath + ".svg"} className={styles.slimeBody}></img>
+              <div>
+                <p>{request.username}</p>
+                <p className={`${styles.presence} ${styles[request.status]}`}>
+                  {request.status}
+                </p>
+              </div>
+              <div className={styles.actions}>
+                <i className="material-symbols-outlined" onClick={() => rejectRequest(request._id)}>close</i>
+                <i className="material-symbols-outlined" onClick={() => acceptRequest(request._id)}>done</i>
+              </div>
+            </li>
+          )}
+        </ul>
+        : <p>You have no incoming friend requests.</p>}
+    </>
   );
 }
 

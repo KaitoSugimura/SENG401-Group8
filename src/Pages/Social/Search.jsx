@@ -60,7 +60,7 @@ const Search = () => {
   return (
     <>
       <h2 className={styles.friendRequestsHeader}>Add Friends</h2>
-      <input className={styles.textInput} type="text" placeholder="Enter a username here" autoComplete="off" value={search} onChange={(e) => setSearch(e.target.value)} />
+      <input className={styles.searchInput} type="text" placeholder="Enter a username here" autoComplete="off" value={search} onChange={(e) => setSearch(e.target.value)} />
       <ul className={styles.results}>
         {results.map((user, i) =>
           <li className={styles.friend} key={user._id} >

@@ -279,8 +279,9 @@
 
 .unfriend {
     margin-top: 1rem;
-    background-color: rgba(0, 0, 0, 0.05);
-    border: 1px solid transparent;
+    background-color: white;
+    border: 1px solid var(--tertiary-color);
+    color: var(--tertiary-color);
     padding: 1rem;
     border-radius: .5rem;
     cursor: pointer;
@@ -291,15 +292,14 @@
 }
 
 .unfriend:hover {
-    border-color: var(--tertiary-color);
-    color: var(--tertiary-color);
+    background-color: var(--bg-tertiary-color);
 }
 
 .unfriend p {
     font-size: 1vw;
 }
 
-.textInput {
+.searchInput {
     padding: 1rem;
     border: 1px solid var(--gray-color);
     border-radius: .5rem;

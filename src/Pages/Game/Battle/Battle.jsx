@@ -145,7 +145,7 @@ export default function Battle({ setGameState }) {
       self.current = {
         top: battleFieldHeight.current / 2,
         left: (4 * battleFieldWidth.current) / 5,
-        direction: "right",
+        direction: "left",
         name: user.displayName,
         shooting: false,
         slimePath: user.data.slimePath,

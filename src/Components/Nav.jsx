@@ -21,7 +21,7 @@ export default function Nav() {
   if(user){
     musicVol = user.data.musicVolume;
   }
-  const [musicVolume, setMusicVolume] = useState(musicVol); // Turned off music vol for now
+  const [musicVolume, setMusicVolume] = useState(musicVol); 
   const lastMusicVolume = useRef(musicVol);
   const [originalMusicVolMultiplier, setOriginalMusicVolMultiplier] =
     useState(1);
@@ -75,7 +75,7 @@ export default function Nav() {
    if(musicVolume != lastMusicVolume.current){
     lastMusicVolume.current = musicVolume;
     userRef.update({
-      volumeData: musicVolume
+      musicVolume: musicVolume
     });
     console.log("UPDATED SOUND");
    }

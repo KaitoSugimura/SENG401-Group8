@@ -79,7 +79,7 @@
   width: 80%;
   height: 30%;
   border: 5px solid black;
-  background-color: rgba(242, 242, 242, 0.37);
+  background-color: rgb(228, 228, 228);
   display: flex;
   align-items: center;
   gap: 7.5%;
@@ -154,7 +154,7 @@
   width: 6vw;
   height: 6vw;
   border: 5px solid rgb(0, 0, 0);
-  box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.735);
+  box-shadow: 8px 8px 0px rgb(0, 0, 0);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -175,7 +175,7 @@
 .createButton.createLobbyButton {
   flex-grow: 4;
   width: auto;
-  background:radial-gradient(#368bd1,#043c82);
+  background:radial-gradient(#277dc3,#043c82);
 }
 
 .lobbies {
@@ -197,7 +197,7 @@
   font-size: 2.3vw;
   font-weight: 500;
   border: 5px solid rgb(0, 0, 0);
-  box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.735);
+  box-shadow: 8px 8px 0px rgb(0, 0, 0);
   display: flex;
   justify-content: center;
   align-items: center;

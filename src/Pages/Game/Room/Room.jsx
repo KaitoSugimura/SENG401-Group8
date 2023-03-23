@@ -19,6 +19,7 @@ export default function Room({ setGameState }) {
 
   const [self, setSelf] = useState(null);
   const [enemy, setEnemy] = useState(null);
+  const[gold,setGold]= useState(null);
 
   const [lockButtons, setLockButtons] = useState(false);
 
@@ -65,6 +66,12 @@ export default function Room({ setGameState }) {
           // enemyRef.off();
         }
       });
+      const goldRef = projectDatabase.ref( `lobby/rooms/${serverPlayerID}`);
+      goldRef.on("value", (otherSnapshot)=>{
+        setGold(otherSnapshot.child("gold").val());
+      }, (errorObject)=>{
+        console.log('The read failed: '+errorObject.name)
+      });
     } else {
       const selfRef = projectDatabase.ref(
         `lobby/rooms/${serverPlayerID}/client`
@@ -75,6 +82,12 @@ export default function Room({ setGameState }) {
       const enemyRef = projectDatabase.ref(`lobby/rooms/${serverPlayerID}`);
       enemyRef.once("value", (otherSnapshot) => {
         setEnemy(otherSnapshot.val());
+      });
+      const goldRef = projectDatabase.ref( `lobby/rooms/${serverPlayerID}`);
+      goldRef.on("value", (otherSnapshot)=>{
+        setGold(otherSnapshot.child("gold").val());
+      }, (errorObject)=>{
+        console.log('The read failed: '+errorObject.name)
       });
     }
   }, []);
@@ -110,7 +123,7 @@ export default function Room({ setGameState }) {
           <div className={styles.goldImage}>
             <img src="assets/GameArt/Gold.png" alt="" />
           </div>
-          <p className={styles.goldText}>x{lockRef.gold}</p>
+          <p className={styles.goldText}>x{gold}</p>
         </div>
         <div className={styles.buttonContainer}>
           <div

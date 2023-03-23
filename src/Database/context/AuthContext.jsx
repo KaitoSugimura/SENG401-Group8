@@ -19,13 +19,13 @@ export const AuthContextProvider = ({ children }) => {
 
         const userData = await userRef.get();
 
-        // Placeholder friends
-        const friends = [];
-        ["dThrxOT2NHNboaRNGkpsY2JBUf22", "zfF4DaVYqnep4a266euByoWbcLl1", "FRlFwdxGq1cToR3ttvXqhEFJScA3"].forEach(friendID => {
-          if (friendID != user.uid) {
-            friends.push(projectFirestore.collection("users").doc(friendID));
-          }
-        })
+        // // Placeholder friends
+        // const friends = [];
+        // ["dThrxOT2NHNboaRNGkpsY2JBUf22", "zfF4DaVYqnep4a266euByoWbcLl1", "FRlFwdxGq1cToR3ttvXqhEFJScA3"].forEach(friendID => {
+        //   if (friendID != user.uid) {
+        //     friends.push(projectFirestore.collection("users").doc(friendID));
+        //   }
+        // })
 
         // If user data doesn't exist
         if (!userData.exists) {
@@ -41,7 +41,7 @@ export const AuthContextProvider = ({ children }) => {
             slimeType: "Normal",
             slimeSkin: 1,
             status: "ONLINE",
-            friends,
+            friends: [],
             friendRequests: []
           });
         }

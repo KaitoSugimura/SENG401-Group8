@@ -36,6 +36,11 @@ const Search = () => {
           return;
         }
 
+        // Skip if they already sent a friend request to you
+        if (user.data.friendRequests.map(friend => friend.id).includes(doc.id)) {
+          return;
+        }
+
         const { slimeType, slimeSkin } = doc.data();
         result.push({
           _id: doc.id,

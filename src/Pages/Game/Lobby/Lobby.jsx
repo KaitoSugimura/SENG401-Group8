@@ -140,7 +140,7 @@ export default function Lobby({ setGameState }) {
         }}>
         Ranked
         </button>}
-        {!mode&&lobbyList&&!popup && <div className={styles.lobbySelection}>
+        {!mode&&lobbyList && <div className={styles.lobbySelection}>
             <button className={`${styles.createButton} ${styles.createLobbyButton}`} onClick={() => { showRoomOptions() }}>
             
             Create Lobby

@@ -15,13 +15,13 @@ import { gameStateContext } from "../Pages/Game/gameStateContext";
 
 
 export default function Nav() {
+  const { user } = useContext(AuthContext);
   const locationPath = useLocation().pathname;
   const [showBanner, setShowBanner] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
-  const [musicVolume, setMusicVolume] = useState(0); // Turned off music vol for now
+  const [musicVolume, setMusicVolume] = useState(user.data.musicVolume); // Turned off music vol for now
   const [originalMusicVolMultiplier, setOriginalMusicVolMultiplier] =
     useState(1);
-  const { user } = useContext(AuthContext);
   const {gameState} = useContext(gameStateContext);
   const acctBanner = useRef(null);
 

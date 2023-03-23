@@ -34,7 +34,7 @@ export const AuthContextProvider = ({ children }) => {
             username: user.displayName,
             level: Math.floor(Math.random() * 50),
             rankPoints: Math.floor(Math.random() * 30),
-            musicVolume: 100,
+            musicVolume: 1,
             gold: 1234,
             chestLastOpenedOn: firebase.firestore.Timestamp.fromMillis(0),
             bannerFilepath: "/Account/Banners/Sky.jpg",

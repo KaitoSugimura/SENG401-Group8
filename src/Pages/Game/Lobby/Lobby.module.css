@@ -1,12 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
 .Lobbypage {
   box-sizing: border-box;
   margin-top: 65px;
   height: calc(100vh - 65px);
   display: flex;
   flex-direction: row;
-  background-image: linear-gradient(to bottom, #28313b 0%, #485461 60%);
+  background-image: linear-gradient(to bottom, #c5f6fa 0%, #d0ebff 60%);
 }
+
+/* background-image: linear-gradient(to bottom, #28313b 0%, #485461 60%); */
 
 .Character {
   width: 40vw;
@@ -45,7 +47,6 @@
   pointer-events: all;
   object-fit: cover;
 }
-
 
 .lobbySelect {
   width: 50vw;
@@ -135,7 +136,7 @@
   align-items: center;
 }
 
-.noRoomsText{
+.noRoomsText {
   font-size: 2.5vw;
   margin-top: 3vh;
   color: rgba(0, 0, 0, 0.603);
@@ -152,7 +153,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(transparent , #42478061);
+  background: linear-gradient(transparent, #42478061);
   transition: 0.2s all;
 }
 .returnButton:hover {
@@ -163,7 +164,7 @@
 .returnButton svg {
   height: 80%;
   width: auto;
-  color:silver;
+  color: silver;
 }
 
 .createButton.createLobbyButton {
@@ -185,7 +186,7 @@
   width: 40vw;
   height: 15vh;
   margin: 5vh 0;
-  background: linear-gradient(transparent , #42478061);
+  background: linear-gradient(transparent, #42478061);
   font-size: 2.3vw;
   font-weight: 500;
   border: 5px solid rgb(0, 0, 0);
@@ -202,7 +203,6 @@
   transform: translate(3px, 3px);
   box-shadow: 5px 5px 0px black;
 }
-
 
 /* .createButton:before{
   content: "";
@@ -235,7 +235,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  
 }
 .createOption {
   width: 20%;
@@ -252,10 +251,9 @@
 }
 
 .createLobby {
-
   width: 50vw;
   height: 60vh;
-  font-family: 'Press Start 2P', cursive;
+  font-family: "Press Start 2P", cursive;
   padding: 2vh;
 }
 
@@ -266,7 +264,7 @@
 }
 
 .createLobby label {
-    color: rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
   font-size: 1.2vw;
   margin: 10px;
 }
@@ -275,36 +273,36 @@
   text-align: right;
 }
 
-.LobbyInput{
-    font-family: 'Press Start 2P', cursive;
-    padding: 0.6vw 2vw;
-    background-color: transparent;
-    color: #fff;
-    border: none;
-    border-bottom: 3px solid white;
+.LobbyInput {
+  font-family: "Press Start 2P", cursive;
+  padding: 0.6vw 2vw;
+  background-color: transparent;
+  color: #fff;
+  border: none;
+  border-bottom: 3px solid white;
 }
 
 .LobbyInput option {
-    color: black;
-    line-height: 20;
-  }
-
-.Input{
-    padding: 0.6vw 0vw;
-    font-family: 'Press Start 2P', cursive;
+  color: black;
+  line-height: 20;
 }
 
-.submit{
-    position: absolute;
-    bottom: 10vh;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 0.8vw 2vw;
-    font-size: 1.5vw;
-    font-family: 'Press Start 2P', cursive;
-    border: none;
+.Input {
+  padding: 0.6vw 0vw;
+  font-family: "Press Start 2P", cursive;
 }
 
-.submit:hover{
-    transform: translate(-50%, 2%);
+.submit {
+  position: absolute;
+  bottom: 10vh;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.8vw 2vw;
+  font-size: 1.5vw;
+  font-family: "Press Start 2P", cursive;
+  border: none;
+}
+
+.submit:hover {
+  transform: translate(-50%, 2%);
 }

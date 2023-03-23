@@ -46,8 +46,9 @@ const CreateLobby = ({setPopUp, createRoom}) => {
                 handleSubmit(e);
                 setPopUp(false);                
             }}>
+                <div className={styles.formFieldsContainer}>
                 <div className={styles.formFields}>
-                    <div className={styles.publicOptions}>
+                    <div className={styles.flex}>
                     <label >Lobby Type:</label>
                         <select onChange={typeHandler} className={styles.LobbyInput}>
                             {arenaTypes.map((type, index) => {
@@ -56,7 +57,8 @@ const CreateLobby = ({setPopUp, createRoom}) => {
                                 </option>
                             })}
                         </select>
-                        <div>
+                        </div>
+                        <div className={styles.flex}>
                             <label>Gold Amount:</label>
                             <input
                             type="number"
@@ -66,10 +68,9 @@ const CreateLobby = ({setPopUp, createRoom}) => {
                             className={styles.Input}
                             />
                         </div>
-                    </div>
                    
                         {type==='private'&&
-                            <div className={styles.password}>
+                            <div className={`${styles.password} ${styles.flex}`}>
                                 <label>Password</label>
                                 <input
                                 type="text"
@@ -84,7 +85,7 @@ const CreateLobby = ({setPopUp, createRoom}) => {
                     <div>
                     <input className={styles.submit} type="submit"/>
                     </div>
-                    
+                    </div>
 
                 </div>
                 

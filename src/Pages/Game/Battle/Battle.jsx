@@ -37,6 +37,8 @@ export default function Battle({ setGameState }) {
 
   const buttonDivRef = useRef(null);
 
+  const shootSoundRef = useRef(null);
+
   let playerId;
   let playerRef;
   let projectileRef;
@@ -275,6 +277,7 @@ export default function Battle({ setGameState }) {
           projectiles.current.push(newProjectile);
         });
         
+        shootSoundRef.current.play();
         
         setTimeout(() => {
           self.current.shooting = false;
@@ -377,8 +380,9 @@ export default function Battle({ setGameState }) {
     >
       {loading && <LoadingScreen />}
       {countDown && <GameCountDown />}
+      <audio ref={shootSoundRef} src="/Sound/FX/shoot.mp3"/>
       <span className={styles.ping}>{reRender ? reRender.time : 0} ms</span>
-      <div class={styles.battleContainer}>
+      <div className={styles.battleContainer}>
         <div className={styles.battleFieldContainer}>
           <div
             className={styles.battleField}

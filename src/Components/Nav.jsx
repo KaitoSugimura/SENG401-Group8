@@ -75,7 +75,7 @@ export default function Nav() {
    if(musicVolume != lastMusicVolume.current){
     lastMusicVolume.current = musicVolume;
     userRef.update({
-      volumeData: musicVolume
+      musicVolume: musicVolume
     });
     console.log("UPDATED SOUND");
    }

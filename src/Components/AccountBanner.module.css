@@ -35,8 +35,8 @@
   left: 50%;
   transform: translate(-50%, -55%);
   object-fit: cover;
-  width: 35%;
   height: 35%;
+  width: auto;
   filter: drop-shadow(1% 2% 3% rgb(0 0 0 / 0.4));
 }
 

@@ -38,6 +38,7 @@
   height: 35%;
   width: auto;
   filter: drop-shadow(1% 2% 3% rgb(0 0 0 / 0.4));
+  z-index: 1;
 }
 
 .thisBannerRoot .banner {
@@ -51,16 +52,17 @@
 }
 
 .Handle {
-  margin: 17% auto 0 auto;
+  margin: 12% auto 0 auto;
   font-weight: 500;
   text-shadow: 0px 0px 10px #000000, 0px 0px 10px #000000, 0px 0px 10px #000000,
     0px 0px 10px #000000;
   color: rgb(255, 255, 255);
   width: fit-content;
+  z-index: 2;
 }
 
 .Rank {
-  margin: 40% auto 0 auto;
+  margin: 45% auto 0 auto;
   line-height: 1.5;
   transform: translateY(-40%);
 }

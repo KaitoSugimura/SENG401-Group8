@@ -4,8 +4,6 @@ import { useLogout } from "../Database/Hooks/useLogout";
 import styles from "./AccountBanner.module.css";
 import Banner from "./Banner";
 import Popup from "./Popup";
-import { projectAuth, projectFirestore } from "../Database/firebase/config";
-import firebase from "firebase";
 
 export default function AccountBanner({
   setShowBanner,
@@ -16,7 +14,7 @@ export default function AccountBanner({
   friend_able = false,
 }) {
   const { logout } = useLogout();
-  const [userRef, setUserRef] = useState(null);
+  const { userRef } = useContext(AuthContext);
   const [bSelectionOn, setBSelectionOn] = useState(false);
   const [banner, setBanner] = useState(data.bannerFilepath);
   const [message, setMessage] = useState(data.message);
@@ -63,11 +61,6 @@ export default function AccountBanner({
     "/Account/Banners/UNDEAD CORPORATION - Everything will freeze.jpg",
     "/Account/Banners/Winter Wonderland.jpg",
   ]);
-
-  useEffect(() => {
-    const userRef = projectFirestore.collection("users").doc(data.uid);
-    setUserRef(userRef);
-  }, []);
 
   const changeBanner = (bannerPath) => {
     userRef.update({ bannerFilepath: bannerPath });

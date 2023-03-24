@@ -181,7 +181,7 @@ export default function AccountBanner({
         <label>Update Profile Message</label>
         <form  className={styles.updateMessage} onSubmit={(e)=>{handleMessageSubmit(e)}}>
           <textarea 
-          value={message+"\nPlease enter your new message!"} 
+          value={message} 
           cols="80" 
           rows="10"
           onChange={(e)=>{messageHandler(e)}}/>

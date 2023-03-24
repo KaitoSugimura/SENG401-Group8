@@ -8,7 +8,8 @@ import AccountBanner from "../../../Components/AccountBanner";
 export default function EndScreen({ setGameState }) {
   // placeholder for if the win screen is ranked version or not
   const[ranked,setRanked]=useState(true);
-  const[winner,setWinner]=useState(true);
+  const[winner,setWinner]=useState(true); ///Check intially if current player is winner
+  //left and right side is just determined by which player is viewing the screen
   return (
     <div className={styles.EndScreen}>
       <div className={styles.rewards}>

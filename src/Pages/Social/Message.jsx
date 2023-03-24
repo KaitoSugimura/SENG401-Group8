@@ -1,11 +1,13 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import AccountBanner from "../../Components/AccountBanner";
 import { AuthContext } from "../../Database/context/AuthContext";
+import { projectFirestore } from "../../Database/firebase/config";
 import styles from "./Social.module.css";
 
 const Message = ({ message }) => {
   const { user } = useContext(AuthContext);
   const { id, username, slimePath, content } = message;
+  const [senderData, setSenderData] = useState(null);
   const [showBanner, setShowBanner] = useState(false);
   const bannerRef = useRef(null);
 
@@ -24,9 +26,25 @@ const Message = ({ message }) => {
     }
   }, [bannerRef]);
 
+  // After senderData is fetched (from clicking the sender's slime), show banner
+  useEffect(() => {
+    if (senderData) {
+      setShowBanner(true);
+    }
+  }, [senderData])
+
+  const fetchBanner = async () => {
+    const data = await projectFirestore.collection("users").doc(id).get().then(res => res.data());
+    const { slimeType, slimeSkin } = data;
+    setSenderData({
+      ...data,
+      slimePath: `assets/GameArt/${slimeType}Slime/${slimeType}Slime${slimeSkin}`,
+    });
+  }
+
   return (
     <div className={`${styles.messageContainer} ${username === user.data.username ? styles.mine : ""}`}>
-      <button onClick={() => setShowBanner(prev => !prev)}>
+      <button onClick={fetchBanner}>
         <img src={`${slimePath}.svg`} alt="" />
       </button>
       <div className={`${username === user.data.username ? styles.mine : ""}`} >
@@ -38,7 +56,7 @@ const Message = ({ message }) => {
           <AccountBanner
             setShowBanner={null}
             isNavBanner={false}
-            data={user.data}
+            data={senderData}
             bannerWidth={"19"}
             widthUnits={"vw"}
           ></AccountBanner>

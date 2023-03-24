@@ -4,6 +4,7 @@
     height: calc(100vh - 68px);
     display: grid;
     grid-template-columns: 21vw auto 21vw;
+    position: relative;
 }
 
 .name,
@@ -167,10 +168,11 @@
 }
 
 .AccountBannerContainer {
-    position: fixed;
+    position: absolute;
     /* top: -50%; */
     right: 1vw;
-    bottom: 20vh;
+    bottom: 50%;
+    transform: translateY(50%);
 }
 
 .messageContainer.mine {

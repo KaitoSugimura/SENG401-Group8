@@ -132,7 +132,8 @@ export default function Battle({ setGameState }) {
 
     loadWaitRef.off();
     loadWaitRef.on("value", (snapshot) => {
-      if (snapshot.val().server && snapshot.val().client) {
+      const p = snapshot.val();
+      if (p && p.server && p.client) {
         loadWaitRef.off();
         setCountDown(true);
         setLoading(false);
@@ -213,6 +214,7 @@ export default function Battle({ setGameState }) {
       const p = otherSnapshot.val();
       if (p === null) {
         // Enemy disconnected
+        console.log("Enemy disconnected");
         if(enemy.current != null){
           projectDatabase.ref(
             `battle/${serverPlayerID}`

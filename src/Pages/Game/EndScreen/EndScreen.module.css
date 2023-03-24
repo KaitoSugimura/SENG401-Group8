@@ -1,5 +1,5 @@
 .EndScreen {
-  padding-top: 20vh;
+  padding-top: 13vh;
   height: 100vh;
   background-image: url("../../../../public/assets/BackgroundImages/Lobby.jpg");
   background-size: contain;
@@ -26,13 +26,21 @@
   margin-bottom: 5vh;
 }
 
-.returnToLobbyBtn {
+.buttonContainer{
   position: fixed;
-  bottom: 10vh;
-  left: 50%;
-  transform: translateX(-50%);
+  display: flex;
+  bottom: 3vh;
+  left: 30%;
+  gap: 20%;
+  justify-content: center;
+}
+
+.returnToLobbyBtn {
+  
   font-size: 36px;
   padding: 10px 30px;
+  width: 25vw;
+  height: 10vh;
   border-radius: 5px;
   background:linear-gradient(#efd054, #68461c);
   font-family: 'Exo 2', sans-serif;
@@ -50,6 +58,21 @@
 .returnToLobbyBtn:hover {
   background-color: #3e8e41;
   box-shadow: 0px 0px 10px 2px #1c1c2b;
+}
+
+.rewards{
+  display: flex;
+  gap: 5%;
+  height: 10vh;
+  justify-content: center;
+  color: silver;
+  font-weight: bold;
+  font-size: 3.0rem;
+}
+
+.rewards img{
+  height: 100%;
+  width: auto;
 }
 
 /*PLAYER BANNER*/

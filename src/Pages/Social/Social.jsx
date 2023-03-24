@@ -7,6 +7,8 @@ import firebase from "firebase";
 import FriendRequests from "./FriendRequests";
 import Modal from "./Modal";
 import Search from "./Search";
+import AccountBanner from "../../Components/AccountBanner";
+import Message from "./Message";
 
 // const ENDPOINT = "http://localhost:5000";
 // const ENDPOINT = "https://seng-401-server.onrender.com";
@@ -44,8 +46,9 @@ export default function Social() {
   // Stupid stupid stupid code
   useEffect(() => {
     const unsub = chatRef.collection("messages").orderBy("sentAt", "asc").onSnapshot(snapshot => {
-      snapshot.docChanges().forEach(change => {
-        setMessages(prev => [change.doc.data(), ...prev])
+      snapshot.docChanges().forEach(async change => {
+        const message = change.doc.data();
+        setMessages(prev => [message, ...prev])
       })
     });
 
@@ -90,7 +93,7 @@ export default function Social() {
     if (message && selectedChat) {
       const newMessage = {
         content: message,
-        sender: user.data.username,
+        sender: user.data,
         sentAt: firebase.firestore.Timestamp.now(),
       };
 
@@ -165,18 +168,7 @@ export default function Social() {
       <section className={styles.chat}>
         <div className={styles.messages}>
           {selectedChat ? (
-            messages.map((message, i) => {
-              return (
-                <div
-                  className={`${styles.messageContainer} ${message.sender === user.data.username ? styles.mine : ""
-                    }`}
-                  key={i}
-                >
-                  <p className={styles.name}>{message.sender}</p>
-                  <p className={styles.message}>{message.content}</p>
-                </div>
-              );
-            })
+            messages.map((message, i) => <Message message={message} key={i}></Message>)
           ) : (
             <div>Select a channel on the left to chat here.</div>
           )}
@@ -214,6 +206,14 @@ export default function Social() {
 
       {showSearch && <Modal close={() => setShowSearch(false)} ><Search /></Modal>}
       {showRequests && <Modal close={() => setShowRequests(false)} ><FriendRequests /></Modal>}
+
+      {/* <AccountBanner
+        setShowBanner={null}
+        isNavBanner={false}
+        user={user}
+        bannerWidth={"19"}
+        widthUnits={"vw"}
+      ></AccountBanner> */}
     </div>
   );
 }

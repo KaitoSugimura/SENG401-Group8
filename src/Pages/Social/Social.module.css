@@ -147,6 +147,22 @@
 
 }
 
+.messageContainer {
+    display: grid;
+    grid-auto-flow: column;
+    align-items: end;
+    gap: 1rem;
+    justify-content: start;
+}
+
+.messageContainer.mine {
+    justify-content: end;
+}
+
+.messageContainer.mine img {
+    order: 2;
+}
+
 .message {
     display: inline-block;
     background-color: var(--bg-secondary-color);
@@ -158,8 +174,9 @@
     min-width: fit-content;
 }
 
-.mine {
-    align-self: end;
+.name {
+    color: gray;
+    font-size: 1.4rem;
 }
 
 .mine .name {
@@ -169,11 +186,6 @@
 .mine .message {
     border-color: var(--primary-color);
     background-color: var(--bg-color);
-}
-
-.name {
-    color: gray;
-    font-size: 1.4rem;
 }
 
 .messageForm {

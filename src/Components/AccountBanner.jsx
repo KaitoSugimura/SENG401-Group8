@@ -3,6 +3,7 @@ import { AuthContext } from "../Database/context/AuthContext";
 import { useLogout } from "../Database/Hooks/useLogout";
 import styles from "./AccountBanner.module.css";
 import Banner from "./Banner";
+import Popup from"./Popup";
 import { projectAuth, projectFirestore } from "../Database/firebase/config";
 import firebase from "firebase";
 
@@ -18,6 +19,8 @@ export default function AccountBanner({
   const [userRef, setUserRef] = useState(null);
   const [bSelectionOn, setBSelectionOn] = useState(false);
   const [banner, setBanner] = useState(user.data.bannerFilepath);
+  const[message, setMessage] = useState(user.data.message);
+  const[editable, setEditable]=useState(false);
   const [tempBannerIndex, setTempBannerIndex] = useState(
     user.data.bannerFilepath
   );
@@ -71,6 +74,30 @@ export default function AccountBanner({
     setBanner(bannerPath);
   };
 
+  const changeMessage = (newMessage) => {
+    userRef.update({ message: newMessage });
+    setMessage(newMessage);
+  };
+
+  const messageHandler=(event)=>{
+    const message = event.target.value;
+    setMessage(message);
+  }
+
+  const handleMessageSubmit=(event)=>{
+    event.preventDefault();
+    changeMessage(message);
+    setEditable(false);
+  }
+
+  const handleMessageEdit=()=>{
+    if(!editable&&isNavBanner){
+      setEditable(true);
+      changeMessage(message+ " (Please enter your new profile message)");
+    } 
+    
+  }
+
   useEffect(() => {
     setInterval(() => {
       setRefresh(Date.now());
@@ -122,23 +149,6 @@ export default function AccountBanner({
       >
         RP: {user.data.rankPoints}
       </p>
-      <p
-        className={styles.Status}
-        style={{ fontSize: bannerWidth / 17 + widthUnits }}
-      >
-        Hello my name is {user.displayName}. I'm not a bad Slime!
-      </p>
-      {isNavBanner && (
-        <button
-          className={styles.SignOut}
-          onClick={() => {
-            if (setShowBanner) setShowBanner(false);
-            logout();
-          }}
-        >
-          Sign out
-        </button>
-      )}
 
       {friend_able && (
         <button className={styles.Friend}>Friend</button>
@@ -181,6 +191,40 @@ export default function AccountBanner({
           </button>
         </div>
       )}
+
+      {<p
+        className={styles.Status}
+        style={{ fontSize: bannerWidth / 17 + widthUnits }}
+        onClick={(e)=>{handleMessageEdit(e)}}
+      >
+        {message}       
+      </p>}
+      {isNavBanner&& (
+        <button
+          className={styles.SignOut}
+          onClick={() => {
+            if (setShowBanner) setShowBanner(false);
+            logout();
+          }}
+        >
+          Sign out
+        </button>
+      )}
+      {editable&&<Popup setPopUp={setEditable}>
+        <div className={styles.messageContainer}>
+        <label>Update Profile Message</label>
+        <form  className={styles.updateMessage} onSubmit={(e)=>{handleMessageSubmit(e)}}>
+          <textarea 
+          value={message} 
+          cols="80" 
+          rows="10"
+          onChange={(e)=>{messageHandler(e)}}/>
+          <input  className={styles.submit}type="submit" />
+        </form>
+
+        </div>
+        
+        </Popup>}
     </div>
   );
 }

@@ -105,7 +105,9 @@ export default function Lobby({ setGameState }) {
       <div className={styles.lobbies}>
         {lobbyList&&<div className={styles.lobbySelect}>
           {roomList && Object.values(roomList).map((OtherPerson, index) => (
-            OtherPerson.empty && <div className={styles.lobby} key={index}>
+            OtherPerson.empty && <div className={styles.lobby} key={index} onClick={() => {
+              enterRoom(OtherPerson.uid);
+            }}>
 
               <div className={styles.gold}>
                 <img src="assets/GameArt/Gold.png" alt="" />
@@ -117,9 +119,7 @@ export default function Lobby({ setGameState }) {
                 <h2>{OtherPerson.name}</h2>
                 <h3>Rank:{OtherPerson.rank}</h3>
               </div>
-              <div className={styles.selectRoomButton} onClick={() => {
-                enterRoom(OtherPerson.uid);
-              }}>
+              <div className={styles.selectRoomButton} >
                 <img src={OtherPerson.password===""?"assets/GameArt/Door.png":"assets/GameArt/Locked.png"} alt="" />
               </div>
             </div>

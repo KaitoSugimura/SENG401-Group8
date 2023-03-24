@@ -180,6 +180,10 @@
   background:radial-gradient(#277dc3,#043c82);
 }
 
+.lobby{
+  cursor: pointer;
+}
+
 .lobbies {
   width: 60vw;
   height: calc(100vh - 65px);

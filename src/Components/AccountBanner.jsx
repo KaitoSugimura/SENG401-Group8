@@ -124,7 +124,7 @@ export default function AccountBanner({
           className={styles.Handle}
           style={{ fontSize: bannerWidth / 12 + widthUnits }}
         >
-          {data.displayName}
+          {data.username}
         </h1>
         {isNavBanner && (
           <div

@@ -165,6 +165,11 @@
   margin-left: 3.7vw;
 }
 
+.MessageIsSame.messageContainer.mine{
+  margin-left: none;
+  margin-right: 3.7vw;
+}
+
 .messageContainer button {
   border: none;
   background: none;

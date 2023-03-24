@@ -146,7 +146,7 @@ export default function AccountBanner({
         <button className={styles.Friend} onClick={() => {
           // Code for friending the user
           // the user variable contains the person so you can use that
-        }}>Friend</button>
+        }}><img src="/Account/addFriendButton.png" alt="" /></button>
       )}
 
       <img src={banner} className={styles.banner}></img>

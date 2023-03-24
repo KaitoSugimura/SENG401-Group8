@@ -93,9 +93,14 @@
 
 .Friend{
   margin: 4% auto 0 auto;
-  width: 90%;
+  width: 13%;
   height: 6.5%;
   font-size: 2rem;
+}
+
+.Friend img{
+  height: 100%;
+  width: auto;
 }
 
 .thisBannerRoot .bannerChangeButton {

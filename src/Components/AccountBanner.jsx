@@ -93,7 +93,6 @@ export default function AccountBanner({
   const handleMessageEdit=()=>{
     if(!editable&&isNavBanner){
       setEditable(true);
-      changeMessage(message+ " (Please enter your new profile message)");
     } 
     
   }
@@ -159,6 +158,39 @@ export default function AccountBanner({
 
       <img src={banner} className={styles.banner}></img>
 
+      {<p
+        className={styles.Status}
+        style={{ fontSize: bannerWidth / 17 + widthUnits }}
+        onClick={(e)=>{handleMessageEdit(e)}}
+      >
+        {message}       
+      </p>}
+      {isNavBanner&& (
+        <button
+          className={styles.SignOut}
+          onClick={() => {
+            if (setShowBanner) setShowBanner(false);
+            logout();
+          }}
+        >
+          Sign out
+        </button>
+      )}
+      {editable&&<Popup setPopUp={setEditable}>
+        <div className={styles.messageContainer}>
+        <label>Update Profile Message</label>
+        <form  className={styles.updateMessage} onSubmit={(e)=>{handleMessageSubmit(e)}}>
+          <textarea 
+          value={message} 
+          cols="80" 
+          rows="10"
+          onChange={(e)=>{messageHandler(e)}}/>
+          <input  className={styles.submit}type="submit" />
+        </form>
+
+        </div>
+        
+        </Popup>}
       {isNavBanner && (
         <div
           className={`${styles.bannerSelectionContainer} ${
@@ -195,39 +227,7 @@ export default function AccountBanner({
         </div>
       )}
 
-      {<p
-        className={styles.Status}
-        style={{ fontSize: bannerWidth / 17 + widthUnits }}
-        onClick={(e)=>{handleMessageEdit(e)}}
-      >
-        {message}       
-      </p>}
-      {isNavBanner&& (
-        <button
-          className={styles.SignOut}
-          onClick={() => {
-            if (setShowBanner) setShowBanner(false);
-            logout();
-          }}
-        >
-          Sign out
-        </button>
-      )}
-      {editable&&<Popup setPopUp={setEditable}>
-        <div className={styles.messageContainer}>
-        <label>Update Profile Message</label>
-        <form  className={styles.updateMessage} onSubmit={(e)=>{handleMessageSubmit(e)}}>
-          <textarea 
-          value={message} 
-          cols="80" 
-          rows="10"
-          onChange={(e)=>{messageHandler(e)}}/>
-          <input  className={styles.submit}type="submit" />
-        </form>
-
-        </div>
-        
-        </Popup>}
+      
     </div>
   );
 }

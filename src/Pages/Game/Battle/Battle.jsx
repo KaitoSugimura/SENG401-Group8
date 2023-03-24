@@ -219,6 +219,9 @@ export default function Battle({ setGameState }) {
           projectDatabase.ref(
             `battle/${serverPlayerID}`
           ).remove();
+          projectDatabase.ref(
+            `lobby/rooms/${serverPlayerID}`
+          ).remove();
           setGameState("EndScreen");
         }
         enemy.current = null;

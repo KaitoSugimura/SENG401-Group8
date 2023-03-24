@@ -40,18 +40,19 @@ export default function Room({ setGameState }) {
       if (otherSnapshot.val()) {
         lockRef.off();
         setTimeout(() => {
+          projectDatabase.ref(`lobby/rooms/${serverPlayerID}`).off();
           setGameState("Battle");
         }, 500);
       }
     });
-    // projectDatabase
-    //   .ref(`lobby/rooms/${serverPlayerID}`)
-    //   .on("value", (snapShot) => {
-    //     if (!snapShot.exists()) {
-    //       lockRef.off();
-    //       setGameState("Lobby");
-    //     }
-    //   });
+    projectDatabase
+      .ref(`lobby/rooms/${serverPlayerID}`)
+      .on("value", (snapShot) => {
+        if (!snapShot.exists()) {
+          lockRef.off();
+          setGameState("Lobby");
+        }
+      });
   }, []);
 
   useEffect(() => {
@@ -62,7 +63,7 @@ export default function Room({ setGameState }) {
       });
 
       enemyRef.on("value", (otherSnapshot) => {
-        if (otherSnapshot.val() && !otherSnapshot.val().empty) {
+        if (otherSnapshot.val()) {
           setClientPlayerID(otherSnapshot.val().uid);
           setEnemy(otherSnapshot.val());
         } else {
@@ -157,12 +158,7 @@ export default function Room({ setGameState }) {
                 if (serverPlayerID == user.uid) {
                   projectDatabase.ref(`lobby/rooms/${user.uid}`).remove();
                 } else {
-                  const clientSlot = projectDatabase.ref(
-                    `lobby/rooms/${serverPlayerID}/client`
-                  );
-                  clientSlot.set({
-                    empty: true,
-                  });
+                  projectDatabase.ref(`lobby/rooms/${serverPlayerID}/client`).remove();
                 }
                 setClientPlayerID(null);
                 setServerPlayerID(null);

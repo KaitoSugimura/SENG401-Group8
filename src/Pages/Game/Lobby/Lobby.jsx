@@ -39,11 +39,6 @@ export default function Lobby({ setGameState }) {
       password: password,
       slimePath: user.data.slimePath,
       slimeType: user.data.slimeType,
-      empty: true
-    });
-    const clientSlot = projectDatabase.ref(`lobby/rooms/${user.uid}/client`);
-    clientSlot.set({
-      empty: true
     });
     const lockSlot = projectDatabase.ref(`lobby/rooms/${user.uid}/lock`);
     lockSlot.set(false);
@@ -53,10 +48,10 @@ export default function Lobby({ setGameState }) {
   const enterRoom = (uid) => {
     setServerPlayerID(uid);
     setClientPlayerID(user.uid);
-    const openRef = projectDatabase.ref(`lobby/rooms/${uid}/client/empty`);
+    const openRef = projectDatabase.ref(`lobby/rooms/${uid}/client`);
     let isEmpty;
     openRef.once('value', (snapshot)=>{
-      isEmpty = snapshot.val();
+      isEmpty = snapshot.val()==null;
     });
     if(!isEmpty){
       window.alert("Room is full");
@@ -80,11 +75,8 @@ export default function Lobby({ setGameState }) {
       rank: user.data.rankPoints,
       slimePath: user.data.slimePath,
       slimeType: user.data.slimeType,
-      empty: false
     });
-    clientSlotRef.onDisconnect().set({
-      empty: true
-    });
+    clientSlotRef.onDisconnect().remove();
     setGameState("Room");
   }
 
@@ -105,7 +97,7 @@ export default function Lobby({ setGameState }) {
       <div className={styles.lobbies}>
         {lobbyList&&<div className={styles.lobbySelect}>
           {roomList && Object.values(roomList).map((OtherPerson, index) => (
-            OtherPerson.empty && <div className={styles.lobby} key={index} onClick={() => {
+            OtherPerson && <div className={styles.lobby} key={index} onClick={() => {
               enterRoom(OtherPerson.uid);
             }}>
 
@@ -145,7 +137,8 @@ export default function Lobby({ setGameState }) {
             
             Create Lobby
            </button>
-           <div className={styles.returnButton} onClick={()=>{setMode(true);
+           <div className={styles.returnButton} onClick={()=>{
+            setMode(true);
             setLobbyList(false);}}>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
   <path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />

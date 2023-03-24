@@ -213,7 +213,8 @@ export default function Battle({ setGameState }) {
     enemyRef.on("value", (otherSnapshot) => {
       const p = otherSnapshot.val();
       if (p === null) {
-        // Enemy disconnected
+        // Enemy disconnected or lost
+        // Winner should deal with logic
         console.log("Enemy disconnected");
         if(enemy.current != null){
           projectDatabase.ref(

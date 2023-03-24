@@ -15,6 +15,7 @@ export const useLogin = () => {
         email,
         password
       );
+      console.log("NO RESPONSE")
 
       if (!response) {
         throw new Error("Could not complete login");

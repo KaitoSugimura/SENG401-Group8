@@ -123,10 +123,7 @@
   display: block;
 }
 
-.selectRoomButton:hover {
-  transform: scale(110%);
-  cursor: pointer;
-}
+
 
 .selectRoomButton img {
   width: 100%;

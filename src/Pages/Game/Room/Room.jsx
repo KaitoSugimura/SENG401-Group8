@@ -7,44 +7,52 @@ import { gameStateContext } from "../gameStateContext";
 import LoadingScreen from "../LoadingScreen";
 
 export default function Room({ setGameState }) {
-
   const { user } = useContext(AuthContext);
-  const { serverPlayerID, clientPlayerID, setClientPlayerID } =
-    useContext(gameStateContext);
+  const {
+    serverPlayerID,
+    clientPlayerID,
+    setClientPlayerID,
+    setServerPlayerID,
+  } = useContext(gameStateContext);
 
-    const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   const battleFieldWidth = useRef(48);
   const battleFieldHeight = useRef(27);
 
   const [self, setSelf] = useState(null);
   const [enemy, setEnemy] = useState(null);
-  const[gold,setGold]= useState(null);
+  const [gold, setGold] = useState(null);
 
   const [lockButtons, setLockButtons] = useState(false);
 
   let lockRef = projectDatabase.ref(`lobby/rooms/${serverPlayerID}/lock`);
-  let StubLobbyRef = projectDatabase.ref(
-    `battle/${serverPlayerID}/loadComplete`
-  );
+  let enemyRef;
+  if (serverPlayerID == user.uid) {
+    enemyRef = projectDatabase.ref(`lobby/rooms/${serverPlayerID}/client`);
+  } else {
+    enemyRef = projectDatabase.ref(`lobby/rooms/${serverPlayerID}`);
+  }
 
   useEffect(() => {
     lockRef.on("value", (otherSnapshot) => {
       setLockButtons(otherSnapshot.val());
       if (otherSnapshot.val()) {
+        lockRef.off();
         setTimeout(() => {
+          projectDatabase.ref(`lobby/rooms/${serverPlayerID}`).off();
           setGameState("Battle");
         }, 500);
       }
     });
-    StubLobbyRef.set({ server: false, client: false });
-    StubLobbyRef.onDisconnect().remove();
-    projectDatabase.ref(`lobby/rooms/${serverPlayerID}`).on("value", (snapShot)=>{
-      if(!snapShot.exists()){
-        lockRef.off();
-        setGameState("Lobby");
-      }
-    })
+    projectDatabase
+      .ref(`lobby/rooms/${serverPlayerID}`)
+      .on("value", (snapShot) => {
+        if (!snapShot.exists()) {
+          lockRef.off();
+          setGameState("Lobby");
+        }
+      });
   }, []);
 
   useEffect(() => {
@@ -53,11 +61,9 @@ export default function Room({ setGameState }) {
       selfRef.once("value", (otherSnapshot) => {
         setSelf(otherSnapshot.val());
       });
-      const enemyRef = projectDatabase.ref(
-        `lobby/rooms/${serverPlayerID}/client`
-      );
+
       enemyRef.on("value", (otherSnapshot) => {
-        if (otherSnapshot.val() && !otherSnapshot.val().empty) {
+        if (otherSnapshot.val()) {
           setClientPlayerID(otherSnapshot.val().uid);
           setEnemy(otherSnapshot.val());
         } else {
@@ -66,7 +72,6 @@ export default function Room({ setGameState }) {
           // enemyRef.off();
         }
       });
-      
     } else {
       const selfRef = projectDatabase.ref(
         `lobby/rooms/${serverPlayerID}/client`
@@ -74,17 +79,21 @@ export default function Room({ setGameState }) {
       selfRef.once("value", (otherSnapshot) => {
         setSelf(otherSnapshot.val());
       });
-      const enemyRef = projectDatabase.ref(`lobby/rooms/${serverPlayerID}`);
+
       enemyRef.once("value", (otherSnapshot) => {
         setEnemy(otherSnapshot.val());
       });
     }
-    const goldRef = projectDatabase.ref( `lobby/rooms/${serverPlayerID}`);
-      goldRef.once("value", (otherSnapshot)=>{
+    const goldRef = projectDatabase.ref(`lobby/rooms/${serverPlayerID}`);
+    goldRef.once(
+      "value",
+      (otherSnapshot) => {
         setGold(otherSnapshot.child("gold").val());
-      }, (errorObject)=>{
-        console.log('The read failed: '+errorObject.name)
-      });
+      },
+      (errorObject) => {
+        console.log("The read failed: " + errorObject.name);
+      }
+    );
   }, []);
 
   useEffect(() => {
@@ -99,7 +108,7 @@ export default function Room({ setGameState }) {
 
   return (
     <div className={styles.roomPage}>
-       {loading && <LoadingScreen/>}
+      {loading && <LoadingScreen />}
       {self && <Player number={1} user={self}></Player>}
       <div className={styles.match}>
         <div
@@ -109,9 +118,13 @@ export default function Room({ setGameState }) {
             height: battleFieldHeight.current + "vw",
           }}
         >
-          <img src="assets/GameMap/SlimeMeadows.webp" alt="" onLoad={()=>{
-            setLoading(false);
-          }}/>
+          <img
+            src="assets/GameMap/SlimeMeadows.webp"
+            alt=""
+            onLoad={() => {
+              setLoading(false);
+            }}
+          />
         </div>
         <div className={styles.goldContainer}>
           <p className={styles.mapName}>Slime Meadows</p>
@@ -123,7 +136,9 @@ export default function Room({ setGameState }) {
         <div className={styles.buttonContainer}>
           <div
             className={`${styles.selectionButton} ${
-              lockButtons || enemy==null ||user.uid ==clientPlayerID ? styles.lockedButton : ""
+              lockButtons || enemy == null || user.uid == clientPlayerID
+                ? styles.lockedButton
+                : ""
             }`}
             onClick={() => {
               if (!lockButtons && serverPlayerID == user.uid && enemy) {
@@ -143,14 +158,10 @@ export default function Room({ setGameState }) {
                 if (serverPlayerID == user.uid) {
                   projectDatabase.ref(`lobby/rooms/${user.uid}`).remove();
                 } else {
-                  const clientSlot = projectDatabase.ref(
-                    `lobby/rooms/${serverPlayerID}/client`
-                  );
-                  clientSlot.set({
-                    empty: true,
-                  });
+                  projectDatabase.ref(`lobby/rooms/${serverPlayerID}/client`).remove();
                 }
-                StubLobbyRef.remove();
+                setClientPlayerID(null);
+                setServerPlayerID(null);
                 setGameState("Lobby");
               }
             }}

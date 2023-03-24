@@ -32,7 +32,7 @@ export default function EndScreen({ setGameState }) {
           onClick={() => setGameState("Lobby")}
           className={styles.returnToLobbyBtn}
         >
-          Play Again!
+          Play Again
         </button>}
       </div>
       

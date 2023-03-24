@@ -129,6 +129,12 @@ export default function AccountBanner({
             <img src="/Account/editBanner.png" alt="" />
           </div>
         )}
+        {friend_able && (
+        <div className={styles.Friend} onClick={() => {
+          // Code for friending the user
+          // the user variable contains the person so you can use that
+        }}><img src="/Account/addFriend.png" alt="" /></div>
+        )}
       </div>
 
       <img
@@ -142,12 +148,7 @@ export default function AccountBanner({
         RP: {data.rankPoints}
       </p>
 
-      {friend_able && (
-        <button className={styles.Friend} onClick={() => {
-          // Code for friending the user
-          // the user variable contains the person so you can use that
-        }}><img src="/Account/addFriend.png" alt="" /></button>
-      )}
+      
 
       <img src={banner} className={styles.banner}></img>
 

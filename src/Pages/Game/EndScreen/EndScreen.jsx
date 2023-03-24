@@ -18,8 +18,8 @@ export default function EndScreen({ setGameState }) {
         <p>{winner?"+100 Gold":"-100 Gold"}</p>
       </div>
       
-      <PlayerBanner left={true}></PlayerBanner>
-      <PlayerBanner left={false}></PlayerBanner>
+      <PlayerBanner left={true} winner={false}></PlayerBanner>
+      <PlayerBanner left={false} winner={true}></PlayerBanner>
       <div className={styles.buttonContainer}>
         {/* BOTH BUTTONS GO BACK TO LOBBY RN */}
         <button

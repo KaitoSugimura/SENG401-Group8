@@ -155,12 +155,34 @@
     justify-content: start;
 }
 
+.messageContainer button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.messageContainer button:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.AccountBannerContainer {
+    position: fixed;
+    /* top: -50%; */
+    right: 1vw;
+    bottom: 20vh;
+}
+
 .messageContainer.mine {
     justify-content: end;
 }
 
-.messageContainer.mine .img {
+.messageContainer.mine button {
     order: 2;
+}
+
+.messageContainer img {
+    display: block;
 }
 
 .message {

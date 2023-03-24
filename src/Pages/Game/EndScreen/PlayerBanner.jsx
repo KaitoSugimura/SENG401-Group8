@@ -37,15 +37,15 @@ const PlayerBanner = ({ left, winner }) => {
         flexDirection: left ? `row-reverse` : `row`,
       }}
     >
-        <div className={styles.AB}>
-      <AccountBanner
-        setShowBanner={null}
-        isNavBanner={false}
-        user={user}
-        bannerWidth={"19"}
-        widthUnits={"vw"}
-        friend_able={!left}
-      ></AccountBanner></div>
+      <div className={styles.AB}>
+        <AccountBanner
+          setShowBanner={null}
+          isNavBanner={false}
+          data={user.data}
+          bannerWidth={"19"}
+          widthUnits={"vw"}
+          friend_able={!left}
+        ></AccountBanner></div>
       <div className={styles.slime}>
         <img src={slime} alt="" style={imageDirection} />
       </div>

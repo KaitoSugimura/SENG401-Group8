@@ -211,14 +211,6 @@ export default function Social() {
 
       {showSearch && <Modal close={() => setShowSearch(false)} ><Search /></Modal>}
       {showRequests && <Modal close={() => setShowRequests(false)} ><FriendRequests /></Modal>}
-
-      {/* <AccountBanner
-        setShowBanner={null}
-        isNavBanner={false}
-        user={user}
-        bannerWidth={"19"}
-        widthUnits={"vw"}
-      ></AccountBanner> */}
     </div>
   );
 }

@@ -3,14 +3,14 @@ import { AuthContext } from "../Database/context/AuthContext";
 import { useLogout } from "../Database/Hooks/useLogout";
 import styles from "./AccountBanner.module.css";
 import Banner from "./Banner";
-import Popup from"./Popup";
+import Popup from "./Popup";
 import { projectAuth, projectFirestore } from "../Database/firebase/config";
 import firebase from "firebase";
 
 export default function AccountBanner({
   setShowBanner,
   isNavBanner,
-  user,
+  data,
   bannerWidth,
   widthUnits,
   friend_able = false,
@@ -18,11 +18,11 @@ export default function AccountBanner({
   const { logout } = useLogout();
   const [userRef, setUserRef] = useState(null);
   const [bSelectionOn, setBSelectionOn] = useState(false);
-  const [banner, setBanner] = useState(user.data.bannerFilepath);
-  const[message, setMessage] = useState(user.data.message);
-  const[editable, setEditable]=useState(false);
+  const [banner, setBanner] = useState(data.bannerFilepath);
+  const [message, setMessage] = useState(data.message);
+  const [editable, setEditable] = useState(false);
   const [tempBannerIndex, setTempBannerIndex] = useState(
-    user.data.bannerFilepath
+    data.bannerFilepath
   );
 
   const width = window.innerWidth * 0.4;
@@ -65,7 +65,7 @@ export default function AccountBanner({
   ]);
 
   useEffect(() => {
-    const userRef = projectFirestore.collection("users").doc(user.uid);
+    const userRef = projectFirestore.collection("users").doc(data.uid);
     setUserRef(userRef);
   }, []);
 
@@ -79,22 +79,22 @@ export default function AccountBanner({
     setMessage(newMessage);
   };
 
-  const messageHandler=(event)=>{
+  const messageHandler = (event) => {
     const message = event.target.value;
     setMessage(message);
   }
 
-  const handleMessageSubmit=(event)=>{
+  const handleMessageSubmit = (event) => {
     event.preventDefault();
     changeMessage(message);
     setEditable(false);
   }
 
-  const handleMessageEdit=()=>{
-    if(!editable&&isNavBanner){
+  const handleMessageEdit = () => {
+    if (!editable && isNavBanner) {
       setEditable(true);
-    } 
-    
+    }
+
   }
 
   useEffect(() => {
@@ -124,7 +124,7 @@ export default function AccountBanner({
           className={styles.Handle}
           style={{ fontSize: bannerWidth / 12 + widthUnits }}
         >
-          {user.displayName}
+          {data.displayName}
         </h1>
         {isNavBanner && (
           <div
@@ -139,33 +139,33 @@ export default function AccountBanner({
       </div>
 
       <img
-        src={user.data.slimePath + ".svg"}
+        src={data.slimePath + ".svg"}
         className={styles.character}
       ></img>
       <p
         className={styles.Rank}
         style={{ fontSize: bannerWidth / 15 + widthUnits }}
       >
-        RP: {user.data.rankPoints}
+        RP: {data.rankPoints}
       </p>
 
       {friend_able && (
-        <button className={styles.Friend} onClick={()=>{
+        <button className={styles.Friend} onClick={() => {
           // Code for friending the user
           // the user variable contains the person so you can use that
         }}>Friend</button>
-      ) }
+      )}
 
       <img src={banner} className={styles.banner}></img>
 
       {<p
         className={styles.Status}
         style={{ fontSize: bannerWidth / 17 + widthUnits }}
-        onClick={(e)=>{handleMessageEdit(e)}}
+        onClick={(e) => { handleMessageEdit(e) }}
       >
-        {message}       
+        {message}
       </p>}
-      {isNavBanner&& (
+      {isNavBanner && (
         <button
           className={styles.SignOut}
           onClick={() => {
@@ -176,26 +176,25 @@ export default function AccountBanner({
           Sign out
         </button>
       )}
-      {editable&&<Popup setPopUp={setEditable}>
+      {editable && <Popup setPopUp={setEditable}>
         <div className={styles.messageContainer}>
-        <label>Update Profile Message</label>
-        <form  className={styles.updateMessage} onSubmit={(e)=>{handleMessageSubmit(e)}}>
-          <textarea 
-          value={message} 
-          cols="80" 
-          rows="10"
-          onChange={(e)=>{messageHandler(e)}}/>
-          <input  className={styles.submit}type="submit" />
-        </form>
+          <label>Update Profile Message</label>
+          <form className={styles.updateMessage} onSubmit={(e) => { handleMessageSubmit(e) }}>
+            <textarea
+              value={message}
+              cols="80"
+              rows="10"
+              onChange={(e) => { messageHandler(e) }} />
+            <input className={styles.submit} type="submit" />
+          </form>
 
         </div>
-        
-        </Popup>}
+
+      </Popup>}
       {isNavBanner && (
         <div
-          className={`${styles.bannerSelectionContainer} ${
-            bSelectionOn ? styles.ShowBannerSelection : ""
-          }`}
+          className={`${styles.bannerSelectionContainer} ${bSelectionOn ? styles.ShowBannerSelection : ""
+            }`}
         >
           <div className={styles.bannerOptions} ref={scrollPane}>
             <img
@@ -227,7 +226,7 @@ export default function AccountBanner({
         </div>
       )}
 
-      
+
     </div>
   );
 }

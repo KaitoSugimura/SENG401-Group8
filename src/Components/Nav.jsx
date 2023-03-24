@@ -18,10 +18,10 @@ export default function Nav() {
   const [showBanner, setShowBanner] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   let musicVol = 0;
-  if(user){
+  if (user) {
     musicVol = user.data.musicVolume;
   }
-  const [musicVolume, setMusicVolume] = useState(musicVol); 
+  const [musicVolume, setMusicVolume] = useState(musicVol);
   const lastMusicVolume = useRef(musicVol);
   const [originalMusicVolMultiplier, setOriginalMusicVolMultiplier] =
     useState(1);
@@ -72,13 +72,13 @@ export default function Nav() {
       if (showBanner) setShowBanner(false);
       if (showSettings) setShowSettings(false);
     }
-   if(musicVolume != lastMusicVolume.current){
-    lastMusicVolume.current = musicVolume;
-    userRef.update({
-      musicVolume: musicVolume
-    });
-    console.log("UPDATED SOUND");
-   }
+    if (musicVolume != lastMusicVolume.current) {
+      lastMusicVolume.current = musicVolume;
+      userRef.update({
+        musicVolume: musicVolume
+      });
+      console.log("UPDATED SOUND");
+    }
   };
 
   useEffect(() => {
@@ -159,7 +159,7 @@ export default function Nav() {
             </button>
             {showBanner && (
               <div className={styles.AccountBannerContainer}>
-              <AccountBanner setShowBanner={setShowBanner} isNavBanner={true} user={user} bannerWidth={300} widthUnits={"px"}/>
+                <AccountBanner setShowBanner={setShowBanner} isNavBanner={true} data={user.data} bannerWidth={300} widthUnits={"px"} />
               </div>
             )}
           </>

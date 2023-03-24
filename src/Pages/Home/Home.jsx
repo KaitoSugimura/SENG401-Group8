@@ -47,7 +47,10 @@ export default function Home() {
   const chestAvailable = user.data.daysSinceLastChest > 1;
 
   const openChest = async () => {
+    console.log("ASDF");
+    console.log(user.data.daysSinceLastChest);
     if (chestAvailable) {
+
       await userRef.update({
         gold: firebase.firestore.FieldValue.increment(50),
         chestLastOpenedOn: firebase.firestore.Timestamp.now(),
@@ -69,7 +72,6 @@ export default function Home() {
           username: doc.data().username,
           rankPoints: doc.data().rankPoints,
         });
-        console.log(doc.data());
       });
 
       setLeaderboard(newLeaderboard);
@@ -99,11 +101,10 @@ export default function Home() {
       >
         <img
           src={user.data.slimePath + ".svg"}
-          className={`${styles.characterIMG} ${
-            petted
-              ? animations[Math.floor(Math.random() * animations.length)]
-              : ""
-          }`}
+          className={`${styles.characterIMG} ${petted
+            ? animations[Math.floor(Math.random() * animations.length)]
+            : ""
+            }`}
           alt="slime"
           draggable="false"
         />
@@ -112,13 +113,12 @@ export default function Home() {
       <div className={styles.tabs}>
         <div className={styles.tabsIcon}>
           <p>Daily Login</p>
-          <div className={styles.sideIcons}>
+          <div className={styles.sideIcons} onClick={openChest}>
             <img
               src={chestAvailable ? chestClosed : chestOpen}
               className={styles.dailyChest}
               alt="Daily chest click to open"
               draggable="false"
-              onClick={openChest}
             />
           </div>
         </div>
@@ -139,8 +139,8 @@ export default function Home() {
       <div className={styles.RankingsContainer}>
         <p>Rankings:</p>
         <ol>
-          {leaderboard.map((user) => (
-            <li>
+          {leaderboard.map((user, i) => (
+            <li key={i}>
               {user.username} [{user.rankPoints}]
             </li>
           ))}
@@ -158,6 +158,6 @@ export default function Home() {
       </button>
 
       <div className={styles.ParticlesWrap}>{rows}</div>
-    </div>
+    </div >
   );
 }

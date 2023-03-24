@@ -159,7 +159,7 @@
     justify-content: end;
 }
 
-.messageContainer.mine img {
+.messageContainer.mine .img {
     order: 2;
 }
 

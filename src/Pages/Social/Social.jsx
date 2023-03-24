@@ -45,11 +45,14 @@ export default function Social() {
 
   // Stupid stupid stupid code
   useEffect(() => {
-    const unsub = chatRef.collection("messages").orderBy("sentAt", "asc").onSnapshot(snapshot => {
-      snapshot.docChanges().forEach(async change => {
+    const unsub = chatRef.collection("messages").orderBy("sentAt", "asc").onSnapshot(async snapshot => {
+      const messages = [];
+
+      snapshot.docChanges().forEach(change => {
         const message = change.doc.data();
-        setMessages(prev => [message, ...prev])
-      })
+        messages.push(message);
+        setMessages(prev => [message, ...prev]);
+      });
     });
 
     return () => unsub();
@@ -93,7 +96,9 @@ export default function Social() {
     if (message && selectedChat) {
       const newMessage = {
         content: message,
-        sender: user.data,
+        username: user.data.username,
+        id: user.uid,
+        slimePath: user.data.slimePath,
         sentAt: firebase.firestore.Timestamp.now(),
       };
 

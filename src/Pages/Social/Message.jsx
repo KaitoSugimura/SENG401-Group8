@@ -4,7 +4,7 @@ import { AuthContext } from "../../Database/context/AuthContext";
 import { projectFirestore } from "../../Database/firebase/config";
 import styles from "./Social.module.css";
 
-const Message = ({ message }) => {
+const Message = ({ message, previousMessage }) => {
   const { user } = useContext(AuthContext);
   const { id, username, slimePath, content } = message;
   const [senderData, setSenderData] = useState(null);
@@ -14,12 +14,20 @@ const Message = ({ message }) => {
 
   const [topAdjustment, setTopAdjustment] = useState(1);
 
-  const handleClickOutside = useCallback((e) => {
-    if (bannerRef.current && !bannerRef.current.contains(e.target)) {
-      setShowBanner(false);
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-  }, [bannerRef]);
+  let nextMessageSame = false;
+  if (previousMessage && message.id == previousMessage.id) {
+    nextMessageSame = true;
+  }
+
+  const handleClickOutside = useCallback(
+    (e) => {
+      if (bannerRef.current && !bannerRef.current.contains(e.target)) {
+        setShowBanner(false);
+        document.removeEventListener("mousedown", handleClickOutside);
+      }
+    },
+    [bannerRef]
+  );
 
   // Close banner upon clicking outside
   // useEffect(() => {
@@ -30,10 +38,8 @@ const Message = ({ message }) => {
   //     document.removeEventListener("mousedown", handleClickOutside);
   //   };
 
-    
-
   //   return () => {
-      
+
   //   };
   // }, [bannerRef]);
 
@@ -72,17 +78,17 @@ const Message = ({ message }) => {
       ref={messageRef}
       className={`${styles.messageContainer} ${
         username === user.data.username ? styles.mine : ""
-      }`}
+      } ${nextMessageSame?styles.MessageIsSame:""}`}
     >
-      <button onClick={fetchBanner}>
+      {!nextMessageSame && <button onClick={fetchBanner}>
         <img src={`${slimePath}.svg`} alt="" />
-      </button>
+      </button>}
       <div
         className={`${username === user.data.username ? styles.mine : ""} ${
           styles.messageFlex
         }`}
       >
-        <p className={styles.name}>{username}</p>
+        {!nextMessageSame && <p className={styles.name}>{username}</p>}
         <p className={styles.message}>{content}</p>
       </div>
       {showBanner && (

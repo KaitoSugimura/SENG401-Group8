@@ -144,7 +144,7 @@
 .messages {
   display: flex;
   flex-direction: column-reverse;
-  gap: 3rem;
+  /* gap: 3rem; */
   overflow: auto;
   padding: 2rem 2rem 0;
   padding-bottom: 1vw;
@@ -157,6 +157,12 @@
   align-items: end;
   gap: 0.7vw;
   justify-content: start;
+  margin-top: 1vw;
+}
+
+.MessageIsSame.messageContainer{
+  margin-top: 0.3vw;
+  margin-left: 3.7vw;
 }
 
 .messageContainer button {

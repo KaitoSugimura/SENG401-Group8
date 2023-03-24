@@ -8,12 +8,13 @@ import AccountBanner from "../../../Components/AccountBanner";
 export default function EndScreen({ setGameState }) {
   // placeholder for if the win screen is ranked version or not
   const[ranked,setRanked]=useState(true);
+  const[winner,setWinner]=useState(true);
   return (
     <div className={styles.EndScreen}>
       <div className={styles.rewards}>
-        <p>+ 20 Rank Points</p>
+        <p>{winner?"+20 Rank Points":"-20 Rank Points"}</p>
         <img src={gold} alt=""/>
-        <p>+ 100 Gold</p>
+        <p>{winner?"+100 Gold":"-100 Gold"}</p>
       </div>
       
       <PlayerBanner left={true} winner={true}></PlayerBanner>

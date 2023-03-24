@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import AccountBanner from "../../Components/AccountBanner";
 import { AuthContext } from "../../Database/context/AuthContext";
 import { projectFirestore } from "../../Database/firebase/config";
@@ -14,20 +14,28 @@ const Message = ({ message }) => {
 
   const [topAdjustment, setTopAdjustment] = useState(1);
 
-  // Close banner upon clicking outside
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (bannerRef.current && !bannerRef.current.contains(e.target)) {
-        setShowBanner(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
+  const handleClickOutside = useCallback((e) => {
+    if (bannerRef.current && !bannerRef.current.contains(e.target)) {
+      setShowBanner(false);
       document.removeEventListener("mousedown", handleClickOutside);
-    };
+    }
   }, [bannerRef]);
+
+  // Close banner upon clicking outside
+  // useEffect(() => {
+  //   const handleClickOutside = (e) => {
+  //     if (bannerRef.current && !bannerRef.current.contains(e.target)) {
+  //       setShowBanner(false);
+  //     }
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+
+    
+
+  //   return () => {
+      
+  //   };
+  // }, [bannerRef]);
 
   // After senderData is fetched (from clicking the sender's slime), show banner
   useEffect(() => {
@@ -56,6 +64,7 @@ const Message = ({ message }) => {
         setTopAdjustment(possibleTopAdjustment);
       }
     }
+    document.addEventListener("mousedown", handleClickOutside);
   };
 
   return (

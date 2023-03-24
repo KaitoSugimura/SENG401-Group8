@@ -3,7 +3,7 @@ import slime from "/assets/GameArt/EarthSlime/EarthSlime1.gif";
 import AccountBanner from "../../../Components/AccountBanner";
 import { AuthContext } from "../../../Database/context/AuthContext";
 import { useContext, useEffect, useRef, useState } from "react";
-const PlayerBanner = ({ left, winner }) => {
+const PlayerBanner = ({ left}) => {
   const { user } = useContext(AuthContext);
   const [banner, setBanner] = useState(
     "../../../../public/" + user.data.bannerFilepath
@@ -16,7 +16,7 @@ const PlayerBanner = ({ left, winner }) => {
   }, []);
 
   let imageDirection;
-  if (winner) {
+  if (left) {
     imageDirection = {
       right: 0,
       width: `30vw`,
@@ -31,7 +31,7 @@ const PlayerBanner = ({ left, winner }) => {
     <div
       className={styles.playerBanner}
       style={{
-        transform: winner
+        transform: left
           ? `scale(100%) translate(-75%, -45%)`
           : `scale(75%) translate(-15%, -55%)`,
         flexDirection: left ? `row-reverse` : `row`,

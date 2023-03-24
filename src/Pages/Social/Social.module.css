@@ -155,19 +155,20 @@
   display: grid;
   grid-auto-flow: column;
   align-items: end;
-  gap: 0.7vw;
+  gap:  max(0.7vw, 14px);
   justify-content: start;
   margin-top: 1vw;
+  width: 32vw
 }
 
 .MessageIsSame.messageContainer{
   margin-top: 0.3vw;
-  margin-left: 3.7vw;
+  margin-left: max(3.7vw, 74px);
 }
 
 .MessageIsSame.messageContainer.mine{
   margin-left: none;
-  margin-right: 3.7vw;
+  margin-right: max(3.7vw, 74px);
 }
 
 .messageContainer button {
@@ -184,18 +185,19 @@
 .AccountBannerContainer {
   position: absolute;
   /* top: -50%; */
-  left: 3.5vw;
+  left:  max(3.5vw, 70px);
   /* top: 5vw; */
   z-index: 1000;
 }
 
 .messageContainer.mine .AccountBannerContainer {
-  right: 3.5vw;
+  right: max(3.5vw, 70px);
   left: auto;
 }
 
 .messageContainer.mine {
   justify-content: end;
+  margin-left: auto;
 }
 
 .messageContainer.mine button {
@@ -203,7 +205,7 @@
 }
 
 .messageContainer img {
-  width: 3vw;
+  width: max(3vw, 60px);
   display: block;
 }
 
@@ -212,7 +214,7 @@
   background-color: var(--bg-secondary-color);
   border: 1px solid var(--secondary-color);
   padding: 0.5vw;
-  font-size: 0.9vw;
+  font-size: max(0.9vw, 18px);
   border-radius: 0.5vw;
   word-break: break-all;
   margin-top: 0.25rem;
@@ -233,7 +235,7 @@
 
 .name {
   color: gray;
-  font-size: 0.7vw;
+  font-size: max(0.7vw, 14px);
   margin-bottom: 0.1vw;
 }
 

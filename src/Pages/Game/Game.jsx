@@ -4,6 +4,7 @@ import EndScreen from "./EndScreen/EndScreen";
 import styles from "./Game.module.css";
 import { gameStateContext } from "./gameStateContext";
 import Lobby from "./Lobby/Lobby";
+import Queue from "./Queue/Queue";
 import Room from "./Room/Room";
 
 export default function Game() {
@@ -15,7 +16,7 @@ export default function Game() {
    * EndScreen
    */
 
-  const {gameState, setGameState} = useContext(gameStateContext);
+  const { gameState, setGameState } = useContext(gameStateContext);
 
   let gamePage;
   if (gameState === "Lobby") {
@@ -26,6 +27,8 @@ export default function Game() {
     gamePage = <Battle setGameState={setGameState} />;
   } else if (gameState === "EndScreen") {
     gamePage = <EndScreen setGameState={setGameState} />;
+  } else if (gameState === "Queue") {
+    gamePage = <Queue setGameState={setGameState} />;
   } else {
     gamePage = (
       <div className={styles.error}>
@@ -34,8 +37,5 @@ export default function Game() {
     );
   }
 
-  return (
-
-      <div className={styles.game}>{gamePage}</div>
-  );
+  return <div className={styles.game}>{gamePage}</div>;
 }

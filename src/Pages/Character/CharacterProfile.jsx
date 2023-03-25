@@ -48,6 +48,7 @@ const CharacterProfile = ({ character, switchCharacter, characters, updateCharac
 
   useEffect(() => {
     setSkinNo(1);
+    character.skin=1;
     if (character) {
       setImagePath(
         "assets/GameArt/" +
@@ -80,6 +81,7 @@ const CharacterProfile = ({ character, switchCharacter, characters, updateCharac
 
   function changeSkin(num) {
     setSkinNo(num);
+    
     if (character) {
       //update DB
       setImagePath(
@@ -114,6 +116,7 @@ const CharacterProfile = ({ character, switchCharacter, characters, updateCharac
   }
 
   function handleUnlock() {
+    console.log("Trying to unlock the skin")
     if (!character.unlocked) {
       //check currency is enough
       
@@ -193,6 +196,10 @@ const CharacterProfile = ({ character, switchCharacter, characters, updateCharac
           </div>
           <div className={styles.statsBox}>
             <h1>{character.type} Slime</h1>
+            <div className={styles.currency}>
+              <img src={characterShard} alt="" /> x {user.data.characterShard}
+              <img src={skinShard} alt="" />  x {user.data.skinShard}
+            </div>
             <div className={styles.statsContainer}>
               <h2>Power:</h2>
               {getStat(character.power)}

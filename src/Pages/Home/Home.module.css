@@ -14,7 +14,7 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
   left: 51%;
   transform: translate(-50%, 0%);
   font-size: 2vw;
-  background: linear-gradient(22deg, rgba(193, 171, 61, 0.832) 0%, rgba(251,240,184,1) 60%);
+  background: linear-gradient(22deg, rgba(193, 171, 61, 0.832) 0%, rgba(251, 240, 184, 1) 60%);
   z-index: 10;
   border: 5px solid black;
 
@@ -41,13 +41,12 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
   gap: 10px;
 }
 
-.MBName {
-}
+.MBName {}
 
 .MBLevel {
   position: absolute;
   left: 0%;
-  top:50%;
+  top: 50%;
   width: 8vw;
   text-align: center;
   transform: translate(-70%, -50%);
@@ -84,15 +83,17 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
   0% {
     transform: scale(1) translate(-50%, -50%);
   }
+
   50% {
     transform: scale(1.005) translate(-50%, -50.6%);
   }
+
   100% {
     transform: scale(1) translate(-50%, -50%);
   }
 }
 
-.tabs{
+.tabs {
   position: fixed;
   left: 5.5vw;
   bottom: 8vh;
@@ -114,7 +115,7 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
   z-index: 2;
 }
 
-.tabsIcon:hover{
+.tabsIcon:hover {
   transform: scale(101.5%);
 }
 
@@ -125,18 +126,51 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
   pointer-events: all;
 }
 
-.dailyChest{
-  position: absolute;
+.dailyChest {
+  position: relative;
   top: 0;
-  left:0;
+  left: 0;
   width: 12vw;
   transform: translate(-8%, -10%);
 }
 
-.achivementsIcon{
+.chestGold {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* transform: translate(-50%, -50%); */
+  text-align: left;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  animation: getGold 1.5s ease-out forwards;
+}
+
+.chestGold img {
+  width: 3rem;
+}
+
+@keyframes getGold {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -55%);
+  }
+
+  75% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -100%);
+  }
+}
+
+.achivementsIcon {
   position: absolute;
   top: 0;
-  left:0;
+  left: 0;
   width: 15vw;
   pointer-events: all;
   transform: translate(-18%, -5%);
@@ -158,10 +192,12 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
   0% {
     transform: translateY(100vh);
   }
+
   100% {
     transform: translateY(0%);
   }
 }
+
 .Particles {
   position: absolute;
   background: var(--particle-color);
@@ -231,6 +267,7 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
   transform: perspective(1.5vw) rotateX(3deg);
   border-bottom: none;
 }
+
 .PlayButton:after {
   top: 3.25vw;
   transform: perspective(1.5vw) rotateX(-3deg);

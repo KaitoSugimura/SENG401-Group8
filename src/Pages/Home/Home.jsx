@@ -43,18 +43,17 @@ export default function Home() {
   const [leaderboard, setLeaderboard] = useState([]);
   const navigate = useNavigate();
   const { user, userRef } = useContext(AuthContext);
+  const [chestOpened, setChestOpened] = useState(false);
 
   const chestAvailable = user.data.daysSinceLastChest > 1;
 
-  const openChest = async () => {
-    console.log("ASDF");
-    console.log(user.data.daysSinceLastChest);
+  const openChest = () => {
     if (chestAvailable) {
-
-      await userRef.update({
+      userRef.update({
         gold: firebase.firestore.FieldValue.increment(50),
         chestLastOpenedOn: firebase.firestore.Timestamp.now(),
       });
+      setChestOpened(true);
     }
   };
 
@@ -120,6 +119,7 @@ export default function Home() {
               alt="Daily chest click to open"
               draggable="false"
             />
+            {chestOpened && <div className={styles.chestGold}>+50 <img src="assets/GameArt/Gold.png" alt="" /></div>}
           </div>
         </div>
         <div className={styles.tabsIcon}>

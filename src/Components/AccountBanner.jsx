@@ -35,7 +35,6 @@ export default function AccountBanner({
     "/Account/Banners/Awe Inspiring Aurora.jpg",
     "/Account/Banners/Bed of Flowers.jpg",
     "/Account/Banners/Brain Power.jpg",
-    "/Account/Banners/DJ Genericname - Dear You.jpg",
     "/Account/Banners/Everlasting Expanse.jpg",
     "/Account/Banners/Formidable Forest.jpg",
     "/Account/Banners/Gradient Sunset.jpg",
@@ -61,6 +60,10 @@ export default function AccountBanner({
     "/Account/Banners/UNDEAD CORPORATION - Everything will freeze.jpg",
     "/Account/Banners/Winter Wonderland.jpg",
   ]);
+  
+  const unlockAllBannersHack = () => {
+    userRef.update({ bannerUnlocked: 0b1111111111111111111111111111 });
+  }
 
   const changeBanner = (bannerPath) => {
     userRef.update({ bannerFilepath: bannerPath });
@@ -205,9 +208,11 @@ export default function AccountBanner({
                 width={width}
                 widthStep={widthStep}
                 setTempBannerIndex={setTempBannerIndex}
+                isLocked={((data.bannerUnlocked >> index) & 1)===0}
                 key={index}
               ></Banner>
             ))}
+            <button onClick={unlockAllBannersHack} className={styles.unlockAllBannersHack}>Unlock all banners hack</button>
           </div>
           <button
             className={styles.bannerSelectionExit}

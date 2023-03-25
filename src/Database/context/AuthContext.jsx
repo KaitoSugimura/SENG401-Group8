@@ -46,7 +46,8 @@ export const AuthContextProvider = ({ children }) => {
             status: "ONLINE",
             slimes: ["Normal1"],
             friends: [],
-            friendRequests: []
+            friendRequests: [],
+            bannerUnlocked: 0b0000000010001000000011000010,
           });
         }
 

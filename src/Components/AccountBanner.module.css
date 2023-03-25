@@ -201,11 +201,25 @@
   transition: all 0.3s;
 }
 
+.isLocked{
+  filter: saturate(0);
+}
+
+.unlockAllBannersHack{
+  position: absolute;
+  bottom: 0.3vw;
+  left: 0.3vw;
+  font-size: 1vw;
+  padding: 0.3vw 1vw;
+  border: none;
+  background-color: #4683fcd3;
+}
+
 .bannerContainer {
   height: 100%;
   width: 100%;
   border: 3px solid #000;
-  background-color: rgba(54, 59, 94, 0.743);
+  background-color: rgba(17, 78, 176, 0.697);
   box-shadow: 10px 5px 5px rgba(0, 0, 0, 0.704);
   opacity: 100%;
   display: flex;
@@ -213,7 +227,7 @@
 }
 
 .bannerRow:hover .bannerContainer {
-  background-color: rgb(42, 81, 153);
+  background-color: rgba(17, 78, 176, 0.94);
   transform: translate(-1%, 1%);
 }
 

@@ -36,6 +36,8 @@ export const AuthContextProvider = ({ children }) => {
             rankPoints: Math.floor(Math.random() * 30),
             musicVolume: 1,
             gold: 1234,
+            skinShard: 1234,
+            characterShard: 1234,
             chestLastOpenedOn: firebase.firestore.Timestamp.fromMillis(0),
             bannerFilepath: "/Account/Banners/Sky.jpg",
             message: "Hello I am a good slime!",

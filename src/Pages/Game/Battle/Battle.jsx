@@ -240,19 +240,23 @@ export default function Battle({ setGameState }) {
       const p = otherSnapshot.val();
       if (p === null) {
         // Enemy disconnected or lost
-        const isWinner = self.current.HP > 0;
-        const EnemyID =
-          playerId === serverPlayerID ? clientPlayerID : serverPlayerID;
-        setEndScreenData({
-          Won: isWinner,
-          enemyID: EnemyID,
-          gold: goldBetAmount,
-        });
-
         if (enemy.current != null) {
-          projectDatabase.ref(`battle/${serverPlayerID}`).remove();
-          projectDatabase.ref(`lobby/rooms/${serverPlayerID}`).remove();
-          setGameState("EndScreen");
+          controlsDead.current = true;
+
+          const isWinner = self.current.HP > 0;
+          const EnemyID =
+            playerId === serverPlayerID ? clientPlayerID : serverPlayerID;
+          setEndScreenData({
+            Won: isWinner,
+            enemyID: EnemyID,
+            gold: goldBetAmount,
+          });
+
+          setTimeout(() => {
+            projectDatabase.ref(`battle/${serverPlayerID}`).remove();
+            projectDatabase.ref(`lobby/rooms/${serverPlayerID}`).remove();
+            setGameState("EndScreen");
+          }, 100);
         }
         enemy.current = null;
       } else

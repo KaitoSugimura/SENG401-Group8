@@ -190,8 +190,8 @@ const CharacterProfile = ({ character, switchCharacter, characters, updateCharac
   return (
     <div className={styles.bottom}>
       <div className={styles.currency}>
-        <img src={characterShard} alt="" /> x {user.data.characterShard}
-        <img src={skinShard} alt="" />  x {user.data.skinShard}
+        <img  src={characterShard} alt="" /> x{user.data.characterShard}
+        <img className={styles.skinShard} src={skinShard} alt="" />  x{user.data.skinShard}
       </div>
       <div className={styles.characterProfile}>
         <div className={styles.characterBox}>

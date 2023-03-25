@@ -9,7 +9,7 @@
   position: fixed;
   display: flex;
   flex-direction: column;
-  top: calc(65px + 6.5vh);
+  top: calc(65px + 10vh);
   right: 2vw;
 }
 
@@ -187,19 +187,26 @@
 
 .currency{
   position: fixed;
-  top: 65px;
-  left: 10px;
-  margin-top: 10px;
+  top: calc(1vw + 65px);
+  right: 1vw;
   height: 5vh;
-  font-size: 2.0rem;
-  color: silver;
+  font-size: max(1.5vw, 18px);
+  color: rgb(230, 230, 230);
   display: flex;
   align-items: center;
-  gap: 1vw;
+  /* background-color: #0000003c;
+  border-radius: 100%;
+  padding: 0.5vw 2vw; */
 }
+
+.skinShard{
+  margin-left: 1.2vw;
+}
+
 .currency img{
   height: 100%;
   width: auto;
+  margin-right: 0.3vw;
 }
 
 .statsBox {

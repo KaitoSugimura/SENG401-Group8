@@ -309,7 +309,7 @@
 .rightSidebar .slimeBody {
   width: 9vw;
   height: auto;
-  transform: translateX(6%);
+  margin: 0 auto;
 }
 
 .World i {

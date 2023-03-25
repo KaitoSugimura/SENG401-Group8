@@ -1,13 +1,16 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../Database/context/AuthContext";
+import { projectFirestore } from "../Database/firebase/config";
 import { useLogout } from "../Database/Hooks/useLogout";
 import styles from "./AccountBanner.module.css";
 import Banner from "./Banner";
 import Popup from "./Popup";
+import firebase from "firebase";
 
 export default function AccountBanner({
   setShowBanner,
   isNavBanner,
+  id,
   data,
   bannerWidth,
   widthUnits,
@@ -22,6 +25,7 @@ export default function AccountBanner({
   const [tempBannerIndex, setTempBannerIndex] = useState(
     data.bannerFilepath
   );
+  const [sentRequest, setSentRequest] = useState(false);
 
   const width = window.innerWidth * 0.4;
   const widthStep = window.innerWidth * 0.025;
@@ -60,7 +64,7 @@ export default function AccountBanner({
     "/Account/Banners/UNDEAD CORPORATION - Everything will freeze.jpg",
     "/Account/Banners/Winter Wonderland.jpg",
   ]);
-  
+
   const unlockAllBannersHack = () => {
     userRef.update({ bannerUnlocked: 0b1111111111111111111111111111 });
   }
@@ -133,10 +137,14 @@ export default function AccountBanner({
           </div>
         )}
         {friend_able && (
-        <div className={styles.Friend} onClick={() => {
-          // Code for friending the user
-          // the user variable contains the person so you can use that
-        }}><img src="/Account/addFriend.png" alt="" /></div>
+          <div className={`${styles.Friend} ${sentRequest ? styles.sentRequest : ''}`} onClick={() => {
+            // Code for friending the user
+            // the user variable contains the person so you can use that
+            projectFirestore.collection("users").doc(id).update({
+              friendRequests: firebase.firestore.FieldValue.arrayUnion(userRef)
+            });
+            setSentRequest(true);
+          }}><img src="/Account/addFriend.png" alt="" /></div>
         )}
       </div>
 
@@ -151,7 +159,7 @@ export default function AccountBanner({
         RP: {data.rankPoints}
       </p>
 
-      
+
 
       <img src={banner} className={styles.banner}></img>
 
@@ -208,7 +216,7 @@ export default function AccountBanner({
                 width={width}
                 widthStep={widthStep}
                 setTempBannerIndex={setTempBannerIndex}
-                isLocked={((data.bannerUnlocked >> index) & 1)===0}
+                isLocked={((data.bannerUnlocked >> index) & 1) === 0}
                 key={index}
               ></Banner>
             ))}

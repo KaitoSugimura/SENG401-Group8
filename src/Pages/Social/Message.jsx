@@ -8,6 +8,7 @@ const Message = ({ message, previousMessage }) => {
   const { user } = useContext(AuthContext);
   const { id, username, slimePath, content } = message;
   const [senderData, setSenderData] = useState(null);
+  const [senderFriendable, setSenderFriendable] = useState(true);
   const [showBanner, setShowBanner] = useState(false);
   const bannerRef = useRef(null);
   const messageRef = useRef(null);
@@ -29,20 +30,6 @@ const Message = ({ message, previousMessage }) => {
     [bannerRef]
   );
 
-  // Close banner upon clicking outside
-  // useEffect(() => {
-  //   const handleClickOutside = (e) => {
-  //     if (bannerRef.current && !bannerRef.current.contains(e.target)) {
-  //       setShowBanner(false);
-  //     }
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-
-  //   return () => {
-
-  //   };
-  // }, [bannerRef]);
-
   // After senderData is fetched (from clicking the sender's slime), show banner
   useEffect(() => {
     if (senderData) {
@@ -57,6 +44,30 @@ const Message = ({ message, previousMessage }) => {
       .get()
       .then((res) => res.data());
     const { slimeType, slimeSkin } = data;
+
+    // Let's check if this user is friendable...
+    const friendIDs = user.data.friends.map(friend => friend.id);
+
+    // Unfriendable if this user is you 
+    if (id === user.uid) {
+      setSenderFriendable(false);
+    }
+
+    // Unfriendable if you're already friends with this user
+    if (friendIDs.includes(id)) {
+      setSenderFriendable(false);
+    }
+
+    // Unfriendable if you already sent a friend request to this user
+    if (data.friendRequests.map(request => request.id).includes(user.uid)) {
+      setSenderFriendable(false);
+    }
+
+    // Unfriendable if they already sent a friend request to you
+    if (user.data.friendRequests.map(friend => friend.id).includes(id)) {
+      setSenderFriendable(false);
+    }
+
     setSenderData({
       ...data,
       slimePath: `assets/GameArt/${slimeType}Slime/${slimeType}Slime${slimeSkin}`,
@@ -80,7 +91,7 @@ const Message = ({ message, previousMessage }) => {
         } ${nextMessageSame ? styles.MessageIsSame : ""}`}
     >
       {!nextMessageSame && <button onClick={fetchBanner}>
-        <img src={`${slimePath}.svg`} alt="" />
+        <img className={styles.slime} src={`${slimePath}.svg`} alt="" />
       </button>}
       <div
         className={`${username === user.data.username ? styles.mine : ""} ${styles.messageFlex
@@ -100,9 +111,11 @@ const Message = ({ message, previousMessage }) => {
           <AccountBanner
             setShowBanner={null}
             isNavBanner={false}
+            id={id}
             data={senderData}
             bannerWidth={"17"}
             widthUnits={"vw"}
+            friend_able={senderFriendable}
           ></AccountBanner>
         </div>
       )}

@@ -9,6 +9,7 @@ import CharacterBGM from "/Sound/Character.mp3";
 import SocialBGM from "/Sound/Social.mp3";
 import GameBGM from "/Sound/Game.mp3";
 import BattleBGM from "/Sound/Battle.mp3";
+import RoomBGM from "/Sound/Room.mp3";
 import { AuthContext } from "../Database/context/AuthContext";
 import { gameStateContext } from "../Pages/Game/gameStateContext";
 
@@ -37,15 +38,27 @@ export default function Nav() {
         break;
       case "/social":
         audioRef.current.src = SocialBGM;
-        setOriginalMusicVolMultiplier(0.6);
+        setOriginalMusicVolMultiplier(1);
         break;
       case "/game":
-        if (gameState === "Battle") {
-          audioRef.current.src = BattleBGM;
-        } else {
-          audioRef.current.src = GameBGM;
+        switch (gameState) {
+          case "Lobby":
+            audioRef.current.src = GameBGM;
+            setOriginalMusicVolMultiplier(0.65);
+            break;
+          case "Room":
+            audioRef.current.src = RoomBGM;
+            setOriginalMusicVolMultiplier(0.58);
+            break;
+          case "Battle":
+            audioRef.current.src = BattleBGM;
+            setOriginalMusicVolMultiplier(0.7);
+            break;
+          case "Endscreen":
+              audioRef.current.src = BattleBGM;
+              setOriginalMusicVolMultiplier(0.7);
+              break;
         }
-        setOriginalMusicVolMultiplier(0.7);
         break;
       case "/character":
         audioRef.current.src = CharacterBGM;
@@ -75,7 +88,7 @@ export default function Nav() {
     if (musicVolume != lastMusicVolume.current) {
       lastMusicVolume.current = musicVolume;
       userRef.update({
-        musicVolume: musicVolume
+        musicVolume: musicVolume,
       });
       console.log("UPDATED SOUND");
     }
@@ -159,7 +172,13 @@ export default function Nav() {
             </button>
             {showBanner && (
               <div className={styles.AccountBannerContainer}>
-                <AccountBanner setShowBanner={setShowBanner} isNavBanner={true} data={user.data} bannerWidth={300} widthUnits={"px"} />
+                <AccountBanner
+                  setShowBanner={setShowBanner}
+                  isNavBanner={true}
+                  data={user.data}
+                  bannerWidth={300}
+                  widthUnits={"px"}
+                />
               </div>
             )}
           </>

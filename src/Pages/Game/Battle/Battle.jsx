@@ -9,7 +9,8 @@ import map from "/assets/GameMap/SlimeMeadows.webp";
 
 export default function Battle({ setGameState }) {
   const { user } = useContext(AuthContext);
-  const { serverPlayerID, clientPlayerID } = useContext(gameStateContext);
+  const { serverPlayerID, clientPlayerID, setEndScreenData } =
+    useContext(gameStateContext);
 
   const self = useRef({});
   const enemy = useRef(null);
@@ -24,6 +25,8 @@ export default function Battle({ setGameState }) {
   const down = useRef(false);
   const right = useRef(false);
   const mousePos = useRef({ x: null, y: null });
+
+  const HP = useRef(100);
 
   const selfCompRef = useRef(null);
 
@@ -213,15 +216,16 @@ export default function Battle({ setGameState }) {
     enemyRef.on("value", (otherSnapshot) => {
       const p = otherSnapshot.val();
       if (p === null) {
-        // Enemy disconnected
-        console.log("Enemy disconnected");
-        if(enemy.current != null){
-          projectDatabase.ref(
-            `battle/${serverPlayerID}`
-          ).remove();
-          projectDatabase.ref(
-            `lobby/rooms/${serverPlayerID}`
-          ).remove();
+        // Enemy disconnected or lost
+        setEndScreenData({
+          Won: HP.current>0,
+          enemyID:
+            playerId === serverPlayerID ? clientPlayerID : serverPlayerID,
+        });
+
+        if (enemy.current != null) {
+          projectDatabase.ref(`battle/${serverPlayerID}`).remove();
+          projectDatabase.ref(`lobby/rooms/${serverPlayerID}`).remove();
           setGameState("EndScreen");
         }
         enemy.current = null;
@@ -305,19 +309,26 @@ export default function Battle({ setGameState }) {
           key: ProjectileKey.current++,
           projectileType: 0, // 0: Damage, 1: Healing, 2: AttackBuff
         };
-        
-        projectileRef.set({
-          ...newProjectile,
-          x: newProjectile.x / battleFieldWidth.current,
-          y: newProjectile.y / battleFieldHeight.current,
-          dx: newProjectile.dx ? newProjectile.dx / battleFieldWidth.current : 0,
-          dy: newProjectile.dx ? newProjectile.dy / battleFieldHeight.current : 0,
-        },()=>{
-          projectiles.current.push(newProjectile);
-        });
-        
+
+        projectileRef.set(
+          {
+            ...newProjectile,
+            x: newProjectile.x / battleFieldWidth.current,
+            y: newProjectile.y / battleFieldHeight.current,
+            dx: newProjectile.dx
+              ? newProjectile.dx / battleFieldWidth.current
+              : 0,
+            dy: newProjectile.dx
+              ? newProjectile.dy / battleFieldHeight.current
+              : 0,
+          },
+          () => {
+            projectiles.current.push(newProjectile);
+          }
+        );
+
         // shootSoundRef.current.play();
-        
+
         setTimeout(() => {
           self.current.shooting = false;
         }, 100);
@@ -368,7 +379,7 @@ export default function Battle({ setGameState }) {
     }
     for (let i = 0; i < projectiles.current.length; i++) {
       console.log(nextProjectileToDeleteQueue.current);
-      if(nextProjectileToDeleteQueue.current === projectiles.current[i].key){
+      if (nextProjectileToDeleteQueue.current === projectiles.current[i].key) {
         projectiles.current.splice(i, 1);
         return;
       }
@@ -383,12 +394,13 @@ export default function Battle({ setGameState }) {
         projectile.y >= self.current.top - 2
       ) {
         if (projectile.bulletState >= 3) {
-
         } else {
-          playerRef.remove();
-          setGameState("EndScreen");
+          HP.current -= 50;
+          if(HP.current <= 0){
+            playerRef.remove();
+          }
         }
-        projectileDeletionRef.set({key: projectiles.current[i].key});
+        projectileDeletionRef.set({ key: projectiles.current[i].key });
         projectiles.current.splice(i, 1);
       }
 
@@ -429,7 +441,7 @@ export default function Battle({ setGameState }) {
     >
       {loading && <LoadingScreen />}
       {countDown && <GameCountDown />}
-      <audio ref={shootSoundRef} src="/Sound/FX/shoot.mp3"/>
+      <audio ref={shootSoundRef} src="/Sound/FX/shoot.mp3" />
       <span className={styles.ping}>{reRender ? reRender.time : 0} ms</span>
       <div className={styles.battleContainer}>
         <div className={styles.battleFieldContainer}>
@@ -519,7 +531,7 @@ export default function Battle({ setGameState }) {
                   className={styles.slimeImage}
                 ></img>
               </div>
-              <p className={styles.characterName}>{self.current.name}</p>
+              <p className={styles.characterName}>{self.current.name} : {HP.current}HP</p>
             </div>
             {enemy.current && (
               <div

@@ -105,3 +105,11 @@
 .AB {
   width: 20vw;
 }
+
+.endStatus{
+  position: fixed;
+  top: 80px;
+  left: 2vw;
+  font-size: 6vw;
+  color: white;
+}

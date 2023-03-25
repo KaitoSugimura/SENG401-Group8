@@ -173,7 +173,7 @@ export default function Social() {
       <section className={styles.chat}>
         <div className={styles.messages}>
           {selectedChat ? (
-            messages.map((message, i) => <Message message={message} key={i}></Message>)
+            messages.map((message, i) => <Message message={message} previousMessage={i+1<messages.length?messages[i+1]:null} key={i}></Message>)
           ) : (
             <div>Select a channel on the left to chat here.</div>
           )}

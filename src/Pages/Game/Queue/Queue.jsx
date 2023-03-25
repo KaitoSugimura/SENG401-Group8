@@ -22,7 +22,7 @@ export default function Queue({ setGameState }) {
         const p = snapshot.val();
         if (p) {
           for (let key in p) {
-            if (p[key].open) {
+            if (p[key].open && key != user.uid) {
               OpenRankedID = key;
               break;
             }

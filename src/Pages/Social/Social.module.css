@@ -155,18 +155,18 @@
   display: grid;
   grid-auto-flow: column;
   align-items: end;
-  gap:  max(0.7vw, 14px);
+  gap: max(0.7vw, 14px);
   justify-content: start;
   margin-top: 1vw;
   width: 32vw
 }
 
-.MessageIsSame.messageContainer{
+.MessageIsSame.messageContainer {
   margin-top: 0.3vw;
   margin-left: max(3.7vw, 74px);
 }
 
-.MessageIsSame.messageContainer.mine{
+.MessageIsSame.messageContainer.mine {
   margin-left: none;
   margin-right: max(3.7vw, 74px);
 }
@@ -185,7 +185,7 @@
 .AccountBannerContainer {
   position: absolute;
   /* top: -50%; */
-  left:  max(3.5vw, 70px);
+  left: max(3.5vw, 70px);
   /* top: 5vw; */
   z-index: 1000;
 }
@@ -204,7 +204,7 @@
   order: 2;
 }
 
-.messageContainer img {
+.messageContainer .slime {
   width: max(3vw, 60px);
   display: block;
 }

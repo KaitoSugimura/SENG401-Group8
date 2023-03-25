@@ -17,9 +17,11 @@ export default function Signup() {
     e.preventDefault();
 
     setIsPending(true);
-    await projectAuth.createUserWithEmailAndPassword(email, password).catch(error => {
-      setError(error.message);
-    })
+    await projectAuth.createUserWithEmailAndPassword(email, password)
+      .then(res => res.user.updateProfile({ displayName: username }))
+      .catch(error => {
+        setError(error.message);
+      })
     setIsPending(false);
   };
 

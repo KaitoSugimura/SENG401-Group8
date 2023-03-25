@@ -1,17 +1,23 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { projectAuth } from "../../Database/firebase/config";
 import { useLogin } from "../../Database/Hooks/useLogin";
 import "./SL.css";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isPending, setIsPending] = useState(false);
+  const [error, setError] = useState(null);
 
-  const { login, isPending, error } = useLogin();
-
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    login(email, password);
+
+    setIsPending(true);
+    await projectAuth.signInWithEmailAndPassword(email, password).catch(error => {
+      setError("Email and password do not match.");
+    });
+    setIsPending(false);
   };
 
   return (
@@ -24,6 +30,7 @@ export default function Login() {
           <span>Email:</span>
           <input
             type="email"
+            required
             onChange={(e) => setEmail(e.target.value)}
             value={email}
           />
@@ -32,6 +39,7 @@ export default function Login() {
           <span>Password:</span>
           <input
             type="password"
+            required
             onChange={(e) => setPassword(e.target.value)}
             value={password}
           />

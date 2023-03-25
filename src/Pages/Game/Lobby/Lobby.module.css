@@ -157,7 +157,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background:radial-gradient(#8e2e2e, #760303);
+  background:linear-gradient(
+  115deg,
+    rgb(238, 100, 100), 
+    rgb(199, 1, 1) 
+    );
   transition: 0.2s all;
 }
 .returnButton:hover {
@@ -174,7 +178,11 @@
 .createButton.createLobbyButton {
   flex-grow: 4;
   width: auto;
-  background:radial-gradient(#277dc3,#043c82);
+  background:linear-gradient(
+    -60deg,
+    rgb(11, 68, 211) 0%,
+    rgb(123, 181, 231) 
+    );
 }
 
 .lobby{
@@ -195,7 +203,11 @@
   width: 40vw;
   height: 15vh;
   margin: 5vh 0;
-  background:linear-gradient(#efd054, #68461c);
+  background:linear-gradient(
+    -44deg,
+    rgb(227, 205, 94) 0%,
+    rgb(244, 233, 177) 
+    );
   font-family: 'Exo 2', sans-serif;
   font-size: 2.3vw;
   font-weight: 500;

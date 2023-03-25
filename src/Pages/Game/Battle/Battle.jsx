@@ -81,9 +81,9 @@ export default function Battle({ setGameState }) {
   // (window.innerHeight - 65)/window.innerWidth
 
   useEffect(() => {
-    battleFieldWidth.current = 90;
-    battleFieldHeight.current = 50.625;
-    const ratio = (window.innerHeight - 65) / window.innerWidth;
+    battleFieldWidth.current = 95;
+    battleFieldHeight.current = 53.4375;
+    const ratio = window.innerHeight / window.innerWidth;
     if (ratio < 0.5625) {
       battleFieldWidth.current = battleFieldWidth.current * (ratio / 0.5625);
       battleFieldHeight.current = battleFieldWidth.current * 0.5625;

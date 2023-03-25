@@ -48,6 +48,7 @@ const CharacterProfile = ({ character, switchCharacter, characters, updateCharac
 
   useEffect(() => {
     setSkinNo(1);
+    character.skin=1;
     if (character) {
       setImagePath(
         "assets/GameArt/" +
@@ -80,6 +81,7 @@ const CharacterProfile = ({ character, switchCharacter, characters, updateCharac
 
   function changeSkin(num) {
     setSkinNo(num);
+    
     if (character) {
       //update DB
       setImagePath(
@@ -114,6 +116,7 @@ const CharacterProfile = ({ character, switchCharacter, characters, updateCharac
   }
 
   function handleUnlock() {
+    console.log("Trying to unlock the skin")
     if (!character.unlocked) {
       //check currency is enough
       

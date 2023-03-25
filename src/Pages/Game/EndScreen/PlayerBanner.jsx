@@ -83,7 +83,7 @@ const PlayerBanner = ({ left, winner, userData}) => {
           friend_able={!left}
         ></AccountBanner></div>
       <div className={styles.slime}>
-        <img src={slime} alt="" style={imageDirection} />
+        <img src={`assets/GameArt/${userData.slimeType}Slime/${userData.slimeType}Slime${userData.slimeSkin}.gif`} alt="" style={imageDirection} />
       </div>
     </div>
   );

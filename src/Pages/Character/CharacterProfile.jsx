@@ -1,9 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import styles from "./Character.module.css";
+import { AuthContext } from "../../Database/context/AuthContext";
+import { projectFirestore } from "../../Database/firebase/config";
+import firebase from "firebase";
 
 ///UPDATE SET SKIN PATHS WHEN DB IS IMPLEMENTED
 
 const CharacterProfile = ({ character, switchCharacter, characters, updateCharacters, updateCharacter }) => {
+  const { user, userRef } = useContext(AuthContext);
   const [skinNo, setSkinNo] = useState(character.skin);
   const [lockedButtonStyle, setlockedButtonStyle] = useState({
     visibility: "hidden"
@@ -107,6 +111,7 @@ const CharacterProfile = ({ character, switchCharacter, characters, updateCharac
         return;
       }
       character.unlocked = true;
+      
       //updated database
       switchCharacter(character.id);
       if (skinNo == 1) {
@@ -116,6 +121,9 @@ const CharacterProfile = ({ character, switchCharacter, characters, updateCharac
       else {
         changeSkin(1);
       }
+      userRef.update({
+        slimes: firebase.firestore.FieldValue.arrayUnion(character.type+1)
+      })
     }
     else {
       //check currency is enough
@@ -130,6 +138,9 @@ const CharacterProfile = ({ character, switchCharacter, characters, updateCharac
       }
       setImageStyle(unlockedStyle)
       setlockedButtonStyle({ visibility: "hidden" })
+      userRef.update({
+        slimes: firebase.firestore.FieldValue.arrayUnion(character.type+skinNo)
+      })
     }
   }
 

@@ -3,11 +3,20 @@ import styles from "./Character.module.css";
 import { AuthContext } from "../../Database/context/AuthContext";
 import { projectFirestore } from "../../Database/firebase/config";
 import firebase from "firebase";
+import Popup from "../../Components/Popup";
+
+//Currecny images
+import skinShard from "../../../public/assets/GameArt/Gold.png"
+import characterShard from "../../../public/assets/GameArt/Gold.png"
 
 ///UPDATE SET SKIN PATHS WHEN DB IS IMPLEMENTED
 
 const CharacterProfile = ({ character, switchCharacter, characters, updateCharacters, updateCharacter }) => {
   const { user, userRef } = useContext(AuthContext);
+  const[popup,setPopUp]=useState(false);
+  const[enough,setEnough]=useState(false);
+  const[currencyImage,setCurrencyImage]=useState(skinShard);
+  const[price,setPrice]=useState();
   const [skinNo, setSkinNo] = useState(character.skin);
   const [lockedButtonStyle, setlockedButtonStyle] = useState({
     visibility: "hidden"
@@ -107,9 +116,7 @@ const CharacterProfile = ({ character, switchCharacter, characters, updateCharac
   function handleUnlock() {
     if (!character.unlocked) {
       //check currency is enough
-      if (!window.confirm("Unlock character for 2000 points?")) {
-        return;
-      }
+      
       character.unlocked = true;
       
       //updated database
@@ -121,15 +128,14 @@ const CharacterProfile = ({ character, switchCharacter, characters, updateCharac
       else {
         changeSkin(1);
       }
+      let newCharShard = user.data.characterShard - price;
       userRef.update({
-        slimes: firebase.firestore.FieldValue.arrayUnion(character.type+1)
+        slimes: firebase.firestore.FieldValue.arrayUnion(character.type+1),
+        characterShard: newCharShard,
       })
     }
     else {
       //check currency is enough
-      if (!window.confirm("Unlock skin for 1000 points?")) {
-        return;
-      }
       if (skinNo == 2) {
         character.two = true;
       }
@@ -138,10 +144,41 @@ const CharacterProfile = ({ character, switchCharacter, characters, updateCharac
       }
       setImageStyle(unlockedStyle)
       setlockedButtonStyle({ visibility: "hidden" })
+      console.log(price);
+      let newSkinShard = user.data.skinShard - price;
       userRef.update({
-        slimes: firebase.firestore.FieldValue.arrayUnion(character.type+skinNo)
+        slimes: firebase.firestore.FieldValue.arrayUnion(character.type+skinNo),
+        skinShard: newSkinShard,
       })
     }
+  }
+
+  const handleUnlockRequest=()=>{
+    let price;
+    let char;
+    if(!character.unlocked){
+      price = character.price;
+      char = true;
+    }
+    else if(skinNo==2){
+      price=1.5*character.price;
+      char = false;
+    }
+    else if(skinNo==3){
+      price = 2*character.price;
+      char = false;
+    }
+    if(char&&user.data.characterShard>=price){
+      setEnough(true);
+    }
+    else if(!char&&user.data.skinShard>=price){
+      setEnough(true);
+    }
+    else{
+      setEnough(false);
+    }
+    setPopUp(true);
+    setPrice(price);    
   }
 
   return (
@@ -185,12 +222,23 @@ const CharacterProfile = ({ character, switchCharacter, characters, updateCharac
                 className={character.skin == 3 ? styles.selected : ""}
               />
             </div>
-            <div style={lockedButtonStyle} className={styles.unlockButton} onClick={handleUnlock}>
+            <div style={lockedButtonStyle} className={styles.unlockButton} onClick={handleUnlockRequest}>
               <img src="assets/GameArt/Locked.png" alt="Lockbutton" />
             </div>
           </div>
         </div>
       </div>
+      {popup&&<Popup setPopUp={setPopUp}>
+        <div className={styles.unlockConfirm}>
+          <p>
+            {enough?`Unlock for ${price}`:`Need ${price} to unlock`}
+          </p>
+          <div className={styles.currencyContainer}>
+            <img src={currencyImage} alt=""/>  
+          </div>                  
+          {enough && <button onClick={()=>{handleUnlock();setPopUp(false);}}>Confirm</button>}
+        </div>
+      </Popup>}
     </div>
   );
 };

@@ -103,7 +103,7 @@ export default function Nav() {
   }, [closeBanner]);
 
   return (
-    <header className={styles.navbar}>
+    <header className={`${styles.navbar} ${locationPath==="/game" && gameState==="Battle"?styles.Hide:""}`}>
       <audio src={HomeBGM} ref={audioRef} loop="loop"></audio>
       {/* {showBanner && <div className={styles.CloseArea} onClick={()=>closeBanner} ></div>}
       {showSettings && <div className={styles.CloseArea} onClick={()=>closeBanner} ></div>} */}

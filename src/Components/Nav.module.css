@@ -15,6 +15,10 @@
   z-index: 10000;
 }
 
+.Hide{
+  display: none;
+}
+
 .AccountBannerContainer{
   position: fixed;
   z-index: 100000;

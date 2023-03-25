@@ -7,6 +7,8 @@ import styles from "./Battle.module.css";
 import GameCountDown from "./GameCountDown";
 import map from "/assets/GameMap/SlimeMeadows.webp";
 
+const MAX_HP = 100;
+
 export default function Battle({ setGameState }) {
   const { user } = useContext(AuthContext);
   const { serverPlayerID, clientPlayerID, setEndScreenData } =
@@ -25,8 +27,6 @@ export default function Battle({ setGameState }) {
   const down = useRef(false);
   const right = useRef(false);
   const mousePos = useRef({ x: null, y: null });
-
-  const HP = useRef(100);
 
   const selfCompRef = useRef(null);
 
@@ -159,6 +159,7 @@ export default function Battle({ setGameState }) {
         name: user.displayName,
         shooting: false,
         slimePath: user.data.slimePath,
+        HP: MAX_HP,
         // time: Date.now(),
       };
     } else {
@@ -169,6 +170,7 @@ export default function Battle({ setGameState }) {
         name: user.displayName,
         shooting: false,
         slimePath: user.data.slimePath,
+        HP: MAX_HP,
         // time: Date.now(),
       };
     }
@@ -218,7 +220,7 @@ export default function Battle({ setGameState }) {
       if (p === null) {
         // Enemy disconnected or lost
         setEndScreenData({
-          Won: HP.current>0,
+          Won: self.current.HP > 0,
           enemyID:
             playerId === serverPlayerID ? clientPlayerID : serverPlayerID,
         });
@@ -394,9 +396,13 @@ export default function Battle({ setGameState }) {
         projectile.y >= self.current.top - 2
       ) {
         if (projectile.bulletState >= 3) {
+          self.current.HP += 10;
+          if (self.current.HP > MAX_HP) {
+            self.current.HP = MAX_HP;
+          }
         } else {
-          HP.current -= 50;
-          if(HP.current <= 0){
+          self.current.HP -= 10;
+          if (self.current.HP <= 0) {
             playerRef.remove();
           }
         }
@@ -439,6 +445,7 @@ export default function Battle({ setGameState }) {
       onKeyDown={(e) => move(e)}
       onKeyUp={(e) => release(e)}
     >
+      {/* <div className={styles.topBar}></div> */}
       {loading && <LoadingScreen />}
       {countDown && <GameCountDown />}
       <audio ref={shootSoundRef} src="/Sound/FX/shoot.mp3" />
@@ -486,36 +493,6 @@ export default function Battle({ setGameState }) {
               ></div>
             ))}
             {/* PROJECTILES END */}
-            {/* TEMP HIT BOX POINTS */}
-            {/* <span
-              className={styles.TestHitBoxPoints}
-              style={{
-                top: self.current.top + 1.5 + "vw",
-                left: self.current.left + "vw",
-              }}
-            ></span>
-            <span
-              className={styles.TestHitBoxPoints}
-              style={{
-                top: self.current.top - 1.5 + "vw",
-                left: self.current.left + "vw",
-              }}
-            ></span>
-            <span
-              className={styles.TestHitBoxPoints}
-              style={{
-                top: self.current.top + "vw",
-                left: self.current.left + 2 + "vw",
-              }}
-            ></span>
-            <span
-              className={styles.TestHitBoxPoints}
-              style={{
-                top: self.current.top + "vw",
-                left: self.current.left - 2 + "vw",
-              }}
-            ></span> */}
-            {/* TEMP HIT BOX POINTS END */}
             <div
               className={`${styles.character} ${styles.self}`}
               style={{
@@ -531,7 +508,17 @@ export default function Battle({ setGameState }) {
                   className={styles.slimeImage}
                 ></img>
               </div>
-              <p className={styles.characterName}>{self.current.name} : {HP.current}HP</p>
+              <div className={styles.HP_NAME_Bar}>
+                <p className={styles.characterName}>{self.current.name}</p>
+                <div className={styles.HPContainer}>
+                  <div
+                    className={styles.SelfHPBar}
+                    style={{
+                      width: self.current.HP + "%",
+                    }}
+                  ></div>
+                </div>
+              </div>
             </div>
             {enemy.current && (
               <div
@@ -546,7 +533,18 @@ export default function Battle({ setGameState }) {
                   src={enemy.current.slimePath + ".gif"}
                   className={styles.slimeImage}
                 ></img>
+                
+                <div className={styles.HP_NAME_Bar}>
                 <p className={styles.characterName}>{enemy.current.name}</p>
+                <div className={styles.HPContainer}>
+                  <div
+                    className={styles.EnemyHPBar}
+                    style={{
+                      width: enemy.current.HP + "%",
+                    }}
+                  ></div>
+                </div>
+              </div>
               </div>
             )}
           </div>

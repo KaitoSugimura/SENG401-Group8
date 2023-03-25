@@ -10,6 +10,7 @@ import SocialBGM from "/Sound/Social.mp3";
 import GameBGM from "/Sound/Game.mp3";
 import BattleBGM from "/Sound/Battle.mp3";
 import RoomBGM from "/Sound/Room.mp3";
+import EndScreenBGM from "/Sound/EndScreen.mp3";
 import { AuthContext } from "../Database/context/AuthContext";
 import { gameStateContext } from "../Pages/Game/gameStateContext";
 
@@ -54,8 +55,8 @@ export default function Nav() {
             audioRef.current.src = BattleBGM;
             setOriginalMusicVolMultiplier(0.7);
             break;
-          case "Endscreen":
-              audioRef.current.src = BattleBGM;
+          case "EndScreen":
+              audioRef.current.src = EndScreenBGM;
               setOriginalMusicVolMultiplier(0.7);
               break;
         }

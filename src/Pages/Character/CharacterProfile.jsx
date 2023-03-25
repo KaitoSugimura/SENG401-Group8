@@ -6,8 +6,8 @@ import firebase from "firebase";
 import Popup from "../../Components/Popup";
 
 //Currecny images
-import skinShard from "../../../public/assets/GameArt/Gold.png"
-import characterShard from "../../../public/assets/GameArt/Gold.png"
+import skinShard from "../../../public/assets/GameArt/SkinShard.png"
+import characterShard from "../../../public/assets/GameArt/CharacterShard.png"
 
 ///UPDATE SET SKIN PATHS WHEN DB IS IMPLEMENTED
 
@@ -159,14 +159,17 @@ const CharacterProfile = ({ character, switchCharacter, characters, updateCharac
     if(!character.unlocked){
       price = character.price;
       char = true;
+      setCurrencyImage(characterShard);
     }
     else if(skinNo==2){
       price=1.5*character.price;
       char = false;
+      setCurrencyImage(skinShard);
     }
     else if(skinNo==3){
       price = 2*character.price;
       char = false;
+      setCurrencyImage(skinShard);
     }
     if(char&&user.data.characterShard>=price){
       setEnough(true);
@@ -231,7 +234,7 @@ const CharacterProfile = ({ character, switchCharacter, characters, updateCharac
       {popup&&<Popup setPopUp={setPopUp}>
         <div className={styles.unlockConfirm}>
           <p>
-            {enough?`Unlock for ${price}`:`Need ${price} to unlock`}
+            {enough?`Unlock for ${price}`:`Need ${price}`}
           </p>
           <div className={styles.currencyContainer}>
             <img src={currencyImage} alt=""/>  

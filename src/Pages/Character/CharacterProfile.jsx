@@ -196,6 +196,10 @@ const CharacterProfile = ({ character, switchCharacter, characters, updateCharac
           </div>
           <div className={styles.statsBox}>
             <h1>{character.type} Slime</h1>
+            <div className={styles.currency}>
+              <img src={characterShard} alt="" /> x {user.data.characterShard}
+              <img src={skinShard} alt="" />  x {user.data.skinShard}
+            </div>
             <div className={styles.statsContainer}>
               <h2>Power:</h2>
               {getStat(character.power)}

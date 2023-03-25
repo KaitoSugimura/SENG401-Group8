@@ -332,6 +332,63 @@
   } 
 }
 
+/*CHARACTER UNLOCK POPUP*/
+
+.unlockConfirm{
+  color: silver;
+  background: -moz-linear-gradient(360deg, #1C1C1C 10%, #494949 360%); background: linear-gradient(360deg, #1C1C1C 10%, #494949 360%);
+  display: flex;
+  width: 30vw;
+  height: 40vh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  padding: 50px;
+}
+
+.unlockConfirm p{
+  display: flex;
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.unlockConfirm img{
+  width: 45%;
+  height: auto;
+}
+
+.unlockConfirm .currencyContainer{
+  width: 50%;
+  margin-bottom: 20%;
+  display: flex;
+  justify-content: center;
+}
+
+.unlockConfirm button{
+  display: block;
+  position: absolute;
+  bottom: 6vh;
+  left: 47%;
+  bottom: 1%;
+  transform: translateX(-50%);
+  padding: 0.8vw 2vw;
+  font-size: 1.5vw;
+  margin: 15px;
+  border: none;
+  background:radial-gradient(#368bd1,#043c82);
+  border: 5px solid rgb(0, 0, 0);
+  box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.735);
+  font-family: 'Exo 2', sans-serif;
+  font-size: 1.3vw;
+  font-weight: 500
+}
+
+.unlockConfirm button:hover {
+  transform: translate(calc(-50% + 3px), 3px);
+  box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.735);
+}
+
 
 
 

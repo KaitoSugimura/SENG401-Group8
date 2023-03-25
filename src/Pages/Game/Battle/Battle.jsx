@@ -1,6 +1,9 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../../Database/context/AuthContext";
-import { projectDatabase } from "../../../Database/firebase/config";
+import {
+  projectDatabase,
+  projectFirestore,
+} from "../../../Database/firebase/config";
 import { gameStateContext } from "../gameStateContext";
 import LoadingScreen from "../LoadingScreen";
 import styles from "./Battle.module.css";
@@ -44,6 +47,8 @@ export default function Battle({ setGameState }) {
   const shootSoundRef = useRef(null);
   const hitNormalSoundRef = useRef(null);
   const weaponChangeSoundRef = useRef(null);
+  const buffSoundRef = useRef(null);
+  const healSoundRef = useRef(null);
 
   let playerId;
   let playerRef;
@@ -51,6 +56,8 @@ export default function Battle({ setGameState }) {
   let projectileDeletionRef;
   const nextProjectileToDeleteQueue = useRef(0);
   let projectileBuffMode = useRef(false);
+
+  let goldBetAmount = 0;
 
   if (user) {
     playerId = user.uid;
@@ -153,6 +160,14 @@ export default function Battle({ setGameState }) {
       }
     });
 
+    projectDatabase
+      .ref(`lobby/rooms/${serverPlayerID}/gold`)
+      .once("value", (snapShot) => {
+        if (snapShot.val()) {
+          goldBetAmount = snapShot.val();
+        }
+      });
+
     buttonDivRef.current.focus();
     // Initialize game
     if (serverPlayerID === playerId) {
@@ -225,10 +240,13 @@ export default function Battle({ setGameState }) {
       const p = otherSnapshot.val();
       if (p === null) {
         // Enemy disconnected or lost
+        const isWinner = self.current.HP > 0;
+        const EnemyID =
+          playerId === serverPlayerID ? clientPlayerID : serverPlayerID;
         setEndScreenData({
-          Won: self.current.HP > 0,
-          enemyID:
-            playerId === serverPlayerID ? clientPlayerID : serverPlayerID,
+          Won: isWinner,
+          enemyID: EnemyID,
+          gold: goldBetAmount,
         });
 
         if (enemy.current != null) {
@@ -405,11 +423,13 @@ export default function Battle({ setGameState }) {
         projectile.y >= self.current.top - 2
       ) {
         if (projectile.bulletState >= 3) {
-          if(projectile.projectileType){
+          if (projectile.projectileType) {
             //Buff
+            buffSoundRef.current.play();
             self.current.DMG += 5;
-          } else{
+          } else {
             // healing
+            healSoundRef.current.play();
             self.current.HP += 20;
             if (self.current.HP > MAX_HP) {
               self.current.HP = MAX_HP;
@@ -468,8 +488,8 @@ export default function Battle({ setGameState }) {
       <audio ref={shootSoundRef} src="/Sound/FX/shoot.mp3" />
       <audio ref={hitNormalSoundRef} src="/Sound/FX/hitNormal.mp3" />
       <audio ref={weaponChangeSoundRef} src="/Sound/FX/weaponChange.mp3" />
-      {/* <audio ref={hitNormalSoundRef} src="/Sound/FX/hitNormal.mp3" /> */}
-      {/* <audio ref={hitNormalSoundRef} src="/Sound/FX/hitNormal.mp3" /> */}
+      <audio ref={buffSoundRef} src="/Sound/FX/buff.mp3" />
+      <audio ref={healSoundRef} src="/Sound/FX/heal.ogg" />
       {/* AUDIO END */}
       <span className={styles.ping}>{reRender ? reRender.time : 0} ms</span>
       <div className={styles.battleContainer}>
@@ -503,7 +523,11 @@ export default function Battle({ setGameState }) {
             {projectiles.current.map((projectile, i) => (
               <div
                 className={`${styles.projectile} ${
-                  projectile.bulletState > 2 ? (projectile.projectileType?styles.buff:styles.healing) : ""
+                  projectile.bulletState > 2
+                    ? projectile.projectileType
+                      ? styles.buff
+                      : styles.healing
+                    : ""
                 }`}
                 style={{
                   top: projectile.y + "vw",
@@ -555,18 +579,18 @@ export default function Battle({ setGameState }) {
                   src={enemy.current.slimePath + ".gif"}
                   className={styles.slimeImage}
                 ></img>
-                
+
                 <div className={styles.HP_NAME_Bar}>
-                <p className={styles.characterName}>{enemy.current.name}</p>
-                <div className={styles.HPContainer}>
-                  <div
-                    className={styles.EnemyHPBar}
-                    style={{
-                      width: enemy.current.HP + "%",
-                    }}
-                  ></div>
+                  <p className={styles.characterName}>{enemy.current.name}</p>
+                  <div className={styles.HPContainer}>
+                    <div
+                      className={styles.EnemyHPBar}
+                      style={{
+                        width: enemy.current.HP + "%",
+                      }}
+                    ></div>
+                  </div>
                 </div>
-              </div>
               </div>
             )}
           </div>

@@ -33,28 +33,26 @@
 }
 
 .mapName{
-    position: relative;
-    bottom: 8px;
-    margin: 2%;
-    padding: 2%;
     border-radius: 5px;
-    font-size: 2.4rem;
+    font-size: 1.5vw;
     font-weight: bold;
     font-family: 'Exo 2', sans-serif;
     font-weight: 500;
     color: black;
     text-shadow: #28313b;
+    margin-right: auto;
 }
 
 .goldContainer{
     display: flex;
-    width: 90%;
+    width: 100%;
     height: 15%;
     flex-direction: row;
     justify-content: center;
-    gap: 2%;
+    align-items: center;
+    gap: 1vw;
     background-color: black;
-    padding: 2%;
+    padding: 0 15%;
     border: solid 2px black;
     border-radius: 10px;
     background:linear-gradient(#8b939a, #5B6467);
@@ -65,20 +63,15 @@
 
 
 .goldImage img{
-    height: 100%;
-    width: auto;
+    width: 4.2vw;
+    height: auto;
     object-fit: cover;
 }
 
 .goldText{
-    position: relative;
-    bottom: 8px;
-    margin: 2%;
-    padding: 2%;
-    color: darkgoldenrod;
-    font-size: 2.0rem;
+    color: rgb(225, 167, 20);
+    font-size: 2vw;
     font-weight: bold;
-    font-size: 2.5em;
 }
 
 .buttonContainer{
@@ -87,17 +80,21 @@
     height: 20%;
     flex-direction: row;
     justify-content: center;
-    gap: 2%;
+    gap: 3vw;
 }
 
-.selectionButton img{
-    height: 100%;
-    width: auto;
+.selectionButton{
+    width: 7vw;
+    height: 7vw;
     pointer-events: all;
     cursor: pointer;
 }
+.selectionButton img{
+    width: 100%;
+    height: auto;
+}
 .selectionButton:hover{
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
 .selectionButton.lockedButton{

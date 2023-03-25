@@ -27,6 +27,10 @@ export default function Lobby({ setGameState }) {
   }
 
   const createRoom = (password, goldAmount) => {
+    if(user.data.gold < goldAmount) {
+      window.alert("Insufficient amount of gold");
+      return;
+    }
     setServerPlayerID(user.uid);
 
     const LobbyRef = projectDatabase.ref(`lobby/rooms/${user.uid}`);
@@ -45,7 +49,12 @@ export default function Lobby({ setGameState }) {
     setGameState("Room");
   }
 
-  const enterRoom = (uid) => {
+  const enterRoom = (uid, goldAmount) => {
+    if(user.data.gold < goldAmount) {
+      window.alert("Insufficient amount of gold");
+      return;
+    }
+
     setServerPlayerID(uid);
     setClientPlayerID(user.uid);
     const openRef = projectDatabase.ref(`lobby/rooms/${uid}/client`);
@@ -98,7 +107,7 @@ export default function Lobby({ setGameState }) {
         {lobbyList&&<div className={styles.lobbySelect}>
           {roomList && Object.values(roomList).map((OtherPerson, index) => (
             OtherPerson && <div className={styles.lobby} key={index} onClick={() => {
-              enterRoom(OtherPerson.uid);
+              enterRoom(OtherPerson.uid, OtherPerson.gold);
             }}>
 
               <div className={styles.gold}>

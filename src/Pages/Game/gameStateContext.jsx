@@ -6,7 +6,7 @@ export const GameStateProvider = ({ children }) => {
   const [gameState, setGameState] = useState("Lobby");
   const [serverPlayerID, setServerPlayerID] = useState("");
   const [clientPlayerID, setClientPlayerID] = useState("");
-  const [EndScreenData, setEndScreenData] = useState({Won: false, enemyID: null});
+  const [EndScreenData, setEndScreenData] = useState({Won: false, enemyID: null, gold: 0});
 
 
   return (

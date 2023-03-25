@@ -76,17 +76,15 @@ const Message = ({ message, previousMessage }) => {
   return (
     <div
       ref={messageRef}
-      className={`${styles.messageContainer} ${
-        username === user.data.username ? styles.mine : ""
-      } ${nextMessageSame?styles.MessageIsSame:""}`}
+      className={`${styles.messageContainer} ${username === user.data.username ? styles.mine : ""
+        } ${nextMessageSame ? styles.MessageIsSame : ""}`}
     >
       {!nextMessageSame && <button onClick={fetchBanner}>
         <img src={`${slimePath}.svg`} alt="" />
       </button>}
       <div
-        className={`${username === user.data.username ? styles.mine : ""} ${
-          styles.messageFlex
-        }`}
+        className={`${username === user.data.username ? styles.mine : ""} ${styles.messageFlex
+          }`}
       >
         {!nextMessageSame && <p className={styles.name}>{username}</p>}
         <p className={styles.message}>{content}</p>

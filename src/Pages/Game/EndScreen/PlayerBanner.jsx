@@ -3,15 +3,14 @@ import slime from "/assets/GameArt/EarthSlime/EarthSlime1.gif";
 import AccountBanner from "../../../Components/AccountBanner";
 import { AuthContext } from "../../../Database/context/AuthContext";
 import { useContext, useEffect, useRef, useState } from "react";
-const PlayerBanner = ({ left, winner}) => {
-  const { user } = useContext(AuthContext);
+const PlayerBanner = ({ left, winner, userData}) => {
   const [banner, setBanner] = useState(
-    "../../../../public/" + user.data.bannerFilepath
+    "../../../../public/" + userData.bannerFilepath
   );
 
   useEffect(() => {
-    console.log(user.data.bannerFilepath);
-    setBanner("../../../../public/" + user.data.bannerFilepath);
+    console.log(userData.bannerFilepath);
+    setBanner("../../../../public/" + userData.bannerFilepath);
     console.log(banner);
   }, []);
 
@@ -78,7 +77,7 @@ const PlayerBanner = ({ left, winner}) => {
         <AccountBanner
           setShowBanner={null}
           isNavBanner={false}
-          data={user.data}
+          data={userData}
           bannerWidth={"19"}
           widthUnits={"vw"}
           friend_able={!left}

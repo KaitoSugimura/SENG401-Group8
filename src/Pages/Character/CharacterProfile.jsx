@@ -6,8 +6,8 @@ import firebase from "firebase";
 import Popup from "../../Components/Popup";
 
 //Currecny images
-import skinShard from "../../../public/assets/GameArt/SkinShard.png"
-import characterShard from "../../../public/assets/GameArt/CharacterShard.png"
+import skinShard from "/assets/GameArt/SkinShard.png"
+import characterShard from "/assets/GameArt/CharacterShard.png"
 
 ///UPDATE SET SKIN PATHS WHEN DB IS IMPLEMENTED
 

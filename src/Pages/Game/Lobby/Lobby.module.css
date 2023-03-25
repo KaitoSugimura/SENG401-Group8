@@ -1,6 +1,4 @@
-
-  @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@500&family=Press+Start+2P&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Exo+2:wght@500&family=Press+Start+2P&display=swap");
 
 .Lobbypage {
   box-sizing: border-box;
@@ -123,8 +121,6 @@
   display: block;
 }
 
-
-
 .selectRoomButton img {
   width: 100%;
   height: auto;
@@ -157,11 +153,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background:linear-gradient(
-  115deg,
-    rgb(238, 100, 100), 
-    rgb(199, 1, 1) 
-    );
+  background: linear-gradient(115deg, rgb(238, 100, 100), rgb(199, 1, 1));
   transition: 0.2s all;
 }
 .returnButton:hover {
@@ -178,14 +170,10 @@
 .createButton.createLobbyButton {
   flex-grow: 4;
   width: auto;
-  background:linear-gradient(
-    -60deg,
-    rgb(11, 68, 211) 0%,
-    rgb(123, 181, 231) 
-    );
+  background: linear-gradient(-60deg, rgb(11, 68, 211) 0%, rgb(123, 181, 231));
 }
 
-.lobby{
+.lobby {
   cursor: pointer;
 }
 
@@ -203,12 +191,8 @@
   width: 40vw;
   height: 15vh;
   margin: 5vh 0;
-  background:linear-gradient(
-    -44deg,
-    rgb(227, 205, 94) 0%,
-    rgb(244, 233, 177) 
-    );
-  font-family: 'Exo 2', sans-serif;
+  background: linear-gradient(-44deg, rgb(227, 205, 94) 0%, rgb(244, 233, 177));
+  font-family: "Exo 2", sans-serif;
   font-size: 2.3vw;
   font-weight: 500;
   border: 5px solid rgb(0, 0, 0);
@@ -277,13 +261,12 @@
 .createLobby {
   width: 50vw;
   height: 60vh;
-  font-family: 'Exo 2', sans-serif;
+  font-family: "Exo 2", sans-serif;
   padding: 2vh;
-  background: -moz-linear-gradient(360deg, #1C1C1C 10%, #494949 360%); background: linear-gradient(360deg, #1C1C1C 10%, #494949 360%);
+  background: -moz-linear-gradient(360deg, #1c1c1c 10%, #494949 360%);
+  background: linear-gradient(360deg, #1c1c1c 10%, #494949 360%);
   background-size: contain;
 }
-
-
 
 .createLobby p {
   font-size: 2vw;
@@ -293,7 +276,7 @@
   text-align: center;
 }
 
-.publicOptions{
+.publicOptions {
   margin-top: 2%;
   display: flex;
   align-items: center;
@@ -306,32 +289,33 @@
   margin: 10px;
 }
 
-.formFieldsContainer{
+.formFieldsContainer {
   display: flex;
   justify-content: center;
 }
 
-.formFields{
+.formFields {
   display: flex;
-  width: fit-content;
+  width: 50%;
   flex-direction: column;
   align-items: left;
   margin-top: 3vh;
   gap: 3vh;
 }
 
-.flex{
+.flex {
   display: flex;
   justify-content: space-between;
 }
 
 .LobbyInput {
-  font-family: 'Exo 2', sans-serif;
+  font-family: "Exo 2", sans-serif;
   padding: 0.6vw 2vw;
   background-color: transparent;
+  font-size: 1vw;
   color: #fff;
   border: none;
-  border-bottom: 3px solid white;
+  border-bottom: 5px solid white;
 }
 
 .LobbyInput option {
@@ -340,8 +324,9 @@
 }
 
 .Input {
-  padding: 0.6vw 0vw;
-  font-family: 'Exo 2', sans-serif;
+  font-size: 1vw;
+  padding: 0.3vw;
+  font-family: "Exo 2", sans-serif;
 }
 
 .submit {
@@ -354,13 +339,12 @@
   font-size: 1.5vw;
   margin: 10px;
   border: none;
-  background:radial-gradient(#368bd1,#043c82);
+  background: radial-gradient(#368bd1, #043c82);
   border: 5px solid rgb(0, 0, 0);
   box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.735);
-  font-family: 'Exo 2', sans-serif;
+  font-family: "Exo 2", sans-serif;
   font-size: 1.3vw;
-  font-weight: 500
-  
+  font-weight: 500;
 }
 
 .submit:hover {

@@ -265,7 +265,7 @@
 }
 
 .statsContainer img {
-  width: 50px;
+  width: 4vw;
   pointer-events: all;
   height: auto;
 }

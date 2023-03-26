@@ -9,7 +9,6 @@
     gap: 5vh;
 } */
 
-
 .ButtonOverlay {
   position: fixed;
   top: 0;
@@ -29,8 +28,7 @@
   z-index: 10000;
 } */
 
-
-.ping{
+.ping {
   position: fixed;
   top: 80px;
   left: 20px;
@@ -62,11 +60,11 @@
   border: 3px solid #000;
 }
 
-.projectile.healing{
-    background-color: rgb(13, 255, 0);
+.projectile.healing {
+  background-color: rgb(13, 255, 0);
 }
 
-.projectile.buff{
+.projectile.buff {
   background-color: rgb(0, 195, 255);
 }
 
@@ -112,31 +110,26 @@
 }
 
 .shootingAnim {
-    animation: shooting 0.3s ease-out infinite;
+  animation: shooting 0.3s ease-out infinite;
 }
 
 @keyframes shooting {
   0% {
-    transform: translate(-0%, 0%)
-    scaleY(100%);
+    transform: translate(-0%, 0%) scaleY(100%);
   }
   25% {
     transform: translate(-10%, 0%);
   }
   50% {
-    transform: translate(0%, 0%)
-    scaleY(80%);
+    transform: translate(0%, 0%) scaleY(80%);
   }
   75% {
-    transform: translate(10%, 0%)
-    scaleY(110%);
+    transform: translate(10%, 0%) scaleY(110%);
   }
   100% {
-    transform: translate(0%, 0%)
-    scaleY(130%);
+    transform: translate(0%, 0%) scaleY(130%);
   }
 }
-
 
 .character[data-direction="right"] img {
   transform: scaleX(-1);
@@ -147,32 +140,79 @@
   height: auto;
 }
 
-.HP_NAME_Bar{
+.dmgUp{
+  position: absolute;
+  bottom: 25%;
+  left: 0;
+  transform: translateX(-150%);
+  width: 3vw;
+  height: 1.4vw;
+  /* background-color: #000; */
+  color: rgb(255, 0, 0);
+  font-size: 1.4vw;
+  font-weight: 700;
+  display: flex;
+  justify-content: end;
+  align-items: end;
+  filter: drop-shadow(0.2vw 0.2vw 0.2vw rgb(0, 0, 0));
+
+}
+
+.dmgUp img{
+  position: absolute;
+  bottom: 20%;
+  right: -50%;
+  width: 1.5vw;
+  height: auto;
+}
+
+.HP_NAME_Bar {
   position: absolute;
   top: 0;
   left: 50%;
   transform: translate(-49%, -90%);
   opacity: 0.8;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 13vw;
 }
 
 .characterName {
+  overflow: hidden;
+  white-space: nowrap;
   font-size: 1vw;
   font-weight: 600;
   margin-left: 0.1vw;
 }
 
-.HPContainer{
+.projectileBuffMode {
+  width: 1vw;
+  height: 1vw;
+  border-radius: 100%;
+  border: 2px solid black;
+  background-color: #000;
+}
+
+.HPContainer {
   width: 7vw;
   border: 0.2vw solid black;
   height: 1.2vw;
 }
 
-.SelfHPBar{
+.SelfHPBar {
   height: 100%;
   background-color: rgb(0, 237, 0);
 }
 
-.EnemyHPBar{
+.EnemyHPBar {
   height: 100%;
   background-color: rgb(255, 0, 0);
 }

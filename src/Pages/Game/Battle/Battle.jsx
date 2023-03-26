@@ -50,12 +50,20 @@ export default function Battle({ setGameState }) {
   const buffSoundRef = useRef(null);
   const healSoundRef = useRef(null);
 
+  useEffect(() => {
+    if(shootSoundRef.current )shootSoundRef.current.volume = 1.1 * user.data.musicVolume;
+    if(hitNormalSoundRef.current )hitNormalSoundRef.current.volume = 1.2 * user.data.musicVolume;
+    if(weaponChangeSoundRef.current )weaponChangeSoundRef.current.volume = 1.05 * user.data.musicVolume;
+    if(buffSoundRef.current )buffSoundRef.current.volume = 0.75 * user.data.musicVolume;
+    if(healSoundRef.current )healSoundRef.current.volume = 1.05 * user.data.musicVolume;
+  }, [shootSoundRef, hitNormalSoundRef, weaponChangeSoundRef, buffSoundRef, healSoundRef]);
+
   let playerId;
   let playerRef;
   let projectileRef;
   let projectileDeletionRef;
   const nextProjectileToDeleteQueue = useRef(0);
-  let projectileBuffMode = useRef(false);
+  // let projectileBuffMode = useRef(false);
 
   let goldBetAmount = 0;
 
@@ -180,6 +188,7 @@ export default function Battle({ setGameState }) {
         slimePath: user.data.slimePath,
         HP: MAX_HP,
         DMG: 10,
+        projectileBuffMode: false,
         // time: Date.now(),
       };
     } else {
@@ -192,6 +201,7 @@ export default function Battle({ setGameState }) {
         slimePath: user.data.slimePath,
         HP: MAX_HP,
         DMG: 10,
+        projectileBuffMode: false,
         // time: Date.now(),
       };
     }
@@ -260,6 +270,10 @@ export default function Battle({ setGameState }) {
         }
         enemy.current = null;
       } else
+      if(enemy.current.projectileBuffMode != p.projectileBuffMode){
+        weaponChangeSoundRef.current.currentTime = 0;
+        weaponChangeSoundRef.current.play();
+      }
         enemy.current = {
           ...p,
           left: p.left * battleFieldWidth.current,
@@ -271,6 +285,8 @@ export default function Battle({ setGameState }) {
     enemyProjectileRef.on("value", (snapshot) => {
       const p = snapshot.val();
       if (p) {
+        // Enemy FX
+        shootSoundRef.current.play();
         projectiles.current.push({
           ...snapshot.val(),
           x: p.x * battleFieldWidth.current,
@@ -337,7 +353,7 @@ export default function Battle({ setGameState }) {
           rad: 1,
           bulletState: 0, // 0-2 damage, >=3 for healing
           key: ProjectileKey.current++,
-          projectileType: projectileBuffMode.current, // false: Healing, true: AttackBuff
+          projectileType: self.current.projectileBuffMode, // false: Healing, true: AttackBuff
         };
 
         projectileRef.set(
@@ -357,6 +373,7 @@ export default function Battle({ setGameState }) {
           }
         );
         self.current.HP -= 5;
+
         shootSoundRef.current.play();
 
         setTimeout(() => {
@@ -384,8 +401,9 @@ export default function Battle({ setGameState }) {
         shoot();
         break;
       case 69:
+        weaponChangeSoundRef.current.currentTime = 0;
         weaponChangeSoundRef.current.play();
-        projectileBuffMode.current = !projectileBuffMode.current;
+        self.current.projectileBuffMode = !self.current.projectileBuffMode;
     }
   }
 
@@ -412,7 +430,22 @@ export default function Battle({ setGameState }) {
     }
     for (let i = 0; i < projectiles.current.length; i++) {
       console.log(nextProjectileToDeleteQueue.current);
-      if (nextProjectileToDeleteQueue.current === projectiles.current[i].key) {
+      const PC = projectiles.current[i];
+      if (nextProjectileToDeleteQueue.current === PC.key) {
+        if (PC.bulletState >= 3) {
+          if (PC.projectileType) {
+            //Buff
+            buffSoundRef.current.currentTime = 0;
+            buffSoundRef.current.play();
+          } else {
+            // healing
+            healSoundRef.current.currentTime = 0;
+            healSoundRef.current.play();
+          }
+        } else {
+          hitNormalSoundRef.current.currentTime = 0;
+          hitNormalSoundRef.current.play();
+        }
         projectiles.current.splice(i, 1);
         return;
       }
@@ -429,10 +462,14 @@ export default function Battle({ setGameState }) {
         if (projectile.bulletState >= 3) {
           if (projectile.projectileType) {
             //Buff
+
+            buffSoundRef.current.currentTime = 0;
             buffSoundRef.current.play();
             self.current.DMG += 5;
           } else {
             // healing
+
+            healSoundRef.current.currentTime = 0;
             healSoundRef.current.play();
             self.current.HP += 20;
             if (self.current.HP > MAX_HP) {
@@ -440,6 +477,7 @@ export default function Battle({ setGameState }) {
             }
           }
         } else {
+          hitNormalSoundRef.current.currentTime = 0;
           hitNormalSoundRef.current.play();
           self.current.HP -= enemy.current.DMG;
           if (self.current.HP <= 0) {
@@ -558,8 +596,22 @@ export default function Battle({ setGameState }) {
                   className={styles.slimeImage}
                 ></img>
               </div>
+              <div className={styles.dmgUp}>
+                {self.current.DMG}
+                <img src="/publicAssets/BuffUpArrow.png"></img>
+              </div>
               <div className={styles.HP_NAME_Bar}>
-                <p className={styles.characterName}>{self.current.name}</p>
+                <div className={styles.flex}>
+                  <span
+                    className={styles.projectileBuffMode}
+                    style={{
+                      backgroundColor: self.current.projectileBuffMode
+                        ? "rgb(0, 195, 255)"
+                        : "rgb(13, 255, 0)",
+                    }}
+                  ></span>
+                  <p className={styles.characterName}>{self.current.name}</p>
+                </div>
                 <div className={styles.HPContainer}>
                   <div
                     className={styles.SelfHPBar}
@@ -583,9 +635,22 @@ export default function Battle({ setGameState }) {
                   src={enemy.current.slimePath + ".gif"}
                   className={styles.slimeImage}
                 ></img>
-
+                <div className={styles.dmgUp}>
+                  {enemy.current.DMG}
+                  <img src="/publicAssets/BuffUpArrow.png"></img>
+                </div>
                 <div className={styles.HP_NAME_Bar}>
-                  <p className={styles.characterName}>{enemy.current.name}</p>
+                  <div className={styles.flex}>
+                    <span
+                      className={styles.projectileBuffMode}
+                      style={{
+                        backgroundColor: enemy.current.projectileBuffMode
+                          ? "rgb(0, 195, 255)"
+                          : "rgb(13, 255, 0)",
+                      }}
+                    ></span>
+                    <p className={styles.characterName}>{enemy.current.name}</p>
+                  </div>
                   <div className={styles.HPContainer}>
                     <div
                       className={styles.EnemyHPBar}

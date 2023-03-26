@@ -18,25 +18,26 @@
   filter: drop-shadow(0.8vw 0.7vw 0.2vw #00000061);
 }
 
-
-.SwipeButton:hover img{
-    animation: float 2s ease-in-out infinite;
-  }
-  
-  @keyframes float {
-    0%{
-      transform: translate(-10%, 0);
-      filter: drop-shadow(0.8vw 0.7vw 0.2vw #00000061);
-    }
-    50%{
-      transform: translate(-4%,2%);
-      filter: drop-shadow(0.45vw 0.4vw 0.2vw #0000009f);
-    }
-    100%{
-        transform: translate(-10%, 0);
-        filter: drop-shadow(0.8vw 0.7vw 0.2vw #00000061);
-      }  
+.SwipeButton:hover img {
+  animation: float 2s ease-in-out infinite;
 }
+
+
+@keyframes float {
+  0% {
+    transform: translate(-10%, 0);
+    filter: drop-shadow(0.8vw 0.7vw 0.2vw #00000061);
+  }
+  50% {
+    transform: translate(-4%, 2%);
+    filter: drop-shadow(0.6vw 0.5vw 0.2vw #0000009f);
+  }
+  100% {
+    transform: translate(-10%, 0);
+    filter: drop-shadow(0.8vw 0.7vw 0.2vw #00000061);
+  }
+}
+
 
 .PopupContainer {
   position: fixed;

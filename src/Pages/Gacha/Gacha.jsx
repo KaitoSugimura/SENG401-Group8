@@ -3,6 +3,7 @@ import styles from "./Gacha.module.css"
 import Carousel from 'react-bootstrap/Carousel';
 import { AuthContext } from "../../Database/context/AuthContext";
 import './bootstrap.carousel.css';
+import Swipe from "../../Swipe/Swipe";
 
 export default function Gacha() {
   const { user, userRef } = useContext(AuthContext);
@@ -10,6 +11,9 @@ export default function Gacha() {
 
   return (
     <div className={styles.Gacha}>
+      <div className={styles.SwipeContainer}>
+        <Swipe />
+      </div>
       <div className={styles.currencyDiv}>
         <span className={styles.skinShardAmount}>Skin Shards: {user.data.skinShard}</span>
         <span className={styles.charShardAmount}>Character Shards: {user.data.characterShard}</span>

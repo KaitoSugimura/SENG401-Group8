@@ -30,7 +30,7 @@
         rgb(255, 234, 128) 40%
       );
     font-weight: 1000 !important;
-    font-size: 1.3rem;
+    font-size: 1vw;
     width: 15vw;
     height: 4vw;
     box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.735);

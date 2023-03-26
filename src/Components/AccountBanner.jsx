@@ -6,6 +6,7 @@ import styles from "./AccountBanner.module.css";
 import Banner from "./Banner";
 import Popup from "./Popup";
 import firebase from "firebase";
+import BD from "./banners";
 
 export default function AccountBanner({
   setShowBanner,
@@ -34,36 +35,8 @@ export default function AccountBanner({
 
   const scrollPane = useRef(null);
 
-  const [banners, setBanners] = useState([
-    "/Account/Banners/Adventurer.jpg",
-    "/Account/Banners/Awe Inspiring Aurora.jpg",
-    "/Account/Banners/Bed of Flowers.jpg",
-    "/Account/Banners/Brain Power.jpg",
-    "/Account/Banners/Everlasting Expanse.jpg",
-    "/Account/Banners/Formidable Forest.jpg",
-    "/Account/Banners/Gradient Sunset.jpg",
-    "/Account/Banners/Green in the Gray.jpg",
-    "/Account/Banners/Head in the Clouds.jpg",
-    "/Account/Banners/Inception.jpg",
-    "/Account/Banners/Interstellar.jpg",
-    "/Account/Banners/Jovial Jungle.jpg",
-    "/Account/Banners/Lush Leaves.jpg",
-    "/Account/Banners/Magical Mountains.jpg",
-    "/Account/Banners/Michelangelo.jpg",
-    "/Account/Banners/Mist Mountain.jpg",
-    "/Account/Banners/Reol - No title.jpg",
-    "/Account/Banners/Scenic Solitude.jpg",
-    "/Account/Banners/Sea of Serenity.jpg",
-    "/Account/Banners/Sky.jpg",
-    "/Account/Banners/Submerged Sunlight.jpg",
-    "/Account/Banners/The Quick Brown Fox - The Big Black.jpg",
-    "/Account/Banners/Tranquil Tide.jpg",
-    "/Account/Banners/Tranquility of Gaia.jpg",
-    "/Account/Banners/Tree of Wisdom.jpg",
-    "/Account/Banners/Tyndalls Trees.jpg",
-    "/Account/Banners/UNDEAD CORPORATION - Everything will freeze.jpg",
-    "/Account/Banners/Winter Wonderland.jpg",
-  ]);
+  const {bannersData} = BD;
+  const [banners, setBanners] = useState(bannersData);
 
   const unlockAllBannersHack = () => {
     userRef.update({ bannerUnlocked: 0b1111111111111111111111111111 });

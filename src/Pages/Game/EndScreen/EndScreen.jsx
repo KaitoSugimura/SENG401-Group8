@@ -11,7 +11,7 @@ import { AuthContext } from "../../../Database/context/AuthContext";
 import { projectFirestore } from "../../../Database/firebase/config";
 
 export default function EndScreen({ setGameState }) {
-  const { EndScreenData } = useContext(gameStateContext);
+  const { EndScreenData, gameMode } = useContext(gameStateContext);
   const { user, userRef } = useContext(AuthContext);
   // placeholder for if the win screen is ranked version or not
   const [ranked, setRanked] = useState(false);
@@ -33,10 +33,17 @@ export default function EndScreen({ setGameState }) {
       });
 
       if (EndScreenData.Won) {
-        // update self
-        await userRef.update({ gold: (+user.data.gold ) + (+EndScreenData.gold) });
-        //update enemy
-        await enemyRef.update({ gold: (+data.gold) - (+EndScreenData.gold) });
+        if(gameMode==="Custom"){
+          // update self
+          await userRef.update({ gold: (+user.data.gold ) + (+EndScreenData.gold) });
+          //update enemy
+          await enemyRef.update({ gold: (+data.gold) - (+EndScreenData.gold) });
+        } else if(gameMode==="Ranked"){
+          // update self
+          await userRef.update({ rankPoints: (+user.data.rankPoints ) + (20) });
+          //update enemy
+          await enemyRef.update({ rankPoints: (+data.rankPoints) - (10) });
+        }
       }
     };
     fetchBannerAndUpdateGold();

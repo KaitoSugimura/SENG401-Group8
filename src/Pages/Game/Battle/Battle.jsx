@@ -14,7 +14,7 @@ const MAX_HP = 100;
 
 export default function Battle({ setGameState }) {
   const { user } = useContext(AuthContext);
-  const { serverPlayerID, clientPlayerID, setEndScreenData } =
+  const { serverPlayerID, clientPlayerID, setEndScreenData, gameMode } =
     useContext(gameStateContext);
 
   const self = useRef({});
@@ -51,12 +51,23 @@ export default function Battle({ setGameState }) {
   const healSoundRef = useRef(null);
 
   useEffect(() => {
-    if(shootSoundRef.current )shootSoundRef.current.volume = 1.1 * user.data.musicVolume;
-    if(hitNormalSoundRef.current )hitNormalSoundRef.current.volume = 1.2 * user.data.musicVolume;
-    if(weaponChangeSoundRef.current )weaponChangeSoundRef.current.volume = 1.05 * user.data.musicVolume;
-    if(buffSoundRef.current )buffSoundRef.current.volume = 0.75 * user.data.musicVolume;
-    if(healSoundRef.current )healSoundRef.current.volume = 1.05 * user.data.musicVolume;
-  }, [shootSoundRef, hitNormalSoundRef, weaponChangeSoundRef, buffSoundRef, healSoundRef]);
+    if (shootSoundRef.current)
+      shootSoundRef.current.volume = 1.1 * user.data.musicVolume;
+    if (hitNormalSoundRef.current)
+      hitNormalSoundRef.current.volume = 1.2 * user.data.musicVolume;
+    if (weaponChangeSoundRef.current)
+      weaponChangeSoundRef.current.volume = 1.05 * user.data.musicVolume;
+    if (buffSoundRef.current)
+      buffSoundRef.current.volume = 0.75 * user.data.musicVolume;
+    if (healSoundRef.current)
+      healSoundRef.current.volume = 1.05 * user.data.musicVolume;
+  }, [
+    shootSoundRef,
+    hitNormalSoundRef,
+    weaponChangeSoundRef,
+    buffSoundRef,
+    healSoundRef,
+  ]);
 
   let playerId;
   let playerRef;
@@ -168,13 +179,15 @@ export default function Battle({ setGameState }) {
       }
     });
 
-    projectDatabase
-      .ref(`lobby/rooms/${serverPlayerID}/gold`)
-      .once("value", (snapShot) => {
-        if (snapShot.val()) {
-          goldBetAmount = snapShot.val();
-        }
-      });
+    if(gameMode === "Custom"){
+      projectDatabase
+        .ref(`lobby/rooms/${serverPlayerID}/gold`)
+        .once("value", (snapShot) => {
+          if (snapShot.val()) {
+            goldBetAmount = snapShot.val();
+          }
+        });
+    }
 
     buttonDivRef.current.focus();
     // Initialize game
@@ -269,16 +282,18 @@ export default function Battle({ setGameState }) {
           }, 100);
         }
         enemy.current = null;
-      } else
-      if(enemy.current && enemy.current.projectileBuffMode != p.projectileBuffMode){
+      } else if (
+        enemy.current &&
+        enemy.current.projectileBuffMode != p.projectileBuffMode
+      ) {
         weaponChangeSoundRef.current.currentTime = 0;
         weaponChangeSoundRef.current.play();
       }
-        enemy.current = {
-          ...p,
-          left: p.left * battleFieldWidth.current,
-          top: p.top * battleFieldHeight.current,
-        };
+      enemy.current = {
+        ...p,
+        left: p.left * battleFieldWidth.current,
+        top: p.top * battleFieldHeight.current,
+      };
     });
 
     enemyProjectileRef.off();

@@ -32,8 +32,8 @@ export const AuthContextProvider = ({ children }) => {
           // Account is new: create user data
           await userRef.set({
             username: user.displayName,
-            level: Math.floor(Math.random() * 50),
-            rankPoints: Math.floor(Math.random() * 30),
+            level: 1,
+            rankPoints: 1000,
             musicVolume: 1,
             gold: 1234,
             skinShard: 3600,

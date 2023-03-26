@@ -96,21 +96,23 @@ const CharacterProfile = ({ character, switchCharacter, characters, updateCharac
       characters[character.id - 1].skin = num;
       updateCharacters(characters);
       updateCharacter(character);
+      if(character.unlocked){
+        setlockedButtonStyle({ visibility: "hidden" })
+      }
+      else{
+        setlockedButtonStyle({ visibility: "visible" })
+      }
       if (character.unlocked && num == 1) {
         setImageStyle(unlockedStyle)
-        setlockedButtonStyle({ visibility: "hidden" })
       }
       else if (character.two && num == 2) {
         setImageStyle(unlockedStyle)
-        setlockedButtonStyle({ visibility: "hidden" })
       }
       else if (character.three && num == 3) {
         setImageStyle(unlockedStyle)
-        setlockedButtonStyle({ visibility: "hidden" })
       }
       else {
         setImageStyle(lockedStyle)
-        setlockedButtonStyle({ visibility: "visible" })
       }
     }
   }

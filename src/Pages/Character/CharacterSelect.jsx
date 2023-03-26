@@ -1,10 +1,12 @@
 import styles from "./Character.module.css";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../Database/context/AuthContext";
+import Popup from "../../Components/Popup";
 
 const CharacterSelect = ({ characters, currentlySelectedChar, switchCharacter }) => {
   const { userRef } = useContext(AuthContext);
   const [hover, setHover] = useState(false);
+  const[popup,setPopUp]=useState(false);
   const [selectedSlime, setSelectedSlime] = useState(false);
   const unlockedStyle = {
     opacity: "1.0",
@@ -64,11 +66,24 @@ const CharacterSelect = ({ characters, currentlySelectedChar, switchCharacter })
               })
               setSelectedSlime(true);
             }
+            else{
+              if(currentlySelectedChar[skin]&&!currentlySelectedChar.unlocked){
+                setPopUp(true);
+              }
+
+            }
           }}
         >
           Select
         </button>
       </div>
+      {popup&&<Popup setPopUp={setPopUp}>
+        <div className={styles.unlockConfirm}>
+          <p>
+            {"Unlock character to use your skin!"}
+          </p>                 
+        </div>
+      </Popup>}
     </div>
   );
 };

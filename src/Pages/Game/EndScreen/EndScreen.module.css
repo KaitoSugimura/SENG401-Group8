@@ -1,5 +1,5 @@
 .EndScreen {
-  padding-top: 0vh;
+  padding-top: 15vh;
   height: 100vh;
   background-size: cover;
   text-align: center;
@@ -7,6 +7,9 @@
 }
 
 .endImage{
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
   object-fit: cover;

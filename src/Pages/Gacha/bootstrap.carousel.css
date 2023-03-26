@@ -13,6 +13,7 @@
 .carousel-inner {
   position: relative;
   width: 100%;
+  height: 100vh;
   overflow: hidden;
 }
 .carousel-inner::after {
@@ -122,8 +123,8 @@
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
   display: inline-block;
-  width: 4rem;
-  height: 4rem;
+  width: 4vw;
+  height: 4vw;
   background-repeat: no-repeat;
   background-position: 50%;
   background-size: 100% 100%;

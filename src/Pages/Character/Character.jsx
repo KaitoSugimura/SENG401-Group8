@@ -11,6 +11,8 @@ export default function Character() {
   const [userCharacters, updateUserCharacters] = useState([]);
   let {charactersData} = characterData
   const [characters, updateCharacters] = useState(charactersData);
+  // const currentlySelectedCharRef = useRef("unlocked");
+  const [fadeButton, setFadeButton] = useState(false);
 
   const [character, updateCharacter] = useState(
     characters[0]
@@ -40,6 +42,7 @@ export default function Character() {
   }
 
   const switchCharacter = (id) => {
+    setFadeButton(false);
     for (let i = 0; i < characters.length; i++) {
       if (characters[i].id == id) {
         if (characters[i].unlocked) {
@@ -56,7 +59,7 @@ export default function Character() {
 
   return (
     <div className={styles.characterPage}>
-      {character && <CharacterProfile character={character} switchCharacter={switchCharacter} characters={characters} updateCharacters={updateCharacters} updateCharacter={updateCharacter} />}
+      {character && <CharacterProfile fadeButton={fadeButton} setFadeButton={setFadeButton} character={character} switchCharacter={switchCharacter} characters={characters} updateCharacters={updateCharacters} updateCharacter={updateCharacter} />}
       {characters && <CharacterSelect characters={characters} currentlySelectedChar={character} switchCharacter={switchCharacter} updateCharacters={updateCharacter}/>}
 
     </div>

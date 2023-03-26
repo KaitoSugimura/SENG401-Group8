@@ -29,7 +29,10 @@
 }
 
 .selectionButtonContainer {
-  position: relative;
+  position: fixed;
+  bottom: 2vh;
+  right: 2vw;
+  width: 42vw;
   height: 15vh;
 }
 
@@ -39,7 +42,6 @@
   left: 0%;
   transform: translate(0%, -50%);
   width: 100%;
-
   padding: 2vh 0;
   font-size: 6vh;
   font-weight: 500;

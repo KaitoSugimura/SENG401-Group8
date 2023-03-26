@@ -1,5 +1,5 @@
 import styles from "./Character.module.css";
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { AuthContext } from "../../Database/context/AuthContext";
 import Popup from "../../Components/Popup";
 
@@ -7,7 +7,9 @@ const CharacterSelect = ({ characters, currentlySelectedChar, switchCharacter })
   const { userRef } = useContext(AuthContext);
   const [hover, setHover] = useState(false);
   const[popup,setPopUp]=useState(false);
-  const [selectedSlime, setSelectedSlime] = useState(false);
+  // const [selectedSlime, setSelectedSlime] = useState(false);
+
+
   const unlockedStyle = {
     opacity: "1.0",
     filter: "grayscale(0%)",
@@ -20,7 +22,7 @@ const CharacterSelect = ({ characters, currentlySelectedChar, switchCharacter })
 
   const handleClick = (e) => {
     // window.confirm("Hello World!");
-    setSelectedSlime(false);
+    // setSelectedSlime(false);
     switchCharacter(e.currentTarget.getAttribute("number"));
   };
 
@@ -52,38 +54,7 @@ const CharacterSelect = ({ characters, currentlySelectedChar, switchCharacter })
           ))}
         </div>
       </div>
-      <div className={styles.selectionButtonContainer}>
-        <button
-          className={`${styles.selectionButton} ${selectedSlime ? styles.selectionButtonPressed : ""}`}
-          onClick={() => {
-            let skin = "unlocked";
-            if (currentlySelectedChar.skin === 2) skin = "two";
-            else if (currentlySelectedChar.skin === 3) skin = "three";
-            if (currentlySelectedChar.unlocked && currentlySelectedChar[skin]) {
-              userRef.update({
-                slimeType: currentlySelectedChar.type,
-                slimeSkin: currentlySelectedChar.skin,
-              })
-              setSelectedSlime(true);
-            }
-            else{
-              if(currentlySelectedChar[skin]&&!currentlySelectedChar.unlocked){
-                setPopUp(true);
-              }
-
-            }
-          }}
-        >
-          Select
-        </button>
-      </div>
-      {popup&&<Popup setPopUp={setPopUp}>
-        <div className={styles.unlockConfirm}>
-          <p>
-            {"Unlock character to use your skin!"}
-          </p>                 
-        </div>
-      </Popup>}
+    
     </div>
   );
 };

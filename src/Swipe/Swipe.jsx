@@ -23,7 +23,7 @@ export default function Swipe() {
           setPopUp(true);
         }}
       >
-        THIS IS THE BUTTON TO OPEN THE SHOP, I HAVE NO IMAGES FOR THIS YET
+        <img src="/assets/GameArt/GoldBag.png"></img>
       </button>
       {showPopup && (
         <div className={styles.PopupContainer}>

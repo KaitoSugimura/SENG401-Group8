@@ -36,7 +36,6 @@ export default function AccountBanner({
   const scrollPane = useRef(null);
 
   const {bannersData} = BD;
-  const [banners, setBanners] = useState(bannersData);
 
   const unlockAllBannersHack = () => {
     userRef.update({ bannerUnlocked: 0b1111111111111111111111111111 });
@@ -81,7 +80,7 @@ export default function AccountBanner({
     const maxScrollTop =
       scrollPane.current.scrollHeight - scrollPane.current.clientHeight;
     const scrollRatio = scrollPane.current.scrollTop / maxScrollTop;
-    centerIndex = Math.floor(banners.length * scrollRatio);
+    centerIndex = Math.floor(bannersData.length * scrollRatio);
   }
 
   return (
@@ -176,15 +175,15 @@ export default function AccountBanner({
         >
           <div className={styles.bannerOptions} ref={scrollPane}>
             <img
-              src={banners[tempBannerIndex]}
+              src={bannersData[tempBannerIndex]}
               className={styles.backgroundBanner}
             ></img>
-            {banners.map((bannerx, index) => (
+            {bannersData.map((bannerx, index) => (
               <Banner
                 index={index}
                 banner={bannerx}
                 setBanner={changeBanner}
-                banners={banners}
+                banners={bannersData}
                 centerIndex={centerIndex}
                 width={width}
                 widthStep={widthStep}

@@ -22,7 +22,6 @@
   animation: float 2s ease-in-out infinite;
 }
 
-
 @keyframes float {
   0% {
     transform: translate(-10%, 0);
@@ -37,7 +36,6 @@
     filter: drop-shadow(0.8vw 0.7vw 0.2vw #00000061);
   }
 }
-
 
 .PopupContainer {
   position: fixed;
@@ -193,4 +191,133 @@
 }
 .close:hover {
   background-color: rgb(211, 0, 0);
+}
+
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #00000083;
+  z-index: 10;
+}
+
+.close2 {
+  position: absolute;
+  right: 1vw;
+  top: 1vw;
+  background-color: transparent;
+  width: 2.5vw;
+  height: 2.5vw;
+  transform: translate(10%, -10%);
+  color: rgb(0, 0, 0);
+  font-size: 1.6vw;
+  border: none;
+}
+
+.ConfirmationPopupContainer {
+  position: fixed;
+  top: calc(7.5vh + 65px);
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 28vw;
+  height: 80vh;
+  border-radius: 0.5vw;
+  background: #e3fafc;
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  align-items: center;
+}
+.creditCardImageContainer {
+  position: relative;
+  margin-top: 12%;
+  width: 70%;
+  height: 30%;
+}
+.creditCardImageContainer span {
+  position: absolute;
+  top: 10%;
+  left: -10%;
+  background-color: #99e9f2;
+  border-radius: 0.5vw;
+  width: 120%;
+  height: 80%;
+}
+.creditCardImage {
+  position: absolute;
+  width: 100%;
+  height: auto;
+  z-index: 1;
+}
+
+.ConfirmationText {
+  margin-top: 8%;
+  font-size: 2vw;
+  color: rgb(0, 0, 0);
+}
+.ConfirmationAmountText{
+    margin-top: 2%;
+  font-size: 1.3vw;
+  color: rgb(0, 0, 0);
+}
+
+.confirmButton {
+  font-size: 1.5vw;
+  padding: 0.8vw 3vw;
+  border-radius: 0.5vw;
+  position: absolute;
+  bottom: 2vw;
+  background-color: #38d9a9;
+  border: none;
+}
+
+.confirmButton:hover {
+  background-color: #20c997;
+}
+
+.form {
+  margin-top: 1.6vw;
+  font-size: 1vw;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.form input {
+  font-size: 1vw;
+  color: #696969;
+  padding: 0.1vw 0.3vw;
+  margin-left: 0.5vw;
+}
+
+.thankYouPopup{
+    position: fixed;
+    top: calc(27.5vh + 65px);
+    left: 50%;
+    transform: translateX(-50%);
+  
+    width: 28vw;
+    height: 40vh;
+    border-radius: 0.5vw;
+    background: #e3fafc;
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    align-items: center;
+    font-size: 2.5vw;
+    padding: 2vw;
+    text-align: center;
+}
+
+.thankYouPopup p{
+    margin-top: 2%;
+}
+
+.Check{
+    margin-top: 4%;
+    width: 25%;
+    height: auto;
 }

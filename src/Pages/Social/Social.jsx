@@ -26,6 +26,13 @@ export default function Social() {
   const [showSearch, setShowSearch] = useState(false);
   const [showRequests, setShowRequests] = useState(false);
 
+  if (selectedChat && selectedChat !== "global" && user.data.unreadMessages[selectedChat._id] > 0) {
+    userRef.update({
+      [`unreadMessages.${selectedChat._id}`]: 0
+    });
+    user.data.unreadMessages[selectedChat._id] = 0;
+  }
+
   // Fetch friends
   useEffect(() => {
     const getFriends = async () => {
@@ -104,7 +111,7 @@ export default function Social() {
     getMessages();
   }, [selectedChat]);
 
-  const handleSubmit = async (e) => {
+  const sendMessage = (e) => {
     e.preventDefault();
 
     // If message has content and a chat is selected
@@ -118,7 +125,13 @@ export default function Social() {
       };
 
       setMessage("");
-      await chatRef.collection("messages").add(newMessage);
+      chatRef.collection("messages").add(newMessage);
+
+      if (selectedChat !== "global") {
+        projectFirestore.collection("users").doc(selectedChat._id).update({
+          [`unreadMessages.${user.uid}`]: firebase.firestore.FieldValue.increment(1),
+        });
+      }
     }
   };
 
@@ -128,11 +141,13 @@ export default function Social() {
     // Update user's friend requests and friends list
     userRef.update({
       friends: firebase.firestore.FieldValue.arrayRemove(friendRef),
+      [`unreadMessages.${id}`]: firebase.firestore.FieldValue.delete(),
     });
 
     // Update friend's friend list
     friendRef.update({
       friends: firebase.firestore.FieldValue.arrayRemove(userRef),
+      [`unreadMessages.${user.uid}`]: firebase.firestore.FieldValue.delete(),
     });
 
     setSelectedChat("global");
@@ -143,9 +158,8 @@ export default function Social() {
       <section className={styles.leftSidebar}>
         <div className={styles.channels}>
           <div
-            className={`${styles.global} ${
-              selectedChat === "global" ? styles.selected : ""
-            }`}
+            className={`${styles.global} ${selectedChat === "global" ? styles.selected : ""
+              }`}
             onClick={() => setSelectedChat("global")}
           >
             <i className="material-symbols-outlined">public</i>
@@ -169,9 +183,8 @@ export default function Social() {
           <ul className={styles.friends}>
             {friends.map((friend, i) => (
               <li
-                className={`${styles.friend} ${
-                  selectedChat === friend ? styles.selected : ""
-                }`}
+                className={`${styles.friend} ${selectedChat === friend ? styles.selected : ""
+                  }`}
                 key={i}
                 onClick={() => setSelectedChat(friend)}
               >
@@ -185,6 +198,11 @@ export default function Social() {
                     {friend.status}
                   </p>
                 </div>
+                {user.data.unreadMessages[friend._id] > 0 &&
+                  <div className={styles.unreadMessages}>
+                    {user.data.unreadMessages[friend._id]}
+                  </div>
+                }
               </li>
             ))}
           </ul>
@@ -213,18 +231,18 @@ export default function Social() {
                     i + 1 < messages.length ? messages[i + 1] : null
                   }
                   key={i}
-                  ></Message>
-                  {i + 1 < messages.length &&
-                    message.sentAt - messages[i + 1].sentAt > 60 && message.id != messages[i + 1].id && (
-                      <div className={styles.DateTime}>{message.sentAt.toDate().toDateString() + " " +  message.sentAt.toDate().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
-                    )}
+                ></Message>
+                {i + 1 < messages.length &&
+                  message.sentAt - messages[i + 1].sentAt > 60 && message.id != messages[i + 1].id && (
+                    <div className={styles.DateTime}>{message.sentAt.toDate().toDateString() + " " + message.sentAt.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                  )}
               </>
             ))
           ) : (
             <div>Select a channel on the left to chat here.</div>
           )}
         </div>
-        <form className={styles.messageForm} onSubmit={handleSubmit}>
+        <form className={styles.messageForm} onSubmit={sendMessage}>
           <input
             type="text"
             value={message}

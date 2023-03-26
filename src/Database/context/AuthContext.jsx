@@ -48,6 +48,7 @@ export const AuthContextProvider = ({ children }) => {
             friends: [],
             friendRequests: [],
             bannerUnlocked: 0b0000000010001000000011000010,
+            unreadMessages: {},
           });
         }
 

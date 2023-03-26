@@ -20,40 +20,47 @@ export default function Social() {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [friends, setFriends] = useState([]);
-  const [chatRef, setChatRef] = useState(projectFirestore.collection("chats").doc("global"));
+  const [chatRef, setChatRef] = useState(
+    projectFirestore.collection("chats").doc("global")
+  );
   const [showSearch, setShowSearch] = useState(false);
   const [showRequests, setShowRequests] = useState(false);
 
   // Fetch friends
   useEffect(() => {
     const getFriends = async () => {
-      const friends = await Promise.all(user.data.friends.map(async friend => {
-        const doc = await friend.get();
-        const { slimeType, slimeSkin } = doc.data();
-        return {
-          _id: doc.id,
-          ...doc.data(),
-          slimePath: `assets/GameArt/${slimeType}Slime/${slimeType}Slime${slimeSkin}`,
-        };
-      }))
+      const friends = await Promise.all(
+        user.data.friends.map(async (friend) => {
+          const doc = await friend.get();
+          const { slimeType, slimeSkin } = doc.data();
+          return {
+            _id: doc.id,
+            ...doc.data(),
+            slimePath: `assets/GameArt/${slimeType}Slime/${slimeType}Slime${slimeSkin}`,
+          };
+        })
+      );
 
       setFriends(friends.sort((a, b) => a.username > b.username));
-    }
+    };
 
     getFriends();
   }, [user.data.friends]);
 
   // Stupid stupid stupid code
   useEffect(() => {
-    const unsub = chatRef.collection("messages").orderBy("sentAt", "asc").onSnapshot(async snapshot => {
-      const messages = [];
+    const unsub = chatRef
+      .collection("messages")
+      .orderBy("sentAt", "asc")
+      .onSnapshot(async (snapshot) => {
+        const messages = [];
 
-      snapshot.docChanges().forEach(change => {
-        const message = change.doc.data();
-        messages.push(message);
-        setMessages(prev => [message, ...prev]);
+        snapshot.docChanges().forEach((change) => {
+          const message = change.doc.data();
+          messages.push(message);
+          setMessages((prev) => [message, ...prev]);
+        });
       });
-    });
 
     return () => unsub();
   }, [chatRef]);
@@ -67,8 +74,16 @@ export default function Social() {
         setChatRef(projectFirestore.collection("chats").doc("global"));
       } else {
         const [docs1, docs2] = await Promise.all([
-          projectFirestore.collection("chats").where("users", "array-contains", user.uid).get().then(res => res.docs),
-          projectFirestore.collection("chats").where("users", "array-contains", selectedChat._id).get().then(res => res.docs)
+          projectFirestore
+            .collection("chats")
+            .where("users", "array-contains", user.uid)
+            .get()
+            .then((res) => res.docs),
+          projectFirestore
+            .collection("chats")
+            .where("users", "array-contains", selectedChat._id)
+            .get()
+            .then((res) => res.docs),
         ]);
 
         const intersectDocs = docs1.filter((doc1) => {
@@ -78,13 +93,13 @@ export default function Social() {
         // Create chat if it doesn't exist
         if (!intersectDocs[0]) {
           await projectFirestore.collection("chats").add({
-            users: [user.uid, selectedChat._id]
-          })
+            users: [user.uid, selectedChat._id],
+          });
         }
 
         setChatRef(intersectDocs[0].ref);
       }
-    }
+    };
 
     getMessages();
   }, [selectedChat]);
@@ -112,44 +127,58 @@ export default function Social() {
 
     // Update user's friend requests and friends list
     userRef.update({
-      friends: firebase.firestore.FieldValue.arrayRemove(friendRef)
+      friends: firebase.firestore.FieldValue.arrayRemove(friendRef),
     });
 
     // Update friend's friend list
     friendRef.update({
-      friends: firebase.firestore.FieldValue.arrayRemove(userRef)
+      friends: firebase.firestore.FieldValue.arrayRemove(userRef),
     });
 
     setSelectedChat("global");
-  }
+  };
 
   return (
     <div className={styles.social}>
-
       <section className={styles.leftSidebar}>
         <div className={styles.channels}>
           <div
-            className={`${styles.global} ${selectedChat === "global" ? styles.selected : ""
-              }`}
+            className={`${styles.global} ${
+              selectedChat === "global" ? styles.selected : ""
+            }`}
             onClick={() => setSelectedChat("global")}
           >
             <i className="material-symbols-outlined">public</i>
             <p>World</p>
           </div>
           <div className={styles.friendsHeader}>
-            <h2 >Friends</h2>
-            <i className="material-symbols-outlined" onClick={() => setShowSearch(true)}>add</i>
-            <i className="material-symbols-outlined" onClick={() => setShowRequests(true)}>markunread_mailbox</i>
+            <h2>Friends</h2>
+            <i
+              className="material-symbols-outlined"
+              onClick={() => setShowSearch(true)}
+            >
+              add
+            </i>
+            <i
+              className="material-symbols-outlined"
+              onClick={() => setShowRequests(true)}
+            >
+              markunread_mailbox
+            </i>
           </div>
           <ul className={styles.friends}>
             {friends.map((friend, i) => (
               <li
-                className={`${styles.friend} ${selectedChat === friend ? styles.selected : ""
-                  }`}
+                className={`${styles.friend} ${
+                  selectedChat === friend ? styles.selected : ""
+                }`}
                 key={i}
                 onClick={() => setSelectedChat(friend)}
               >
-                <img src={friend.slimePath + ".svg"} className={styles.slimeBody}></img>
+                <img
+                  src={friend.slimePath + ".svg"}
+                  className={styles.slimeBody}
+                ></img>
                 <div>
                   <p>{friend.username}</p>
                   <p className={`${styles.presence} ${styles[friend.status]}`}>
@@ -162,7 +191,10 @@ export default function Social() {
         </div>
 
         <div className={styles.userStatus}>
-          <img src={user.data.slimePath + ".svg"} className={styles.slimeBody}></img>
+          <img
+            src={user.data.slimePath + ".svg"}
+            className={styles.slimeBody}
+          ></img>
           <div>
             <p>{user.data.username}</p>
             <p className={`${styles.presence} ${styles.ONLINE}`}>ONLINE</p>
@@ -173,7 +205,21 @@ export default function Social() {
       <section className={styles.chat}>
         <div className={styles.messages}>
           {selectedChat ? (
-            messages.map((message, i) => <Message message={message} previousMessage={i+1<messages.length?messages[i+1]:null} key={i}></Message>)
+            messages.map((message, i) => (
+              <>
+                <Message
+                  message={message}
+                  previousMessage={
+                    i + 1 < messages.length ? messages[i + 1] : null
+                  }
+                  key={i}
+                  ></Message>
+                  {i + 1 < messages.length &&
+                    message.sentAt - messages[i + 1].sentAt > 1000 && (
+                      <div className={styles.DateTime}>{message.sentAt.toDate().toDateString() + " " +  message.sentAt.toDate().toLocaleTimeString()}</div>
+                    )}
+              </>
+            ))
           ) : (
             <div>Select a channel on the left to chat here.</div>
           )}
@@ -194,9 +240,15 @@ export default function Social() {
         {selectedChat && selectedChat !== "global" ? (
           <>
             <p className={styles.username}>{selectedChat.username}</p>
-            <img src={selectedChat.slimePath + ".svg"} className={styles.slimeBody}></img>
+            <img
+              src={selectedChat.slimePath + ".svg"}
+              className={styles.slimeBody}
+            ></img>
             <p>RankPoints: {selectedChat.rankPoints}</p>
-            <button className={styles.unfriend} onClick={() => unfriend(selectedChat._id)}>
+            <button
+              className={styles.unfriend}
+              onClick={() => unfriend(selectedChat._id)}
+            >
               <p>Unfriend</p>
               <i className="material-symbols-outlined">person_remove</i>
             </button>
@@ -209,8 +261,16 @@ export default function Social() {
         )}
       </section>
 
-      {showSearch && <Modal close={() => setShowSearch(false)} ><Search /></Modal>}
-      {showRequests && <Modal close={() => setShowRequests(false)} ><FriendRequests /></Modal>}
+      {showSearch && (
+        <Modal close={() => setShowSearch(false)}>
+          <Search />
+        </Modal>
+      )}
+      {showRequests && (
+        <Modal close={() => setShowRequests(false)}>
+          <FriendRequests />
+        </Modal>
+      )}
     </div>
   );
 }

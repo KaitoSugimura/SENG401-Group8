@@ -2,8 +2,8 @@ import styles from "./EndScreen.module.css";
 import slime from "/assets/GameArt/EarthSlime/EarthSlime1.gif";
 import PlayerBanner from "./PlayerBanner";
 import gold from "../../.././../public/assets/GameArt/Gold.png";
-import victory from '../../../../public/assets/BackgroundImages/VictoryImage.jpg'
-import defeat from'../../../../public/assets/BackgroundImages/CreateLobby.png'
+import victory from '/assets/BackgroundImages/VictoryImage.jpg'
+import defeat from'/assets/BackgroundImages/CreateLobby.png'
 import { useContext, useEffect, useRef, useState } from "react";
 import AccountBanner from "../../../Components/AccountBanner";
 import { gameStateContext } from "../gameStateContext";

@@ -30,8 +30,8 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
 
 .SwipeContainer{
   position: fixed;
-  top: 12vh;
-  left: 2.5vw;
+  top: calc(65px + 7vh);
+  left: 3vw;
   width: 10vw;
   height: 10vw;
   z-index: 9999;

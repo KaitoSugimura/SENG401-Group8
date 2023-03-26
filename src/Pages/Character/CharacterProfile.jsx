@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import styles from "./Character.module.css";
 import { AuthContext } from "../../Database/context/AuthContext";
 import { projectFirestore } from "../../Database/firebase/config";
@@ -15,6 +15,7 @@ const CharacterProfile = ({ character, switchCharacter, characters, updateCharac
   const { user, userRef } = useContext(AuthContext);
   const[popup,setPopUp]=useState(false);
   const[enough,setEnough]=useState(false);
+  const currencyText = useRef("character");
   const[currencyImage,setCurrencyImage]=useState(skinShard);
   const[price,setPrice]=useState();
   const [skinNo, setSkinNo] = useState(character.skin);
@@ -162,16 +163,19 @@ const CharacterProfile = ({ character, switchCharacter, characters, updateCharac
     if(!character.unlocked){
       price = character.price;
       char = true;
+      currencyText.current = "character";
       setCurrencyImage(characterShard);
     }
     else if(skinNo==2){
       price=1.5*character.price;
       char = false;
+      currencyText.current = "skin";
       setCurrencyImage(skinShard);
     }
     else if(skinNo==3){
       price = 2*character.price;
       char = false;
+      currencyText.current = "skin";
       setCurrencyImage(skinShard);
     }
     if(char&&user.data.characterShard>=price){
@@ -242,7 +246,7 @@ const CharacterProfile = ({ character, switchCharacter, characters, updateCharac
       {popup&&<Popup setPopUp={setPopUp}>
         <div className={styles.unlockConfirm}>
           <p>
-            {enough?`Unlock for ${price}`:`Need ${price}`}
+            {enough?`Unlock ${currencyText.current} for ${price}`:`Need ${price}`}
           </p>
           <div className={styles.currencyContainer}>
             <img src={currencyImage} alt=""/>  

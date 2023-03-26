@@ -70,7 +70,7 @@
   background-image: linear-gradient(to bottom, #28313b 0%, #485461 60%);
   height: 55vh;
   display: grid;
-  margin: 19vh 17vw;
+  margin: 24vh 17vw 0 17vw;
   border-radius: 5px;
 }
 

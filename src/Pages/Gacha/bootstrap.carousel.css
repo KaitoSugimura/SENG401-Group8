@@ -1,4 +1,4 @@
-.visually-hidden{
+.visually-hidden {
   visibility: hidden;
 }
 
@@ -72,7 +72,7 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .carousel-fade .active.carousel-item-start,
-.carousel-fade .active.carousel-item-end {
+  .carousel-fade .active.carousel-item-end {
     transition: none;
   }
 }
@@ -97,11 +97,12 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .carousel-control-prev,
-.carousel-control-next {
+  .carousel-control-next {
     transition: none;
   }
 }
-.carousel-control-prev:hover, .carousel-control-prev:focus,
+.carousel-control-prev:hover,
+.carousel-control-prev:focus,
 .carousel-control-next:hover,
 .carousel-control-next:focus {
   color: black;
@@ -147,7 +148,7 @@
 .carousel-indicators {
   position: absolute;
   right: 0;
-  bottom: 0;
+  top: 15vh;
   left: 0;
   z-index: 2;
   display: flex;
@@ -158,66 +159,63 @@
   margin-left: 15%;
   list-style: none;
 }
+
 .carousel-indicators [data-bs-target] {
+  position: relative;
   box-sizing: content-box;
   flex: 0 1 auto;
   width: 8vw;
   height: 6vh;
   padding: 0;
-  margin-right: 3px;
-  margin-left: 3px;
+  margin-right: 0.5vw;
+  margin-left: 0.5vw;
   text-indent: -999px;
   cursor: pointer;
-  background-color: #485461;    
-  background-clip: padding-box;
+  background-color: #4b627b;
   border: 0;
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
-  opacity: 0.5;
+  opacity: 0.6;
   transition: opacity 0.6s ease;
-  border-radius: 20px !important;
+  border-radius: 0.5vw !important;
+  border: 3px solid rgb(255, 251, 0);
 }
 
-.carousel-indicators [aria-label="Slide 1"]{
-  background-image: url("/assets/GameArt/ShadowSlime/ShadowSlime2.svg");
-  background-size: 4vw 6vh;
+.carousel-indicators [data-bs-target]::after {
+  content: "";
+  position: absolute;
+  bottom: -15%;
+  left: 55%;
+  transform: translateX(-50%);
+  width: 7vw;
+  height: 12vh;
+  background-size: 6.5vw auto;
   background-repeat: no-repeat;
-  background-position: center 5px;
+  background-clip: border-box;
 }
 
-.carousel-indicators [aria-label="Slide 2"]{
-  background-image: url("/assets/GameArt/FireSlime/FireSlime2.svg");
-  background-size: 4vw 5vh;
-  background-repeat: no-repeat;
-  background-position: center 10px;
+.carousel-indicators [aria-label="Slide 1"]::after {
+  background-image: url("/assets/GameArt/ShadowSlime/ShadowSlime3.svg");
 }
 
-.carousel-indicators [aria-label="Slide 3"]{
+.carousel-indicators [aria-label="Slide 2"]::after {
+  background-image: url("/assets/GameArt/BubbleGumSlime/BubbleGumSlime2.svg");
+}
+
+.carousel-indicators [aria-label="Slide 3"]::after {
   background-image: url("/assets/GameArt/EarthSlime/EarthSlime2.svg");
-  background-size: 4vw 6vh;
-  background-repeat: no-repeat;
-  background-position: center 5px;
 }
 
-.carousel-indicators [aria-label="Slide 1"]:hover{
-  background-image: url("/assets/GameArt/ShadowSlime/ShadowSlime2.gif");
-  transform: scale(101%)
-  translateY(0.1%);
-  transition: 0.2s;
+.carousel-indicators [aria-label="Slide 1"]:hover::after {
+  background-image: url("/assets/GameArt/ShadowSlime/ShadowSlime3.gif");
 }
 
-.carousel-indicators [aria-label="Slide 2"]:hover{
-  background-image: url("/assets/GameArt/FireSlime/FireSlime2.gif");
-  transform: scale(101%)
-  translateY(0.1%);
-  transition: 0.2s;
+.carousel-indicators [aria-label="Slide 2"]:hover::after {
+  background-image: url("/assets/GameArt/BubbleGumSlime/BubbleGumSlime2.gif");
 }
 
-.carousel-indicators [aria-label="Slide 3"]:hover{
+.carousel-indicators [aria-label="Slide 3"]:hover::after {
   background-image: url("/assets/GameArt/EarthSlime/EarthSlime2.gif");
-  transform: scale(101%)
-  translateY(0.1%);
-  transition: 0.2s;
 }
 
 @media (prefers-reduced-motion: reduce) {

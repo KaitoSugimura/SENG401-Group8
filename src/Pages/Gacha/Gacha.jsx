@@ -36,9 +36,9 @@ export default function Gacha() {
               <p className={styles.rollParagraph}>Every roll is gauranteed to include either character shards, skin shards, a banner, or a slime skin.</p>
             </div>
             <div className={styles.rollSlimes}>
-              <img className={styles.slimeImage} src="assets/GameArt/ShadowSlime/ShadowSlime2.gif"/>
-              <img className={styles.slimeImage} src="assets/GameArt/PoisonSlime/PoisonSlime2.gif"/>
-              <img className={styles.slimeImage} src="assets/GameArt/WildSlime/WildSlime2.gif"/>
+              <img className={styles.slimeImage} src="assets/GameArt/ShadowSlime/ShadowSlime3.gif"/>
+              <img className={styles.slimeImage} src="assets/GameArt/PoisonSlime/PoisonSlime3.gif"/>
+              <img className={styles.slimeImage} src="assets/GameArt/WildSlime/WildSlime3.gif"/>
               <img className={styles.slimeImage} src="assets/GameArt/ArmoredSlime/ArmoredSlime2.gif"/>
             </div>
           </div>
@@ -54,9 +54,9 @@ export default function Gacha() {
             </div>
             <div className={styles.rollSlimes}>
               <img className={styles.slimeImage} src="assets/GameArt/BubbleGumSlime/BubbleGumSlime2.gif"/>
-              <img className={styles.slimeImage} src="assets/GameArt/CelestialSlime/CelestialSlime2.gif"/>
-              <img className={styles.slimeImage} src="assets/GameArt/HoneySlime/HoneySlime2.gif"/>
-              <img className={styles.slimeImage} src="assets/GameArt/FireSlime/FireSlime2.gif"/>
+              <img className={styles.slimeImage} src="assets/GameArt/CelestialSlime/CelestialSlime3.gif"/>
+              <img className={styles.slimeImage} src="assets/GameArt/HoneySlime/HoneySlime3.gif"/>
+              <img className={styles.slimeImage} src="assets/GameArt/FireSlime/FireSlime3.gif"/>
             </div>
           </div>
         </div>

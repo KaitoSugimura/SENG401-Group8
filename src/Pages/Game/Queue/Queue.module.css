@@ -3,21 +3,57 @@
 
 .container {
     position: fixed;
-    top: 0;
+    bottom: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-  
-    background-color: black;
     z-index: 1000;
-  
     display: flex;
+    gap: 10vw;
+    padding-top: 20vh;
+    justify-content: center;
+    align-items:center;
+    background-image: url("/assets/BackgroundImages/RankedQueue.png");
+    background-size: cover;
+  }
+
+  .playerInfo{
+    width: 30vw;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 3vh;
+    font-family: 'Press Start 2P', cursive;
+  }
+
+  .playerInfo h1{
+    font-size: 2.5vw;
+    color: #f1f1f1;
+  }
+
+  .playerInfo h2{
+    font-size: 1.5vw;
+    color: #f1f1f1;
+  }
+  .playerInfo img{
+    height: 30vh;
+    width: auto;
+    transform: scaleX(-1);
+  }
+
+  .rightSide{
+    width: 50vw;
+    height: 65vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8vh;
   }
   
   .loadingText {
-    font-size: 3.5vw;
+    font-size: 3.0vw;
     text-align: center;
     font-family: 'Press Start 2P', cursive;
   }
@@ -40,6 +76,19 @@
       opacity: 0;
     }
   }
+
+  .loadingTips{
+    font-size: 1.0vw;
+    text-align: center;
+    color: white;
+    width: 50%;
+    height: 10vh;
+    font-family: 'Press Start 2P', cursive;
+  }
+
+  .loadingTips span {
+    animation: loadingAnim 2.8s infinite alternate;
+  }
   
   .loadingSlime {
     position: absolute;
@@ -59,4 +108,37 @@
           left: 100vw;
       }
     }
+  
+  .rank{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .returnButton {
+    display: block;
+    cursor: pointer;
+    margin: 0 1vw 0 1.5vw;
+    width: 6vw;
+    height: 6vw;
+    border: 5px solid rgb(0, 0, 0);
+    box-shadow: 8px 8px 0px rgb(0, 0, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(115deg, rgb(238, 100, 100), rgb(199, 1, 1));
+    transition: 0.2s all;
+    border-radius: 50%;
+  }
+  .returnButton:hover {
+    transform: translate(3px, 3px);
+    box-shadow: 5px 5px 0px black;
+  }
+  
+  .returnButton svg {
+    height: 80%;
+    width: auto;
+    color: rgb(0, 0, 0);
+  }
     

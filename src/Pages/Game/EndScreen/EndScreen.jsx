@@ -35,14 +35,14 @@ export default function EndScreen({ setGameState }) {
       if (EndScreenData.Won) {
         if(gameMode==="Custom"){
           // update self
-          await userRef.update({ gold: (+user.data.gold ) + (+EndScreenData.gold) });
+          await userRef.update({ gold: (+user.data.gold ) + (+EndScreenData.gold), level: (+user.data.level ) + (1)  });
           //update enemy
-          await enemyRef.update({ gold: (+data.gold) - (+EndScreenData.gold) });
+          await enemyRef.update({ gold: (+data.gold) - (+EndScreenData.gold), level: (+data.data.level ) + (1)  });
         } else if(gameMode==="Ranked"){
           // update self
-          await userRef.update({ rankPoints: (+user.data.rankPoints ) + (20) });
+          await userRef.update({ rankPoints: (+user.data.rankPoints ) + (20), level: (+user.data.level ) + (1) });
           //update enemy
-          await enemyRef.update({ rankPoints: (+data.rankPoints) - (10) });
+          await enemyRef.update({ rankPoints: (+data.rankPoints) - (10), level: (+data.data.level ) + (1)  });
         }
       }
     };

@@ -59,7 +59,7 @@ const CharacterSelect = ({ characters, currentlySelectedChar, switchCharacter })
             let skin = "unlocked";
             if (currentlySelectedChar.skin === 2) skin = "two";
             else if (currentlySelectedChar.skin === 3) skin = "three";
-            if (currentlySelectedChar.unlocked && currentlySelectedChar[skin] && !selectedSlime) {
+            if (currentlySelectedChar.unlocked && currentlySelectedChar[skin]) {
               userRef.update({
                 slimeType: currentlySelectedChar.type,
                 slimeSkin: currentlySelectedChar.skin,

@@ -118,7 +118,10 @@
 .rollSlimes {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  padding: 0 3vw 0 2vw
+  padding: 0 3vw 0 2vw;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8vw;
 }
 
 .rollDescription {
@@ -164,7 +167,6 @@
 }
 
 .slimeImage {
-  margin: 0.5vw 0.5vw 0 0;
   background: linear-gradient(
     -44deg,
     rgba(255, 230, 106, 0.8) 0%,
@@ -174,7 +176,6 @@
   border-radius: 5px;
   width: 12vw;
   height: auto;
-  height: 22vh;
 }
 
 .gachaFooter {

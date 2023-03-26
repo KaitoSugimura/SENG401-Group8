@@ -216,7 +216,7 @@ export default function Social() {
                   ></Message>
                   {i + 1 < messages.length &&
                     message.sentAt - messages[i + 1].sentAt > 600 && (
-                      <div className={styles.DateTime}>{message.sentAt.toDate().toDateString() + " " +  message.sentAt.toDate().toLocaleTimeString()}</div>
+                      <div className={styles.DateTime}>{message.sentAt.toDate().toDateString() + " " +  message.sentAt.toDate().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
                     )}
               </>
             ))

@@ -6,6 +6,10 @@
   overflow: hidden;
 }
 
+.rewards p{
+  color: white;
+}
+
 .endImage{
   position: fixed;
   top: 0;

@@ -18,6 +18,8 @@ export default function Game() {
 
   const { gameState, setGameState } = useContext(gameStateContext);
 
+  console.log(gameState);
+
   let gamePage;
   if (gameState === "Lobby") {
     gamePage = <Lobby setGameState={setGameState} />;

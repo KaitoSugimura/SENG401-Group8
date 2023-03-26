@@ -33,6 +33,8 @@
     font-size: 1.3rem;
     width: 15vw;
     height: 7vh;
+    box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.735);
+
 }
 
 .rollButton:hover {
@@ -92,9 +94,7 @@
     display: block;
     position: absolute;
     bottom: 6vh;
-    left: 47%;
     bottom: 1%;
-    transform: translateX(-50%);
     padding: 0.8vw 2vw;
     font-size: 1.5vw;
     margin: 15px;
@@ -107,6 +107,9 @@
   }
   
   .popupBanner button:hover {
-    transform: translate(calc(-50% + 3px), 3px);
-    box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.735);
+    transform: none;
+  }
+
+  .popupBanner button:active{
+    transform: scale(95%) translateY(0.1%);
   }

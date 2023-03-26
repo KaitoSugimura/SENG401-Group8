@@ -7,7 +7,7 @@ import Banner from "./Banner";
 import Popup from "./Popup";
 import firebase from "firebase";
 import { useDispatch } from "react-redux";
-import { logout } from "../Slices/authSlice";
+import { logout, setLogoutStatus } from "../Slices/authSlice";
 
 export default function AccountBanner({   
   setShowBanner,
@@ -180,8 +180,7 @@ export default function AccountBanner({
           onClick={async () => {
             if (setShowBanner) setShowBanner(false);
             dispatch(setLogoutStatus())
-            console.log("Ger")
-            const originalPromiseResult = await dispatch(logout({})).unwrap()
+            dispatch(logout({}))
             console.log(originalPromiseResult)
           }}
         >

@@ -1,44 +1,194 @@
+.Gacha {
+  background: radial-gradient(var(--home-inner-color), var(--home-outer-color));
+  width: 100vw;
+  height: 100vh;
+}
+
+.currencyDiv {
+  margin-top: 11vh;
+  position: fixed;
+  margin-left: 70vw;
+  padding: 1rem;
+  width: 100rem;
+}
+
+@media only screen and (max-width: 1400px) {
+  .currencyDiv {
+    margin-top: 12vh;
+    margin-left: 60vw;
+  }
+}
+
+@media only screen and (max-height: 850px) {
+  .slimeImage {
+    width: 10vw !important;
+  }
+  .rollDiv {
+    margin-bottom: 2% !important;
+  }
+  .rollName {
+    font-size: 3rem !important;
+  }
+}
+
+.SwipeContainer {
+  position: fixed;
+  top: 12vh;
+  left: 2.5vw;
+  width: 10vw;
+  height: 10vw;
+  z-index: 9999;
+}
+
+.SwipeContainer:after {
+  content: "Buy Gold";
+  position: absolute;
+  top: -1.75vw;
+  font-size: 1.3vw;
+  width: 100%;
+  text-align: center;
+  color: white;
+}
+
+.skinShardAmount,
+.charShardAmount {
+  padding: 1.5rem;
+  background: #2727279e;
+  color: white;
+  border-radius: 10rem;
+  font-size: larger;
+  font-weight: bolder;
+  margin: 5%;
+}
+
 .gachaRollImage {
-    width: 100% !important;
-    height: 75vh !important;
+  width: 100% !important;
+  height: 75vh !important;
 }
 
-.brickBackground{
-    background: url('/public/assets/GameArt/GatchaRoll/BrickBackground.png');
-    width:100% !important;
-    height: 25vh !important;
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    padding: 5% 15% !important;
+.bannerContainer {
+  background-image: linear-gradient(to bottom, #28313b 0%, #485461 60%);
+  height: 55vh;
+  display: grid;
+  margin: 19vh 17vw;
+  border-radius: 5px;
 }
 
-.rollButton{
-    background-color: grey !important;
-    border-color: whitesmoke !important;
-    font-weight: 900 !important;
-    border-width: 0.2em !important;
-    margin: 0 20% !important;
+.rollTitle {
+  position: absolute;
+  top: 35vh;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: grey;
+  width: 40vw;
+  text-align: center;
+  padding: 3vh 3vw;
+  border-radius: 0.375rem;
+  border-style: solid;
+  border-color: whitesmoke;
+  border-width: 5px;
+  font-weight: bolder;
+  font-size: xx-large;
+  color: white;
 }
 
-.rollButton:hover{
-    background-color: orange !important;
-    border-color: white !important;
+.rollType {
+  font-size: x-large;
+  background-color: #cbc3e3;
+  max-height: 40px;
+  max-width: 200px;
+  text-align: center;
+  border-radius: 10px;
+  outline-color: black;
+  margin-left: -0.3rem;
+  margin-top: -0.3rem;
+  font-weight: bold;
+}
+.rollContainer {
+  column-count: 2;
 }
 
-.rollTitle{
-    position: absolute;
-    top: 35vh;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: grey;
-    width:40vw;
-    text-align: center;
-    padding: 3vh 3vw;
-    border-radius: 0.375rem;
-    border-style: solid;
-    border-color: whitesmoke;
-    border-width: 5px;
-    font-weight: bolder;
-    font-size: xx-large;
-    color: white;
+.rollDescription {
+  margin-top: 1vh;
+  margin-left: 5rem;
+  margin-right: 5rem;
+}
+.rollName {
+  font-size: 4rem;
+  font-weight: bolder;
+}
+
+.rollParagraph {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-top: 6vh;
+}
+
+.rollParagraph,
+.rollName {
+  text-align: left;
+  background: linear-gradient(
+    -44deg,
+    rgba(255, 230, 106, 0.8) 0%,
+    rgb(244, 233, 177) 40%
+  );
+  padding: 1rem;
+  border: 5px solid #121212;
+  border-radius: 5px;
+}
+
+.slimeImage {
+  margin: 1rem;
+  background: linear-gradient(
+    -44deg,
+    rgba(255, 230, 106, 0.8) 0%,
+    rgb(244, 233, 177) 40%
+  );
+  border: 5px solid #121212;
+  border-radius: 5px;
+  width: 12vw;
+  height: auto;
+}
+
+.rollButton:hover {
+  background: linear-gradient(
+    -44deg,
+    rgb(254, 212, 2) 0% rgb(244, 233, 177) 40%
+  );
+  transition: 0.1s !important;
+  transform: scale(105%) translateY(0.1%);
+}
+
+.rollDiv {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  margin-right: 15%;
+  margin-bottom: 4%;
+  margin-left: 15%;
+  list-style: none;
+}
+
+.rollButton {
+  background: linear-gradient(
+    -44deg,
+    rgba(255, 230, 106, 0.8) 0%,
+    rgb(244, 233, 177) 40%
+  );
+  font-weight: 900 !important;
+  border: 2px solid #121212;
+  border-radius: 5px;
+  /* margin: 0 20% !important; */
+  padding: 1rem !important;
+  margin: 0 5%;
+  width: 10vw;
+}
+
+.gachaFooter {
+  column-count: 2;
 }

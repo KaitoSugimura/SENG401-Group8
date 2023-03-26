@@ -1,21 +1,35 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../Database/context/AuthContext";
+import { projectFirestore } from "../Database/firebase/config";
 import { useLogout } from "../Database/Hooks/useLogout";
 import styles from "./AccountBanner.module.css";
 import Banner from "./Banner";
-import { projectAuth, projectFirestore } from "../Database/firebase/config";
+import Popup from "./Popup";
 import firebase from "firebase";
 import { useDispatch } from "react-redux";
 import { logout } from "../Slices/authSlice";
 
-export default function AccountBanner({ setShowBanner, isNavBanner }) {
-  // const { logout } = useLogout();
+export default function AccountBanner({   
+  setShowBanner,
+  isNavBanner,
+  id,
+  data,
+  bannerWidth,
+  widthUnits,
+  friend_able = false,
+}) {
+  const { logout } = useLogout();
   const [userRef, setUserRef] = useState(null);
   const { user } = useContext(AuthContext);
   const [bSelectionOn, setBSelectionOn] = useState(false);
   const [banner, setBanner] = useState(user.data.bannerFilepath);
-  const [tempBannerIndex, setTempBannerIndex] = useState(user.data.bannerFilepath);
+  const [message, setMessage] = useState(data.message);
+  const [editable, setEditable] = useState(false);
+  const [tempBannerIndex, setTempBannerIndex] = useState(
+    data.bannerFilepath
+  );
   const dispatch = useDispatch();
+  const [sentRequest, setSentRequest] = useState(false);
 
   const width = window.innerWidth * 0.4;
   const widthStep = window.innerWidth * 0.025;
@@ -29,7 +43,6 @@ export default function AccountBanner({ setShowBanner, isNavBanner }) {
     "/Account/Banners/Awe Inspiring Aurora.jpg",
     "/Account/Banners/Bed of Flowers.jpg",
     "/Account/Banners/Brain Power.jpg",
-    "/Account/Banners/DJ Genericname - Dear You.jpg",
     "/Account/Banners/Everlasting Expanse.jpg",
     "/Account/Banners/Formidable Forest.jpg",
     "/Account/Banners/Gradient Sunset.jpg",
@@ -54,18 +67,39 @@ export default function AccountBanner({ setShowBanner, isNavBanner }) {
     "/Account/Banners/Tyndalls Trees.jpg",
     "/Account/Banners/UNDEAD CORPORATION - Everything will freeze.jpg",
     "/Account/Banners/Winter Wonderland.jpg",
-
   ]);
 
-  useEffect(() => {
-    const userRef = projectFirestore.collection("users").doc(user.uid);
-    setUserRef(userRef);
-  }, []);
+  const unlockAllBannersHack = () => {
+    userRef.update({ bannerUnlocked: 0b1111111111111111111111111111 });
+  }
 
   const changeBanner = (bannerPath) => {
     userRef.update({ bannerFilepath: bannerPath });
     setBanner(bannerPath);
   };
+
+  const changeMessage = (newMessage) => {
+    userRef.update({ message: newMessage });
+    setMessage(newMessage);
+  };
+
+  const messageHandler = (event) => {
+    const message = event.target.value;
+    setMessage(message);
+  }
+
+  const handleMessageSubmit = (event) => {
+    event.preventDefault();
+    changeMessage(message);
+    setEditable(false);
+  }
+
+  const handleMessageEdit = () => {
+    if (!editable && isNavBanner) {
+      setEditable(true);
+    }
+
+  }
 
   useEffect(() => {
     setInterval(() => {
@@ -82,9 +116,20 @@ export default function AccountBanner({ setShowBanner, isNavBanner }) {
   }
 
   return (
-    <div className={styles.AccountBanner}>
+    <div
+      className={styles.thisBannerRoot}
+      style={{
+        width: bannerWidth + widthUnits,
+        height: bannerWidth * 1.35 + widthUnits,
+      }}
+    >
       <div className={styles.bannerInfo}>
-        <h1 className={styles.Handle}>{user.displayName}</h1>
+        <h1
+          className={styles.Handle}
+          style={{ fontSize: bannerWidth / 12 + widthUnits }}
+        >
+          {data.username}
+        </h1>
         {isNavBanner && (
           <div
             className={styles.editBannerButton}
@@ -95,16 +140,40 @@ export default function AccountBanner({ setShowBanner, isNavBanner }) {
             <img src="/Account/editBanner.png" alt="" />
           </div>
         )}
+        {friend_able && (
+          <div className={`${styles.Friend} ${sentRequest ? styles.sentRequest : ''}`} onClick={() => {
+            // Code for friending the user
+            // the user variable contains the person so you can use that
+            projectFirestore.collection("users").doc(id).update({
+              friendRequests: firebase.firestore.FieldValue.arrayUnion(userRef)
+            });
+            setSentRequest(true);
+          }}><img src="/Account/addFriend.png" alt="" /></div>
+        )}
       </div>
 
       <img
-        src={user.data.slimePath + ".svg"}
+        src={data.slimePath + ".svg"}
         className={styles.character}
       ></img>
-      <p className={styles.Rank}>Rank: {user.data.rank}</p>
-      <p className={styles.Status}>
-        Hello my name is {user.displayName}. I'm not a bad Slime!
+      <p
+        className={styles.Rank}
+        style={{ fontSize: bannerWidth / 15 + widthUnits }}
+      >
+        RP: {data.rankPoints}
       </p>
+
+
+
+      <img src={banner} className={styles.banner}></img>
+
+      {<p
+        className={styles.Status}
+        style={{ fontSize: bannerWidth / 17 + widthUnits }}
+        onClick={(e) => { handleMessageEdit(e) }}
+      >
+        {message}
+      </p>}
       {isNavBanner && (
         <button
           className={styles.SignOut}
@@ -116,20 +185,31 @@ export default function AccountBanner({ setShowBanner, isNavBanner }) {
           Sign out
         </button>
       )}
+      {editable && <Popup setPopUp={setEditable}>
+        <div className={styles.messageContainer}>
+          <label>Update Profile Message</label>
+          <form className={styles.updateMessage} onSubmit={(e) => { handleMessageSubmit(e) }}>
+            <textarea
+              value={message}
+              cols="80"
+              rows="10"
+              onChange={(e) => { messageHandler(e) }} />
+            <input className={styles.submit} type="submit" />
+          </form>
 
-      <img src={banner} className={styles.banner}></img>
+        </div>
 
+      </Popup>}
       {isNavBanner && (
         <div
-          className={`${styles.bannerSelectionContainer} ${
-            bSelectionOn ? styles.ShowBannerSelection : ""
-          }`}
+          className={`${styles.bannerSelectionContainer} ${bSelectionOn ? styles.ShowBannerSelection : ""
+            }`}
         >
-          <div
-            className={styles.bannerOptions}
-            ref={scrollPane}
-          >
-            <img src={banners[tempBannerIndex]} className={styles.backgroundBanner}></img>
+          <div className={styles.bannerOptions} ref={scrollPane}>
+            <img
+              src={banners[tempBannerIndex]}
+              className={styles.backgroundBanner}
+            ></img>
             {banners.map((bannerx, index) => (
               <Banner
                 index={index}
@@ -140,9 +220,11 @@ export default function AccountBanner({ setShowBanner, isNavBanner }) {
                 width={width}
                 widthStep={widthStep}
                 setTempBannerIndex={setTempBannerIndex}
+                isLocked={((data.bannerUnlocked >> index) & 1) === 0}
                 key={index}
               ></Banner>
             ))}
+            <button onClick={unlockAllBannersHack} className={styles.unlockAllBannersHack}>Unlock all banners hack</button>
           </div>
           <button
             className={styles.bannerSelectionExit}
@@ -154,6 +236,8 @@ export default function AccountBanner({ setShowBanner, isNavBanner }) {
           </button>
         </div>
       )}
+
+
     </div>
   );
 }

@@ -9,20 +9,25 @@ import CharacterBGM from "/Sound/Character.mp3";
 import SocialBGM from "/Sound/Social.mp3";
 import GameBGM from "/Sound/Game.mp3";
 import BattleBGM from "/Sound/Battle.mp3";
+import RoomBGM from "/Sound/Room.mp3";
+import EndScreenBGM from "/Sound/EndScreen.mp3";
 import { AuthContext } from "../Database/context/AuthContext";
 import { gameStateContext } from "../Pages/Game/gameStateContext";
 
-
-
 export default function Nav() {
+  const { user, userRef } = useContext(AuthContext);
   const locationPath = useLocation().pathname;
   const [showBanner, setShowBanner] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
-  const [musicVolume, setMusicVolume] = useState(0); // Turned off music vol for now
+  let musicVol = 0;
+  if (user) {
+    musicVol = user.data.musicVolume;
+  }
+  const [musicVolume, setMusicVolume] = useState(musicVol);
+  const lastMusicVolume = useRef(musicVol);
   const [originalMusicVolMultiplier, setOriginalMusicVolMultiplier] =
     useState(1);
-  const { user } = useContext(AuthContext);
-  const {gameState} = useContext(gameStateContext);
+  const { gameState } = useContext(gameStateContext);
   const acctBanner = useRef(null);
 
   const audioRef = useRef();
@@ -34,15 +39,27 @@ export default function Nav() {
         break;
       case "/social":
         audioRef.current.src = SocialBGM;
-        setOriginalMusicVolMultiplier(0.6);
+        setOriginalMusicVolMultiplier(1);
         break;
       case "/game":
-        if(gameState === "Battle"){
-          audioRef.current.src = BattleBGM;
-        } else{
-          audioRef.current.src = GameBGM;
+        switch (gameState) {
+          case "Lobby":
+            audioRef.current.src = GameBGM;
+            setOriginalMusicVolMultiplier(0.65);
+            break;
+          case "Room":
+            audioRef.current.src = RoomBGM;
+            setOriginalMusicVolMultiplier(0.58);
+            break;
+          case "Battle":
+            audioRef.current.src = BattleBGM;
+            setOriginalMusicVolMultiplier(0.7);
+            break;
+          case "EndScreen":
+              audioRef.current.src = EndScreenBGM;
+              setOriginalMusicVolMultiplier(0.7);
+              break;
         }
-        setOriginalMusicVolMultiplier(0.7);
         break;
       case "/character":
         audioRef.current.src = CharacterBGM;
@@ -69,13 +86,28 @@ export default function Nav() {
       if (showBanner) setShowBanner(false);
       if (showSettings) setShowSettings(false);
     }
+    if (musicVolume != lastMusicVolume.current) {
+      lastMusicVolume.current = musicVolume;
+      userRef.update({
+        musicVolume: musicVolume,
+      });
+      console.log("UPDATED SOUND");
+    }
   };
 
-  document.addEventListener("click", closeBanner);
+  useEffect(() => {
+    document.addEventListener("click", closeBanner);
+
+    return () => {
+      document.removeEventListener("click", closeBanner);
+    };
+  }, [closeBanner]);
 
   return (
-    <header className={styles.navbar}>
+    <header className={`${styles.navbar} ${locationPath==="/game" && gameState==="Battle"?styles.Hide:""}`}>
       <audio src={HomeBGM} ref={audioRef} loop="loop"></audio>
+      {/* {showBanner && <div className={styles.CloseArea} onClick={()=>closeBanner} ></div>}
+      {showSettings && <div className={styles.CloseArea} onClick={()=>closeBanner} ></div>} */}
       <h1 className={styles.logo}>I'm Slime</h1>
       {user && (
         <>
@@ -137,9 +169,19 @@ export default function Nav() {
               }}
               className={styles.bannerButton}
             >
-              <img src={user.data.slimePath+".svg"}></img>
+              <img src={user.data.slimePath + ".svg"}></img>
             </button>
-            {showBanner && <AccountBanner setShowBanner={setShowBanner} isNavBanner={true} />}
+            {showBanner && (
+              <div className={styles.AccountBannerContainer}>
+                <AccountBanner
+                  setShowBanner={setShowBanner}
+                  isNavBanner={true}
+                  data={user.data}
+                  bannerWidth={300}
+                  widthUnits={"px"}
+                />
+              </div>
+            )}
           </>
         )}
 

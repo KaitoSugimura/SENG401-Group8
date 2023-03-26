@@ -4,18 +4,25 @@ import { AuthContext } from "../../Database/context/AuthContext";
 import { projectFirestore } from "../../Database/firebase/config";
 import styles from "./Social.module.css";
 import firebase from "firebase";
+import FriendRequests from "./FriendRequests";
+import Modal from "./Modal";
+import Search from "./Search";
+import AccountBanner from "../../Components/AccountBanner";
+import Message from "./Message";
 
 // const ENDPOINT = "http://localhost:5000";
 // const ENDPOINT = "https://seng-401-server.onrender.com";
 // const socket = io(ENDPOINT);
 
 export default function Social() {
-  const { user } = useContext(AuthContext);
+  const { user, userRef } = useContext(AuthContext);
   const [selectedChat, setSelectedChat] = useState("global");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [friends, setFriends] = useState([]);
   const [chatRef, setChatRef] = useState(projectFirestore.collection("chats").doc("global"));
+  const [showSearch, setShowSearch] = useState(false);
+  const [showRequests, setShowRequests] = useState(false);
 
   // Fetch friends
   useEffect(() => {
@@ -30,24 +37,28 @@ export default function Social() {
         };
       }))
 
-      setFriends(friends);
+      setFriends(friends.sort((a, b) => a.username > b.username));
     }
 
     getFriends();
-  }, []);
+  }, [user.data.friends]);
 
   // Stupid stupid stupid code
   useEffect(() => {
-    const unsub = chatRef.collection("messages").orderBy("sentAt", "asc").onSnapshot(snapshot => {
+    const unsub = chatRef.collection("messages").orderBy("sentAt", "asc").onSnapshot(async snapshot => {
+      const messages = [];
+
       snapshot.docChanges().forEach(change => {
-        setMessages(prev => [change.doc.data(), ...prev])
-      })
+        const message = change.doc.data();
+        messages.push(message);
+        setMessages(prev => [message, ...prev]);
+      });
     });
 
     return () => unsub();
   }, [chatRef]);
 
-  // Fetch messages for selected channel
+  // Set chatRef for selected channel, then above useEffect listens for messages
   // World's stupidest code right here
   useEffect(() => {
     const getMessages = async () => {
@@ -85,7 +96,9 @@ export default function Social() {
     if (message && selectedChat) {
       const newMessage = {
         content: message,
-        sender: user.data.username,
+        username: user.data.username,
+        id: user.uid,
+        slimePath: user.data.slimePath,
         sentAt: firebase.firestore.Timestamp.now(),
       };
 
@@ -94,8 +107,25 @@ export default function Social() {
     }
   };
 
+  const unfriend = async (id) => {
+    const friendRef = projectFirestore.collection("users").doc(id);
+
+    // Update user's friend requests and friends list
+    userRef.update({
+      friends: firebase.firestore.FieldValue.arrayRemove(friendRef)
+    });
+
+    // Update friend's friend list
+    friendRef.update({
+      friends: firebase.firestore.FieldValue.arrayRemove(userRef)
+    });
+
+    setSelectedChat("global");
+  }
+
   return (
     <div className={styles.social}>
+
       <section className={styles.leftSidebar}>
         <div className={styles.channels}>
           <div
@@ -106,7 +136,11 @@ export default function Social() {
             <i className="material-symbols-outlined">public</i>
             <p>World</p>
           </div>
-          <h2 className={styles.friendsHeader}>Friends</h2>
+          <div className={styles.friendsHeader}>
+            <h2 >Friends</h2>
+            <i className="material-symbols-outlined" onClick={() => setShowSearch(true)}>add</i>
+            <i className="material-symbols-outlined" onClick={() => setShowRequests(true)}>markunread_mailbox</i>
+          </div>
           <ul className={styles.friends}>
             {friends.map((friend, i) => (
               <li
@@ -139,18 +173,7 @@ export default function Social() {
       <section className={styles.chat}>
         <div className={styles.messages}>
           {selectedChat ? (
-            messages.map((message, i) => {
-              return (
-                <div
-                  className={`${styles.messageContainer} ${message.sender === user.data.username ? styles.mine : ""
-                    }`}
-                  key={i}
-                >
-                  <p className={styles.name}>{message.sender}</p>
-                  <p className={styles.message}>{message.content}</p>
-                </div>
-              );
-            })
+            messages.map((message, i) => <Message message={message} previousMessage={i+1<messages.length?messages[i+1]:null} key={i}></Message>)
           ) : (
             <div>Select a channel on the left to chat here.</div>
           )}
@@ -170,9 +193,13 @@ export default function Social() {
       <section className={styles.rightSidebar}>
         {selectedChat && selectedChat !== "global" ? (
           <>
-            <p>{selectedChat.username}</p>
+            <p className={styles.username}>{selectedChat.username}</p>
             <img src={selectedChat.slimePath + ".svg"} className={styles.slimeBody}></img>
-            <p>Rank {selectedChat.rank}</p>
+            <p>RankPoints: {selectedChat.rankPoints}</p>
+            <button className={styles.unfriend} onClick={() => unfriend(selectedChat._id)}>
+              <p>Unfriend</p>
+              <i className="material-symbols-outlined">person_remove</i>
+            </button>
           </>
         ) : (
           <div className={styles.World}>
@@ -181,6 +208,9 @@ export default function Social() {
           </div>
         )}
       </section>
+
+      {showSearch && <Modal close={() => setShowSearch(false)} ><Search /></Modal>}
+      {showRequests && <Modal close={() => setShowRequests(false)} ><FriendRequests /></Modal>}
     </div>
   );
 }

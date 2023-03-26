@@ -1,8 +1,10 @@
 .EndScreen {
-  padding-top: 20vh;
+  padding-top: 13vh;
   height: 100vh;
-  background-color: #d5d1be;
+  background-image: url("../../../../public/assets/BackgroundImages/Lobby.jpg");
+  background-size: contain;
   text-align: center;
+  overflow: hidden;
 }
 
 .characterImage {
@@ -24,22 +26,90 @@
   margin-bottom: 5vh;
 }
 
+.buttonContainer{
+  position: fixed;
+  display: flex;
+  bottom: 3vh;
+  left: 40%;
+  gap: 20%;
+  justify-content: center;
+}
+
 .returnToLobbyBtn {
+  
   font-size: 36px;
   padding: 10px 30px;
+  width: 25vw;
+  height: 10vh;
   border-radius: 5px;
-  background-color: #4caf50;
-  color: white;
+  background:linear-gradient(#efd054, #68461c);
+  font-family: 'Exo 2', sans-serif;
+  font-size: 2.3vw;
+  font-weight: 500;
+  border: 5px solid rgb(0, 0, 0);
+  box-shadow: 8px 8px 0px rgb(0, 0, 0);  
   text-decoration: none;
   cursor: pointer;
   transition: background-color 0.3s;
   border: none;
   outline: none;
-  text-shadow: 0px 0px 5px #1c1c2b;
-  box-shadow: 0px 0px 5px 1px #1c1c2b;
 }
 
 .returnToLobbyBtn:hover {
   background-color: #3e8e41;
   box-shadow: 0px 0px 10px 2px #1c1c2b;
+}
+
+.rewards{
+  display: flex;
+  gap: 5%;
+  height: 10vh;
+  justify-content: center;
+  color: silver;
+  font-weight: bold;
+  font-size: 3.0rem;
+}
+
+.rewards img{
+  height: 100%;
+  width: auto;
+}
+
+/*PLAYER BANNER*/
+
+.playerBanner{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  justify-content: center;
+  width: 60vw;
+  height: 55vh;
+  margin-bottom: 10px;
+  transform: translate(-50%, -50%);
+}
+
+.slime{
+  position: relative;
+  width: 20vw;
+  height: 100%;
+}
+
+.slime img{
+  position: absolute;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(30px 20px 5px #000);
+}
+
+.AB {
+  width: 20vw;
+}
+
+.endStatus{
+  position: fixed;
+  top: 80px;
+  left: 2vw;
+  font-size: 6vw;
+  color: white;
 }

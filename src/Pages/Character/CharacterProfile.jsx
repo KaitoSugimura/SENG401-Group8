@@ -1,9 +1,22 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import styles from "./Character.module.css";
+import { AuthContext } from "../../Database/context/AuthContext";
+import { projectFirestore } from "../../Database/firebase/config";
+import firebase from "firebase";
+import Popup from "../../Components/Popup";
+
+//Currecny images
+import skinShard from "/assets/GameArt/SkinShard.png"
+import characterShard from "/assets/GameArt/CharacterShard.png"
 
 ///UPDATE SET SKIN PATHS WHEN DB IS IMPLEMENTED
 
 const CharacterProfile = ({ character, switchCharacter, characters, updateCharacters, updateCharacter }) => {
+  const { user, userRef } = useContext(AuthContext);
+  const[popup,setPopUp]=useState(false);
+  const[enough,setEnough]=useState(false);
+  const[currencyImage,setCurrencyImage]=useState(skinShard);
+  const[price,setPrice]=useState();
   const [skinNo, setSkinNo] = useState(character.skin);
   const [lockedButtonStyle, setlockedButtonStyle] = useState({
     visibility: "hidden"
@@ -35,6 +48,7 @@ const CharacterProfile = ({ character, switchCharacter, characters, updateCharac
 
   useEffect(() => {
     setSkinNo(1);
+    character.skin=1;
     if (character) {
       setImagePath(
         "assets/GameArt/" +
@@ -67,6 +81,7 @@ const CharacterProfile = ({ character, switchCharacter, characters, updateCharac
 
   function changeSkin(num) {
     setSkinNo(num);
+    
     if (character) {
       //update DB
       setImagePath(
@@ -101,12 +116,12 @@ const CharacterProfile = ({ character, switchCharacter, characters, updateCharac
   }
 
   function handleUnlock() {
+    console.log("Trying to unlock the skin")
     if (!character.unlocked) {
       //check currency is enough
-      if (!window.confirm("Unlock character for 2000 points?")) {
-        return;
-      }
+      
       character.unlocked = true;
+      
       //updated database
       switchCharacter(character.id);
       if (skinNo == 1) {
@@ -116,12 +131,14 @@ const CharacterProfile = ({ character, switchCharacter, characters, updateCharac
       else {
         changeSkin(1);
       }
+      let newCharShard = user.data.characterShard - price;
+      userRef.update({
+        slimes: firebase.firestore.FieldValue.arrayUnion(character.type+1),
+        characterShard: newCharShard,
+      })
     }
     else {
       //check currency is enough
-      if (!window.confirm("Unlock skin for 1000 points?")) {
-        return;
-      }
       if (skinNo == 2) {
         character.two = true;
       }
@@ -130,11 +147,52 @@ const CharacterProfile = ({ character, switchCharacter, characters, updateCharac
       }
       setImageStyle(unlockedStyle)
       setlockedButtonStyle({ visibility: "hidden" })
+      console.log(price);
+      let newSkinShard = user.data.skinShard - price;
+      userRef.update({
+        slimes: firebase.firestore.FieldValue.arrayUnion(character.type+skinNo),
+        skinShard: newSkinShard,
+      })
     }
+  }
+
+  const handleUnlockRequest=()=>{
+    let price;
+    let char;
+    if(!character.unlocked){
+      price = character.price;
+      char = true;
+      setCurrencyImage(characterShard);
+    }
+    else if(skinNo==2){
+      price=1.5*character.price;
+      char = false;
+      setCurrencyImage(skinShard);
+    }
+    else if(skinNo==3){
+      price = 2*character.price;
+      char = false;
+      setCurrencyImage(skinShard);
+    }
+    if(char&&user.data.characterShard>=price){
+      setEnough(true);
+    }
+    else if(!char&&user.data.skinShard>=price){
+      setEnough(true);
+    }
+    else{
+      setEnough(false);
+    }
+    setPopUp(true);
+    setPrice(price);    
   }
 
   return (
     <div className={styles.bottom}>
+      <div className={styles.currency}>
+        <img  src={characterShard} alt="" /> x{user.data.characterShard}
+        <img className={styles.skinShard} src={skinShard} alt="" />  x{user.data.skinShard}
+      </div>
       <div className={styles.characterProfile}>
         <div className={styles.characterBox}>
           <div className={styles.selectedCharacter}>
@@ -142,6 +200,7 @@ const CharacterProfile = ({ character, switchCharacter, characters, updateCharac
           </div>
           <div className={styles.statsBox}>
             <h1>{character.type} Slime</h1>
+            
             <div className={styles.statsContainer}>
               <h2>Power:</h2>
               {getStat(character.power)}
@@ -174,12 +233,23 @@ const CharacterProfile = ({ character, switchCharacter, characters, updateCharac
                 className={character.skin == 3 ? styles.selected : ""}
               />
             </div>
-            <div style={lockedButtonStyle} className={styles.unlockButton} onClick={handleUnlock}>
+            <div style={lockedButtonStyle} className={styles.unlockButton} onClick={handleUnlockRequest}>
               <img src="assets/GameArt/Locked.png" alt="Lockbutton" />
             </div>
           </div>
         </div>
       </div>
+      {popup&&<Popup setPopUp={setPopUp}>
+        <div className={styles.unlockConfirm}>
+          <p>
+            {enough?`Unlock for ${price}`:`Need ${price}`}
+          </p>
+          <div className={styles.currencyContainer}>
+            <img src={currencyImage} alt=""/>  
+          </div>                  
+          {enough && <button onClick={()=>{handleUnlock();setPopUp(false);}}>Confirm</button>}
+        </div>
+      </Popup>}
     </div>
   );
 };

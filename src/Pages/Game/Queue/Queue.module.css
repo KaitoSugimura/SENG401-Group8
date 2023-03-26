@@ -1,0 +1,62 @@
+
+
+
+.container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+  
+    background-color: black;
+    z-index: 1000;
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .loadingText {
+    font-size: 3.5vw;
+    text-align: center;
+    font-family: 'Press Start 2P', cursive;
+  }
+  
+  .loadingText span {
+    display: inline-block;
+    color: #f1f1f1;
+    margin: 0.2vw;
+  }
+  
+  .loadingText span {
+    animation: loadingAnim 1.4s infinite alternate;
+  }
+  
+  @keyframes loadingAnim {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  
+  .loadingSlime {
+    position: absolute;
+    width: 5vw;
+    height: auto;
+    transform: scaleX(-1);
+    bottom: 2vh;
+    left: -5vw;
+    animation: slimeAnim linear infinite;
+  }
+  
+  @keyframes slimeAnim {
+      0% {
+        left: -5vw;
+      }
+      100% {
+          left: 100vw;
+      }
+    }
+    

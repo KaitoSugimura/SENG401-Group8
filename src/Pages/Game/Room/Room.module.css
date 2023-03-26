@@ -5,9 +5,12 @@
     display: flex;
     flex-direction: row;
     background-image: linear-gradient(to bottom, #28313b 0%, #485461 60%);
+    background-image: url("../../../../public/assets/BackgroundImages/Lobby.jpg");
+    background-size:cover;
 }
 
 .match{
+    margin-top: 3vh;
     width: 40vw;
     padding: 2%;
     display: flex;
@@ -21,6 +24,7 @@
     background-color: darkgray;
     border: solid 7.5px black;
     border-radius: 5px;
+    border: 8px solid rgb(0, 0, 0);
 }
 
 .map img{
@@ -29,40 +33,45 @@
 }
 
 .mapName{
-    margin: 2%;
-    padding: 2%;
     border-radius: 5px;
-    font-size: 2.5rem;
+    font-size: 1.5vw;
     font-weight: bold;
-    color: silver;
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 500;
+    color: black;
+    text-shadow: #28313b;
+    margin-right: auto;
 }
 
 .goldContainer{
     display: flex;
-    width: 90%;
+    width: 100%;
     height: 15%;
     flex-direction: row;
     justify-content: center;
-    gap: 2%;
+    align-items: center;
+    gap: 1vw;
     background-color: black;
-    padding: 2%;
-    border: solid 2px silver;
+    padding: 0 15%;
+    border: solid 2px black;
     border-radius: 10px;
+    background:linear-gradient(#8b939a, #5B6467);
+    border: 5px solid rgb(0, 0, 0);
+    box-shadow: 8px 8px 8px rgb(0, 0, 0);
+    margin-bottom: 10px;
 }
 
 
 .goldImage img{
-    height: 100%;
-    width: auto;
+    width: 4.2vw;
+    height: auto;
     object-fit: cover;
 }
 
 .goldText{
-    margin: 2%;
-    padding: 2%;
-    color: gold;
+    color: rgb(225, 167, 20);
+    font-size: 2vw;
     font-weight: bold;
-    font-size: 2.5rem;
 }
 
 .buttonContainer{
@@ -71,17 +80,21 @@
     height: 20%;
     flex-direction: row;
     justify-content: center;
-    gap: 2%;
+    gap: 3vw;
 }
 
-.selectionButton img{
-    height: 100%;
-    width: auto;
+.selectionButton{
+    width: 7vw;
+    height: 7vw;
     pointer-events: all;
     cursor: pointer;
 }
+.selectionButton img{
+    width: 100%;
+    height: auto;
+}
 .selectionButton:hover{
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
 .selectionButton.lockedButton{
@@ -103,12 +116,20 @@
 }
 
 .player h2{
-    font-size: 2.4rem;
+    font-size: 2.8rem;
     color: silver;
 }
+  
+.player h3 {
+    font-size: 2.2rem;
+    font-weight: 400;
+    line-height: 2;
+    color: silver;
+    font-weight: bold;
+  }
 
 .playerBox{
-    width: 50%;   
+    width: 50%; 
 }
 
 .playerBoximage{

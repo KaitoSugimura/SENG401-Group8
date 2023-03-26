@@ -14,6 +14,9 @@
   /* chat */
   --secondary-color: hsl(144, 56%, 55%);
   --bg-secondary-color: hsl(143, 100%, 97%);
+  --tertiary-color: hsl(11, 56%, 55%);
+  --bg-tertiary-color: hsl(11, 100%, 97%);
+  --gray-color: hsl(0, 0%, 55%);
 
   /* Home */
   --particle-color: #faf8c1;

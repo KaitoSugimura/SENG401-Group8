@@ -1,12 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Exo+2:wght@500&family=Press+Start+2P&display=swap");
+
 .Lobbypage {
   box-sizing: border-box;
   margin-top: 65px;
   height: calc(100vh - 65px);
   display: flex;
   flex-direction: row;
-  background-image: linear-gradient(to bottom, #28313b 0%, #485461 60%);
+  background-image: url("/assets/BackgroundImages/Lobby.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  /* linear-gradient(to bottom, #c5f6fa 0%, #d0ebff 60%); */
 }
+
+/* background-image: linear-gradient(to bottom, #28313b 0%, #485461 60%); */
 
 .Character {
   width: 40vw;
@@ -23,7 +30,14 @@
 }
 
 .Character h2 {
-  font-size: 2.4rem;
+  font-size: 2.8rem;
+  color: silver;
+}
+
+.Character h3 {
+  font-size: 2.2rem;
+  font-weight: 400;
+  line-height: 2;
   color: silver;
 }
 
@@ -39,23 +53,13 @@
   object-fit: cover;
 }
 
-.lobbies {
-  width: 60vw;
-  gap: 5%;
-  height: calc(100vh - 65px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
 .lobbySelect {
-  width: 80%;
-  height: 80%;
+  width: 50vw;
+  height: 40vh;
   overflow: scroll;
   height: 60vh;
-  background-color: rgba(242, 242, 242, 0.37);
-  border: 10px solid black;
+  background-color: rgba(188, 188, 188, 0.53);
+  border: 6px solid black;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -75,7 +79,7 @@
   width: 80%;
   height: 30%;
   border: 5px solid black;
-  background-color: rgba(242, 242, 242, 0.37);
+  background-color: rgb(228, 228, 228);
   display: flex;
   align-items: center;
   gap: 7.5%;
@@ -95,7 +99,7 @@
 }
 
 .goldInfo {
-  color: gold;
+  color: darkgoldenrod;
   font-weight: bold;
   font-size: 2.4rem;
 }
@@ -117,11 +121,6 @@
   display: block;
 }
 
-.selectRoomButton:hover {
-  transform: scale(110%);
-  cursor: pointer;
-}
-
 .selectRoomButton img {
   width: 100%;
   height: auto;
@@ -131,44 +130,109 @@
 
 .lobbySelection {
   display: flex;
-  width: 90%;
-  height: 20%;
-  flex-direction: row;
-  justify-content: center;
+  width: 50vw;
+  height: 20vh;
+  justify-content: end;
   align-items: center;
+}
+
+.noRoomsText {
+  font-size: 2.5vw;
+  margin-top: 3vh;
+  color: rgba(0, 0, 0, 0.776);
 }
 
 .returnButton {
-  height: 80%;
-}
-
-.returnButton:hover {
-  transform: scale(105%);
+  display: block;
   cursor: pointer;
-}
-
-.returnButton img {
-  height: 100%;
-  width: auto;
-}
-
-.createButton {
-  width: 40vw;
-  height: 15vh;
-  margin: 25px;
-  background-color: rgba(255, 255, 255, 0.473);
-  font-size: 2.3vw;
-  font-weight: 500;
-  border: 5px solid black;
+  margin: 0 1vw 0 1.5vw;
+  width: 6vw;
+  height: 6vw;
+  border: 5px solid rgb(0, 0, 0);
+  box-shadow: 8px 8px 0px rgb(0, 0, 0);
   display: flex;
   justify-content: center;
   align-items: center;
+  background: linear-gradient(115deg, rgb(238, 100, 100), rgb(199, 1, 1));
+  transition: 0.2s all;
+}
+.returnButton:hover {
+  transform: translate(3px, 3px);
+  box-shadow: 5px 5px 0px black;
+}
+
+.returnButton svg {
+  height: 80%;
+  width: auto;
+  color: rgb(0, 0, 0);
+}
+
+.createButton.createLobbyButton {
+  flex-grow: 4;
+  width: auto;
+  background: linear-gradient(-60deg, rgb(11, 68, 211) 0%, rgb(123, 181, 231));
+}
+
+.lobby {
+  cursor: pointer;
+}
+
+.lobbies {
+  width: 60vw;
+  height: calc(100vh - 65px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.createButton {
+  position: relative;
+  width: 40vw;
+  height: 15vh;
+  margin: 5vh 0;
+  background: linear-gradient(-44deg, rgb(227, 205, 94) 0%, rgb(244, 233, 177));
+  font-family: "Exo 2", sans-serif;
+  font-size: 2.3vw;
+  font-weight: 500;
+  border: 5px solid rgb(0, 0, 0);
+  box-shadow: 8px 8px 0px rgb(0, 0, 0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+  transition: 0.2s all;
 }
 
 .createButton:hover {
-  transform: scale(102%);
-  cursor: pointer;
+  transform: translate(3px, 3px);
+  box-shadow: 5px 5px 0px black;
 }
+
+/* .createButton:before{
+  content: "";
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  width: calc(100% + 6px);
+  height: calc(100%);
+  border: 12px solid transparent; 
+  border-bottom: 8px solid #9dc3ff;
+  filter: blur(1px);
+  drop-shadow(0px -6px 6px rgb(255, 14, 6));
+}
+
+.createButton:after{
+  content:"";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 10vw;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top: 5px solid white;
+} */
 
 .createOptions {
   box-sizing: border-box;
@@ -192,60 +256,98 @@
   height: auto;
 }
 
-.createLobby {
+/*CREATE LOBBY COMPONENT*/
 
+.createLobby {
   width: 50vw;
   height: 60vh;
-  font-family: 'Press Start 2P', cursive;
+  font-family: "Exo 2", sans-serif;
   padding: 2vh;
+  background: -moz-linear-gradient(360deg, #1c1c1c 10%, #494949 360%);
+  background: linear-gradient(360deg, #1c1c1c 10%, #494949 360%);
+  background-size: contain;
 }
 
 .createLobby p {
   font-size: 2vw;
-  color: rgb(255, 255, 255);
+  color: silver;
+  border-bottom: solid 3px silver;
   padding: 2%;
+  text-align: center;
+}
+
+.publicOptions {
+  margin-top: 2%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .createLobby label {
-    color: rgb(255, 255, 255);
+  color: silver;
   font-size: 1.2vw;
   margin: 10px;
 }
 
-.createLobby .formFields label {
-  text-align: right;
+.formFieldsContainer {
+  display: flex;
+  justify-content: center;
 }
 
-.LobbyInput{
-    font-family: 'Press Start 2P', cursive;
-    padding: 0.6vw 2vw;
-    background-color: transparent;
-    color: #fff;
-    border: none;
-    border-bottom: 3px solid white;
+.formFields {
+  display: flex;
+  width: 50%;
+  flex-direction: column;
+  align-items: left;
+  margin-top: 3vh;
+  gap: 3vh;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+.LobbyInput {
+  font-family: "Exo 2", sans-serif;
+  padding: 0.6vw 2vw;
+  background-color: transparent;
+  font-size: 1vw;
+  color: #fff;
+  border: none;
+  border-bottom: 5px solid white;
 }
 
 .LobbyInput option {
-    color: black;
-    line-height: 20;
-  }
-
-.Input{
-    padding: 0.6vw 0vw;
-    font-family: 'Press Start 2P', cursive;
+  color: black;
+  line-height: 20;
 }
 
-.submit{
-    position: absolute;
-    bottom: 10vh;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 0.8vw 2vw;
-    font-size: 1.5vw;
-    font-family: 'Press Start 2P', cursive;
-    border: none;
+.Input {
+  font-size: 1vw;
+  padding: 0.3vw;
+  font-family: "Exo 2", sans-serif;
 }
 
-.submit:hover{
-    transform: translate(-50%, 2%);
+.submit {
+  display: block;
+  position: absolute;
+  bottom: 6vh;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.8vw 2vw;
+  font-size: 1.5vw;
+  margin: 10px;
+  border: none;
+  background: radial-gradient(#368bd1, #043c82);
+  border: 5px solid rgb(0, 0, 0);
+  box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.735);
+  font-family: "Exo 2", sans-serif;
+  font-size: 1.3vw;
+  font-weight: 500;
+}
+
+.submit:hover {
+  transform: translate(calc(-50% + 3px), 3px);
+  box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.735);
 }

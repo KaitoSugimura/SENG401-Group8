@@ -4,7 +4,7 @@ import styles from "./LoadingScreen.module.css";
 export default function LoadingScreen() {
   return (
     <div className={styles.container}>
-      <div class={styles.loadingText}>
+      <div className={styles.loadingText}>
         <span >L</span>
         <span style={{animationDelay: `${0.1}s`}}>O</span>
         <span style={{animationDelay: `${0.2}s`}}>A</span>

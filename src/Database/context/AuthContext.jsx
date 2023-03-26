@@ -19,13 +19,13 @@ export const AuthContextProvider = ({ children }) => {
 
         const userData = await userRef.get();
 
-        // Placeholder friends
-        const friends = [];
-        ["dThrxOT2NHNboaRNGkpsY2JBUf22", "zfF4DaVYqnep4a266euByoWbcLl1", "FRlFwdxGq1cToR3ttvXqhEFJScA3"].forEach(friendID => {
-          if (friendID != user.uid) {
-            friends.push(projectFirestore.collection("users").doc(friendID));
-          }
-        })
+        // // Placeholder friends
+        // const friends = [];
+        // ["dThrxOT2NHNboaRNGkpsY2JBUf22", "zfF4DaVYqnep4a266euByoWbcLl1", "FRlFwdxGq1cToR3ttvXqhEFJScA3"].forEach(friendID => {
+        //   if (friendID != user.uid) {
+        //     friends.push(projectFirestore.collection("users").doc(friendID));
+        //   }
+        // })
 
         // If user data doesn't exist
         if (!userData.exists) {
@@ -33,15 +33,21 @@ export const AuthContextProvider = ({ children }) => {
           await userRef.set({
             username: user.displayName,
             level: Math.floor(Math.random() * 50),
-            rank: Math.floor(Math.random() * 30),
-            musicVolume: 100,
+            rankPoints: Math.floor(Math.random() * 30),
+            musicVolume: 1,
             gold: 1234,
+            skinShard: 3600,
+            characterShard: 1800,
             chestLastOpenedOn: firebase.firestore.Timestamp.fromMillis(0),
             bannerFilepath: "/Account/Banners/Sky.jpg",
+            message: "Hello I am a good slime!",
             slimeType: "Normal",
             slimeSkin: 1,
             status: "ONLINE",
-            friends
+            slimes: ["Normal1"],
+            friends: [],
+            friendRequests: [],
+            bannerUnlocked: 0b0000000010001000000011000010,
           });
         }
 

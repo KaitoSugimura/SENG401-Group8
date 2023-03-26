@@ -1,15 +1,21 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../../Database/context/AuthContext";
-import { projectDatabase } from "../../../Database/firebase/config";
+import {
+  projectDatabase,
+  projectFirestore,
+} from "../../../Database/firebase/config";
 import { gameStateContext } from "../gameStateContext";
 import LoadingScreen from "../LoadingScreen";
 import styles from "./Battle.module.css";
 import GameCountDown from "./GameCountDown";
 import map from "/assets/GameMap/SlimeMeadows.webp";
 
+const MAX_HP = 100;
+
 export default function Battle({ setGameState }) {
   const { user } = useContext(AuthContext);
-  const { serverPlayerID, clientPlayerID } = useContext(gameStateContext);
+  const { serverPlayerID, clientPlayerID, setEndScreenData } =
+    useContext(gameStateContext);
 
   const self = useRef({});
   const enemy = useRef(null);
@@ -37,10 +43,21 @@ export default function Battle({ setGameState }) {
 
   const buttonDivRef = useRef(null);
 
-  let ProjectileKey = useRef(0);
+  // Sound
+  const shootSoundRef = useRef(null);
+  const hitNormalSoundRef = useRef(null);
+  const weaponChangeSoundRef = useRef(null);
+  const buffSoundRef = useRef(null);
+  const healSoundRef = useRef(null);
 
   let playerId;
   let playerRef;
+  let projectileRef;
+  let projectileDeletionRef;
+  const nextProjectileToDeleteQueue = useRef(0);
+  let projectileBuffMode = useRef(false);
+
+  let goldBetAmount = 0;
 
   if (user) {
     playerId = user.uid;
@@ -48,20 +65,36 @@ export default function Battle({ setGameState }) {
       playerRef = projectDatabase.ref(
         `battle/${serverPlayerID}/${serverPlayerID}`
       );
+      projectileRef = projectDatabase.ref(
+        `battle/${serverPlayerID}/serverProjectile`
+      );
+      projectileDeletionRef = projectDatabase.ref(
+        `battle/${serverPlayerID}/serverProjectileDeletion`
+      );
     } else {
       playerRef = projectDatabase.ref(
         `battle/${serverPlayerID}/${clientPlayerID}`
       );
+      projectileRef = projectDatabase.ref(
+        `battle/${serverPlayerID}/clientProjectile`
+      );
+      projectileDeletionRef = projectDatabase.ref(
+        `battle/${serverPlayerID}/clientProjectileDeletion`
+      );
     }
+    playerRef.onDisconnect().remove();
+    projectileRef.onDisconnect().remove();
+    projectileDeletionRef.onDisconnect().remove();
   }
+  let ProjectileKey = useRef(playerId === serverPlayerID ? 10000 : 1);
 
   // Calculate battle field dimensions
   // (window.innerHeight - 65)/window.innerWidth
 
   useEffect(() => {
-    battleFieldWidth.current = 90;
-    battleFieldHeight.current = 50.625;
-    const ratio = (window.innerHeight - 65) / window.innerWidth;
+    battleFieldWidth.current = 95;
+    battleFieldHeight.current = 53.4375;
+    const ratio = window.innerHeight / window.innerWidth;
     if (ratio < 0.5625) {
       battleFieldWidth.current = battleFieldWidth.current * (ratio / 0.5625);
       battleFieldHeight.current = battleFieldWidth.current * 0.5625;
@@ -94,7 +127,7 @@ export default function Battle({ setGameState }) {
         ...self.current,
         left: self.current.left / battleFieldWidth.current,
         top: self.current.top / battleFieldHeight.current,
-        time: Date.now()
+        // time: Date.now(),
       });
     }
   };
@@ -110,10 +143,11 @@ export default function Battle({ setGameState }) {
     let loadWaitRef = projectDatabase.ref(
       `battle/${serverPlayerID}/loadComplete`
     );
- 
 
+    loadWaitRef.off();
     loadWaitRef.on("value", (snapshot) => {
-      if (snapshot.val().Server && snapshot.val().Client) {
+      const p = snapshot.val();
+      if (p && p.server && p.client) {
         loadWaitRef.off();
         setCountDown(true);
         setLoading(false);
@@ -126,8 +160,13 @@ export default function Battle({ setGameState }) {
       }
     });
 
-
-  
+    projectDatabase
+      .ref(`lobby/rooms/${serverPlayerID}/gold`)
+      .once("value", (snapShot) => {
+        if (snapShot.val()) {
+          goldBetAmount = snapShot.val();
+        }
+      });
 
     buttonDivRef.current.focus();
     // Initialize game
@@ -139,17 +178,21 @@ export default function Battle({ setGameState }) {
         name: user.displayName,
         shooting: false,
         slimePath: user.data.slimePath,
-        time: Date.now()
+        HP: MAX_HP,
+        DMG: 10,
+        // time: Date.now(),
       };
     } else {
       self.current = {
         top: battleFieldHeight.current / 2,
         left: (4 * battleFieldWidth.current) / 5,
-        direction: "right",
+        direction: "left",
         name: user.displayName,
         shooting: false,
         slimePath: user.data.slimePath,
-        time: Date.now()
+        HP: MAX_HP,
+        DMG: 10,
+        // time: Date.now(),
       };
     }
     playerRef.set({
@@ -159,7 +202,7 @@ export default function Battle({ setGameState }) {
     });
     playerRef.onDisconnect().remove();
 
-    Render({time: 0});
+    Render({ time: 0 });
 
     window.addEventListener("mousemove", handleMouseMove);
     return () => {
@@ -169,20 +212,52 @@ export default function Battle({ setGameState }) {
 
   useEffect(() => {
     let enemyRef;
+    let enemyProjectileRef;
+    let enemyProjectileDeletionRef;
     if (playerId === serverPlayerID) {
       enemyRef = projectDatabase.ref(
         `battle/${serverPlayerID}/${clientPlayerID}`
+      );
+      enemyProjectileRef = projectDatabase.ref(
+        `battle/${serverPlayerID}/clientProjectile`
+      );
+      enemyProjectileDeletionRef = projectDatabase.ref(
+        `battle/${serverPlayerID}/clientProjectileDeletion`
       );
     } else {
       enemyRef = projectDatabase.ref(
         `battle/${serverPlayerID}/${serverPlayerID}`
       );
+      enemyProjectileRef = projectDatabase.ref(
+        `battle/${serverPlayerID}/serverProjectile`
+      );
+      enemyProjectileDeletionRef = projectDatabase.ref(
+        `battle/${serverPlayerID}/serverProjectileDeletion`
+      );
     }
-
+    enemyRef.off();
     enemyRef.on("value", (otherSnapshot) => {
       const p = otherSnapshot.val();
       if (p === null) {
-        // Enemy disconnected
+        // Enemy disconnected or lost
+        if (enemy.current != null) {
+          controlsDead.current = true;
+
+          const isWinner = self.current.HP > 0;
+          const EnemyID =
+            playerId === serverPlayerID ? clientPlayerID : serverPlayerID;
+          setEndScreenData({
+            Won: isWinner,
+            enemyID: EnemyID,
+            gold: goldBetAmount,
+          });
+
+          setTimeout(() => {
+            projectDatabase.ref(`battle/${serverPlayerID}`).remove();
+            projectDatabase.ref(`lobby/rooms/${serverPlayerID}`).remove();
+            setGameState("EndScreen");
+          }, 100);
+        }
         enemy.current = null;
       } else
         enemy.current = {
@@ -190,6 +265,28 @@ export default function Battle({ setGameState }) {
           left: p.left * battleFieldWidth.current,
           top: p.top * battleFieldHeight.current,
         };
+    });
+
+    enemyProjectileRef.off();
+    enemyProjectileRef.on("value", (snapshot) => {
+      const p = snapshot.val();
+      if (p) {
+        projectiles.current.push({
+          ...snapshot.val(),
+          x: p.x * battleFieldWidth.current,
+          y: p.y * battleFieldHeight.current,
+          dx: p.dx * battleFieldWidth.current,
+          dy: p.dy * battleFieldHeight.current,
+        });
+      }
+    });
+
+    enemyProjectileDeletionRef.off();
+    enemyProjectileDeletionRef.on("value", (snapshot) => {
+      const p = snapshot.val();
+      if (p) {
+        nextProjectileToDeleteQueue.current = p.key;
+      }
     });
   }, []);
 
@@ -232,7 +329,7 @@ export default function Battle({ setGameState }) {
         const normalizedX = SlimeToMouseVectorX / length;
         const normalizedY = SlimeToMouseVectorY / length;
 
-        projectiles.current.push({
+        const newProjectile = {
           x: self.current.left + normalizedX * 3,
           y: self.current.top + normalizedY * 3,
           dx: normalizedX * 1.5,
@@ -240,7 +337,28 @@ export default function Battle({ setGameState }) {
           rad: 1,
           bulletState: 0, // 0-2 damage, >=3 for healing
           key: ProjectileKey.current++,
-        });
+          projectileType: projectileBuffMode.current, // false: Healing, true: AttackBuff
+        };
+
+        projectileRef.set(
+          {
+            ...newProjectile,
+            x: newProjectile.x / battleFieldWidth.current,
+            y: newProjectile.y / battleFieldHeight.current,
+            dx: newProjectile.dx
+              ? newProjectile.dx / battleFieldWidth.current
+              : 0,
+            dy: newProjectile.dx
+              ? newProjectile.dy / battleFieldHeight.current
+              : 0,
+          },
+          () => {
+            projectiles.current.push(newProjectile);
+          }
+        );
+        self.current.HP -= 5;
+        shootSoundRef.current.play();
+
         setTimeout(() => {
           self.current.shooting = false;
         }, 100);
@@ -265,6 +383,9 @@ export default function Battle({ setGameState }) {
       case 32:
         shoot();
         break;
+      case 69:
+        weaponChangeSoundRef.current.play();
+        projectileBuffMode.current = !projectileBuffMode.current;
     }
   }
 
@@ -290,6 +411,11 @@ export default function Battle({ setGameState }) {
       handleKeyPress(dx, dy);
     }
     for (let i = 0; i < projectiles.current.length; i++) {
+      console.log(nextProjectileToDeleteQueue.current);
+      if (nextProjectileToDeleteQueue.current === projectiles.current[i].key) {
+        projectiles.current.splice(i, 1);
+        return;
+      }
       let projectile = projectiles.current[i];
       projectile.x += projectile.dx;
       projectile.y += projectile.dy;
@@ -301,11 +427,27 @@ export default function Battle({ setGameState }) {
         projectile.y >= self.current.top - 2
       ) {
         if (projectile.bulletState >= 3) {
-          projectiles.current.splice(i, 1);
+          if (projectile.projectileType) {
+            //Buff
+            buffSoundRef.current.play();
+            self.current.DMG += 5;
+          } else {
+            // healing
+            healSoundRef.current.play();
+            self.current.HP += 20;
+            if (self.current.HP > MAX_HP) {
+              self.current.HP = MAX_HP;
+            }
+          }
         } else {
-          playerRef.onDisconnect().remove();
-          setGameState("EndScreen");
+          hitNormalSoundRef.current.play();
+          self.current.HP -= enemy.current.DMG;
+          if (self.current.HP <= 0) {
+            playerRef.remove();
+          }
         }
+        projectileDeletionRef.set({ key: projectiles.current[i].key });
+        projectiles.current.splice(i, 1);
       }
 
       if (
@@ -322,8 +464,11 @@ export default function Battle({ setGameState }) {
         projectile.dx *= -1;
         projectile.bulletState++;
       }
+      if (projectile.bulletState >= 5) {
+        projectiles.current.splice(i, 1);
+      }
     }
-    Render({time: Date.now() - enemy.current.time});
+    Render({ time: Date.now() /*- enemy.current.time*/ });
   }, []);
 
   useEffect(() => {
@@ -334,16 +479,24 @@ export default function Battle({ setGameState }) {
   return (
     <div
       ref={buttonDivRef}
-      class={styles.ButtonOverlay}
+      className={styles.ButtonOverlay}
       role="button"
       tabIndex="0"
       onKeyDown={(e) => move(e)}
       onKeyUp={(e) => release(e)}
     >
+      {/* <div className={styles.topBar}></div> */}
       {loading && <LoadingScreen />}
       {countDown && <GameCountDown />}
-      <span className={styles.ping}>{reRender?reRender.time:0} ms</span>
-      <div class={styles.battleContainer}>
+      {/* AUDIO */}
+      <audio ref={shootSoundRef} src="/Sound/FX/shoot.mp3" />
+      <audio ref={hitNormalSoundRef} src="/Sound/FX/hitNormal.mp3" />
+      <audio ref={weaponChangeSoundRef} src="/Sound/FX/weaponChange.mp3" />
+      <audio ref={buffSoundRef} src="/Sound/FX/buff.mp3" />
+      <audio ref={healSoundRef} src="/Sound/FX/heal.ogg" />
+      {/* AUDIO END */}
+      <span className={styles.ping}>{reRender ? reRender.time : 0} ms</span>
+      <div className={styles.battleContainer}>
         <div className={styles.battleFieldContainer}>
           <div
             className={styles.battleField}
@@ -359,7 +512,7 @@ export default function Battle({ setGameState }) {
                 setTimeout(() => {
                   let loadCompleteRef = projectDatabase.ref(
                     `battle/${serverPlayerID}/loadComplete/${
-                      serverPlayerID === playerId ? "Server" : "Client"
+                      serverPlayerID === playerId ? "server" : "client"
                     }`
                   );
                   loadCompleteRef.set(true);
@@ -374,7 +527,11 @@ export default function Battle({ setGameState }) {
             {projectiles.current.map((projectile, i) => (
               <div
                 className={`${styles.projectile} ${
-                  projectile.bulletState > 2 ? styles.healing : ""
+                  projectile.bulletState > 2
+                    ? projectile.projectileType
+                      ? styles.buff
+                      : styles.healing
+                    : ""
                 }`}
                 style={{
                   top: projectile.y + "vw",
@@ -386,36 +543,6 @@ export default function Battle({ setGameState }) {
               ></div>
             ))}
             {/* PROJECTILES END */}
-            {/* TEMP HIT BOX POINTS */}
-            {/* <span
-              className={styles.TestHitBoxPoints}
-              style={{
-                top: self.current.top + 1.5 + "vw",
-                left: self.current.left + "vw",
-              }}
-            ></span>
-            <span
-              className={styles.TestHitBoxPoints}
-              style={{
-                top: self.current.top - 1.5 + "vw",
-                left: self.current.left + "vw",
-              }}
-            ></span>
-            <span
-              className={styles.TestHitBoxPoints}
-              style={{
-                top: self.current.top + "vw",
-                left: self.current.left + 2 + "vw",
-              }}
-            ></span>
-            <span
-              className={styles.TestHitBoxPoints}
-              style={{
-                top: self.current.top + "vw",
-                left: self.current.left - 2 + "vw",
-              }}
-            ></span> */}
-            {/* TEMP HIT BOX POINTS END */}
             <div
               className={`${styles.character} ${styles.self}`}
               style={{
@@ -431,7 +558,17 @@ export default function Battle({ setGameState }) {
                   className={styles.slimeImage}
                 ></img>
               </div>
-              <p className={styles.characterName}>{self.current.name}</p>
+              <div className={styles.HP_NAME_Bar}>
+                <p className={styles.characterName}>{self.current.name}</p>
+                <div className={styles.HPContainer}>
+                  <div
+                    className={styles.SelfHPBar}
+                    style={{
+                      width: self.current.HP + "%",
+                    }}
+                  ></div>
+                </div>
+              </div>
             </div>
             {enemy.current && (
               <div
@@ -446,7 +583,18 @@ export default function Battle({ setGameState }) {
                   src={enemy.current.slimePath + ".gif"}
                   className={styles.slimeImage}
                 ></img>
-                <p className={styles.characterName}>{enemy.current.name}</p>
+
+                <div className={styles.HP_NAME_Bar}>
+                  <p className={styles.characterName}>{enemy.current.name}</p>
+                  <div className={styles.HPContainer}>
+                    <div
+                      className={styles.EnemyHPBar}
+                      style={{
+                        width: enemy.current.HP + "%",
+                      }}
+                    ></div>
+                  </div>
+                </div>
               </div>
             )}
           </div>

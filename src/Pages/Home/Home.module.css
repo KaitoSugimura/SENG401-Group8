@@ -299,3 +299,13 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
 .PlayButton:hover:after {
   background-color: #e92c1e;
 }
+
+.achievementPop{
+  text-align: silver;
+  text-align: center;
+  font-weight: bold;
+  font-size: 3vw;
+  width: 30vw;
+  height: 30vh;
+  background-color: gray;
+}

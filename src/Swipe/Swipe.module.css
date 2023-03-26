@@ -1,0 +1,163 @@
+.SwipeContainer {
+  width: 100%;
+  height: 100%;
+}
+
+.SwipeButton {
+  width: 100%;
+  height: 100%;
+}
+
+.PopupContainer {
+    position: fixed;
+    top: calc(12.5vh + 65px);
+    left: 50%;
+    transform: translateX(-50%);
+
+  width: 120vh;
+  height: 70vh;
+  border: 5px solid gold;
+  background: linear-gradient(#0b5192, #1a75ca, #0b5192);
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  align-items: center;
+}
+
+.BuyGoldText {
+    position: relative;
+  font-size: 2vw;
+  font-weight: 700;
+  height: 12.5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.BuyGoldText:after{
+    content: "";
+    position: absolute;
+    bottom: 20%;
+    transform: translateX(-50%);
+    left: 50%;
+    height: 4px;
+    width: 120%;
+    background-color: rgba(205, 205, 205, 0.98);
+}
+
+.GoldPriceList {
+  height: 75%;
+  width: 80%;
+  background-color: rgba(0, 0, 0, 0.326);
+  border-radius: 0.5vw;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2vw;
+  align-items: center;
+
+  padding: 2vw 0;
+  overflow: scroll;
+}
+
+.GoldPriceList::-webkit-scrollbar {
+  display: none;
+}
+
+.grid {
+  width: 85%;
+  height: 15vh;
+  background-color: beige;
+  display: grid;
+  grid-template-rows: 1fr 5px 1fr;
+  grid-template-columns: 1fr 4fr;
+  font-size: 1.8vw;
+
+  box-shadow: 0.6vw 0.6vw 0 black;
+  transition: 0.3s all;
+
+  font-weight: 600;
+  text-shadow: -0.07vw -0.07vw 0 #000, 0.07vw -0.07vw 0 #000, -0.07vw 0.07vw 0 #000, 0.07vw 0.07vw 0 #000;
+  color: white;
+}
+
+.grid:hover{
+    transform: translate(0.2vw, 0.2vw);
+    box-shadow: 0.4vw 0.4vw 0 black;
+}
+
+.hr{
+    grid-row: 2/ 3;
+    grid-column: 2 / 3;
+    background-color: black;
+}
+
+.ImageContainer {
+  grid-row: 1/ 4;
+  grid-column: 1 / 2;
+  display: flex;
+  width: 15vh;
+  height: 15vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.Image {
+  width: 12vh;
+  height: 12vh;
+}
+
+.Top {
+  justify-self: center;
+  align-self: center;
+}
+
+.Top span {
+  color: rgb(182, 0, 0);
+}
+
+.Bottom {
+  display: flex;
+  gap: 2vw;
+  justify-self: center;
+  align-self: center;
+
+  display: flex;
+  justify-content: space-between;
+
+  width: 97.5%;
+  height: 85%;
+
+  background: linear-gradient(to right, #0b5192, #4a95dc);
+}
+
+.Total {
+  margin-left: 3vw;
+}
+
+.Price {
+  margin-right: 1vw;
+}
+
+.closeContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 12.5%;
+}
+
+.close{
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-color: red;
+    width: 2.5vw;
+    height: 2.5vw;
+    transform: translate(10%, -10%);
+    color: white;
+    font-size: 1.6vw;
+}
+.close:hover{
+    background-color: rgb(211, 0, 0);
+}

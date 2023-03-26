@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Database/context/AuthContext";
 import firebase from "firebase";
 import { projectAuth, projectFirestore } from "../../Database/firebase/config";
+import Swipe from "../../Swipe/Swipe";
 
 const particleAmount = 60;
 const rows = [];
@@ -81,6 +82,9 @@ export default function Home() {
 
   return (
     <div className={styles.Home}>
+      <div className={styles.SwipeContainer}>
+        <Swipe />
+      </div>
       <div className={styles.MainBanner}>
         <div className={styles.MBNameLevelContainer}>
           <p className={styles.MBName}>{user.displayName}</p>
@@ -100,15 +104,15 @@ export default function Home() {
       >
         <img
           src={user.data.slimePath + ".svg"}
-          className={`${styles.characterIMG} ${petted
-            ? animations[Math.floor(Math.random() * animations.length)]
-            : ""
-            }`}
+          className={`${styles.characterIMG} ${
+            petted
+              ? animations[Math.floor(Math.random() * animations.length)]
+              : ""
+          }`}
           alt="slime"
           draggable="false"
         />
       </button>
-
       <div className={styles.tabs}>
         <div className={styles.tabsIcon}>
           <p>Daily Login</p>
@@ -119,7 +123,11 @@ export default function Home() {
               alt="Daily chest click to open"
               draggable="false"
             />
-            {chestOpened && <div className={styles.chestGold}>+50 <img src="assets/GameArt/Gold.png" alt="" /></div>}
+            {chestOpened && (
+              <div className={styles.chestGold}>
+                +50 <img src="assets/GameArt/Gold.png" alt="" />
+              </div>
+            )}
           </div>
         </div>
         <div className={styles.tabsIcon}>
@@ -134,7 +142,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-
       {/* Rankings */}
       <div className={styles.RankingsContainer}>
         <p>Rankings:</p>
@@ -146,7 +153,6 @@ export default function Home() {
           ))}
         </ol>
       </div>
-
       {/* Play banner */}
       <button
         className={styles.PlayButton}
@@ -156,8 +162,7 @@ export default function Home() {
       >
         PLAY
       </button>
-
       <div className={styles.ParticlesWrap}>{rows}</div>
-    </div >
+    </div>
   );
 }

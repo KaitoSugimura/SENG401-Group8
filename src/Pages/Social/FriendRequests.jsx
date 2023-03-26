@@ -27,7 +27,7 @@ const FriendRequests = ({ close }) => {
     getFriends();
   }, [user.data.friendRequests]);
 
-  const rejectRequest = async (id) => {
+  const rejectRequest = (id) => {
     const friendRef = projectFirestore.collection("users").doc(id);
 
     // Remove request from user's request list
@@ -36,18 +36,20 @@ const FriendRequests = ({ close }) => {
     })
   }
 
-  const acceptRequest = async (id) => {
+  const acceptRequest = (id) => {
     const friendRef = projectFirestore.collection("users").doc(id);
 
     // Update user's friend requests and friends list
     userRef.update({
       friendRequests: firebase.firestore.FieldValue.arrayRemove(friendRef),
-      friends: firebase.firestore.FieldValue.arrayUnion(friendRef)
+      friends: firebase.firestore.FieldValue.arrayUnion(friendRef),
+      [`unreadMessages.${id}`]: 0,
     });
 
     // Update friend's friend list
     friendRef.update({
-      friends: firebase.firestore.FieldValue.arrayUnion(userRef)
+      friends: firebase.firestore.FieldValue.arrayUnion(userRef),
+      [`unreadMessages.${user.uid}`]: 0,
     });
   }
 

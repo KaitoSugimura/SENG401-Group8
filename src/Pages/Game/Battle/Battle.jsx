@@ -270,7 +270,7 @@ export default function Battle({ setGameState }) {
         }
         enemy.current = null;
       } else
-      if(enemy.current.projectileBuffMode != p.projectileBuffMode){
+      if(enemy.current && enemy.current.projectileBuffMode != p.projectileBuffMode){
         weaponChangeSoundRef.current.currentTime = 0;
         weaponChangeSoundRef.current.play();
       }

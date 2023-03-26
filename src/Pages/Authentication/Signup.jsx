@@ -4,6 +4,8 @@ import "./SL.css";
 import { useSignup } from "../../Database/Hooks/useSignup";
 import { Link } from "react-router-dom";
 import { projectAuth } from "../../Database/firebase/config";
+import { useSelector, useDispatch } from 'react-redux'
+import { register } from "../../Slices/authSlice";
 
 
 export default function Signup() {
@@ -12,16 +14,16 @@ export default function Signup() {
   const [username, setUsername] = useState("");
   const [error, setError] = useState(null);
   const [isPending, setIsPending] = useState(false);
+  const dispatch = useDispatch();
 
   const onSubmit = async (e) => {
     e.preventDefault();
 
     setIsPending(true);
-    await projectAuth.createUserWithEmailAndPassword(email, password)
-      .then(res => res.user.updateProfile({ displayName: username }))
-      .catch(error => {
-        setError(error.message);
-      })
+    dispatch(register({email, password})).catch(error => {
+      console.log(error)
+      setError(error.toString());
+    });
     setIsPending(false);
   };
 

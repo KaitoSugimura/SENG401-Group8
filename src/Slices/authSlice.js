@@ -48,6 +48,30 @@ export const logout = createAsyncThunk(
   }
 );
 
+export const register = createAsyncThunk(
+  "auth/register",
+  async ({ email, password }, thunkAPI) => {
+    try {
+      const response = await projectAuth.createUserWithEmailAndPassword(email, password)
+      .then(res => {
+        console.log(res)
+        console.log(res.user)
+        res.user.updateProfile({ displayName: username })
+      })
+      .catch(error => {
+        console.log(error.message);
+      })
+      console.log(response)
+      return thunkAPI.fulfillWithValue();
+    } catch (error) {
+      console.log("Error while registering..");
+      const message = error.toString();
+      console.log(message);
+      return thunkAPI.rejectWithValue("Error while registering..");
+    }
+  }
+);
+
 // Checks persistent login using onAuthStateChanged
 export const check_login = createAsyncThunk(
   "auth/check_login",
@@ -60,6 +84,9 @@ export const check_login = createAsyncThunk(
           const data = doc.data();
           thunkAPI.dispatch(setData(data))
         })  
+        console.log("in check")
+        console.log(userRef)
+        console.log(user)
         thunkAPI.dispatch(setLoginStatus(user))
         console.log("heya check login");
       } 
@@ -152,6 +179,12 @@ export const authSlice = createSlice({
     },
     [check_login.rejected]: (state, action) => {
       console.log("login session not found")
+    },
+    [register.fulfilled]: (state, action) => {
+      console.log("register fulfilled!")
+    },
+    [register.rejected]: (state, action) => {
+      console.log("register not fulfilled..")
     },
   }
 })

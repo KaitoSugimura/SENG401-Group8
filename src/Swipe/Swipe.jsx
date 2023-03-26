@@ -155,20 +155,19 @@ export default function Swipe() {
       )}
 
       {showThankyou && (
-        <div className={styles.thankYouPopup}>
-          <img
-            className={styles.Check}
-            src="/publicAssets/Check.png"
-          ></img>
-          <p>Thank you for your payment</p>
-          <button
-            className={styles.close2}
-            onClick={() => {
-              setShowThankyou(false);
-            }}
-          >
-            X
-          </button>
+        <div className={styles.background}>
+          <div className={styles.thankYouPopup}>
+            <img className={styles.Check} src="/publicAssets/Check.png"></img>
+            <p>Thank you for your payment</p>
+            <button
+              className={styles.close2}
+              onClick={() => {
+                setShowThankyou(false);
+              }}
+            >
+              X
+            </button>
+          </div>{" "}
         </div>
       )}
     </div>

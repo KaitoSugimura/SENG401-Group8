@@ -104,9 +104,20 @@ export default function GachaRoll() {
     }
 
     function processBanner(){
-        let bannerRoll = Math.floor(Math.random() * bannersData.length);
+        let bannerRoll = 0;
+        if((user.data.bannerUnlocked >> bannerRoll) & 1 == 1){
+            processRoll();
+            return;
+        }
+        
         setRollImage(bannersData[bannerRoll]);
-        console.log(bannersData[bannerRoll]);
+        let chosenBanner = 2 ** bannerRoll; 
+        
+        let newBannerUnlock = user.data.bannerUnlocked | chosenBanner;
+        console.log(user.data.bannerUnlocked | chosenBanner);
+        userRef.update({
+            bannerUnlocked: newBannerUnlock
+        });
         setRollText("You Recieved a Banner!");
     }
 

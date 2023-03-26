@@ -1,22 +1,23 @@
 .Gacha {
-  background: radial-gradient(var(--home-inner-color), var(--home-outer-color));
-  width: 100vw;
-  height: 100vh;
+    background: radial-gradient(var(--home-inner-color), var(--home-outer-color));
+    width: 100vw;
+    height: 100vh;
 }
 
 .currencyDiv {
-  margin-top: 11vh;
-  position: fixed;
-  margin-left: 70vw;
-  padding: 1rem;
-  width: 100rem;
+    position: fixed;
+    top: calc(2vw + 65px);
+    right: 6vw;
+    height: 5vh;
+    font-size: max(2vw, 18px);
+    color: rgb(230, 230, 230);
+    display: flex;
+    align-items: center;
+    
 }
 
-@media only screen and (max-width: 1400px) {
-  .currencyDiv {
-    margin-top: 12vh;
-    margin-left: 60vw;
-  }
+.currencyDiv img{
+    max-width: 2vw;
 }
 
 @media only screen and (max-height: 850px) {
@@ -52,13 +53,12 @@
 
 .skinShardAmount,
 .charShardAmount {
-  padding: 1.5rem;
-  background: #2727279e;
-  color: white;
-  border-radius: 10rem;
-  font-size: larger;
-  font-weight: bolder;
-  margin: 5%;
+  font-size: 3.5rem;
+  font-weight: 500;
+  padding: 19vw;
+}
+.skinShardDiv{
+    padding-left: 2vw;
 }
 
 .gachaRollImage {
@@ -138,55 +138,16 @@
 }
 
 .slimeImage {
-  margin: 1rem;
-  background: linear-gradient(
-    -44deg,
-    rgba(255, 230, 106, 0.8) 0%,
-    rgb(244, 233, 177) 40%
-  );
-  border: 5px solid #121212;
-  border-radius: 5px;
-  width: 12vw;
+    margin: 1rem;
+    background: linear-gradient(
+        -44deg,
+        rgba(255, 230, 106, 0.8) 0%,
+        rgb(244, 233, 177) 40%
+        );
+        border: 5px solid #121212;
+        border-radius: 5px;
+        width: 12vw;
   height: auto;
-}
-
-.rollButton:hover {
-  background: linear-gradient(
-    -44deg,
-    rgb(254, 212, 2) 0% rgb(244, 233, 177) 40%
-  );
-  transition: 0.1s !important;
-  transform: scale(105%) translateY(0.1%);
-}
-
-.rollDiv {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 2;
-  display: flex;
-  justify-content: center;
-  padding: 0;
-  margin-right: 15%;
-  margin-bottom: 4%;
-  margin-left: 15%;
-  list-style: none;
-}
-
-.rollButton {
-  background: linear-gradient(
-    -44deg,
-    rgba(255, 230, 106, 0.8) 0%,
-    rgb(244, 233, 177) 40%
-  );
-  font-weight: 900 !important;
-  border: 2px solid #121212;
-  border-radius: 5px;
-  /* margin: 0 20% !important; */
-  padding: 1rem !important;
-  margin: 0 5%;
-  width: 10vw;
 }
 
 .gachaFooter {

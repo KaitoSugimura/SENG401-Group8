@@ -1,17 +1,16 @@
 import styles from "./EndScreen.module.css";
-import slime from "/assets/GameArt/EarthSlime/EarthSlime1.gif";
 import PlayerBanner from "./PlayerBanner";
-import gold from "../../.././../public/assets/GameArt/Gold.png";
+import gold from "/assets/GameArt/Gold.png";
 import victory from '/assets/BackgroundImages/VictoryImage.jpg'
 import defeat from'/assets/BackgroundImages/CreateLobby.png'
 import { useContext, useEffect, useRef, useState } from "react";
-import AccountBanner from "../../../Components/AccountBanner";
 import { gameStateContext } from "../gameStateContext";
 import { AuthContext } from "../../../Database/context/AuthContext";
 import { projectFirestore } from "../../../Database/firebase/config";
+import trophy from "/publicAssets/Trophy.png"
 
 export default function EndScreen({ setGameState }) {
-  const { EndScreenData } = useContext(gameStateContext);
+  const { EndScreenData, gameMode } = useContext(gameStateContext);
   const { user, userRef } = useContext(AuthContext);
   // placeholder for if the win screen is ranked version or not
   const [ranked, setRanked] = useState(false);
@@ -33,10 +32,17 @@ export default function EndScreen({ setGameState }) {
       });
 
       if (EndScreenData.Won) {
-        // update self
-        await userRef.update({ gold: (+user.data.gold ) + (+EndScreenData.gold) });
-        //update enemy
-        await enemyRef.update({ gold: (+data.gold) - (+EndScreenData.gold) });
+        if(gameMode==="Custom"){
+          // update self
+          await userRef.update({ gold: (+user.data.gold ) + (+EndScreenData.gold), level: (+user.data.level ) + (1)  });
+          //update enemy
+          await enemyRef.update({ gold: (+data.gold) - (+EndScreenData.gold), level: (+data.data.level ) + (1)  });
+        } else if(gameMode==="Ranked"){
+          // update self
+          await userRef.update({ rankPoints: (+user.data.rankPoints ) + (20), level: (+user.data.level ) + (1) });
+          //update enemy
+          await enemyRef.update({ rankPoints: (+data.rankPoints) - (10), level: (+data.data.level ) + (1)  });
+        }
       }
     };
     fetchBannerAndUpdateGold();
@@ -45,13 +51,15 @@ export default function EndScreen({ setGameState }) {
   return (
     <div className={styles.EndScreen}>
       
-      <div className={styles.rewards}>
+      <div className={styles.rewards} style={{color: winner?"#000":"#fff"}}>
         {/* <p>{winner ? "+20 Rank Points" : "-20 Rank Points"}</p> */}
-        <img  styles={{zIndex:"100"}}src={gold} alt="" />
+        <img  styles={{zIndex:"100"}}src={gameMode==="Custom"?gold:trophy} alt="" />
         <p>
-          {winner
+          {gameMode==="Custom"?(winner
             ? `+${EndScreenData.gold} Gold`
-            : `-${EndScreenData.gold} Gold`}
+            : `-${EndScreenData.gold} Gold`):(winner
+              ? `+${20} Rank Points`
+              : `-${10} Rank Points`)}
         </p>
       </div>
       {winner && <p className={styles.endStatus}>VICTORY</p>}

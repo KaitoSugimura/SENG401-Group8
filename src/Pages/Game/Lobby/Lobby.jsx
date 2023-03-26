@@ -8,7 +8,7 @@ import { gameStateContext } from "../gameStateContext";
 
 export default function Lobby({ setGameState }) {
   const { user } = useContext(AuthContext);
-  const { setServerPlayerID, setClientPlayerID } = useContext(gameStateContext);
+  const { setServerPlayerID, setClientPlayerID, setGameMode } = useContext(gameStateContext);
 
   const [popup, setPopup] = useState(false);
   const [roomList, setRoomList] = useState({});
@@ -46,6 +46,7 @@ export default function Lobby({ setGameState }) {
     });
     const lockSlot = projectDatabase.ref(`lobby/rooms/${user.uid}/lock`);
     lockSlot.set(false);
+    setGameMode("Custom")
     setGameState("Room");
   };
 
@@ -86,10 +87,12 @@ export default function Lobby({ setGameState }) {
       slimeType: user.data.slimeType,
     });
     clientSlotRef.onDisconnect().remove();
+    setGameMode("Custom");
     setGameState("Room");
   };
 
   const queueRanked = () => {
+    setGameMode("Ranked");
     setGameState("Queue");
   };
 

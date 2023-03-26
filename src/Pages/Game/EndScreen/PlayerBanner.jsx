@@ -24,7 +24,7 @@ const PlayerBanner = ({ left, winner, userData}) => {
   }
   else if(!winner&&left){
     bannerStyles={
-      transform: `scale(75%) translate(-108%, -60%)`,
+      transform: `scale(75%) translate(-112%, -48%)`,
       flexDirection: `row-reverse`,
       gap:`2vw`,
     }
@@ -38,7 +38,7 @@ const PlayerBanner = ({ left, winner, userData}) => {
   }
   else if(!winner&&!left){
     bannerStyles={
-      transform: `scale(75%) translate(-15%, -55%)`,
+      transform: `scale(75%) translate(-15%, -50%)`,
       flexDirection: `row`,
       gap:`2vw`,
     }

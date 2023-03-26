@@ -46,6 +46,7 @@ export default function Home() {
   const navigate = useNavigate();
   // const { user, userRef } = useContext(AuthContext);
   const { user, userRef } = useSelector((state) => state.auth);
+  console.log(user)
   const [chestOpened, setChestOpened] = useState(false);
   
   const chestAvailable = user.data.daysSinceLastChest > 1;
@@ -89,7 +90,7 @@ export default function Home() {
       </div>
       <div className={styles.MainBanner}>
         <div className={styles.MBNameLevelContainer}>
-          <p className={styles.MBName}>{user.displayName}</p>
+          <p className={styles.MBName}>{user.username}</p>
           <p className={styles.MBLevel}>{user.data.level}</p>
         </div>
         <hr />

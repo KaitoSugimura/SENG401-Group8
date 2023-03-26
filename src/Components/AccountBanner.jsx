@@ -177,9 +177,12 @@ export default function AccountBanner({
       {isNavBanner && (
         <button
           className={styles.SignOut}
-          onClick={() => {
+          onClick={async () => {
             if (setShowBanner) setShowBanner(false);
-            dispatch(logout({}));
+            dispatch(setLogoutStatus())
+            console.log("Ger")
+            const originalPromiseResult = await dispatch(logout({})).unwrap()
+            console.log(originalPromiseResult)
           }}
         >
           Sign out

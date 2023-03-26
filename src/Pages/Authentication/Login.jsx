@@ -17,8 +17,10 @@ export default function Login() {
   const onSubmit = (e) => {
     e.preventDefault();
     setIsPending(true);
+
     dispatch(login({email, password})).catch(error => {
-      setError("Email and password do not match.");
+      console.log(error)
+      setError(error.toString());
     });
     setIsPending(false);
   };
@@ -27,7 +29,7 @@ export default function Login() {
     <div className="SLFormContainer">
       <form onSubmit={onSubmit} className="SLform">
         <h2>Login to an existing account</h2>
-        <p className={`errorMSG ${error ? "displayError" : ""}`}>Error: {error}</p>
+        <p className={`errorMSG ${error ? "displayError" : ""}`}>{error}</p>
 
         <label>
           <span>Email:</span>

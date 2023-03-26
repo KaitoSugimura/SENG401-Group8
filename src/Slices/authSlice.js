@@ -12,41 +12,41 @@ export const login = createAsyncThunk(
       );
 
       const userRef = projectFirestore.collection("users").doc(response.user.uid);
-      userRef.onSnapshot((doc) => {
+      userRef.onSnapshot(async (doc) => {
         const data = doc.data();
-        thunkAPI.dispatch(setData(data))
+        await thunkAPI.dispatch(setData(data))
       })
       
-      thunkAPI.dispatch(setLoginStatus(response.user))
-
+      await thunkAPI.dispatch(setLoginStatus(response.user))
 
       return thunkAPI.fulfillWithValue();
     } catch (error) {
       console.log("Error while logging in..");
       const message = error.toString();
       console.log(message);
-      return thunkAPI.rejectWithValue();
+      return thunkAPI.rejectWithValue("Error while logging in..");
     }
   }
 );
 
 export const logout = createAsyncThunk(
   "auth/logout",
-  async ({ }, thunkAPI) => {
+  async ({}, thunkAPI) => {
     try {
       await projectAuth.signOut();
       console.log("logged out")
+
+      // thunkAPI.dispatch(setLogoutStatus())
+
       return thunkAPI.fulfillWithValue();
     } catch (error) {
-      console.log("Error while logging in..");
+      console.log("Error while logging out..");
       const message = error.toString();
       console.log(message);
-      return thunkAPI.rejectWithValue();
+      return thunkAPI.rejectWithValue("Error while logging out..");
     }
   }
 );
-
-
 
 // Checks persistent login using onAuthStateChanged
 export const check_login = createAsyncThunk(
@@ -124,6 +124,10 @@ export const authSlice = createSlice({
         daysSinceLastChest: (Date.now() - data.chestLastOpenedOn.toDate()) / 1000 / 60 / 60 / 24,
       }
       state.isLoggedIn = true;
+    },
+    setLogoutStatus: (state) => {
+      state.auth = null
+      state.isLoggedIn = false;
     }
   },
   // In the future, I think these thunks should directly update state using action.payload
@@ -132,28 +136,27 @@ export const authSlice = createSlice({
   // This means that the pure reducer on the top wouldn't be needed.
   extraReducers: {
     [login.fulfilled]: (state, action) => {
-      // state.isLoggedIn = true;
+      console.log("login fulfilled!")
     },
     [login.rejected]: (state, action) => {
-      state.isLoggedIn = false;
+      throw new Error("Email and password do not match.");
     },
     [logout.fulfilled]: (state, action) => {
-      console.log('fullfilled');
-      state.isLoggedIn = false;
+      console.log("logout fulfilled!")
     },
     [logout.rejected]: (state, action) => {
-      // state.isLoggedIn = false;
+      console.log("???")
     },
     [check_login.fulfilled]: (state, action) => {
-      // state.isLoggedIn = true;
+      console.log("login session found!")
     },
     [check_login.rejected]: (state, action) => {
-      state.isLoggedIn = false;
+      console.log("login session not found")
     },
   }
 })
 
 // Action creators are generated for each case reducer function
 // export const { login, logout } = authSlice.actions
-export const {setLoginStatus, setData} = authSlice.actions
+export const {setLoginStatus, setData, setLogoutStatus} = authSlice.actions
 export default authSlice.reducer

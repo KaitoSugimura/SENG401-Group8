@@ -5,5 +5,13 @@ import authReducer from './Slices/authSlice'
 export default configureStore({
     reducer: {
         auth: authReducer,
-    },
+    },  
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        serializableCheck: {
+            // Ignore these paths in the state
+            ignoredActionPaths: ['payload'],
+            ignoredPaths: ['auth']
+        },
+    }),
   })

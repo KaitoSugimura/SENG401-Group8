@@ -179,42 +179,42 @@
 }
 
 .carousel-indicators [aria-label="Slide 1"]{
-  background-image: url("/public/assets/GameArt/ShadowSlime/ShadowSlime.png");
+  background-image: url("/assets/GameArt/ShadowSlime/ShadowSlime2.svg");
   background-size: 4vw 6vh;
   background-repeat: no-repeat;
   background-position: center 5px;
 }
 
 .carousel-indicators [aria-label="Slide 2"]{
-  background-image: url("/public/assets/GameArt/FireSlime/FireSlime.png");
+  background-image: url("/assets/GameArt/FireSlime/FireSlime2.svg");
   background-size: 4vw 5vh;
   background-repeat: no-repeat;
   background-position: center 10px;
 }
 
 .carousel-indicators [aria-label="Slide 3"]{
-  background-image: url("/public/assets/GameArt/EarthSlime/EarthSlime.png");
+  background-image: url("/assets/GameArt/EarthSlime/EarthSlime2.svg");
   background-size: 4vw 6vh;
   background-repeat: no-repeat;
   background-position: center 5px;
 }
 
 .carousel-indicators [aria-label="Slide 1"]:hover{
-  background-image: url("/public/assets/GameArt/ShadowSlime/ShadowSlime1.gif");
+  background-image: url("/assets/GameArt/ShadowSlime/ShadowSlime2.gif");
   transform: scale(101%)
   translateY(0.1%);
   transition: 0.2s;
 }
 
 .carousel-indicators [aria-label="Slide 2"]:hover{
-  background-image: url("/public/assets/GameArt/FireSlime/FireSlime1.gif");
+  background-image: url("/assets/GameArt/FireSlime/FireSlime2.gif");
   transform: scale(101%)
   translateY(0.1%);
   transition: 0.2s;
 }
 
 .carousel-indicators [aria-label="Slide 3"]:hover{
-  background-image: url("/public/assets/GameArt/EarthSlime/EarthSlime1.gif");
+  background-image: url("/assets/GameArt/EarthSlime/EarthSlime2.gif");
   transform: scale(101%)
   translateY(0.1%);
   transition: 0.2s;

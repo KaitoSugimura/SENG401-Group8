@@ -141,6 +141,12 @@
   overflow: hidden;
 }
 
+.DateTime{
+  text-align: center;
+  font-size: max(0.7vw, 10px);
+  margin-top: 0.5vw;
+}
+
 .messages {
   display: flex;
   flex-direction: column-reverse;

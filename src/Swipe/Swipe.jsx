@@ -71,6 +71,7 @@ export default function Swipe() {
       )}
       {showPaymentConfirmation && (
         <div className={styles.background}>
+          <div className={styles.Warning}>Note: You do not need to actually input anything. <br/>Just press confirm.</div>
           <div className={styles.ConfirmationPopupContainer}>
             <div className={styles.creditCardImageContainer}>
               <img

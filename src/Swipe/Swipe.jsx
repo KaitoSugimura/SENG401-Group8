@@ -22,7 +22,9 @@ export default function Swipe() {
         onClick={() => {
           setPopUp(true);
         }}
-      > THIS IS THE BUTTON TO OPEN THE SHOP, I HAVE NO IMAGES FOR THIS YET </button>
+      >
+        THIS IS THE BUTTON TO OPEN THE SHOP, I HAVE NO IMAGES FOR THIS YET
+      </button>
       {showPopup && (
         <div className={styles.PopupContainer}>
           <p className={styles.BuyGoldText}>Buy Gold</p>
@@ -37,11 +39,15 @@ export default function Swipe() {
               ></PriceBlock>
             ))}
           </div>
-          <div className={styles.closeContainer}>
-            <button className={styles.close} onClick={() => {
-          setPopUp(false);
-        }}>X</button>
-          </div>
+
+          <button
+            className={styles.close}
+            onClick={() => {
+              setPopUp(false);
+            }}
+          >
+            X
+          </button>
         </div>
       )}
     </div>

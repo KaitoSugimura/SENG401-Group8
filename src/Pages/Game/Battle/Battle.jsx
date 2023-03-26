@@ -387,7 +387,7 @@ export default function Battle({ setGameState }) {
             projectiles.current.push(newProjectile);
           }
         );
-        self.current.HP -= 5;
+        // self.current.HP -= 5;
 
         shootSoundRef.current.play();
 

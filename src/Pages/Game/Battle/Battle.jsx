@@ -9,6 +9,7 @@ import LoadingScreen from "../LoadingScreen";
 import styles from "./Battle.module.css";
 import GameCountDown from "./GameCountDown";
 import map from "/assets/GameMap/SlimeMeadows.webp";
+import rankedMap from "/assets/GameMap/RankedMap.webp";
 import characterData from "../../../Database/JsxData/characters.jsx";
 
 export default function Battle({ setGameState }) {
@@ -606,7 +607,7 @@ export default function Battle({ setGameState }) {
             }}
           >
             <img
-              src={map}
+              src={gameMode==="Battle"?map:rankedMap}
               className={styles.battleFieldImage}
               onLoad={() => {
                 setTimeout(() => {

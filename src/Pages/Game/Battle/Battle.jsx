@@ -518,7 +518,7 @@ export default function Battle({ setGameState }) {
 
             healSoundRef.current.currentTime = 0;
             healSoundRef.current.play();
-            self.current.HP += MAX_HP / 5;
+            self.current.HP += 20;
             if (self.current.HP > MAX_HP) {
               self.current.HP = MAX_HP;
             }

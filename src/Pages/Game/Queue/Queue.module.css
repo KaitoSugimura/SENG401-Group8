@@ -27,7 +27,7 @@
 .playerInfo h1 {
   font-size: 2.5vw;
   color: #f1f1f1;
-  filter: drop-shadow(5px 5px 0px #000000);
+  filter: drop-shadow(3px 3px 0px #000000);
 }
 
 .playerInfo h2 {
@@ -61,22 +61,29 @@
   display: inline-block;
   color: #ffffff;
   margin: 0.2vw;
-  filter: drop-shadow(5px 5px 0px #d81106);
+  filter: drop-shadow(5px 5px 0px #000000);
 }
 
 .loadingText span {
-  animation: loadingAnim 1.4s infinite alternate;
+  animation: queueAnim 1.4s infinite alternate;
 }
 
-@keyframes loadingAnim {
+@keyframes queueAnim {
   0% {
     opacity: 1;
   }
+  60%{
+    transform: translateY(0);
+  }
+  70%{
+    transform: translateY(-10%);
+  }
   80% {
+    transform: translateY(0);
     opacity: 1;
   }
   100% {
-    opacity: 0;
+    opacity: 1;
   }
 }
 
@@ -93,6 +100,19 @@
 .loadingTips span {
   animation: loadingAnim 2s infinite alternate;
 }
+
+@keyframes loadingAnim {
+  0% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 
 .loadingSlime {
   position: absolute;

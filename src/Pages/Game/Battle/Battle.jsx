@@ -11,69 +11,74 @@ import GameCountDown from "./GameCountDown";
 import map from "/assets/GameMap/SlimeMeadows.webp";
 import characterData from "../../../Database/JsxData/characters.jsx";
 
-
 export default function Battle({ setGameState }) {
   const { user } = useContext(AuthContext);
   const { serverPlayerID, clientPlayerID, setEndScreenData, gameMode } =
-  useContext(gameStateContext);
-  
+    useContext(gameStateContext);
+
   const self = useRef({});
   const enemy = useRef(null);
   const [reRender, Render] = useState(null);
-  
+
   const [loading, setLoading] = useState(true);
   const controlsDead = useRef(true);
   const [countDown, setCountDown] = useState(false);
-  
+
   const up = useRef(false);
   const left = useRef(false);
   const down = useRef(false);
   const right = useRef(false);
   const mousePos = useRef({ x: null, y: null });
-  
+
   const selfCompRef = useRef(null);
-  
+
   const intervalRef = useRef(null);
-  
+
   const battleFieldWidth = useRef(90); // If these numbers are to be changed, change in the useEffect below
   const battleFieldHeight = useRef(50.625);
-  
+
   const projectiles = useRef([]);
   const currentProjectileShotAmount = useRef(0);
-  const enemyProjectiles = useRef([]);
-  
+  // const enemyProjectiles = useRef([]);
+
   const buttonDivRef = useRef(null);
-  
+
   // Sound
   const shootSoundRef = useRef(null);
   const hitNormalSoundRef = useRef(null);
   const weaponChangeSoundRef = useRef(null);
   const buffSoundRef = useRef(null);
   const healSoundRef = useRef(null);
-  
-  const {charactersData} = characterData;
+
+  const { charactersData } = characterData;
   let CDIndex = 0;
-for(let i = 0; i < charactersData.length; i++){
-  if(charactersData[i].type === user.data.slimeType){
-    CDIndex = i;
-    break;
+  for (let i = 0; i < charactersData.length; i++) {
+    if (charactersData[i].type === user.data.slimeType) {
+      CDIndex = i;
+      break;
+    }
   }
-}
-  const MAX_HP = charactersData[CDIndex].health*100;
-  const DMG = charactersData[CDIndex].power*3;
-  const SPEED = 1 + (charactersData[CDIndex].speed - 3)/5;
+  const MAX_HP = charactersData[CDIndex].health * 100;
+  const DMG = charactersData[CDIndex].power * 3;
+  const SPEED = 1 + (charactersData[CDIndex].speed - 3) / 5;
 
   useEffect(() => {
     if (shootSoundRef.current)
-    shootSoundRef.current.volume = Math.min(1.1 * user.data.musicVolume, 1);
+      shootSoundRef.current.volume = Math.min(1.1 * user.data.musicVolume, 1);
     if (hitNormalSoundRef.current)
-    hitNormalSoundRef.current.volume = Math.min(1.2 * user.data.musicVolume, 1);
+      hitNormalSoundRef.current.volume = Math.min(
+        1.2 * user.data.musicVolume,
+        1
+      );
     if (weaponChangeSoundRef.current)
-    weaponChangeSoundRef.current.volume = Math.min(1.05 * user.data.musicVolume, 1);
+      weaponChangeSoundRef.current.volume = Math.min(
+        1.05 * user.data.musicVolume,
+        1
+      );
     if (buffSoundRef.current)
-    buffSoundRef.current.volume = Math.min(0.75 * user.data.musicVolume, 1);
+      buffSoundRef.current.volume = Math.min(0.75 * user.data.musicVolume, 1);
     if (healSoundRef.current)
-    healSoundRef.current.volume = Math.min(1.05 * user.data.musicVolume, 1);
+      healSoundRef.current.volume = Math.min(1.05 * user.data.musicVolume, 1);
   }, [
     shootSoundRef,
     hitNormalSoundRef,
@@ -159,7 +164,7 @@ for(let i = 0; i < charactersData.length; i++){
         ...self.current,
         left: self.current.left / battleFieldWidth.current,
         top: self.current.top / battleFieldHeight.current,
-        HP: self.current.HP/MAX_HP*100
+        HP: (self.current.HP / MAX_HP) * 100,
         // time: Date.now(),
       });
     }
@@ -193,7 +198,7 @@ for(let i = 0; i < charactersData.length; i++){
       }
     });
 
-    if(gameMode === "Custom"){
+    if (gameMode === "Custom") {
       projectDatabase
         .ref(`lobby/rooms/${serverPlayerID}/gold`)
         .once("value", (snapShot) => {
@@ -236,7 +241,7 @@ for(let i = 0; i < charactersData.length; i++){
       ...self.current,
       left: self.current.left / battleFieldWidth.current,
       top: self.current.top / battleFieldHeight.current,
-      HP: self.current.HP/MAX_HP*100
+      HP: (self.current.HP / MAX_HP) * 100,
     });
     playerRef.onDisconnect().remove();
 
@@ -407,7 +412,7 @@ for(let i = 0; i < charactersData.length; i++){
         );
         // self.current.HP -= 5;
 
-        currentProjectileShotAmount.current++;
+        currentProjectileShotAmount.current += 1;
         shootSoundRef.current.play();
 
         setTimeout(() => {
@@ -479,8 +484,15 @@ for(let i = 0; i < charactersData.length; i++){
           hitNormalSoundRef.current.currentTime = 0;
           hitNormalSoundRef.current.play();
         }
+        if (
+          (playerId === serverPlayerID &&
+            projectiles.current[i].key >= 10000) ||
+          (playerId != serverPlayerID && projectiles.current[i].key < 10000)
+        ) {
+          currentProjectileShotAmount.current -= 1;
+        }
+
         projectiles.current.splice(i, 1);
-        currentProjectileShotAmount.current--;
         return;
       }
       let projectile = projectiles.current[i];
@@ -499,13 +511,13 @@ for(let i = 0; i < charactersData.length; i++){
 
             buffSoundRef.current.currentTime = 0;
             buffSoundRef.current.play();
-            self.current.DMG += DMG/3;
+            self.current.DMG += DMG / 3;
           } else {
             // healing
 
             healSoundRef.current.currentTime = 0;
             healSoundRef.current.play();
-            self.current.HP += MAX_HP/5;
+            self.current.HP += MAX_HP / 5;
             if (self.current.HP > MAX_HP) {
               self.current.HP = MAX_HP;
             }
@@ -519,8 +531,15 @@ for(let i = 0; i < charactersData.length; i++){
           }
         }
         projectileDeletionRef.set({ key: projectiles.current[i].key });
+        if (
+          (playerId === serverPlayerID &&
+            projectiles.current[i].key >= 10000) ||
+          (playerId != serverPlayerID && projectiles.current[i].key < 10000)
+        ) {
+          currentProjectileShotAmount.current -= 1;
+        }
         projectiles.current.splice(i, 1);
-        currentProjectileShotAmount.current--;
+
       }
 
       if (
@@ -538,8 +557,15 @@ for(let i = 0; i < charactersData.length; i++){
         projectile.bulletState++;
       }
       if (projectile.bulletState >= 5) {
+        if (
+          (playerId === serverPlayerID &&
+            projectiles.current[i].key >= 10000) ||
+          (playerId === clientPlayerID && projectiles.current[i].key < 10000)
+        ) {
+          currentProjectileShotAmount.current -= 1;
+        }
         projectiles.current.splice(i, 1);
-        currentProjectileShotAmount.current--;
+
       }
     }
     Render({ time: Date.now() /*- enemy.current.time*/ });
@@ -645,14 +671,16 @@ for(let i = 0; i < charactersData.length; i++){
                         ? "rgb(0, 195, 255)"
                         : "rgb(13, 255, 0)",
                     }}
-                  >{5 - currentProjectileShotAmount.current}</span>
+                  >
+                    {5 - currentProjectileShotAmount.current}
+                  </span>
                   <p className={styles.characterName}>{self.current.name}</p>
                 </div>
                 <div className={styles.HPContainer}>
                   <div
                     className={styles.SelfHPBar}
                     style={{
-                      width: self.current.HP/MAX_HP*100 + "%",
+                      width: (self.current.HP / MAX_HP) * 100 + "%",
                     }}
                   ></div>
                 </div>

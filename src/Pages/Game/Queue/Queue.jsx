@@ -54,7 +54,7 @@ export default function Queue({ setGameState }) {
             newRankedRoomRef.off();
             newRankedRoomRef.remove();
             setClientPlayerID(snapshot.val().uid);
-            setGameState("Battle");
+            setGameState("RankedBattle");
           }
         });
       } else {
@@ -64,7 +64,7 @@ export default function Queue({ setGameState }) {
         });
         setServerPlayerID(OpenRankedID);
         setClientPlayerID(user.uid);
-        setGameState("Battle");
+        setGameState("RankedBattle");
       }
     };
 

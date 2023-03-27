@@ -25,7 +25,7 @@ export default function Game() {
     gamePage = <Lobby setGameState={setGameState} />;
   } else if (gameState === "Room") {
     gamePage = <Room setGameState={setGameState} />;
-  } else if (gameState === "Battle") {
+  } else if (gameState === "Battle" || gameState === "RankedBattle") {
     gamePage = <Battle setGameState={setGameState} />;
   } else if (gameState === "EndScreen") {
     gamePage = <EndScreen setGameState={setGameState} />;

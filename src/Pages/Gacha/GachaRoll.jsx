@@ -75,7 +75,6 @@ export default function GachaRoll() {
         let chosenSkin = skinType + skinNum;
         let ownedSlimes = user.data.slimes;
         for(let i =0; i<ownedSlimes.length;i++){
-            console.log(ownedSlimes[i]);
             if (ownedSlimes[i] == chosenSkin){
                 processSkinShards(
                     (skinNum == "2") 
@@ -114,7 +113,6 @@ export default function GachaRoll() {
         let chosenBanner = 2 ** bannerRoll; 
         
         let newBannerUnlock = user.data.bannerUnlocked | chosenBanner;
-        console.log(user.data.bannerUnlocked | chosenBanner);
         userRef.update({
             bannerUnlocked: newBannerUnlock
         });
@@ -136,7 +134,9 @@ export default function GachaRoll() {
             characterShard: user.data.characterShard + shardAmount
         });
     }
-
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
     return (
         <div className={styles.rollDiv}>
         <button className={styles.rollButton} onClick={() => {
@@ -170,8 +170,8 @@ export default function GachaRoll() {
                         onClick={() => {
                             updateGold(price);
                             setPopup(false);
-                            setRollRequest(true);
                             processRoll();
+                            setRollRequest(true);
                         }}
                     >
                         Confirm
@@ -181,19 +181,29 @@ export default function GachaRoll() {
             </Popup>
         )}
         {showRollRequest && (
-            <Popup setPopUp={setRollRequest}>
+        <div className={styles.customPopup}>
+            <div className={styles.customInner}>
                 <div className={styles.popupBanner}>
-                    <p>
-                        {rollText}
-                    </p>
-                    <img className={styles.rollImage} src={rollImage}/>
+                    <div id="rollbanner" className={styles.rollBanner}>
+                        <p>
+                            {rollText}
+                        </p>
+                        <img className={styles.rollImage} src={rollImage}/>
+                    </div>
                     <button className={styles.rollButton}
                         onClick={() => {
                             setRolls(rolls-1);
                             if (rolls > 1){
                                 setRollRequest(false);
-                                setRollRequest(true);
                                 processRoll();
+                                if(rolls % 2 == 0){
+                                    document.getElementById("rollbanner").classList.remove(styles.rollBanner);
+                                    document.getElementById("rollbanner").classList.add(styles.rollAnimation);
+                                }else{
+                                    document.getElementById("rollbanner").classList.remove(styles.rollAnimation);
+                                    document.getElementById("rollbanner").classList.add(styles.rollBanner);
+                                }
+                                setRollRequest(true);
                             }else{
                                 setRollRequest(false);
                             }
@@ -202,7 +212,8 @@ export default function GachaRoll() {
                         Confirm
                     </button>
                 </div>
-            </Popup>
+            </div>
+        </div>
         )}
         </div>
 

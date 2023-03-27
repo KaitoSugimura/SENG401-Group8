@@ -52,15 +52,15 @@ export default function Battle({ setGameState }) {
 
   useEffect(() => {
     if (shootSoundRef.current)
-      shootSoundRef.current.volume = 1.1 * user.data.musicVolume;
+      shootSoundRef.current.volume = Math.min(1.1 * user.data.musicVolume, 1);
     if (hitNormalSoundRef.current)
-      hitNormalSoundRef.current.volume = 1.2 * user.data.musicVolume;
+      hitNormalSoundRef.current.volume = Math.min(1.2 * user.data.musicVolume, 1);
     if (weaponChangeSoundRef.current)
-      weaponChangeSoundRef.current.volume = 1.05 * user.data.musicVolume;
+      weaponChangeSoundRef.current.volume = Math.min(1.05 * user.data.musicVolume, 1);
     if (buffSoundRef.current)
-      buffSoundRef.current.volume = 0.75 * user.data.musicVolume;
+      buffSoundRef.current.volume = Math.min(0.75 * user.data.musicVolume, 1);
     if (healSoundRef.current)
-      healSoundRef.current.volume = 1.05 * user.data.musicVolume;
+      healSoundRef.current.volume = Math.min(1.05 * user.data.musicVolume, 1);
   }, [
     shootSoundRef,
     hitNormalSoundRef,
@@ -278,6 +278,9 @@ export default function Battle({ setGameState }) {
           setTimeout(() => {
             projectDatabase.ref(`battle/${serverPlayerID}`).remove();
             projectDatabase.ref(`lobby/rooms/${serverPlayerID}`).remove();
+            enemyRef.off();
+            enemyProjectileRef.off();
+            enemyProjectileDeletionRef.off();
             setGameState("EndScreen");
           }, 100);
         }

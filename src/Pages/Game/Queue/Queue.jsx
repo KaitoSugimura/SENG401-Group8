@@ -51,6 +51,7 @@ export default function Queue({ setGameState }) {
         setServerPlayerID(user.uid);
         newRankedRoomRef.on("value", (snapshot) => {
           if (snapshot.val() && snapshot.val().uid) {
+            newRankedRoomRef.off();
             newRankedRoomRef.remove();
             setClientPlayerID(snapshot.val().uid);
             setGameState("Battle");

@@ -278,6 +278,9 @@ export default function Battle({ setGameState }) {
           setTimeout(() => {
             projectDatabase.ref(`battle/${serverPlayerID}`).remove();
             projectDatabase.ref(`lobby/rooms/${serverPlayerID}`).remove();
+            enemyRef.off();
+            enemyProjectileRef.off();
+            enemyProjectileDeletionRef.off();
             setGameState("EndScreen");
           }, 100);
         }

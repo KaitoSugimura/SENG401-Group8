@@ -39,17 +39,20 @@ export default function Room({ setGameState }) {
       setLockButtons(otherSnapshot.val());
       if (otherSnapshot.val()) {
         lockRef.off();
+        enemyRef.off();
         setTimeout(() => {
           projectDatabase.ref(`lobby/rooms/${serverPlayerID}`).off();
           setGameState("Battle");
         }, 500);
       }
     });
-    projectDatabase
-      .ref(`lobby/rooms/${serverPlayerID}`)
-      .on("value", (snapShot) => {
+    const roomRef = projectDatabase
+    .ref(`lobby/rooms/${serverPlayerID}`);
+    roomRef.on("value", (snapShot) => {
         if (!snapShot.exists()) {
+          roomRef.off();
           lockRef.off();
+          enemyRef.off();
           setGameState("Lobby");
         }
       });
@@ -162,6 +165,7 @@ export default function Room({ setGameState }) {
                 }
                 setClientPlayerID(null);
                 setServerPlayerID(null);
+                enemyRef.off();
                 setGameState("Lobby");
               }
             }}

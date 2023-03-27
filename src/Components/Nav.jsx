@@ -14,15 +14,17 @@ import EndScreenBGM from "/Sound/EndScreen.mp3";
 import { AuthContext } from "../Database/context/AuthContext";
 import { gameStateContext } from "../Pages/Game/gameStateContext";
 import { useDispatch, useSelector } from "react-redux";
+import { updateUser } from "../Slices/userSlice";
 
 export default function Nav() {
   const { user } = useSelector((state) => state)
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn)
   const dispatch = useDispatch()
   const locationPath = useLocation().pathname;
   const [showBanner, setShowBanner] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   let musicVol = 0;
-  if (user) {
+  if (isLoggedIn) {
     musicVol = user.data.musicVolume;
   }
   const [musicVolume, setMusicVolume] = useState(musicVol);
@@ -109,7 +111,7 @@ export default function Nav() {
       {/* {showBanner && <div className={styles.CloseArea} onClick={()=>closeBanner} ></div>}
       {showSettings && <div className={styles.CloseArea} onClick={()=>closeBanner} ></div>} */}
       <h1 className={styles.logo}>I'm Slime</h1>
-      {user && (
+      {isLoggedIn && (
         <>
           <nav>
             <ul className={styles.navLinks}>
@@ -158,7 +160,7 @@ export default function Nav() {
         </>
       )}
       <div className={styles.rightSideNav} ref={acctBanner}>
-        {user && (
+        {isLoggedIn && (
           <>
             <span className={styles.goldAmount}>{user.data.gold} Gold</span>
 

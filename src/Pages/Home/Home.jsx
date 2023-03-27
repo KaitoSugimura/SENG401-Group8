@@ -46,7 +46,8 @@ export default function Home() {
   const [leaderboard, setLeaderboard] = useState([]);
   const navigate = useNavigate();
   // const { user, userRef } = useContext(AuthContext);
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state);
+  const dispatch = useDispatch()
   console.log(user)
   const [chestOpened, setChestOpened] = useState(false);
   
@@ -92,7 +93,7 @@ export default function Home() {
       </div>
       <div className={styles.MainBanner}>
         <div className={styles.MBNameLevelContainer}>
-          <p className={styles.MBName}>{user.username}</p>
+          <p className={styles.MBName}>{user.data.username}</p>
           <p className={styles.MBLevel}>{user.data.level}</p>
         </div>
         <hr />

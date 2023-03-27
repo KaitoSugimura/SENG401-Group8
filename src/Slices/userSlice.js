@@ -5,7 +5,7 @@ import { AuthContext } from "../Database/context/AuthContext";
 import { useContext, useEffect, useState } from "react";
 
 
-const { userRef } = useContext(AuthContext);
+
 
 // export const updateBanner = createAsyncThunk(
 //     "user/updateBanner",
@@ -25,8 +25,10 @@ const { userRef } = useContext(AuthContext);
 
 export const updateUser = createAsyncThunk(
     "user/updateUser",
-    async ({ toUpdate }, thunkAPI) => {
+    async (toUpdate, thunkAPI) => {
       try {
+        const userRef = projectFirestore.collection("users").doc("BYaTKVyqGUWgrBdShDsjQIOC0an2");
+
         userRef.update(toUpdate);
         
         // Check if we need to update the store
@@ -47,7 +49,7 @@ export const updateUser = createAsyncThunk(
                 case 'bannerFilepath':
                     thunkAPI.dispatch(setBannerFilePath(toUpdate.property))                
                 case 'slimeType':
-                    thunkAPI.dispatch(setSlimeType(toUpdate.property))                
+                    thunkAPI.dispatch(setSlimeType(toUpdate.property))               
                 case 'slimeSkin':
                     thunkAPI.dispatch(setSlimeSkin(toUpdate.property))                
                 case 'status':
@@ -58,6 +60,10 @@ export const updateUser = createAsyncThunk(
                     thunkAPI.dispatch(setMessage(toUpdate.property))    
                 case 'friendRequests':
                     thunkAPI.dispatch(setFriendRequests(toUpdate.property))    
+                // These two should always be kept updated
+                default:
+                    thunkAPI.dispatch(setSlimePath())
+                    thunkAPI.dispatch(setDaysSinceLastChest())
             }
         }
         
@@ -67,6 +73,49 @@ export const updateUser = createAsyncThunk(
         console.log("Error while updating user..");
         console.log(message);
         return thunkAPI.rejectWithValue("Error while updating user..");
+      }
+    }
+);
+
+export const setInitialState = createAsyncThunk(
+    "user/setInitialState",
+    async (user , thunkAPI) => {
+      try {
+        console.log("in set initial state")
+        console.log(user)
+        const userRef = projectFirestore.collection("users").doc(user.uid);
+        const slimeType = "Normal"
+        const slimeSkin = 1
+        await userRef.set({
+            uid: user.uid,
+            username: user.displayName,
+            level: Math.floor(Math.random() * 50),
+            rankPoints: Math.floor(Math.random() * 30),
+            musicVolume: 1,
+            gold: 1234,
+            skinShard: 3600,
+            characterShard: 1800,
+            chestLastOpenedOn: firebase.firestore.Timestamp.fromMillis(0),
+            bannerFilepath: "/Account/Banners/Sky.jpg",
+            message: "Hello I am a good slime!",
+            slimeType: slimeType,
+            slimeSkin: slimeSkin,
+            status: "ONLINE",
+            slimes: ["Normal1"],
+            friends: [],
+            friendRequests: [],
+            bannerUnlocked: 0b0000000010001000000011000010,
+        });
+        
+        thunkAPI.dispatch(setSlimePath())
+        thunkAPI.dispatch(setDaysSinceLastChest())
+
+        return thunkAPI.fulfillWithValue();
+      } catch (error) {
+        const message = error.toString();
+        console.log("Error while setting initial use data..");
+        console.log(message);
+        return thunkAPI.rejectWithValue("Error while setting initial use data..");
       }
     }
 );
@@ -108,6 +157,7 @@ export const userSlice = createSlice({
     name: 'user',
     initialState: {
         data: {
+            uid: null,
             username: null,
             level: null,
             rank: null,
@@ -120,45 +170,76 @@ export const userSlice = createSlice({
             status: null,
             friends: null,
             message: null,
-            friendRequests: null,
+            friendRequests: [],
+            bannerUnlocked: 0b0000000010001000000011000010,
+            slimePath: null,
+            daysSinceLastChest: null,
         }
     },
     // TODO: Remove once DB returns all this data
     reducers: {
         // Called from authSlice
         // This sets the initial state of the user upon account creation with default values
-        setInitialState: (state, action) => {
-            const user = action.payload
+        // setInitialState: (state, action) => {
+        //     const user = action.payload
 
-            // Placeholder friends
-            // Delete this later on
-            const friends = ["dThrxOT2NHNboaRNGkpsY2JBUf22", "zfF4DaVYqnep4a266euByoWbcLl1", "FRlFwdxGq1cToR3ttvXqhEFJScA3"];
+        //     // Placeholder friends
+        //     // Delete this later on
+        //     const friends = ["dThrxOT2NHNboaRNGkpsY2JBUf22", "zfF4DaVYqnep4a266euByoWbcLl1", "FRlFwdxGq1cToR3ttvXqhEFJScA3"];
             
+        //     state.data = {
+        //         username: user.displayName,
+        //         level: Math.floor(Math.random() * 50),
+        //         rank: Math.floor(Math.random() * 30),
+        //         musicVolume: 100,
+        //         gold: 1234,
+        //         chestLastOpenedOn: firebase.firestore.Timestamp.fromMillis(0),
+        //         bannerFilepath: "/Account/Banners/Sky.jpg",
+        //         // Change these two and see if they're being set initially. if not set it in
+        //         slimeType: "Normal",
+        //         slimeSkin: 1,
+        //         status: "ONLINE",
+        //         friends,
+        //     }
+        //     // state.username = user.displayName
+        //     // state.level = Math.floor(Math.random() * 50)
+        //     // state.rank = Math.floor(Math.random() * 30)
+        //     // state.musicVolume = 100
+        //     // state.gold = 1234
+        //     // state.chestLastOpenedOn = firebase.firestore.Timestamp.fromMillis(0)
+        //     // state.bannerFilepath = "/Account/Banners/Sky.jpg"
+        //     // state.slimeType = "Normal"
+        //     // state.slimeSkin = 1
+        //     // state.status = "ONLINE"
+        //     // state.friends = friends
+        // },
+        setExistingState: (state, action) => {
+            console.log("existing state being set")
+            console.log(action.payload)
             state.data = {
-                username: user.displayName,
-                level: Math.floor(Math.random() * 50),
-                rank: Math.floor(Math.random() * 30),
-                musicVolume: 100,
-                gold: 1234,
-                chestLastOpenedOn: firebase.firestore.Timestamp.fromMillis(0),
-                bannerFilepath: "/Account/Banners/Sky.jpg",
-                // Change these two and see if they're being set initially. if not set it in
-                slimeType: "Normal",
-                slimeSkin: 1,
-                status: "ONLINE",
-                friends,
+                ...action.payload
             }
-            // state.username = user.displayName
-            // state.level = Math.floor(Math.random() * 50)
-            // state.rank = Math.floor(Math.random() * 30)
-            // state.musicVolume = 100
-            // state.gold = 1234
-            // state.chestLastOpenedOn = firebase.firestore.Timestamp.fromMillis(0)
-            // state.bannerFilepath = "/Account/Banners/Sky.jpg"
-            // state.slimeType = "Normal"
-            // state.slimeSkin = 1
-            // state.status = "ONLINE"
-            // state.friends = friends
+            // state.data.username = action.payload;
+            // state.data.level = action.payload;
+            // state.data.rank = action.payload;
+            // state.data.musicVolume = action.payload;
+            // state.data.gold = action.payload;
+            // state.data.chestLastOpenedOn = action.payload;
+            // state.data.bannerFilepath = action.payload;
+            // state.data.slimeType = action.payload;
+            // state.data.slimeSkin = action.payload;
+            // state.data.status = action.payload;
+            // state.data.friends = action.payload;
+            // state.data.message = action.payload;
+            // state.data.friendRequests = action.payload;
+        },
+        // Used for logout action
+        deleteExistingUser: (state, action) => {
+            console.log("deleting existing user")
+            state.data = null;
+        },
+        setUID: (state, action) => {
+            state.data.uid = action.payload;
         },
         setUsername: (state, action) => {
             state.data.username = action.payload;
@@ -194,11 +275,19 @@ export const userSlice = createSlice({
             state.data.friends = action.payload;
         },
         setMessage: (state, action) => {
+            console.log("message beiong set")
+            console.log(action.payload)
             state.data.message = action.payload;
         },
         setFriendRequests: (state, action) => {
             state.data.friendRequests = action.payload;
-        }
+        },
+        setSlimePath: (state, action) => {
+            state.data.slimePath = `assets/GameArt/${state.data.slimeType}Slime/${state.data.slimeType}Slime${state.data.slimeSkin}`
+        },
+        setDaysSinceLastChest: (state, action) => {
+            state.data.daysSinceLastChest = Date.now() - state.data.chestLastOpenedOn.toDate() / 1000 / 60 / 60 / 24
+        },
     },
     // In the future, I think these thunks should directly update state using action.payload
     // Meaning that the state.user should be the raw firebase data here.
@@ -206,10 +295,10 @@ export const userSlice = createSlice({
     // This means that the pure reducer on the top wouldn't be needed.
     extraReducers: {
 
-    }
+    },
   })
   
   // Action creators are generated for each case reducer function
   // export const { login, logout } = authSlice.actions
-  export const {  } = authSlice.actions
+  export const { setExistingState, deleteExistingUser, setSlimePath, setDaysSinceLastChest, setUID  } = userSlice.actions
   export default userSlice.reducer

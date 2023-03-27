@@ -8,7 +8,7 @@ import Popup from "./Popup";
 import firebase from "firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, setLogoutStatus } from "../Slices/authSlice";
-import { updateBanner, unlockAllBanners, updateMessage, updateUser } from "../Slices/userSlice";
+import { updateUser } from "../Slices/userSlice";
 
 export default function AccountBanner({   
   setShowBanner,
@@ -19,7 +19,7 @@ export default function AccountBanner({
   widthUnits,
   friend_able = false,
 }) {
-  const { logout } = useLogout();
+  // const { logout } = useLogout();
   const [userRef, setUserRef] = useState(null);
   const { user } = useSelector((state) => state)
   const dispatch = useDispatch();
@@ -100,7 +100,12 @@ export default function AccountBanner({
     if (!editable && isNavBanner) {
       setEditable(true);
     }
+  }
 
+  const handleLogout = () => {
+    if (setShowBanner) setShowBanner(false);
+    // // Logout session in Firebase
+    dispatch(logout())
   }
 
   useEffect(() => {
@@ -179,15 +184,7 @@ export default function AccountBanner({
       {isNavBanner && (
         <button
           className={styles.SignOut}
-          onClick={async () => {
-            if (setShowBanner) setShowBanner(false);
-
-            // Clear store and return user to login page
-            dispatch(setLogoutStatus())
-
-            // Logout session in Firebase
-            dispatch(logout({}))
-          }}
+          onClick={handleLogout}
         >
           Sign out
         </button>

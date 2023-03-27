@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { projectAuth, projectFirestore } from "../Database/firebase/config";
+import { setInitialState, updateUser, setExistingState, deleteExistingUser, setSlimePath, setDaysSinceLastChest, setUID } from './userSlice';
 import firebase from "firebase";
 
 export const login = createAsyncThunk(
@@ -12,12 +13,18 @@ export const login = createAsyncThunk(
       );
 
       const userRef = projectFirestore.collection("users").doc(response.user.uid);
-      userRef.onSnapshot(async (doc) => {
+
+      userRef.onSnapshot(async(doc) => {
         const data = doc.data();
-        await thunkAPI.dispatch(setData(data))
+        console.log("found doc data:")
+        console.log(data);
+        await thunkAPI.dispatch(setExistingState(data))
+        thunkAPI.dispatch(setUID(user.uid))
+        await thunkAPI.dispatch(setLoginStatus())
+        // thunkAPI.dispatch(setLoginStatus())
       })
       
-      await thunkAPI.dispatch(setLoginStatus(response.user))
+      // await 
 
       return thunkAPI.fulfillWithValue();
     } catch (error) {
@@ -31,10 +38,12 @@ export const login = createAsyncThunk(
 
 export const logout = createAsyncThunk(
   "auth/logout",
-  async ({}, thunkAPI) => {
+    async(_, thunkAPI) => {
     try {
-      await projectAuth.signOut();
-      console.log("logged out")
+      await projectAuth.signOut().then(() => {
+         thunkAPI.dispatch(setLogoutStatus())
+         thunkAPI.dispatch(deleteExistingUser())
+      });
 
       return thunkAPI.fulfillWithValue();
     } catch (error) {
@@ -52,11 +61,13 @@ export const register = createAsyncThunk(
   "auth/register",
   async ({ email, password, username }, thunkAPI) => {
     try {
-      const response = await projectAuth.createUserWithEmailAndPassword(email, password)
-      .then(res => {
+      const response = await projectAuth.createUserWithEmailAndPassword(email, password).then(res => {
         console.log(res)
         console.log(res.user)
         res.user.updateProfile({ displayName: username })
+        res.user.displayName = username;
+        // Sets initial state of user
+        thunkAPI.dispatch(setInitialState(res.user))
       })
       .catch(error => {
         console.log(error.message);
@@ -80,16 +91,22 @@ export const check_login = createAsyncThunk(
     projectAuth.onAuthStateChanged(async (user) => {
       if (user) {
         const userRef = projectFirestore.collection("users").doc(user.uid);
-        userRef.onSnapshot((doc) => {
+        userRef.onSnapshot(async (doc) => {
           const data = doc.data();
-          thunkAPI.dispatch(setData(data))
+          await thunkAPI.dispatch(setExistingState(data))
+          thunkAPI.dispatch(setSlimePath())
+          thunkAPI.dispatch(setDaysSinceLastChest())
+          thunkAPI.dispatch(setUID(user.uid))
+          await thunkAPI.dispatch(setLoginStatus())
         })  
-        console.log("in check")
+        
         console.log(userRef)
         console.log(user)
-        thunkAPI.dispatch(setLoginStatus(user))
+        
         console.log("heya check login");
-      } 
+      } else {
+        console.log("user not found")
+      }
     })
     return thunkAPI.fulfillWithValue();
   }
@@ -102,58 +119,50 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState: {
     isLoggedIn: false,
-    user: {
-      username: null,
-      level: null,
-      rank: null,
-      musicVolume: null,
-      gold: null,
-      chestLastOpenedOn: null,
-      bannerFilepath: null,
-      slimeType: null,
-      slimeSkin: null,
-      status: null,
-      friends: null,
-    },
+    uid: null
   },
   // TODO: Remove once DB returns all this data
   reducers: {
-    setLoginStatus: (state, action) => {
-      const user = action.payload
+    // setLoginStatus: (state, action) => {
+    //   const user = action.payload
 
-      // Placeholder friends
-      // Delete this later on
-      const friends = ["dThrxOT2NHNboaRNGkpsY2JBUf22", "zfF4DaVYqnep4a266euByoWbcLl1", "FRlFwdxGq1cToR3ttvXqhEFJScA3"];
-      state.user = {
-        username: user.displayName,
-        level: Math.floor(Math.random() * 50),
-        rank: Math.floor(Math.random() * 30),
-        musicVolume: 100,
-        gold: 1234,
-        chestLastOpenedOn: firebase.firestore.Timestamp.fromMillis(0),
-        bannerFilepath: "/Account/Banners/Sky.jpg",
-        slimeType: "Normal",
-        slimeSkin: 1,
-        status: "ONLINE",
-        friends,
-      }
-    },
-    setData: (state, action) => {
-      console.log("setting data")
-      const data = action.payload
-      console.log(data)
-      const { slimeType, slimeSkin } = data;
-      state.user.data = {
-        ...data,
-        slimePath: `assets/GameArt/${slimeType}Slime/${slimeType}Slime${slimeSkin}`,
-        daysSinceLastChest: (Date.now() - data.chestLastOpenedOn.toDate()) / 1000 / 60 / 60 / 24,
-      }
+    //   // Placeholder friends
+    //   // Delete this later on
+    //   const friends = ["dThrxOT2NHNboaRNGkpsY2JBUf22", "zfF4DaVYqnep4a266euByoWbcLl1", "FRlFwdxGq1cToR3ttvXqhEFJScA3"];
+    //   state.user = {
+    //     username: user.displayName,
+    //     level: Math.floor(Math.random() * 50),
+    //     rank: Math.floor(Math.random() * 30),
+    //     musicVolume: 100,
+    //     gold: 1234,
+    //     chestLastOpenedOn: firebase.firestore.Timestamp.fromMillis(0),
+    //     bannerFilepath: "/Account/Banners/Sky.jpg",
+    //     slimeType: "Normal",
+    //     slimeSkin: 1,
+    //     status: "ONLINE",
+    //     friends,
+    //   }
+    // },
+    // setData: (state, action) => {
+    //   console.log("setting data")
+    //   const data = action.payload
+    //   console.log(data)
+    //   const { slimeType, slimeSkin } = data;
+    //   state.user.data = {
+    //     ...data,
+    //     slimePath: `assets/GameArt/${slimeType}Slime/${slimeType}Slime${slimeSkin}`,
+    //     daysSinceLastChest: (Date.now() - data.chestLastOpenedOn.toDate()) / 1000 / 60 / 60 / 24,
+    //   }
+    //   state.isLoggedIn = true;
+    // },
+    setLoginStatus: (state) => {
+      console.log("login status being set to true")
       state.isLoggedIn = true;
     },
     setLogoutStatus: (state) => {
-      state.auth = null
+      console.log("login status being set to false")
       state.isLoggedIn = false;
-    }
+    },
   },
   // In the future, I think these thunks should directly update state using action.payload
   // Meaning that the state.user should be the raw firebase data here.
@@ -173,7 +182,7 @@ export const authSlice = createSlice({
       console.log("???")
     },
     [check_login.fulfilled]: (state, action) => {
-      console.log("login session found!")
+      console.log("login session action fulfilled!")
     },
     [check_login.rejected]: (state, action) => {
       console.log("login session not found")
@@ -189,5 +198,5 @@ export const authSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 // export const { login, logout } = authSlice.actions
-export const { setLoginStatus, setData, setLogoutStatus } = authSlice.actions
+export const { setLoginStatus, setLogoutStatus } = authSlice.actions
 export default authSlice.reducer

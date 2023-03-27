@@ -14,7 +14,7 @@ import characterData from "../../../Database/JsxData/characters.jsx";
 
 export default function Battle({ setGameState }) {
   const { user } = useContext(AuthContext);
-  const { serverPlayerID, clientPlayerID, setEndScreenData, gameMode } =
+  const { serverPlayerID, clientPlayerID, setEndScreenData, gameState, gameMode } =
     useContext(gameStateContext);
 
   const self = useRef({});
@@ -607,7 +607,7 @@ export default function Battle({ setGameState }) {
             }}
           >
             <img
-              src={gameMode==="Battle"?map:rankedMap}
+              src={gameState==="Battle"?map:rankedMap}
               className={styles.battleFieldImage}
               onLoad={() => {
                 setTimeout(() => {

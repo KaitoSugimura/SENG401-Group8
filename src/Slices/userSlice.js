@@ -27,7 +27,8 @@ export const updateUser = createAsyncThunk(
     "user/updateUser",
     async (toUpdate, thunkAPI) => {
       try {
-        const userRef = projectFirestore.collection("users").doc("BYaTKVyqGUWgrBdShDsjQIOC0an2");
+        const state = thunkAPI.getState()
+        const userRef = projectFirestore.collection("users").doc(state.auth.uid);
 
         userRef.update(toUpdate);
         
@@ -87,7 +88,6 @@ export const setInitialState = createAsyncThunk(
         const slimeType = "Normal"
         const slimeSkin = 1
         await userRef.set({
-            uid: user.uid,
             username: user.displayName,
             level: Math.floor(Math.random() * 50),
             rankPoints: Math.floor(Math.random() * 30),
@@ -157,7 +157,6 @@ export const userSlice = createSlice({
     name: 'user',
     initialState: {
         data: {
-            uid: null,
             username: null,
             level: null,
             rank: null,
@@ -238,9 +237,6 @@ export const userSlice = createSlice({
             console.log("deleting existing user")
             state.data = null;
         },
-        setUID: (state, action) => {
-            state.data.uid = action.payload;
-        },
         setUsername: (state, action) => {
             state.data.username = action.payload;
         },
@@ -300,5 +296,5 @@ export const userSlice = createSlice({
   
   // Action creators are generated for each case reducer function
   // export const { login, logout } = authSlice.actions
-  export const { setExistingState, deleteExistingUser, setSlimePath, setDaysSinceLastChest, setUID  } = userSlice.actions
+  export const { setExistingState, deleteExistingUser, setSlimePath, setDaysSinceLastChest  } = userSlice.actions
   export default userSlice.reducer

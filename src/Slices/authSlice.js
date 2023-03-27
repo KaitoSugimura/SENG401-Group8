@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { projectAuth, projectFirestore } from "../Database/firebase/config";
-import { setInitialState, updateUser, setExistingState, deleteExistingUser, setSlimePath, setDaysSinceLastChest, setUID } from './userSlice';
+import { setInitialState, updateUser, setExistingState, deleteExistingUser, setSlimePath, setDaysSinceLastChest } from './userSlice';
 import firebase from "firebase";
 
 export const login = createAsyncThunk(
@@ -163,6 +163,9 @@ export const authSlice = createSlice({
       console.log("login status being set to false")
       state.isLoggedIn = false;
     },
+    setUID: (state, action) => {
+      state.uid = action.payload;
+    },
   },
   // In the future, I think these thunks should directly update state using action.payload
   // Meaning that the state.user should be the raw firebase data here.
@@ -198,5 +201,5 @@ export const authSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 // export const { login, logout } = authSlice.actions
-export const { setLoginStatus, setLogoutStatus } = authSlice.actions
+export const { setLoginStatus, setLogoutStatus, setUID } = authSlice.actions
 export default authSlice.reducer

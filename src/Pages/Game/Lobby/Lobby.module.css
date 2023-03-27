@@ -377,3 +377,29 @@
   transform: translate(calc(-50% + 3px), 3px);
   box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.735);
 }
+
+/*Controls popup*/
+.controlPop {
+  width: 50vw;
+  height: 60vh;
+  font-family: "Exo 2", sans-serif;
+  padding: 2vh;
+  background: -moz-linear-gradient(360deg, #1c1c1c 10%, #494949 360%);
+  background: linear-gradient(360deg, #1c1c1c 10%, #494949 360%);
+  background-size: contain;
+}
+
+.controlPop h1 {
+  font-size: 2vw;
+  color: silver;
+  border-bottom: solid 3px silver;
+  padding: 2%;
+  text-align: center;
+}
+
+.controlPop p{
+  font-size: 1.5vw;
+  color: silver;
+  text-align: center;
+  margin:1.5vh;
+}

@@ -25,6 +25,7 @@ export default function EndScreen({ setGameState }) {
         .collection("users")
         .doc(EndScreenData.enemyID);
       const data = await enemyRef.get().then((res) => res.data());
+      // console.log("READ FROM END SCREEN");
       const { slimeType, slimeSkin } = data;
       setSenderData({
         ...data,

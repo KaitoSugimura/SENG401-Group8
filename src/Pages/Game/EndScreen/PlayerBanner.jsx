@@ -11,7 +11,7 @@ const PlayerBanner = ({ left, winner, userData}) => {
   useEffect(() => {
     console.log(userData.bannerFilepath);
     setBanner("../../../../public/" + userData.bannerFilepath);
-    console.log(banner);
+    // console.log(banner);
   }, []);
 
   let bannerStyles;

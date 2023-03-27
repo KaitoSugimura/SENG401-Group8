@@ -79,7 +79,7 @@ export default function Home() {
           rankPoints: doc.data().rankPoints,
         });
       });
-
+      // console.log("READ FROM HOME");
       setLeaderboard(newLeaderboard);
     };
 

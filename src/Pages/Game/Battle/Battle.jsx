@@ -447,7 +447,7 @@ export default function Battle({ setGameState }) {
       handleKeyPress(dx, dy);
     }
     for (let i = 0; i < projectiles.current.length; i++) {
-      console.log(nextProjectileToDeleteQueue.current);
+      // console.log(nextProjectileToDeleteQueue.current);
       const PC = projectiles.current[i];
       if (nextProjectileToDeleteQueue.current === PC.key) {
         if (PC.bulletState >= 3) {

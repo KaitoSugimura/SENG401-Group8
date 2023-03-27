@@ -91,7 +91,6 @@ export default function Nav() {
       userRef.update({
         musicVolume: musicVolume,
       });
-      console.log("UPDATED SOUND");
     }
   };
 

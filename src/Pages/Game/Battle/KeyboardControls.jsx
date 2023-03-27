@@ -3,7 +3,7 @@ import React from 'react'
 
 class KeyboardControls extends React.Component {
     handleKeyDown(event) {
-        console.log('W key was pressed!');
+        // console.log('W key was pressed!');
       if (event.keyCode === 87) {
       }
     }

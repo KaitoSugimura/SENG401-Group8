@@ -15,7 +15,7 @@ export const useLogin = () => {
         email,
         password
       );
-      console.log("NO RESPONSE")
+      // console.log("NO RESPONSE")
 
       if (!response) {
         throw new Error("Could not complete login");
@@ -27,7 +27,7 @@ export const useLogin = () => {
       }
     } catch (e) {
       if (!isCancelled) {
-        console.log(e.message);
+        // console.log(e.message);
         setError(e.message);
         setIsPending(false);
       }

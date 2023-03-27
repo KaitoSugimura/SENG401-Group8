@@ -134,7 +134,7 @@ const CharacterProfile = ({
   }
 
   function handleUnlock() {
-    console.log("Trying to unlock the skin");
+    // console.log("Trying to unlock the skin");
     if (!character.unlocked) {
       //check currency is enough
 
@@ -162,7 +162,7 @@ const CharacterProfile = ({
       }
       setImageStyle(unlockedStyle);
       setlockedButtonStyle({ visibility: "hidden" });
-      console.log(price);
+      // console.log(price);
       let newSkinShard = user.data.skinShard - price;
       userRef.update({
         slimes: firebase.firestore.FieldValue.arrayUnion(

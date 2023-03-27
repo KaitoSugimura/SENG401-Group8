@@ -20,7 +20,7 @@ const FriendRequests = ({ close }) => {
           slimePath: `assets/GameArt/${slimeType}Slime/${slimeType}Slime${slimeSkin}`,
         };
       }));
-
+      // console.log("READ FROM FRIEND RQ");
       setRequests(requests.sort((a, b) => a.username > b.username));
     }
 

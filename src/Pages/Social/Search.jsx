@@ -17,7 +17,7 @@ const Search = () => {
         .where('username', '<=', `${search}\uf8ff`)
         .get();
 
-
+        // console.log("READ FROM SEARCH");
       const friendIDs = user.data.friends.map(friend => friend.id);
 
       users.forEach(doc => {

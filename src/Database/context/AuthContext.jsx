@@ -18,7 +18,7 @@ export const AuthContextProvider = ({ children }) => {
         setUserRef(userRef);
 
         const userData = await userRef.get();
-
+        console.log("READ FROM AUTH CONTEXT");
         // // Placeholder friends
         // const friends = [];
         // ["dThrxOT2NHNboaRNGkpsY2JBUf22", "zfF4DaVYqnep4a266euByoWbcLl1", "FRlFwdxGq1cToR3ttvXqhEFJScA3"].forEach(friendID => {

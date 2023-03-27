@@ -80,6 +80,7 @@ export default function Social() {
       if (selectedChat === "global") {
         setChatRef(projectFirestore.collection("chats").doc("global"));
       } else {
+        // console.log("READ FROM SOCIAL");
         const [docs1, docs2] = await Promise.all([
           projectFirestore
             .collection("chats")
@@ -92,7 +93,6 @@ export default function Social() {
             .get()
             .then((res) => res.docs),
         ]);
-
         const intersectDocs = docs1.filter((doc1) => {
           return docs2.some((doc2) => doc2.id === doc1.id);
         });
@@ -224,19 +224,19 @@ export default function Social() {
         <div className={styles.messages}>
           {selectedChat ? (
             messages.map((message, i) => (
-              <>
+              <div  key={i}>
                 <Message
                   message={message}
                   previousMessage={
                     i + 1 < messages.length ? messages[i + 1] : null
                   }
-                  key={i}
+                 
                 ></Message>
                 {i + 1 < messages.length &&
                   message.sentAt - messages[i + 1].sentAt > 60 && message.id != messages[i + 1].id && (
                     <div className={styles.DateTime}>{message.sentAt.toDate().toDateString() + " " + message.sentAt.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
                   )}
-              </>
+              </div>
             ))
           ) : (
             <div>Select a channel on the left to chat here.</div>

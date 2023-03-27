@@ -9,7 +9,7 @@ import { gameStateContext } from "../gameStateContext";
 export default function Lobby({ setGameState }) {
   const { user } = useContext(AuthContext);
   const { setServerPlayerID, setClientPlayerID, setGameMode } = useContext(gameStateContext);
-
+  const [controlsPopup,setControlsPopup]=useState(false);
   const [popup, setPopup] = useState(false);
   const [roomList, setRoomList] = useState({});
   const [lobbyList, setLobbyList] = useState(false);
@@ -176,7 +176,7 @@ export default function Lobby({ setGameState }) {
           <button
             className={styles.controlsButton}
             onClick={() => {
-             
+             setControlsPopup(true);
             }}
           >
             Controls
@@ -223,6 +223,20 @@ export default function Lobby({ setGameState }) {
               setPopUp={setPopup}
               createRoom={createRoom}
             ></CreateLobby>
+          </Popup>
+        )}
+        {controlsPopup && (
+          <Popup setPopUp={setControlsPopup}>
+            <div className={styles.controlPop}>
+              <h1>Controls</h1>
+              <p>Move Up: W</p>
+              <p>Move Left: A</p>
+              <p>Move Down: S</p>
+              <p>Move Right: D</p>
+              <p>Shoot: Spacebar</p>
+              <p>Aim: Mouse Position</p>
+              <p>Toggle Bullet Type: E</p>
+            </div>
           </Popup>
         )}
       </div>

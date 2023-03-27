@@ -6,6 +6,7 @@ import { projectDatabase } from "../../../Database/firebase/config";
 import { gameStateContext } from "../gameStateContext";
 import LoadingScreen from "../LoadingScreen";
 
+
 export default function Room({ setGameState }) {
   const { user } = useContext(AuthContext);
   const {

@@ -194,9 +194,14 @@
 }
 
 .projectileBuffMode {
-  width: 1vw;
-  height: 1vw;
+  width: 1.2vw;
+  height: 1.2vw;
   border-radius: 100%;
+  font-size: 0.8vw;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: 2px solid black;
   background-color: #000;
 }

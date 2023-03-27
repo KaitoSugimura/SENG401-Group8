@@ -9,58 +9,71 @@ import LoadingScreen from "../LoadingScreen";
 import styles from "./Battle.module.css";
 import GameCountDown from "./GameCountDown";
 import map from "/assets/GameMap/SlimeMeadows.webp";
+import characterData from "../../../Database/JsxData/characters.jsx";
 
-const MAX_HP = 100;
 
 export default function Battle({ setGameState }) {
   const { user } = useContext(AuthContext);
   const { serverPlayerID, clientPlayerID, setEndScreenData, gameMode } =
-    useContext(gameStateContext);
-
+  useContext(gameStateContext);
+  
   const self = useRef({});
   const enemy = useRef(null);
   const [reRender, Render] = useState(null);
-
+  
   const [loading, setLoading] = useState(true);
   const controlsDead = useRef(true);
   const [countDown, setCountDown] = useState(false);
-
+  
   const up = useRef(false);
   const left = useRef(false);
   const down = useRef(false);
   const right = useRef(false);
   const mousePos = useRef({ x: null, y: null });
-
+  
   const selfCompRef = useRef(null);
-
+  
   const intervalRef = useRef(null);
-
+  
   const battleFieldWidth = useRef(90); // If these numbers are to be changed, change in the useEffect below
   const battleFieldHeight = useRef(50.625);
-
+  
   const projectiles = useRef([]);
+  const currentProjectileShotAmount = useRef(0);
   const enemyProjectiles = useRef([]);
-
+  
   const buttonDivRef = useRef(null);
-
+  
   // Sound
   const shootSoundRef = useRef(null);
   const hitNormalSoundRef = useRef(null);
   const weaponChangeSoundRef = useRef(null);
   const buffSoundRef = useRef(null);
   const healSoundRef = useRef(null);
+  
+  const {charactersData} = characterData;
+  let CDIndex = 0;
+for(let i = 0; i < charactersData.length; i++){
+  if(charactersData[i].type === user.data.slimeType){
+    CDIndex = i;
+    break;
+  }
+}
+  const MAX_HP = charactersData[CDIndex].health*100;
+  const DMG = charactersData[CDIndex].power*3;
+  const SPEED = 1 + (charactersData[CDIndex].speed - 3)/5;
 
   useEffect(() => {
     if (shootSoundRef.current)
-      shootSoundRef.current.volume = Math.min(1.1 * user.data.musicVolume, 1);
+    shootSoundRef.current.volume = Math.min(1.1 * user.data.musicVolume, 1);
     if (hitNormalSoundRef.current)
-      hitNormalSoundRef.current.volume = Math.min(1.2 * user.data.musicVolume, 1);
+    hitNormalSoundRef.current.volume = Math.min(1.2 * user.data.musicVolume, 1);
     if (weaponChangeSoundRef.current)
-      weaponChangeSoundRef.current.volume = Math.min(1.05 * user.data.musicVolume, 1);
+    weaponChangeSoundRef.current.volume = Math.min(1.05 * user.data.musicVolume, 1);
     if (buffSoundRef.current)
-      buffSoundRef.current.volume = Math.min(0.75 * user.data.musicVolume, 1);
+    buffSoundRef.current.volume = Math.min(0.75 * user.data.musicVolume, 1);
     if (healSoundRef.current)
-      healSoundRef.current.volume = Math.min(1.05 * user.data.musicVolume, 1);
+    healSoundRef.current.volume = Math.min(1.05 * user.data.musicVolume, 1);
   }, [
     shootSoundRef,
     hitNormalSoundRef,
@@ -146,6 +159,7 @@ export default function Battle({ setGameState }) {
         ...self.current,
         left: self.current.left / battleFieldWidth.current,
         top: self.current.top / battleFieldHeight.current,
+        HP: self.current.HP/MAX_HP*100
         // time: Date.now(),
       });
     }
@@ -200,7 +214,7 @@ export default function Battle({ setGameState }) {
         shooting: false,
         slimePath: user.data.slimePath,
         HP: MAX_HP,
-        DMG: 10,
+        DMG: DMG,
         projectileBuffMode: false,
         // time: Date.now(),
       };
@@ -213,7 +227,7 @@ export default function Battle({ setGameState }) {
         shooting: false,
         slimePath: user.data.slimePath,
         HP: MAX_HP,
-        DMG: 10,
+        DMG: DMG,
         projectileBuffMode: false,
         // time: Date.now(),
       };
@@ -222,6 +236,7 @@ export default function Battle({ setGameState }) {
       ...self.current,
       left: self.current.left / battleFieldWidth.current,
       top: self.current.top / battleFieldHeight.current,
+      HP: self.current.HP/MAX_HP*100
     });
     playerRef.onDisconnect().remove();
 
@@ -343,7 +358,7 @@ export default function Battle({ setGameState }) {
 
   const shoot = () => {
     if (controlsDead.current) return;
-    if (!self.current.shooting && projectiles.current.length < 5) {
+    if (!self.current.shooting && currentProjectileShotAmount.current < 5) {
       self.current.shooting = true;
       const SlimeToMouseVectorX =
         mousePos.current.x - selfCompRef.current.getBoundingClientRect().left;
@@ -392,6 +407,7 @@ export default function Battle({ setGameState }) {
         );
         // self.current.HP -= 5;
 
+        currentProjectileShotAmount.current++;
         shootSoundRef.current.play();
 
         setTimeout(() => {
@@ -428,21 +444,20 @@ export default function Battle({ setGameState }) {
   const moveCharacter = useCallback(() => {
     if (controlsDead.current) return;
     if (!self.current.shooting) {
-      const speed = 1;
       let dx = 0;
       let dy = 0;
 
       if (up.current) {
-        dy -= speed;
+        dy -= SPEED;
       }
       if (left.current) {
-        dx -= speed;
+        dx -= SPEED;
       }
       if (down.current) {
-        dy += speed;
+        dy += SPEED;
       }
       if (right.current) {
-        dx += speed;
+        dx += SPEED;
       }
       handleKeyPress(dx, dy);
     }
@@ -465,6 +480,7 @@ export default function Battle({ setGameState }) {
           hitNormalSoundRef.current.play();
         }
         projectiles.current.splice(i, 1);
+        currentProjectileShotAmount.current--;
         return;
       }
       let projectile = projectiles.current[i];
@@ -483,13 +499,13 @@ export default function Battle({ setGameState }) {
 
             buffSoundRef.current.currentTime = 0;
             buffSoundRef.current.play();
-            self.current.DMG += 5;
+            self.current.DMG += DMG/3;
           } else {
             // healing
 
             healSoundRef.current.currentTime = 0;
             healSoundRef.current.play();
-            self.current.HP += 20;
+            self.current.HP += MAX_HP/5;
             if (self.current.HP > MAX_HP) {
               self.current.HP = MAX_HP;
             }
@@ -504,6 +520,7 @@ export default function Battle({ setGameState }) {
         }
         projectileDeletionRef.set({ key: projectiles.current[i].key });
         projectiles.current.splice(i, 1);
+        currentProjectileShotAmount.current--;
       }
 
       if (
@@ -522,6 +539,7 @@ export default function Battle({ setGameState }) {
       }
       if (projectile.bulletState >= 5) {
         projectiles.current.splice(i, 1);
+        currentProjectileShotAmount.current--;
       }
     }
     Render({ time: Date.now() /*- enemy.current.time*/ });
@@ -627,14 +645,14 @@ export default function Battle({ setGameState }) {
                         ? "rgb(0, 195, 255)"
                         : "rgb(13, 255, 0)",
                     }}
-                  ></span>
+                  >{5 - currentProjectileShotAmount.current}</span>
                   <p className={styles.characterName}>{self.current.name}</p>
                 </div>
                 <div className={styles.HPContainer}>
                   <div
                     className={styles.SelfHPBar}
                     style={{
-                      width: self.current.HP + "%",
+                      width: self.current.HP/MAX_HP*100 + "%",
                     }}
                   ></div>
                 </div>

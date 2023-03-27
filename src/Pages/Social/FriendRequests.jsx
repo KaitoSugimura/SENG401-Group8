@@ -31,19 +31,19 @@ const FriendRequests = ({ close }) => {
     const friendRef = projectFirestore.collection("users").doc(id);
 
     // Remove request from user's request list
-    userRef.update({
+    dispatch(updateUser({
       friendRequests: firebase.firestore.FieldValue.arrayRemove(friendRef),
-    })
+    }))
   }
 
   const acceptRequest = async (id) => {
     const friendRef = projectFirestore.collection("users").doc(id);
 
     // Update user's friend requests and friends list
-    userRef.update({
+    dispatch(updateUser({
       friendRequests: firebase.firestore.FieldValue.arrayRemove(friendRef),
       friends: firebase.firestore.FieldValue.arrayUnion(friendRef)
-    });
+    }));
 
     // Update friend's friend list
     friendRef.update({

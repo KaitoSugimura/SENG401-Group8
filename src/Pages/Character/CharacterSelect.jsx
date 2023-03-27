@@ -1,8 +1,11 @@
 import styles from "./Character.module.css";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../Database/context/AuthContext";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUser } from "../../Slices/userSlice";
 
 const CharacterSelect = ({ characters, currentlySelectedChar, switchCharacter }) => {
+  const dispatch = useDispatch();
   const { userRef } = useContext(AuthContext);
   const [hover, setHover] = useState(false);
   const [selectedSlime, setSelectedSlime] = useState(false);
@@ -58,10 +61,10 @@ const CharacterSelect = ({ characters, currentlySelectedChar, switchCharacter })
             if (currentlySelectedChar.skin === 2) skin = "two";
             else if (currentlySelectedChar.skin === 3) skin = "three";
             if (currentlySelectedChar.unlocked && currentlySelectedChar[skin] && !selectedSlime) {
-              userRef.update({
+              dispatch(updateUser({
                 slimeType: currentlySelectedChar.type,
                 slimeSkin: currentlySelectedChar.skin,
-              })
+              }))
               setSelectedSlime(true);
             }
           }}

@@ -20,7 +20,7 @@ export default function Signup() {
     e.preventDefault();
 
     setIsPending(true);
-    dispatch(register({email, password})).catch(error => {
+    dispatch(register({email, password, username})).catch(error => {
       console.log(error)
       setError(error.toString());
     });

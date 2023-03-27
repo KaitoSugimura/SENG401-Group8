@@ -13,9 +13,11 @@ import RoomBGM from "/Sound/Room.mp3";
 import EndScreenBGM from "/Sound/EndScreen.mp3";
 import { AuthContext } from "../Database/context/AuthContext";
 import { gameStateContext } from "../Pages/Game/gameStateContext";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Nav() {
-  const { user, userRef } = useContext(AuthContext);
+  const { user } = useSelector((state) => state)
+  const dispatch = useDispatch()
   const locationPath = useLocation().pathname;
   const [showBanner, setShowBanner] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
@@ -88,9 +90,7 @@ export default function Nav() {
     }
     if (musicVolume != lastMusicVolume.current) {
       lastMusicVolume.current = musicVolume;
-      userRef.update({
-        musicVolume: musicVolume,
-      });
+      dispatch(updateUser({musicVolume: musicVolume}))
       console.log("UPDATED SOUND");
     }
   };

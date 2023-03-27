@@ -9,13 +9,15 @@ import Modal from "./Modal";
 import Search from "./Search";
 import AccountBanner from "../../Components/AccountBanner";
 import Message from "./Message";
+import { useDispatch, useSelector } from "react-redux";
 
 // const ENDPOINT = "http://localhost:5000";
 // const ENDPOINT = "https://seng-401-server.onrender.com";
 // const socket = io(ENDPOINT);
 
 export default function Social() {
-  const { user, userRef } = useContext(AuthContext);
+  const { user } = useSelector((state) => state);
+  const dispatch = useDispatch();
   const [selectedChat, setSelectedChat] = useState("global");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
@@ -111,9 +113,9 @@ export default function Social() {
     const friendRef = projectFirestore.collection("users").doc(id);
 
     // Update user's friend requests and friends list
-    userRef.update({
+    dispatch(updateUser({
       friends: firebase.firestore.FieldValue.arrayRemove(friendRef)
-    });
+    }))
 
     // Update friend's friend list
     friendRef.update({

@@ -7,10 +7,13 @@ import AccountBanner from "../../../Components/AccountBanner";
 import { gameStateContext } from "../gameStateContext";
 import { AuthContext } from "../../../Database/context/AuthContext";
 import { projectFirestore } from "../../../Database/firebase/config";
+import { useSelector, useDispatch } from 'react-redux'
+import { updateUser } from "../../../Slices/userSlice";
 
 export default function EndScreen({ setGameState }) {
   const { EndScreenData } = useContext(gameStateContext);
-  const { user, userRef } = useContext(AuthContext);
+  const { user } = useSelector((state) => state);
+  const dispatch = useDispatch();
   // placeholder for if the win screen is ranked version or not
   const [ranked, setRanked] = useState(false);
   const [winner, setWinner] = useState(EndScreenData.Won); ///Check intially if current player is winner
@@ -32,7 +35,7 @@ export default function EndScreen({ setGameState }) {
 
       if (EndScreenData.Won) {
         // update self
-        await userRef.update({ gold: (+user.data.gold ) + (+EndScreenData.gold) });
+        dispatch(updateUser({ gold: (+user.data.gold ) + (+EndScreenData.gold) }))
         //update enemy
         await enemyRef.update({ gold: (+data.gold) - (+EndScreenData.gold) });
       }

@@ -36,8 +36,6 @@ export const logout = createAsyncThunk(
       await projectAuth.signOut();
       console.log("logged out")
 
-      // thunkAPI.dispatch(setLogoutStatus())
-
       return thunkAPI.fulfillWithValue();
     } catch (error) {
       console.log("Error while logging out..");
@@ -48,9 +46,11 @@ export const logout = createAsyncThunk(
   }
 );
 
+
+// TODO: displayName not being updated properly
 export const register = createAsyncThunk(
   "auth/register",
-  async ({ email, password }, thunkAPI) => {
+  async ({ email, password, username }, thunkAPI) => {
     try {
       const response = await projectAuth.createUserWithEmailAndPassword(email, password)
       .then(res => {
@@ -94,8 +94,6 @@ export const check_login = createAsyncThunk(
     return thunkAPI.fulfillWithValue();
   }
 );
-
-// TODO: Create register and logout thunk
 
 // A 'slice' is a state object that is in the store.
 // By using the createSlice API, we can write clean code that doesn't worry about "mutating" logic

@@ -10,6 +10,7 @@ import firebase from "firebase";
 import { useSelector, useDispatch } from 'react-redux'
 import { projectAuth, projectFirestore } from "../../Database/firebase/config";
 import Swipe from "../../Swipe/Swipe";
+import { updateUser } from "../../Slices/userSlice";
 
 const particleAmount = 60;
 const rows = [];
@@ -45,18 +46,19 @@ export default function Home() {
   const [leaderboard, setLeaderboard] = useState([]);
   const navigate = useNavigate();
   // const { user, userRef } = useContext(AuthContext);
-  const { user, userRef } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
   console.log(user)
   const [chestOpened, setChestOpened] = useState(false);
   
   const chestAvailable = user.data.daysSinceLastChest > 1;
 
   const openChest = () => {
+    
     if (chestAvailable) {
-      userRef.update({
+      dispatch(updateUser({
         gold: firebase.firestore.FieldValue.increment(50),
         chestLastOpenedOn: firebase.firestore.Timestamp.now(),
-      });
+      }))
       setChestOpened(true);
     }
   };

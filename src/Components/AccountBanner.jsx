@@ -6,8 +6,9 @@ import styles from "./AccountBanner.module.css";
 import Banner from "./Banner";
 import Popup from "./Popup";
 import firebase from "firebase";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout, setLogoutStatus } from "../Slices/authSlice";
+import { updateBanner, unlockAllBanners, updateMessage, updateUser } from "../Slices/userSlice";
 
 export default function AccountBanner({   
   setShowBanner,
@@ -20,7 +21,8 @@ export default function AccountBanner({
 }) {
   const { logout } = useLogout();
   const [userRef, setUserRef] = useState(null);
-  const { user } = useContext(AuthContext);
+  const { user } = useSelector((state) => state)
+  const dispatch = useDispatch();
   const [bSelectionOn, setBSelectionOn] = useState(false);
   const [banner, setBanner] = useState(user.data.bannerFilepath);
   const [message, setMessage] = useState(data.message);
@@ -28,7 +30,7 @@ export default function AccountBanner({
   const [tempBannerIndex, setTempBannerIndex] = useState(
     data.bannerFilepath
   );
-  const dispatch = useDispatch();
+
   const [sentRequest, setSentRequest] = useState(false);
 
   const width = window.innerWidth * 0.4;
@@ -70,16 +72,16 @@ export default function AccountBanner({
   ]);
 
   const unlockAllBannersHack = () => {
-    userRef.update({ bannerUnlocked: 0b1111111111111111111111111111 });
+    dispatch(updateUser({ bannerUnlocked: 0b1111111111111111111111111111 }))
   }
 
   const changeBanner = (bannerPath) => {
-    userRef.update({ bannerFilepath: bannerPath });
+    dispatch(updateUser({ bannerFilepath: bannerPath }))
     setBanner(bannerPath);
   };
 
   const changeMessage = (newMessage) => {
-    userRef.update({ message: newMessage });
+    dispatch(updateUser({ message: newMessage }))
     setMessage(newMessage);
   };
 
@@ -179,9 +181,12 @@ export default function AccountBanner({
           className={styles.SignOut}
           onClick={async () => {
             if (setShowBanner) setShowBanner(false);
+
+            // Clear store and return user to login page
             dispatch(setLogoutStatus())
+
+            // Logout session in Firebase
             dispatch(logout({}))
-            console.log(originalPromiseResult)
           }}
         >
           Sign out

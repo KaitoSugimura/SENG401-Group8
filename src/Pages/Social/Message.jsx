@@ -44,7 +44,7 @@ const Message = ({ message, previousMessage }) => {
       .get()
       .then((res) => res.data());
     const { slimeType, slimeSkin } = data;
-
+    // console.log("READ FROM MESSAGE");
     // Let's check if this user is friendable...
     const friendIDs = user.data.friends.map(friend => friend.id);
 

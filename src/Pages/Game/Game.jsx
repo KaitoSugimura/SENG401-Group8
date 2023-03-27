@@ -18,12 +18,14 @@ export default function Game() {
 
   const { gameState, setGameState } = useContext(gameStateContext);
 
+  // console.log(gameState);
+
   let gamePage;
   if (gameState === "Lobby") {
     gamePage = <Lobby setGameState={setGameState} />;
   } else if (gameState === "Room") {
     gamePage = <Room setGameState={setGameState} />;
-  } else if (gameState === "Battle") {
+  } else if (gameState === "Battle" || gameState === "RankedBattle") {
     gamePage = <Battle setGameState={setGameState} />;
   } else if (gameState === "EndScreen") {
     gamePage = <EndScreen setGameState={setGameState} />;

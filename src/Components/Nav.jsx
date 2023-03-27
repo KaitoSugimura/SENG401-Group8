@@ -9,6 +9,8 @@ import CharacterBGM from "/Sound/Character.mp3";
 import SocialBGM from "/Sound/Social.mp3";
 import GameBGM from "/Sound/Game.mp3";
 import BattleBGM from "/Sound/Battle.mp3";
+import RankedBattleBGM from "/Sound/RankedBattle.mp3";
+import QueueBGM from "/Sound/Queue.mp3";
 import RoomBGM from "/Sound/Room.mp3";
 import EndScreenBGM from "/Sound/EndScreen.mp3";
 import { AuthContext } from "../Database/context/AuthContext";
@@ -55,14 +57,22 @@ export default function Nav() {
             audioRef.current.src = RoomBGM;
             setOriginalMusicVolMultiplier(0.58);
             break;
+          case "Queue":
+            audioRef.current.src = QueueBGM;
+            setOriginalMusicVolMultiplier(0.9);
+            break;
           case "Battle":
             audioRef.current.src = BattleBGM;
             setOriginalMusicVolMultiplier(0.7);
             break;
+          case "RankedBattle":
+            audioRef.current.src = RankedBattleBGM;
+            setOriginalMusicVolMultiplier(0.95);
+            break;
           case "EndScreen":
-              audioRef.current.src = EndScreenBGM;
-              setOriginalMusicVolMultiplier(0.7);
-              break;
+            audioRef.current.src = EndScreenBGM;
+            setOriginalMusicVolMultiplier(0.7);
+            break;
         }
         break;
       case "/character":
@@ -106,7 +116,11 @@ export default function Nav() {
   }, [closeBanner]);
 
   return (
-    <header className={`${styles.navbar} ${locationPath==="/game" && gameState==="Battle"?styles.Hide:""}`}>
+    <header
+      className={`${styles.navbar} ${
+        locationPath === "/game" && gameState === "Battle" || gameState === "RankedBattle" ? styles.Hide : ""
+      }`}
+    >
       <audio src={HomeBGM} ref={audioRef} loop="loop"></audio>
       {/* {showBanner && <div className={styles.CloseArea} onClick={()=>closeBanner} ></div>}
       {showSettings && <div className={styles.CloseArea} onClick={()=>closeBanner} ></div>} */}

@@ -18,7 +18,7 @@ export const AuthContextProvider = ({ children }) => {
         setUserRef(userRef);
 
         const userData = await userRef.get();
-
+        console.log("READ FROM AUTH CONTEXT");
         // // Placeholder friends
         // const friends = [];
         // ["dThrxOT2NHNboaRNGkpsY2JBUf22", "zfF4DaVYqnep4a266euByoWbcLl1", "FRlFwdxGq1cToR3ttvXqhEFJScA3"].forEach(friendID => {
@@ -32,8 +32,8 @@ export const AuthContextProvider = ({ children }) => {
           // Account is new: create user data
           await userRef.set({
             username: user.displayName,
-            level: Math.floor(Math.random() * 50),
-            rankPoints: Math.floor(Math.random() * 30),
+            level: 1,
+            rankPoints: 1000,
             musicVolume: 1,
             gold: 1234,
             skinShard: 3600,
@@ -48,6 +48,7 @@ export const AuthContextProvider = ({ children }) => {
             friends: [],
             friendRequests: [],
             bannerUnlocked: 0b0000000010001000000011000010,
+            unreadMessages: {},
           });
         }
 

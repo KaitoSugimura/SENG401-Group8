@@ -8,8 +8,8 @@ import { gameStateContext } from "../gameStateContext";
 
 export default function Lobby({ setGameState }) {
   const { user } = useContext(AuthContext);
-  const { setServerPlayerID, setClientPlayerID } = useContext(gameStateContext);
-
+  const { setServerPlayerID, setClientPlayerID, setGameMode } = useContext(gameStateContext);
+  const [controlsPopup,setControlsPopup]=useState(false);
   const [popup, setPopup] = useState(false);
   const [roomList, setRoomList] = useState({});
   const [lobbyList, setLobbyList] = useState(false);
@@ -46,6 +46,7 @@ export default function Lobby({ setGameState }) {
     });
     const lockSlot = projectDatabase.ref(`lobby/rooms/${user.uid}/lock`);
     lockSlot.set(false);
+    setGameMode("Custom")
     setGameState("Room");
   };
 
@@ -86,10 +87,12 @@ export default function Lobby({ setGameState }) {
       slimeType: user.data.slimeType,
     });
     clientSlotRef.onDisconnect().remove();
+    setGameMode("Custom");
     setGameState("Room");
   };
 
   const queueRanked = () => {
+    setGameMode("Ranked");
     setGameState("Queue");
   };
 
@@ -156,7 +159,7 @@ export default function Lobby({ setGameState }) {
               setLobbyList(true);
             }}
           >
-            Custom{" "}
+            Custom
           </button>
         )}
         {mode && (
@@ -167,6 +170,16 @@ export default function Lobby({ setGameState }) {
             }}
           >
             Ranked
+          </button>
+        )}
+        {mode && (
+          <button
+            className={styles.controlsButton}
+            onClick={() => {
+             setControlsPopup(true);
+            }}
+          >
+            Controls
           </button>
         )}
         {!mode && lobbyList && (
@@ -210,6 +223,17 @@ export default function Lobby({ setGameState }) {
               setPopUp={setPopup}
               createRoom={createRoom}
             ></CreateLobby>
+          </Popup>
+        )}
+        {controlsPopup && (
+          <Popup setPopUp={setControlsPopup}>
+            <div className={styles.controlPop}>
+              <h1>Controls</h1>
+              <p>Move: WASD</p>
+              <p>Shoot: Spacebar</p>
+              <p>Aim: Mouse Position</p>
+              <p>Toggle Bullet Type: E</p>
+            </div>
           </Popup>
         )}
       </div>

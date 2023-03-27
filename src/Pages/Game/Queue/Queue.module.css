@@ -1,62 +1,167 @@
-
-
-
 .container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-  
-    background-color: black;
-    z-index: 1000;
-  
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  display: flex;
+  gap: 5vw;
+  padding-top: 10vh;
+  justify-content: center;
+  align-items: center;
+  background-image: url("/assets/BackgroundImages/RankedQueue.png");
+  background-size: cover;
+}
+
+.playerInfo {
+  width: 40vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3vh;
+  font-family: "Press Start 2P", cursive;
+}
+
+.playerInfo h1 {
+  font-size: 2.5vw;
+  color: #f1f1f1;
+  filter: drop-shadow(3px 3px 0px #000000);
+}
+
+.playerInfo h2 {
+  font-size: 1.5vw;
+  color: #f1f1f1;
+}
+.playerInfo img {
+  filter: drop-shadow(5px 5px 2px #000000);
+  height: 30vh;
+  width: auto;
+  transform: scaleX(-1);
+}
+
+.rightSide {
+  width: 40vw;
+  height: 65vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8vh;
+}
+
+.loadingText {
+  font-size: 3vw;
+  text-align: center;
+  font-family: "Press Start 2P", cursive;
+}
+
+.loadingText span {
+  display: inline-block;
+  color: #ffffff;
+  margin: 0.2vw;
+  filter: drop-shadow(5px 5px 0px #000000);
+}
+
+.loadingText span {
+  animation: queueAnim 1.4s infinite alternate;
+}
+
+@keyframes queueAnim {
+  0% {
+    opacity: 1;
   }
-  
-  .loadingText {
-    font-size: 3.5vw;
-    text-align: center;
-    font-family: 'Press Start 2P', cursive;
+  60%{
+    transform: translateY(0);
   }
-  
-  .loadingText span {
-    display: inline-block;
-    color: #f1f1f1;
-    margin: 0.2vw;
+  70%{
+    transform: translateY(-10%);
   }
-  
-  .loadingText span {
-    animation: loadingAnim 1.4s infinite alternate;
+  80% {
+    transform: translateY(0);
+    opacity: 1;
   }
-  
-  @keyframes loadingAnim {
-    0% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0;
-    }
+  100% {
+    opacity: 1;
   }
-  
-  .loadingSlime {
-    position: absolute;
-    width: 5vw;
-    height: auto;
-    transform: scaleX(-1);
-    bottom: 2vh;
+}
+
+.loadingTips {
+  font-size: 1vw;
+  text-align: center;
+  color: white;
+  width: 50%;
+  height: 10vh;
+  font-family: "Press Start 2P", cursive;
+  filter: drop-shadow(7px 4px 2px #000000);
+}
+
+.loadingTips span {
+  animation: loadingAnim 2s infinite alternate;
+}
+
+@keyframes loadingAnim {
+  0% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+
+.loadingSlime {
+  position: absolute;
+  width: 5vw;
+  height: auto;
+  transform: scaleX(-1);
+  bottom: 2vh;
+  left: -5vw;
+  animation: slimeAnim linear infinite;
+}
+
+@keyframes slimeAnim {
+  0% {
     left: -5vw;
-    animation: slimeAnim linear infinite;
   }
-  
-  @keyframes slimeAnim {
-      0% {
-        left: -5vw;
-      }
-      100% {
-          left: 100vw;
-      }
-    }
-    
+  100% {
+    left: 100vw;
+  }
+}
+
+.rank {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.returnButton {
+  display: block;
+  cursor: pointer;
+  margin: 0 1vw 0 1.5vw;
+  width: 6vw;
+  height: 6vw;
+  border: 5px solid rgb(0, 0, 0);
+  box-shadow: 8px 8px 0px rgb(0, 0, 0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(115deg, rgb(238, 100, 100), rgb(199, 1, 1));
+  transition: 0.2s all;
+  border-radius: 50%;
+}
+.returnButton:hover {
+  transform: translate(3px, 3px);
+  box-shadow: 5px 5px 0px black;
+}
+
+.returnButton svg {
+  height: 80%;
+  width: auto;
+  color: rgb(0, 0, 0);
+}

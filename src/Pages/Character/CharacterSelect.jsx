@@ -1,14 +1,18 @@
 import styles from "./Character.module.css";
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { AuthContext } from "../../Database/context/AuthContext";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../Slices/userSlice";
+import Popup from "../../Components/Popup";
 
 const CharacterSelect = ({ characters, currentlySelectedChar, switchCharacter }) => {
   const dispatch = useDispatch();
   const { userRef } = useContext(AuthContext);
   const [hover, setHover] = useState(false);
-  const [selectedSlime, setSelectedSlime] = useState(false);
+  const[popup,setPopUp]=useState(false);
+  // const [selectedSlime, setSelectedSlime] = useState(false);
+
+
   const unlockedStyle = {
     opacity: "1.0",
     filter: "grayscale(0%)",
@@ -21,7 +25,7 @@ const CharacterSelect = ({ characters, currentlySelectedChar, switchCharacter })
 
   const handleClick = (e) => {
     // window.confirm("Hello World!");
-    setSelectedSlime(false);
+    // setSelectedSlime(false);
     switchCharacter(e.currentTarget.getAttribute("number"));
   };
 

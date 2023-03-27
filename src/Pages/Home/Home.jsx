@@ -11,6 +11,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { projectAuth, projectFirestore } from "../../Database/firebase/config";
 import Swipe from "../../Swipe/Swipe";
 import { updateUser } from "../../Slices/userSlice";
+import Popup from "../../Components/Popup";
 
 const particleAmount = 60;
 const rows = [];
@@ -51,6 +52,8 @@ export default function Home() {
   console.log(user)
   const [chestOpened, setChestOpened] = useState(false);
   
+  const[popup, setPopup]=useState(false);
+
   const chestAvailable = user.data.daysSinceLastChest > 1;
 
   const openChest = () => {
@@ -63,6 +66,10 @@ export default function Home() {
       setChestOpened(true);
     }
   };
+
+  const setAchievement=()=>{
+    setPopup(true);
+  }
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
@@ -79,7 +86,7 @@ export default function Home() {
           rankPoints: doc.data().rankPoints,
         });
       });
-
+      // console.log("READ FROM HOME");
       setLeaderboard(newLeaderboard);
     };
 
@@ -88,6 +95,11 @@ export default function Home() {
 
   return (
     <div className={styles.Home}>
+      {popup&&<Popup setPopUp={setPopup}>
+        <div className={styles.achievementPop}>
+          Coming Soon!
+        </div>
+        </Popup>}
       <div className={styles.SwipeContainer}>
         <Swipe />
       </div>
@@ -138,7 +150,7 @@ export default function Home() {
         </div>
         <div className={styles.tabsIcon}>
           <p>Achievements</p>
-          <div className={styles.sideIcons}>
+          <div className={styles.sideIcons} onClick={setAchievement}>
             <img
               src={achievement}
               className={styles.achivementsIcon}

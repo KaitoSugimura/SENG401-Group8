@@ -29,7 +29,10 @@
 }
 
 .selectionButtonContainer {
-  position: relative;
+  position: fixed;
+  bottom: 0.2vh;
+  right: 2vw;
+  width: 42vw;
   height: 15vh;
 }
 
@@ -39,7 +42,6 @@
   left: 0%;
   transform: translate(0%, -50%);
   width: 100%;
-
   padding: 2vh 0;
   font-size: 6vh;
   font-weight: 500;
@@ -263,7 +265,7 @@
 }
 
 .statsContainer img {
-  width: 50px;
+  width: 4vw;
   pointer-events: all;
   height: auto;
 }
@@ -373,7 +375,7 @@
 
 .unlockConfirm p{
   display: flex;
-  font-size: 2.5rem;
+  font-size: 20px;
   font-weight: bold;
 }
 

@@ -173,6 +173,8 @@
   background: linear-gradient(-60deg, rgb(11, 68, 211) 0%, rgb(123, 181, 231));
 }
 
+
+
 .lobby {
   cursor: pointer;
 }
@@ -190,7 +192,7 @@
   position: relative;
   width: 40vw;
   height: 15vh;
-  margin: 5vh 0;
+  margin: 4vh 0;
   background: linear-gradient(-44deg, rgb(227, 205, 94) 0%, rgb(244, 233, 177));
   font-family: "Exo 2", sans-serif;
   font-size: 2.3vw;
@@ -205,10 +207,34 @@
   transition: 0.2s all;
 }
 
-.createButton:hover {
+
+.createButton:hover{
   transform: translate(3px, 3px);
   box-shadow: 5px 5px 0px black;
 }
+
+.controlsButton{
+  width: 20vw;
+  height: 8vh;
+  margin-top: 4vh;
+  background: linear-gradient(-44deg, rgb(227, 205, 94) 0%, rgb(244, 233, 177));
+  font-size: 1.5vw;
+  font-weight: 500;
+  border: 3px solid rgb(0, 0, 0);
+  box-shadow: 5px 5px 0px rgb(0, 0, 0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgb(0, 0, 0);
+  cursor: pointer;
+  transition: 0.2s all; 
+}
+
+.createButton:hover, .controlsButton:hover {
+  transform: translate(3px, 3px);
+  box-shadow: 2px 2px 0px black;
+}
+
 
 /* .createButton:before{
   content: "";
@@ -350,4 +376,30 @@
 .submit:hover {
   transform: translate(calc(-50% + 3px), 3px);
   box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.735);
+}
+
+/*Controls popup*/
+.controlPop {
+  width: 50vw;
+  height: 60vh;
+  font-family: "Exo 2", sans-serif;
+  padding: 2vh;
+  background: -moz-linear-gradient(360deg, #1c1c1c 10%, #494949 360%);
+  background: linear-gradient(360deg, #1c1c1c 10%, #494949 360%);
+  background-size: contain;
+}
+
+.controlPop h1 {
+  font-size: 2vw;
+  color: silver;
+  border-bottom: solid 3px silver;
+  padding: 2%;
+  text-align: center;
+}
+
+.controlPop p{
+  font-size: 1.5vw;
+  color: silver;
+  text-align: center;
+  margin:1.5vh;
 }

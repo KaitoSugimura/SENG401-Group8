@@ -11,32 +11,36 @@ const PlayerBanner = ({ left, winner, userData}) => {
   useEffect(() => {
     console.log(userData.bannerFilepath);
     setBanner("../../../../public/" + userData.bannerFilepath);
-    console.log(banner);
+    // console.log(banner);
   }, []);
 
   let bannerStyles;
   if(winner&&left){
     bannerStyles={
-      transform: `scale(100%) translate(-75%, -45%)`,
-      flexDirection: `row-reverse`
+      transform: `scale(100%) translate(-75%, -40%)`,
+      flexDirection: `row-reverse`,
+      gap:`2vw`,
     }
   }
   else if(!winner&&left){
     bannerStyles={
-      transform: `scale(75%) translate(-108%, -60%)`,
-      flexDirection: `row-reverse`
+      transform: `scale(75%) translate(-112%, -48%)`,
+      flexDirection: `row-reverse`,
+      gap:`2vw`,
     }
   }
   else if(winner&&!left){
     bannerStyles={
-      transform: `scale(100%) translate(-20%, -45%)`,
-      flexDirection: `row`
+      transform: `scale(100%) translate(-20%, -40%)`,
+      flexDirection: `row`,
+      gap:`2vw`,
     }
   }
   else if(!winner&&!left){
     bannerStyles={
-      transform: `scale(75%) translate(-15%, -55%)`,
+      transform: `scale(75%) translate(-15%, -50%)`,
       flexDirection: `row`,
+      gap:`2vw`,
     }
   }
 
@@ -44,28 +48,36 @@ const PlayerBanner = ({ left, winner, userData}) => {
   if (winner&&left) {
     imageDirection = {
       right: 0,
-      width: `30vw`,
-      top: 0,
+      width: `25vw`,
+      top: "10vh",
       transform: "scaleX(-1)",
+      filter: `drop-shadow(30px 20px 5px #000)`,
     };
   }
   else if(winner&&!left){
     imageDirection = {
       left:0,
-      width:`30vw`,
-      top:0,
+      width:`25vw`,
+      top: "10vh",
       transform: "scaleX(1)",
+      filter: `drop-shadow(30px 20px 5px #000)`,
     };
   }
   else if(!winner&&left){
     imageDirection = {
       right:0,
-      width:`20vw`,
-      bottom:0,
+      width:`15vw`,
+      top: '25vh',
+      transform: "scaleX(-1)",
+      filter: `drop-shadow(30px 20px 5px #000)`,
     };
   }
   else if(!winner&&!left){
-    imageDirection = { left: 0, width: `20vw`, bottom: 0 };
+    imageDirection = { left: 0, 
+    width: `15vw`, 
+    top: '28vh',
+    transform: "scaleX(1)",
+    filter: `drop-shadow(30px 20px 5px #000)`, };
   }
 
   return (

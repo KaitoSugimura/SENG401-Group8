@@ -30,8 +30,8 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
 
 .SwipeContainer{
   position: fixed;
-  top: 12vh;
-  left: 2.5vw;
+  top: calc(65px + 7vh);
+  left: 3vw;
   width: 10vw;
   height: 10vw;
   z-index: 9999;
@@ -298,4 +298,14 @@ AUGHHHHHHHHHHHHHHHHHHHHHHHH **/
 .PlayButton:hover:before,
 .PlayButton:hover:after {
   background-color: #e92c1e;
+}
+
+.achievementPop{
+  text-align: silver;
+  text-align: center;
+  font-weight: bold;
+  font-size: 3vw;
+  width: 30vw;
+  height: 30vh;
+  background-color: gray;
 }

@@ -4,9 +4,13 @@ import Carousel from 'react-bootstrap/Carousel';
 import { AuthContext } from "../../Database/context/AuthContext";
 import './bootstrap.carousel.css';
 import Swipe from "../../Swipe/Swipe";
+import GachaRoll from "./GachaRoll";
+//Currecny images
+import skinShard from "/assets/GameArt/SkinShard.png";
+import characterShard from "/assets/GameArt/CharacterShard.png";
 
 export default function Gacha() {
-  const { user, userRef } = useContext(AuthContext);
+  const { user} = useContext(AuthContext);
 
 
   return (
@@ -15,75 +19,68 @@ export default function Gacha() {
         <Swipe />
       </div>
       <div className={styles.currencyDiv}>
-        <span className={styles.skinShardAmount}>Skin Shards: {user.data.skinShard}</span>
-        <span className={styles.charShardAmount}>Character Shards: {user.data.characterShard}</span>
+        <div className={styles.characterShardDiv}>
+          <img src={characterShard} alt="" /> x{user.data.characterShard}
+        </div>
+        <div className={styles.skinShardDiv}>
+        <img className={styles.skinShard} src={skinShard} alt="" /> x{user.data.skinShard}
+        </div>
       </div>
       <Carousel interval={null}>
       <Carousel.Item>
         <div className={styles.bannerContainer}>
-          <div class={styles.rollType}>Standard Roll</div>
-          <div class={styles.rollContainer}>
-            <div class={styles.rollDescription}>
-              <h1 class={styles.rollName}>Dark Slimes</h1>
-              <p class={styles.rollParagraph}>Every roll is gauranteed to include either character shards, skin shards, a banner, or a depicted skin.</p>
+          <div className={styles.rollType}>Standard Roll</div>
+          <div className={styles.rollContainer}>
+            <div className={styles.rollDescription}>
+              <h1 className={styles.rollName}>Dark Slimes</h1>
+              <p className={styles.rollParagraph}>Every roll is gauranteed to include either character shards, skin shards, a banner, or a slime skin.</p>
             </div>
-            <div class={styles.rollSlimes}>
-              <img class={styles.slimeImage} src="assets/GameArt/ShadowSlime/ShadowSlime1.gif"/>
-              <img class={styles.slimeImage} src="assets/GameArt/PoisonSlime/PoisonSlime1.gif"/>
-              <img class={styles.slimeImage} src="assets/GameArt/WildSlime/WildSlime1.gif"/>
-              <img class={styles.slimeImage} src="assets/GameArt/ArmoredSlime/ArmoredSlime1.gif"/>
-            </div>
-          </div>
-        </div>
-      </Carousel.Item>
-      <Carousel.Item>
-        <div className={styles.bannerContainer}>
-          <div class={styles.rollType}>Standard Roll</div>
-          <div class={styles.rollContainer}>
-            <div class={styles.rollDescription}>
-              <h1 class={styles.rollName}>Light Slimes</h1>
-              <p class={styles.rollParagraph}>Every roll is gauranteed to include either character shards, skin shards, a banner, or a depicted skin.</p>
-            </div>
-            <div class={styles.rollSlimes}>
-              <img class={styles.slimeImage} src="assets/GameArt/BubbleGumSlime/BubbleGumSlime1.gif"/>
-              <img class={styles.slimeImage} src="assets/GameArt/CelestialSlime/CelestialSlime1.gif"/>
-              <img class={styles.slimeImage} src="assets/GameArt/HoneySlime/HoneySlime1.gif"/>
-              <img class={styles.slimeImage} src="assets/GameArt/FireSlime/FireSlime1.gif"/>
+            <div className={styles.rollSlimes}>
+              <img className={styles.slimeImage} src="assets/GameArt/ShadowSlime/ShadowSlime3.gif"/>
+              <img className={styles.slimeImage} src="assets/GameArt/PoisonSlime/PoisonSlime3.gif"/>
+              <img className={styles.slimeImage} src="assets/GameArt/WildSlime/WildSlime3.gif"/>
+              <img className={styles.slimeImage} src="assets/GameArt/ArmoredSlime/ArmoredSlime2.gif"/>
             </div>
           </div>
         </div>
       </Carousel.Item>
       <Carousel.Item>
         <div className={styles.bannerContainer}>
-          <div class={styles.rollType}>Standard Roll</div>
-          <div class={styles.rollContainer}>
-            <div class={styles.rollDescription}>
-              <h1 class={styles.rollName}>Elemental Slimes</h1>
-              <p class={styles.rollParagraph}>Every roll is gauranteed to include either character shards, skin shards, a banner, or a depicted skin.</p>
+          <div className={styles.rollType}>Standard Roll</div>
+          <div className={styles.rollContainer}>
+            <div className={styles.rollDescription}>
+              <h1 className={styles.rollName}>Light Slimes</h1>
+              <p className={styles.rollParagraph}>Every roll is gauranteed to include either character shards, skin shards, a banner, or a slime skin.</p>
+            </div>
+            <div className={styles.rollSlimes}>
+              <img className={styles.slimeImage} src="assets/GameArt/BubbleGumSlime/BubbleGumSlime2.gif"/>
+              <img className={styles.slimeImage} src="assets/GameArt/CelestialSlime/CelestialSlime3.gif"/>
+              <img className={styles.slimeImage} src="assets/GameArt/HoneySlime/HoneySlime3.gif"/>
+              <img className={styles.slimeImage} src="assets/GameArt/FireSlime/FireSlime3.gif"/>
+            </div>
+          </div>
+        </div>
+      </Carousel.Item>
+      <Carousel.Item>
+        <div className={styles.bannerContainer}>
+          <div className={styles.rollType}>Standard Roll</div>
+          <div className={styles.rollContainer}>
+            <div className={styles.rollDescription}>
+              <h1 className={styles.rollName}>Elemental Slimes</h1>
+              <p className={styles.rollParagraph}>Every roll is gauranteed to include either character shards, skin shards, a banner, or a slime skin.</p>
             </div>            
-            <div class={styles.rollSlimes}>
-              <img class={styles.slimeImage} src="assets/GameArt/EarthSlime/EarthSlime1.gif"/>
-              <img class={styles.slimeImage} src="assets/GameArt/ElectricSlime/ElectricSlime1.gif"/>
-              <img class={styles.slimeImage} src="assets/GameArt/IceSlime/IceSlime1.gif"/>
-              <img class={styles.slimeImage} src="assets/GameArt/AirSlime/AirSlime1.gif"/>
+            <div className={styles.rollSlimes}>
+              <img className={styles.slimeImage} src="assets/GameArt/EarthSlime/EarthSlime2.gif"/>
+              <img className={styles.slimeImage} src="assets/GameArt/ElectricSlime/ElectricSlime2.gif"/>
+              <img className={styles.slimeImage} src="assets/GameArt/IceSlime/IceSlime2.gif"/>
+              <img className={styles.slimeImage} src="assets/GameArt/AirSlime/AirSlime2.gif"/>
             </div>
           </div>
         </div>
       </Carousel.Item>
     </Carousel>
     <div className={styles.gachaFooter}>
-      <div className={styles.rollDiv}>
-        <button className={styles.rollButton}>
-          Roll x 1
-          <br></br>
-          10 Gold 
-        </button>
-        <button className={styles.rollButton}>
-          Roll x 10
-          <br></br>
-          100 Gold 
-        </button>
-      </div>
+      <GachaRoll />
     </div>
     </div>
   );

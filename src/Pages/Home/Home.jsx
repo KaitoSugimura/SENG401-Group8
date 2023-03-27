@@ -51,10 +51,11 @@ export default function Home() {
   const dispatch = useDispatch()
   console.log(user)
   const [chestOpened, setChestOpened] = useState(false);
+  const [chestAvailable, setChestAvailable] = useState(false);
   
   const[popup, setPopup]=useState(false);
 
-  const chestAvailable = user.data.daysSinceLastChest > 1;
+  const daysSinceLastChest = user.data.daysSinceLastChest;
 
   const openChest = () => {
     
@@ -70,6 +71,15 @@ export default function Home() {
   const setAchievement=()=>{
     setPopup(true);
   }
+
+  useEffect(() => {
+    if(daysSinceLastChest > 1) {
+      setChestAvailable(true)
+    } else {
+      setChestAvailable(false)
+    }
+    console.log(chestAvailable)
+  }, [daysSinceLastChest])
 
   useEffect(() => {
     const fetchLeaderboard = async () => {

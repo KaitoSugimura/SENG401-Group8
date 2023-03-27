@@ -1,12 +1,17 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Database/context/AuthContext";
 import { projectFirestore } from "../../Database/firebase/config";
+import { useSelector, useDispatch } from 'react-redux'
 import styles from "./Social.module.css";
 import firebase from "firebase";
 import Modal from "./Modal";
+import { updateUser } from "../../Slices/userSlice";
 
 const FriendRequests = ({ close }) => {
-  const { user, userRef } = useContext(AuthContext);
+  const { userRef } = useContext(AuthContext);
+  const { user } = useSelector((state) => state);
+  const dispatch = useDispatch();
+
   const [requests, setRequests] = useState([]);
 
   useEffect(() => {

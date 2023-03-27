@@ -10,13 +10,15 @@ import Search from "./Search";
 import AccountBanner from "../../Components/AccountBanner";
 import Message from "./Message";
 import { useDispatch, useSelector } from "react-redux";
+import { updateUser } from "../../Slices/userSlice";
 
 // const ENDPOINT = "http://localhost:5000";
 // const ENDPOINT = "https://seng-401-server.onrender.com";
 // const socket = io(ENDPOINT);
 
 export default function Social() {
-  const { user } = useSelector((state) => state);
+  const { user, auth } = useSelector((state) => state);
+  const { userRef } = useContext(AuthContext);
   const dispatch = useDispatch();
   const [selectedChat, setSelectedChat] = useState("global");
   const [message, setMessage] = useState("");
@@ -32,7 +34,7 @@ export default function Social() {
     userRef.update({
       [`unreadMessages.${selectedChat._id}`]: 0
     });
-    user.data.unreadMessages[selectedChat._id] = 0;
+    // user.data.unreadMessages[selectedChat._id] = 0;
   }
 
   // Fetch friends
@@ -86,7 +88,7 @@ export default function Social() {
         const [docs1, docs2] = await Promise.all([
           projectFirestore
             .collection("chats")
-            .where("users", "array-contains", user.uid)
+            .where("users", "array-contains", auth.uid)
             .get()
             .then((res) => res.docs),
           projectFirestore
@@ -102,14 +104,14 @@ export default function Social() {
         // Create chat if it doesn't exist
         if (!intersectDocs[0]) {
           await projectFirestore.collection("chats").add({
-            users: [user.uid, selectedChat._id],
+            users: [auth.uid, selectedChat._id],
           });
         }
 
         setChatRef(intersectDocs[0].ref);
       }
     };
-
+    console.log("getting messages")
     getMessages();
   }, [selectedChat]);
 
@@ -121,17 +123,18 @@ export default function Social() {
       const newMessage = {
         content: message,
         username: user.data.username,
-        id: user.uid,
+        id: auth.uid,
         slimePath: user.data.slimePath,
         sentAt: firebase.firestore.Timestamp.now(),
       };
+      console.log(newMessage)
 
       setMessage("");
       chatRef.collection("messages").add(newMessage);
 
       if (selectedChat !== "global") {
         projectFirestore.collection("users").doc(selectedChat._id).update({
-          [`unreadMessages.${user.uid}`]: firebase.firestore.FieldValue.increment(1),
+          [`unreadMessages.${auth.uid}`]: firebase.firestore.FieldValue.increment(1),
         });
       }
     }
@@ -149,7 +152,7 @@ export default function Social() {
     // Update friend's friend list
     friendRef.update({
       friends: firebase.firestore.FieldValue.arrayRemove(userRef),
-      [`unreadMessages.${user.uid}`]: firebase.firestore.FieldValue.delete(),
+      [`unreadMessages.${auth.uid}`]: firebase.firestore.FieldValue.delete(),
     });
 
     setSelectedChat("global");

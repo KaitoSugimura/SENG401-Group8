@@ -278,11 +278,14 @@ export const userSlice = createSlice({
         setFriendRequests: (state, action) => {
             state.data.friendRequests = action.payload;
         },
+        setUnreadMessages: (state, action) => {
+            state.data.unreadMessages = action.payload;
+        },
         setSlimePath: (state, action) => {
             state.data.slimePath = `assets/GameArt/${state.data.slimeType}Slime/${state.data.slimeType}Slime${state.data.slimeSkin}`
         },
         setDaysSinceLastChest: (state, action) => {
-            state.data.daysSinceLastChest = Date.now() - state.data.chestLastOpenedOn.toDate() / 1000 / 60 / 60 / 24
+            state.data.daysSinceLastChest = (Date.now() - state.data.chestLastOpenedOn.toDate()) / 1000 / 60 / 60 / 24
         },
     },
     // In the future, I think these thunks should directly update state using action.payload

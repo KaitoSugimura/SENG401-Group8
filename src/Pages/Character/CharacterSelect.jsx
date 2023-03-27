@@ -10,7 +10,7 @@ const CharacterSelect = ({ characters, currentlySelectedChar, switchCharacter })
   const { userRef } = useContext(AuthContext);
   const [hover, setHover] = useState(false);
   const[popup,setPopUp]=useState(false);
-  // const [selectedSlime, setSelectedSlime] = useState(false);
+  const [selectedSlime, setSelectedSlime] = useState(false);
 
 
   const unlockedStyle = {

@@ -19,6 +19,8 @@ export const login = createAsyncThunk(
         console.log("found doc data:")
         console.log(data);
         await thunkAPI.dispatch(setExistingState(data))
+        thunkAPI.dispatch(setSlimePath())
+        thunkAPI.dispatch(setDaysSinceLastChest())
         thunkAPI.dispatch(setUID(user.uid))
         await thunkAPI.dispatch(setLoginStatus())
         // thunkAPI.dispatch(setLoginStatus())

@@ -144,7 +144,7 @@
   position: absolute;
   bottom: 25%;
   left: 0;
-  transform: translateX(-150%);
+  transform: translateX(-130%);
   width: 3vw;
   height: 1.4vw;
   /* background-color: #000; */
@@ -160,10 +160,10 @@
 
 .dmgUp img{
   position: absolute;
-  bottom: 20%;
-  right: -50%;
-  width: 1.5vw;
-  height: auto;
+  bottom: 0%;
+  right: -70%;
+  width: 3vw;
+  height: 2vw;
 }
 
 .HP_NAME_Bar {

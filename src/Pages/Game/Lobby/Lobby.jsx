@@ -229,10 +229,7 @@ export default function Lobby({ setGameState }) {
           <Popup setPopUp={setControlsPopup}>
             <div className={styles.controlPop}>
               <h1>Controls</h1>
-              <p>Move Up: W</p>
-              <p>Move Left: A</p>
-              <p>Move Down: S</p>
-              <p>Move Right: D</p>
+              <p>Move: WASD</p>
               <p>Shoot: Spacebar</p>
               <p>Aim: Mouse Position</p>
               <p>Toggle Bullet Type: E</p>

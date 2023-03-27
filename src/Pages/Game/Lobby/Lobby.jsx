@@ -159,7 +159,7 @@ export default function Lobby({ setGameState }) {
               setLobbyList(true);
             }}
           >
-            Custom{" "}
+            Custom
           </button>
         )}
         {mode && (
@@ -170,6 +170,16 @@ export default function Lobby({ setGameState }) {
             }}
           >
             Ranked
+          </button>
+        )}
+        {mode && (
+          <button
+            className={styles.controlsButton}
+            onClick={() => {
+             
+            }}
+          >
+            Controls
           </button>
         )}
         {!mode && lobbyList && (

@@ -12,7 +12,7 @@ export default{
         { type: "Shadow", skin: 1, unlocked: false, power: 4, speed: 4, health: 1, two: false, three: false, price: 900,id: 10 },
         { type: "BubbleGum", skin: 1, unlocked: false, power: 2, speed: 2, health: 5, two: false, three: false, price: 900,id: 11 },
         { type: "Armored", skin: 1, unlocked: false, power: 3, speed: 1, health: 5, two: false, three: false, price: 900,id: 12 },
-        { type: "Celestial", skin: 1, unlocked: false, power: 4, speed: 4, health: 1, two: false, three: false, price: 1800,id: 13 },
+        { type: "Celestial", skin: 1, unlocked: false, power: 2, speed: 5, health: 2, two: false, three: false, price: 1800,id: 13 },
         { type: "Metal", skin: 1, unlocked: false, power: 3, speed: 3, health: 3, two: false, three: false, price: 1800,id: 14 },
     ]
 

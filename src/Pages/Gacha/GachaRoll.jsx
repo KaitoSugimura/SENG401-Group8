@@ -104,7 +104,7 @@ export default function GachaRoll() {
     }
 
     function processBanner(){
-        let bannerRoll = 0;
+        let bannerRoll = Math.floor(Math.random() * bannersData.length);
         if((user.data.bannerUnlocked >> bannerRoll) & 1 == 1){
             processRoll();
             return;

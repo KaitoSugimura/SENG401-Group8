@@ -21,8 +21,8 @@
     background: #00ffb3;
     position: relative;
     overflow: hidden;
-    padding: 0.5rem;
-    margin: 0 5%;
+    padding-bottom: 6vh;
+    margin: 0 5vw;
     border: 3px solid #121212;
     background: linear-gradient(
         -44deg,
@@ -79,7 +79,8 @@
   
   .popupBanner p{
     display: flex;
-    font-size: 20px;
+    font-size: 2vw;
+    text-align: center;
     font-weight: bold;
   }
   
@@ -118,4 +119,5 @@
   .rollImage{
     margin-top: 1vh;
     max-width: 15vw;
+    max-height: 15vh;
   }

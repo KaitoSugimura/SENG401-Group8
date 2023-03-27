@@ -70,7 +70,9 @@ export default function Swipe() {
         </div>
       )}
       {showPaymentConfirmation && (
-        <div className={styles.background}>
+        <div className={styles.background} onClick={() => {
+          setShowPaymentConfirmation(false);
+        }}>
           <div className={styles.Warning}>Note: You do not need to actually input anything. <br/>Just press confirm.</div>
           <div className={styles.ConfirmationPopupContainer}>
             <div className={styles.creditCardImageContainer}>
@@ -156,7 +158,9 @@ export default function Swipe() {
       )}
 
       {showThankyou && (
-        <div className={styles.background}>
+        <div className={styles.background}  onClick={() => {
+          setShowThankyou(false);
+        }}>
           <div className={styles.thankYouPopup}>
             <img className={styles.Check} src="/publicAssets/Check.png"></img>
             <p>Thank you for your payment</p>

@@ -321,7 +321,7 @@ export default function Battle({ setGameState }) {
             setGameState("EndScreen");
           }, 800);
         }
-        enemy.current = null;
+        // enemy.current = null;
       } else if (
         enemy.current &&
         enemy.current.projectileBuffMode != p.projectileBuffMode
@@ -584,6 +584,8 @@ export default function Battle({ setGameState }) {
 
           if (self.current.HP <= 0) {
             EndSoundRef.current.play();
+            self.current.HP = 0;
+            Render({ time: Date.now() });
             playerRef.remove();
           }
         }

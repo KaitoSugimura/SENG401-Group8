@@ -89,7 +89,7 @@ export default function Social() {
         const [docs1, docs2] = await Promise.all([
           projectFirestore
             .collection("chats")
-            .where("users", "array-contains", user.uid)
+            .where("users", "array-contains", auth.uid)
             .get()
             .then((res) => res.docs),
           projectFirestore
@@ -105,7 +105,7 @@ export default function Social() {
         // Create chat if it doesn't exist
         if (!chatRef) {
           chatRef = await projectFirestore.collection("chats").add({
-            users: [user.uid, selectedChat._id],
+            users: [auth.uid, selectedChat._id],
           });
         }
 

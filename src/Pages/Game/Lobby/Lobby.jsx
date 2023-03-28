@@ -230,7 +230,7 @@ export default function Lobby({ setGameState }) {
             <div className={styles.controlPop}>
               <h1>Controls</h1>
               <p>Move: WASD</p>
-              <p>Shoot: Spacebar</p>
+              <p>Shoot: Spacebar/Left Click</p>
               <p>Aim: Mouse Position</p>
               <p>Toggle Bullet Type: E</p>
             </div>

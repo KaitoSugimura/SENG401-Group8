@@ -519,7 +519,7 @@ export default function Battle({ setGameState }) {
             margin: Math.random() * 2 + "vw 0 0 " + Math.random() * 3 + "vw",
             color: "red",
           };
-          hitAmountEnemy.current = enemy.current.DMG;
+          hitAmountEnemy.current = PC.DMG;
         }
         if (
           (playerId === serverPlayerID &&

@@ -14,8 +14,13 @@ import characterData from "../../../Database/JsxData/characters.jsx";
 
 export default function Battle({ setGameState }) {
   const { user } = useContext(AuthContext);
-  const { serverPlayerID, clientPlayerID, setEndScreenData, gameState, gameMode } =
-    useContext(gameStateContext);
+  const {
+    serverPlayerID,
+    clientPlayerID,
+    setEndScreenData,
+    gameState,
+    gameMode,
+  } = useContext(gameStateContext);
 
   const self = useRef({});
   const enemy = useRef(null);
@@ -50,6 +55,13 @@ export default function Battle({ setGameState }) {
   const weaponChangeSoundRef = useRef(null);
   const buffSoundRef = useRef(null);
   const healSoundRef = useRef(null);
+
+  const animationKey = useRef(2500);
+  const animationKeyEnemy = useRef(5000);
+  const hitAmount = useRef(0);
+  const hitAmountEnemy = useRef(0);
+  const gotHitStyle = useRef({});
+  const gotHitStyleEnemy = useRef({});
 
   const { charactersData } = characterData;
   let CDIndex = 0;
@@ -221,6 +233,7 @@ export default function Battle({ setGameState }) {
         slimePath: user.data.slimePath,
         HP: MAX_HP,
         DMG: DMG,
+        initDMG: charactersData[CDIndex].power,
         projectileBuffMode: false,
         // time: Date.now(),
       };
@@ -234,6 +247,7 @@ export default function Battle({ setGameState }) {
         slimePath: user.data.slimePath,
         HP: MAX_HP,
         DMG: DMG,
+        initDMG: charactersData[CDIndex].power,
         projectileBuffMode: false,
         // time: Date.now(),
       };
@@ -282,7 +296,7 @@ export default function Battle({ setGameState }) {
     enemyRef.off();
     enemyRef.on("value", (otherSnapshot) => {
       const p = otherSnapshot.val();
-      if (p === null) {
+      if (p == null) {
         // Enemy disconnected or lost
         if (enemy.current != null) {
           controlsDead.current = true;
@@ -313,11 +327,13 @@ export default function Battle({ setGameState }) {
         weaponChangeSoundRef.current.currentTime = 0;
         weaponChangeSoundRef.current.play();
       }
-      enemy.current = {
-        ...p,
-        left: p.left * battleFieldWidth.current,
-        top: p.top * battleFieldHeight.current,
-      };
+      if (p) {
+        enemy.current = {
+          ...p,
+          left: p.left * battleFieldWidth.current,
+          top: p.top * battleFieldHeight.current,
+        };
+      }
     });
 
     enemyProjectileRef.off();
@@ -476,14 +492,32 @@ export default function Battle({ setGameState }) {
             //Buff
             buffSoundRef.current.currentTime = 0;
             buffSoundRef.current.play();
+            animationKeyEnemy.current++;
+            gotHitStyleEnemy.current = {
+              margin: Math.random() * 2 + "vw 0 0 " + Math.random() * 3 + "vw",
+              color: "rgb(0, 195, 255)",
+            };
+            hitAmountEnemy.current = enemy.current.initDMG;
           } else {
             // healing
             healSoundRef.current.currentTime = 0;
             healSoundRef.current.play();
+            animationKeyEnemy.current++;
+            gotHitStyleEnemy.current = {
+              margin: Math.random() * 2 + "vw 0 0 " + Math.random() * 3 + "vw",
+              color: "rgb(13, 255, 0)",
+            };
+            hitAmountEnemy.current = 20;
           }
         } else {
           hitNormalSoundRef.current.currentTime = 0;
           hitNormalSoundRef.current.play();
+          animationKeyEnemy.current++;
+          gotHitStyleEnemy.current = {
+            margin: Math.random() * 2 + "vw 0 0 " + Math.random() * 3 + "vw",
+            color: "red",
+          };
+          hitAmountEnemy.current = enemy.current.DMG;
         }
         if (
           (playerId === serverPlayerID &&
@@ -509,24 +543,41 @@ export default function Battle({ setGameState }) {
         if (projectile.bulletState >= 3) {
           if (projectile.projectileType) {
             //Buff
-
             buffSoundRef.current.currentTime = 0;
             buffSoundRef.current.play();
             self.current.DMG += DMG / 3;
+            gotHitStyle.current = {
+              margin: Math.random() * 2 + "vw 0 0 " + Math.random() * 3 + "vw",
+              color: "rgb(0, 195, 255)",
+            };
+            animationKey.current++;
+            hitAmount.current = DMG / 3;
           } else {
             // healing
-
             healSoundRef.current.currentTime = 0;
             healSoundRef.current.play();
             self.current.HP += 20;
             if (self.current.HP > MAX_HP) {
               self.current.HP = MAX_HP;
             }
+            gotHitStyle.current = {
+              margin: Math.random() * 2 + "vw 0 0 " + Math.random() * 3 + "vw",
+              color: "rgb(13, 255, 0)",
+            };
+            animationKey.current++;
+            hitAmount.current = 20;
           }
         } else {
           hitNormalSoundRef.current.currentTime = 0;
           hitNormalSoundRef.current.play();
           self.current.HP -= enemy.current.DMG;
+          gotHitStyle.current = {
+            margin: Math.random() * 2 + "vw 0 0 " + Math.random() * 3 + "vw",
+            color: "red",
+          };
+          animationKey.current++;
+          hitAmount.current = enemy.current.DMG;
+
           if (self.current.HP <= 0) {
             playerRef.remove();
           }
@@ -540,7 +591,6 @@ export default function Battle({ setGameState }) {
           currentProjectileShotAmount.current -= 1;
         }
         projectiles.current.splice(i, 1);
-
       }
 
       if (
@@ -566,7 +616,6 @@ export default function Battle({ setGameState }) {
           currentProjectileShotAmount.current -= 1;
         }
         projectiles.current.splice(i, 1);
-
       }
     }
     Render({ time: Date.now() /*- enemy.current.time*/ });
@@ -596,7 +645,7 @@ export default function Battle({ setGameState }) {
       <audio ref={buffSoundRef} src="/Sound/FX/buff.mp3" />
       <audio ref={healSoundRef} src="/Sound/FX/heal.ogg" />
       {/* AUDIO END */}
-      <span className={styles.ping}>{reRender ? reRender.time : 0} ms</span>
+      {/* <span className={styles.ping}>{reRender ? reRender.time : 0} ms</span> */}
       <div className={styles.battleContainer}>
         <div className={styles.battleFieldContainer}>
           <div
@@ -607,7 +656,7 @@ export default function Battle({ setGameState }) {
             }}
           >
             <img
-              src={gameState==="Battle"?map:rankedMap}
+              src={gameState === "Battle" ? map : rankedMap}
               className={styles.battleFieldImage}
               onLoad={() => {
                 setTimeout(() => {
@@ -658,6 +707,13 @@ export default function Battle({ setGameState }) {
                   src={user.data.slimePath + ".gif"}
                   className={styles.slimeImage}
                 ></img>
+                <div
+                  key={animationKey.current}
+                  className={styles.damageNumber}
+                  style={gotHitStyle.current}
+                >
+                  {hitAmount.current}
+                </div>
               </div>
               <div className={styles.dmgUp}>
                 {self.current.DMG}
@@ -700,6 +756,13 @@ export default function Battle({ setGameState }) {
                   src={enemy.current.slimePath + ".gif"}
                   className={styles.slimeImage}
                 ></img>
+                <div
+                  key={animationKeyEnemy.current}
+                  className={styles.damageNumber}
+                  style={gotHitStyleEnemy.current}
+                >
+                  {hitAmountEnemy.current}
+                </div>
                 <div className={styles.dmgUp}>
                   {enemy.current.DMG}
                   <img src="/publicAssets/BuffUpArrow.png"></img>

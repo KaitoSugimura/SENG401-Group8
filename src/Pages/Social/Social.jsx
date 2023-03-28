@@ -89,7 +89,7 @@ export default function Social() {
         const [docs1, docs2] = await Promise.all([
           projectFirestore
             .collection("chats")
-            .where("users", "array-contains", auth.uid)
+            .where("users", "array-contains", user.uid)
             .get()
             .then((res) => res.docs),
           projectFirestore
@@ -98,24 +98,21 @@ export default function Social() {
             .get()
             .then((res) => res.docs),
         ]);
-        const intersectDocs = docs1.filter((doc1) => {
+        let chatRef = docs1.filter((doc1) => {
           return docs2.some((doc2) => doc2.id === doc1.id);
-        });
+        })[0]?.ref;
 
         // Create chat if it doesn't exist
-        if (!intersectDocs[0]) {
-          await projectFirestore.collection("chats").add({
-            users: [auth.uid, selectedChat._id],
-          })
+        if (!chatRef) {
+          chatRef = await projectFirestore.collection("chats").add({
+            users: [user.uid, selectedChat._id],
+          });
         }
-        const intersectDocsNew = docs1.filter((doc1) => {
-          return docs2.some((doc2) => doc2.id === doc1.id);
-        });
 
-        setChatRef(intersectDocsNew[0].ref);
+        setChatRef(chatRef);
       }
     };
-    console.log("getting messages")
+
     getMessages();
   }, [selectedChat]);
 

@@ -303,6 +303,7 @@ export default function Battle({ setGameState }) {
         // Enemy disconnected or lost
         if (enemy.current != null) {
           controlsDead.current = true;
+          EndSoundRef.current.play();
 
           const isWinner = self.current.HP > 0;
           const EnemyID =
@@ -312,7 +313,6 @@ export default function Battle({ setGameState }) {
             enemyID: EnemyID,
             gold: goldBetAmount,
           });
-          EndSoundRef.current.play();
           setTimeout(() => {
             projectDatabase.ref(`battle/${serverPlayerID}`).remove();
             projectDatabase.ref(`lobby/rooms/${serverPlayerID}`).remove();
@@ -582,6 +582,7 @@ export default function Battle({ setGameState }) {
           hitAmount.current = enemy.current.DMG;
 
           if (self.current.HP <= 0) {
+            EndSoundRef.current.play();
             playerRef.remove();
           }
         }

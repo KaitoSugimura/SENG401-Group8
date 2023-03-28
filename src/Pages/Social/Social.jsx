@@ -39,6 +39,7 @@ export default function Social() {
 
   // Fetch friends
   useEffect(() => {
+    console.log("friends changed")
     const getFriends = async () => {
       const friends = await Promise.all(
         user.data.friends.map(async (friend) => {
@@ -105,10 +106,13 @@ export default function Social() {
         if (!intersectDocs[0]) {
           await projectFirestore.collection("chats").add({
             users: [auth.uid, selectedChat._id],
-          });
+          })
         }
+        const intersectDocsNew = docs1.filter((doc1) => {
+          return docs2.some((doc2) => doc2.id === doc1.id);
+        });
 
-        setChatRef(intersectDocs[0].ref);
+        setChatRef(intersectDocsNew[0].ref);
       }
     };
     console.log("getting messages")

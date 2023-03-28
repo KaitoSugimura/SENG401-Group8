@@ -55,6 +55,7 @@ export default function Battle({ setGameState }) {
   const weaponChangeSoundRef = useRef(null);
   const buffSoundRef = useRef(null);
   const healSoundRef = useRef(null);
+  const EndSoundRef = useRef(null);
 
   const animationKey = useRef(2500);
   const animationKeyEnemy = useRef(5000);
@@ -92,6 +93,8 @@ export default function Battle({ setGameState }) {
       buffSoundRef.current.volume = Math.min(0.75 * user.data.musicVolume, 1);
     if (healSoundRef.current)
       healSoundRef.current.volume = Math.min(1.05 * user.data.musicVolume, 1);
+    if(EndSoundRef.current)
+    EndSoundRef.current.volume = user.data.musicVolume;
   }, [
     shootSoundRef,
     hitNormalSoundRef,
@@ -309,7 +312,7 @@ export default function Battle({ setGameState }) {
             enemyID: EnemyID,
             gold: goldBetAmount,
           });
-
+          EndSoundRef.current.play();
           setTimeout(() => {
             projectDatabase.ref(`battle/${serverPlayerID}`).remove();
             projectDatabase.ref(`lobby/rooms/${serverPlayerID}`).remove();
@@ -317,7 +320,7 @@ export default function Battle({ setGameState }) {
             enemyProjectileRef.off();
             enemyProjectileDeletionRef.off();
             setGameState("EndScreen");
-          }, 100);
+          }, 800);
         }
         enemy.current = null;
       } else if (
@@ -644,6 +647,8 @@ export default function Battle({ setGameState }) {
       <audio ref={weaponChangeSoundRef} src="/Sound/FX/weaponChange.mp3" />
       <audio ref={buffSoundRef} src="/Sound/FX/buff.mp3" />
       <audio ref={healSoundRef} src="/Sound/FX/heal.ogg" />
+      <audio ref={EndSoundRef} src="/Sound/FX/End.ogg" />
+      
       {/* AUDIO END */}
       {/* <span className={styles.ping}>{reRender ? reRender.time : 0} ms</span> */}
       <div className={styles.battleContainer}>

@@ -93,8 +93,7 @@ export default function Battle({ setGameState }) {
       buffSoundRef.current.volume = Math.min(0.75 * user.data.musicVolume, 1);
     if (healSoundRef.current)
       healSoundRef.current.volume = Math.min(1.05 * user.data.musicVolume, 1);
-    if(EndSoundRef.current)
-    EndSoundRef.current.volume = user.data.musicVolume;
+    if (EndSoundRef.current) EndSoundRef.current.volume = user.data.musicVolume;
   }, [
     shootSoundRef,
     hitNormalSoundRef,
@@ -408,7 +407,7 @@ export default function Battle({ setGameState }) {
           y: self.current.top + normalizedY * 3,
           dx: normalizedX * 1.5,
           dy: normalizedY * 1.5,
-          rad: 1,
+          DMG: self.current.DMG,
           bulletState: 0, // 0-2 damage, >=3 for healing
           key: ProjectileKey.current++,
           projectileType: self.current.projectileBuffMode, // false: Healing, true: AttackBuff
@@ -573,13 +572,15 @@ export default function Battle({ setGameState }) {
         } else {
           hitNormalSoundRef.current.currentTime = 0;
           hitNormalSoundRef.current.play();
-          self.current.HP -= enemy.current.DMG;
+
+          self.current.HP -= projectile.DMG;
+          hitAmount.current = projectile.DMG;
+
           gotHitStyle.current = {
             margin: Math.random() * 2 + "vw 0 0 " + Math.random() * 3 + "vw",
             color: "red",
           };
           animationKey.current++;
-          hitAmount.current = enemy.current.DMG;
 
           if (self.current.HP <= 0) {
             EndSoundRef.current.play();
@@ -598,15 +599,15 @@ export default function Battle({ setGameState }) {
       }
 
       if (
-        projectile.y - projectile.rad <= 0 ||
-        projectile.y + projectile.rad >= battleFieldHeight.current
+        projectile.y - 1 <= 0 ||
+        projectile.y + 1 >= battleFieldHeight.current
       ) {
         projectile.dy *= -1;
         projectile.bulletState++;
       }
       if (
-        projectile.x - projectile.rad <= 0 ||
-        projectile.x + projectile.rad >= battleFieldWidth.current
+        projectile.x - 1 <= 0 ||
+        projectile.x + 1 >= battleFieldWidth.current
       ) {
         projectile.dx *= -1;
         projectile.bulletState++;
@@ -649,7 +650,7 @@ export default function Battle({ setGameState }) {
       <audio ref={buffSoundRef} src="/Sound/FX/buff.mp3" />
       <audio ref={healSoundRef} src="/Sound/FX/heal.ogg" />
       <audio ref={EndSoundRef} src="/Sound/FX/End.ogg" />
-      
+
       {/* AUDIO END */}
       {/* <span className={styles.ping}>{reRender ? reRender.time : 0} ms</span> */}
       <div className={styles.battleContainer}>
@@ -692,8 +693,8 @@ export default function Battle({ setGameState }) {
                 style={{
                   top: projectile.y + "vw",
                   left: projectile.x + "vw",
-                  width: projectile.rad * 2 + "vw",
-                  height: projectile.rad * 2 + "vw",
+                  width: 2 + "vw",
+                  height: 2 + "vw",
                 }}
                 key={projectile.key}
               ></div>

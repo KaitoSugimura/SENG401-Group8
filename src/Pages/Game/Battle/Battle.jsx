@@ -641,6 +641,9 @@ export default function Battle({ setGameState }) {
       tabIndex="0"
       onKeyDown={(e) => move(e)}
       onKeyUp={(e) => release(e)}
+      onClick={()=>{
+        shoot();
+      }}
     >
       {/* <div className={styles.topBar}></div> */}
       {loading && <LoadingScreen />}

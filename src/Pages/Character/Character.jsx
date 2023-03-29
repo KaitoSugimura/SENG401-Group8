@@ -3,11 +3,12 @@ import { AuthContext } from "../../Database/context/AuthContext";
 import CharacterSelect from './CharacterSelect';
 import styles from "./Character.module.css";
 import CharacterProfile from "./CharacterProfile";
-import CD from "../../Database/JsxData/characters"
+import CD from "../../Database/JsxData/characters";
+import { useSelector, useDispatch } from 'react-redux';
 
 export default function Character() {
 
-  const { user, userRef } = useContext(AuthContext);
+  const { user } = useSelector((state) => state);
   const [userCharacters, updateUserCharacters] = useState([]);
   let {charactersData} = JSON.parse(JSON.stringify(CD));
   const [characters, updateCharacters] = useState(JSON.parse(JSON.stringify(charactersData)));

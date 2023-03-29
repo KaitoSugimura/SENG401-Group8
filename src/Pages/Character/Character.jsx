@@ -3,14 +3,14 @@ import { AuthContext } from "../../Database/context/AuthContext";
 import CharacterSelect from './CharacterSelect';
 import styles from "./Character.module.css";
 import CharacterProfile from "./CharacterProfile";
-import characterData from "../../Database/JsxData/characters"
+import CD from "../../Database/JsxData/characters"
 
 export default function Character() {
 
   const { user, userRef } = useContext(AuthContext);
   const [userCharacters, updateUserCharacters] = useState([]);
-  let {charactersData} = characterData
-  const [characters, updateCharacters] = useState(charactersData);
+  let {charactersData} = JSON.parse(JSON.stringify(CD));
+  const [characters, updateCharacters] = useState(JSON.parse(JSON.stringify(charactersData)));
   // const currentlySelectedCharRef = useRef("unlocked");
   const [fadeButton, setFadeButton] = useState(false);
 
@@ -20,6 +20,7 @@ export default function Character() {
 
   //fetch user slimes
   useEffect(()=>{
+    console.log(charactersData[10].type+charactersData[10].unlocked);
     const slimes = user.data.slimes;
     updateUserCharacters(slimes);
     //console.log(userCharacters);

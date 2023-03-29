@@ -166,6 +166,33 @@
   height: 2vw;
 }
 
+.damageNumber{
+  position: absolute;
+  top: 0.4vw;
+  left: 0.4vw;
+  font-size: 1.4vw;
+  font-weight: 700;
+  font-family: 'Press Start 2P', cursive;
+  color: rgb(255, 0, 0);
+  filter: drop-shadow(5px 5px 0px #000000);
+  animation: queueAnim 0.5s forwards;
+}
+
+@keyframes queueAnim {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100%{
+    transform: translateY(-50%);
+    opacity: 0;
+  }
+
+}
+
 .HP_NAME_Bar {
   position: absolute;
   top: 0;

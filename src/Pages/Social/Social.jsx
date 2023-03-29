@@ -230,7 +230,7 @@ export default function Social() {
         <div className={styles.messages}>
           {selectedChat ? (
             messages.map((message, i) => (
-              <div  key={i}>
+              <div key={i}>
                 {i + 1 < messages.length &&
                   message.sentAt - messages[i + 1].sentAt > 60 && message.id != messages[i + 1].id && (
                     <div className={styles.DateTime}>{message.sentAt.toDate().toDateString() + " " + message.sentAt.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
@@ -240,7 +240,7 @@ export default function Social() {
                   previousMessage={
                     i + 1 < messages.length ? messages[i + 1] : null
                   }
-                 
+
                 ></Message>
               </div>
             ))

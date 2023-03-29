@@ -299,5 +299,22 @@ export const userSlice = createSlice({
   
   // Action creators are generated for each case reducer function
   // export const { login, logout } = authSlice.actions
-  export const { setExistingState, deleteExistingUser, setSlimeType, setSlimeSkin, setSlimePath, setDaysSinceLastChest, setChestLastOpened  } = userSlice.actions
+  export const { setExistingState, deleteExistingUser, 
+    setUsername,
+    setLevel,
+    setRank,
+    setMusicVolume,
+    setGold,
+    setChestLastOpened,
+    setBannerFilePath,
+    setSlimeType,
+    setSlimeSkin,
+    setStatus,
+    setFriends,
+    setMessage,
+    setFriendRequests,
+    setBannerUnlocked,
+    setSlimePath,
+    setDaysSinceLastChest,
+    setUnreadMessages } = userSlice.actions
   export default userSlice.reducer

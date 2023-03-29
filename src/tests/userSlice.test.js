@@ -1,4 +1,21 @@
-import reducer, { setExistingState, setSlimeSkin, setSlimePath, setSlimeType, setChestLastOpened, setDaysSinceLastChest } from '../Slices/userSlice'
+import reducer, { setExistingState, deleteExistingUser,
+  setUsername,
+  setLevel,
+  setRank,
+  setMusicVolume,
+  setGold,
+  setChestLastOpened,
+  setBannerFilePath,
+  setSlimeType,
+  setSlimeSkin,
+  setStatus,
+  setFriends,
+  setMessage,
+  setFriendRequests,
+  setBannerUnlocked,
+  setSlimePath,
+  setDaysSinceLastChest,
+  setUnreadMessages } from '../Slices/userSlice'
 import { TimeStamp } from '../utils/test-utils';
 
 
@@ -129,4 +146,364 @@ test('case where chest is opened 25 hours ago', () => {
     expect(withBoth.data.daysSinceLastChest < 1).toEqual(
         false
       )
+})
+
+// Testing that store is being set to null upon logout action
+test('user should be null', () => {
+  expect(reducer(undefined, deleteExistingUser())).toEqual({
+    data: null
+  })
+})
+
+// Below are tests for pure reducers (simply store updating)
+
+test('should add correct username', () => {
+  expect(reducer(undefined, setUsername('testUser'))).toEqual({
+    data: {
+      username: 'testUser',
+      level: null,
+      rank: null,
+      musicVolume: null,
+      gold: null,
+      chestLastOpenedOn: null,
+      bannerFilepath: null,
+      slimeType: null,
+      slimeSkin: null,
+      status: null,
+      friends: null,
+      message: null,
+      friendRequests: [],
+      bannerUnlocked: 0b0000000010001000000011000010,
+      slimePath: null,
+      daysSinceLastChest: null,
+    }
+  })
+})
+
+
+test('should add correct username', () => {
+  expect(reducer(undefined, setUsername('testUser'))).toEqual({
+    data: {
+      username: 'testUser',
+      level: null,
+      rank: null,
+      musicVolume: null,
+      gold: null,
+      chestLastOpenedOn: null,
+      bannerFilepath: null,
+      slimeType: null,
+      slimeSkin: null,
+      status: null,
+      friends: null,
+      message: null,
+      friendRequests: [],
+      bannerUnlocked: 0b0000000010001000000011000010,
+      slimePath: null,
+      daysSinceLastChest: null,
+    }
+  })
+})
+
+test('should add correct Level', () => {
+  expect(reducer(undefined, setLevel(10))).toEqual({
+    data: {
+      username: null,
+      level: 10,
+      rank: null,
+      musicVolume: null,
+      gold: null,
+      chestLastOpenedOn: null,
+      bannerFilepath: null,
+      slimeType: null,
+      slimeSkin: null,
+      status: null,
+      friends: null,
+      message: null,
+      friendRequests: [],
+      bannerUnlocked: 0b0000000010001000000011000010,
+      slimePath: null,
+      daysSinceLastChest: null,
+    }
+  })
+})
+
+test('should add correct Rank', () => {
+  expect(reducer(undefined, setRank('Diamond'))).toEqual({
+    data: {
+      username: null,
+      level: null,
+      rank: 'Diamond',
+      musicVolume: null,
+      gold: null,
+      chestLastOpenedOn: null,
+      bannerFilepath: null,
+      slimeType: null,
+      slimeSkin: null,
+      status: null,
+      friends: null,
+      message: null,
+      friendRequests: [],
+      bannerUnlocked: 0b0000000010001000000011000010,
+      slimePath: null,
+      daysSinceLastChest: null,
+    }
+  })
+})
+
+test('should add correct Music Volume', () => {
+  expect(reducer(undefined, setMusicVolume(50))).toEqual({
+    data: {
+      username: null,
+      level: null,
+      rank: null,
+      musicVolume: 50,
+      gold: null,
+      chestLastOpenedOn: null,
+      bannerFilepath: null,
+      slimeType: null,
+      slimeSkin: null,
+      status: null,
+      friends: null,
+      message: null,
+      friendRequests: [],
+      bannerUnlocked: 0b0000000010001000000011000010,
+      slimePath: null,
+      daysSinceLastChest: null,
+    }
+  })
+})
+
+test('should add correct Gold', () => {
+  expect(reducer(undefined, setGold(500))).toEqual({
+    data: {
+      username: null,
+      level: null,
+      rank: null,
+      musicVolume: null,
+      gold: 500,
+      chestLastOpenedOn: null,
+      bannerFilepath: null,
+      slimeType: null,
+      slimeSkin: null,
+      status: null,
+      friends: null,
+      message: null,
+      friendRequests: [],
+      bannerUnlocked: 0b0000000010001000000011000010,
+      slimePath: null,
+      daysSinceLastChest: null,
+    }
+  })
+})
+
+
+test('should add correct Chest Last Open', () => {
+  expect(reducer(undefined, setChestLastOpened('2022-05-10'))).toEqual({
+    data: {
+      username: null,
+      level: null,
+      rank: null,
+      musicVolume: null,
+      gold: null,
+      chestLastOpenedOn: '2022-05-10',
+      bannerFilepath: null,
+      slimeType: null,
+      slimeSkin: null,
+      status: null,
+      friends: null,
+      message: null,
+      friendRequests: [],
+      bannerUnlocked: 0b0000000010001000000011000010,
+      slimePath: null,
+      daysSinceLastChest: null,
+    }
+  })
+})
+
+test('should add correct Banner Filepath', () => {
+  expect(reducer(undefined, setBannerFilePath('/images/banner.jpg'))).toEqual({
+    data: {
+      username: null,
+      level: null,
+      rank: null,
+      musicVolume: null,
+      gold: null,
+      chestLastOpenedOn: null,
+      bannerFilepath: '/images/banner.jpg',
+      slimeType: null,
+      slimeSkin: null,
+      status: null,
+      friends: null,
+      message: null,
+      friendRequests: [],
+      bannerUnlocked: 0b0000000010001000000011000010,
+      slimePath: null,
+      daysSinceLastChest: null,
+    }
+  })
+})
+
+test('should add correct Slime Type', () => {
+  expect(reducer(undefined, setSlimeType('Green'))).toEqual({
+    data: {
+      username: null,
+      level: null,
+      rank: null,
+      musicVolume: null,
+      gold: null,
+      chestLastOpenedOn: null,
+      bannerFilepath: null,
+      slimeType: 'Green',
+      slimeSkin: null,
+      status: null,
+      friends: null,
+      message: null,
+      friendRequests: [],
+      bannerUnlocked: 0b0000000010001000000011000010,
+      slimePath: null,
+      daysSinceLastChest: null,
+    }
+  })
+})
+
+test('should add correct Slime Skin', () => {
+  expect(reducer(undefined, setSlimeSkin(3))).toEqual({
+    data: {
+      username: null,
+      level: null,
+      rank: null,
+      musicVolume: null,
+      gold: null,
+      chestLastOpenedOn: null,
+      bannerFilepath: null,
+      slimeType: null,
+      slimeSkin: 3,
+      status: null,
+      friends: null,
+      message: null,
+      friendRequests: [],
+      bannerUnlocked: 0b0000000010001000000011000010,
+      slimePath: null,
+      daysSinceLastChest: null,
+    }
+  })
+})
+
+test('should add correct Status', () => {
+  expect(reducer(undefined, setStatus('online'))).toEqual({
+    data: {
+      username: null,
+      level: null,
+      rank: null,
+      musicVolume: null,
+      gold: null,
+      chestLastOpenedOn: null,
+      bannerFilepath: null,
+      slimeType: null,
+      slimeSkin: null,
+      status: 'online',
+      friends: null,
+      message: null,
+      friendRequests: [],
+      bannerUnlocked: 0b0000000010001000000011000010,
+      slimePath: null,
+      daysSinceLastChest: null,
+    }
+  })
+})
+
+
+test('should add correct Friends', () => {
+  const friendsList = ['Bob', 'Alice', 'Charlie']
+  expect(reducer(undefined, setFriends(friendsList))).toEqual({
+    data: {
+      username: null,
+      level: null,
+      rank: null,
+      musicVolume: null,
+      gold: null,
+      chestLastOpenedOn: null,
+      bannerFilepath: null,
+      slimeType: null,
+      slimeSkin: null,
+      status: null,
+      friends: friendsList,
+      message: null,
+      friendRequests: [],
+      bannerUnlocked: 0b0000000010001000000011000010,
+      slimePath: null,
+      daysSinceLastChest: null,
+    }
+  })
+})
+
+test('should add correct Message', () => {
+  expect(reducer(undefined, setMessage('Hello World'))).toEqual({
+    data: {
+      username: null,
+      level: null,
+      rank: null,
+      musicVolume: null,
+      gold: null,
+      chestLastOpenedOn: null,
+      bannerFilepath: null,
+      slimeType: null,
+      slimeSkin: null,
+      status: null,
+      friends: null,
+      message: 'Hello World',
+      friendRequests: [],
+      bannerUnlocked: 0b0000000010001000000011000010,
+      slimePath: null,
+      daysSinceLastChest: null,
+    }
+  })
+})
+
+test('should add correct Friend Requests', () => {
+  const requestsList = ['John', 'Sarah']
+  expect(reducer(undefined, setFriendRequests(requestsList))).toEqual({
+    data: {
+      username: null,
+      level: null,
+      rank: null,
+      musicVolume: null,
+      gold: null,
+      chestLastOpenedOn: null,
+      bannerFilepath: null,
+      slimeType: null,
+      slimeSkin: null,
+      status: null,
+      friends: null,
+      message: null,
+      friendRequests: requestsList,
+      bannerUnlocked: 0b0000000010001000000011000010,
+      slimePath: null,
+      daysSinceLastChest: null,
+    }
+  })
+})
+
+test('should add correct UnreadMessages', () => {
+  expect(reducer(undefined, setUnreadMessages(3))).toEqual({
+    data: {
+      username: null,
+      level: null,
+      rank: null,
+      musicVolume: null,
+      gold: null,
+      chestLastOpenedOn: null,
+      bannerFilepath: null,
+      slimeType: null,
+      slimeSkin: null,
+      status: null,
+      friends: null,
+      message: null,
+      friendRequests: [],
+      bannerUnlocked: 0b0000000010001000000011000010,
+      slimePath: null,
+      daysSinceLastChest: null,
+      unreadMessages: 3,
+    }
+  })
 })

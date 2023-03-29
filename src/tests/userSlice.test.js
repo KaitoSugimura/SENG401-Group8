@@ -1,4 +1,4 @@
-import reducer, { setExistingState, setSlimeSkin, setSlimePath, setSlimeType, setChestLastOpened, setDaysSinceLastChest } from './userSlice'
+import reducer, { setExistingState, setSlimeSkin, setSlimePath, setSlimeType, setChestLastOpened, setDaysSinceLastChest } from '../Slices/userSlice'
 import { TimeStamp } from '../utils/test-utils';
 
 

@@ -1,4 +1,4 @@
-import reducer, { setLoginStatus, setLogoutStatus, setUID } from './authSlice'
+import reducer, { setLoginStatus, setLogoutStatus, setUID } from '../Slices/authSlice'
 
 test('should return the initial state', () => {
   expect(reducer(undefined, { type: undefined })).toEqual(

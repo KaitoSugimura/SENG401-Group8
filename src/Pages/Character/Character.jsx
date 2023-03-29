@@ -5,10 +5,12 @@ import styles from "./Character.module.css";
 import CharacterProfile from "./CharacterProfile";
 import CD from "../../Database/JsxData/characters";
 import { useSelector, useDispatch } from 'react-redux';
+import { updateUser } from "../../Slices/userSlice";
 
 export default function Character() {
 
   const { user } = useSelector((state) => state);
+  const dispatch = useDispatch();
   const [userCharacters, updateUserCharacters] = useState([]);
   let {charactersData} = JSON.parse(JSON.stringify(CD));
   const [characters, updateCharacters] = useState(JSON.parse(JSON.stringify(charactersData)));

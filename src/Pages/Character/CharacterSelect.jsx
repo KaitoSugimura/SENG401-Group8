@@ -25,7 +25,7 @@ const CharacterSelect = ({ characters, currentlySelectedChar, switchCharacter })
 
   const handleClick = (e) => {
     // window.confirm("Hello World!");
-    // setSelectedSlime(false);
+    setSelectedSlime(false);
     switchCharacter(e.currentTarget.getAttribute("number"));
   };
 

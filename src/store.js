@@ -18,7 +18,7 @@ export const setupStore = () => {
       serializableCheck: {
           // Ignore these paths in the state
           ignoredActionPaths: ['payload'],
-          ignoredPaths: ['auth']
+          ignoredPaths: ['auth', 'user']
       },
     }), thunkMiddleware]
 

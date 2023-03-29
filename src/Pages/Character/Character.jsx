@@ -3,13 +3,13 @@ import { AuthContext } from "../../Database/context/AuthContext";
 import CharacterSelect from './CharacterSelect';
 import styles from "./Character.module.css";
 import CharacterProfile from "./CharacterProfile";
-import characterData from "../../Database/JsxData/characters"
+import slimeData from "../../Database/JsxData/characters"
 
 export default function Character() {
 
   const { user, userRef } = useContext(AuthContext);
   const [userCharacters, updateUserCharacters] = useState([]);
-  let {charactersData} = characterData
+  let {charactersData} = slimeData
   const [characters, updateCharacters] = useState(charactersData);
   // const currentlySelectedCharRef = useRef("unlocked");
   const [fadeButton, setFadeButton] = useState(false);
@@ -27,16 +27,24 @@ export default function Character() {
 
   },[user.data.slimes]);
 
-  const updateUnlocks=(slimes)=>{
-    let newCharacters = characters;
-    for(let i =0;i<slimes.length;i++){
-      let slime=slimes[i].substring(0,slimes[i].length-1);
-      let skin=Number(slimes[i].substring(slimes[i].length-1));
+  const updateUnlocks=(userSlimes)=>{
+    let newCharacters = charactersData;
+    newCharacters.forEach((newCharacter)=>{
+      newCharacter.unlocked=false;
+      newCharacter.two=false;
+      newCharacter.three=false;
+    })
+    for(let i =0;i<userSlimes.length;i++){
+      let slime=userSlimes[i].substring(0,userSlimes[i].length-1);
+      let skin=Number(userSlimes[i].substring(userSlimes[i].length-1));
       let index = newCharacters.findIndex(character=>character.type===slime);
       //console.log(index+" is the index and the slime is "+newCharacters[index].type);
       if(skin===1){newCharacters[index].unlocked=true;}
+      else{newCharacters[index].unlocked=false;}
       if(skin===2){newCharacters[index].two=true;}
+      else{newCharacters[index].two=false;}
       if(skin===3){newCharacters[index].three=true;}
+      else{newCharacters[index].three=false;}
     }
     updateCharacters(newCharacters);
   }

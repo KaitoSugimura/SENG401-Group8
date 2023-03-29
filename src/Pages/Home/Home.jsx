@@ -64,6 +64,7 @@ export default function Home() {
         gold: firebase.firestore.FieldValue.increment(50),
         chestLastOpenedOn: firebase.firestore.Timestamp.now(),
       }))
+    
       setChestOpened(true);
     }
   };
@@ -73,6 +74,8 @@ export default function Home() {
   }
 
   useEffect(() => {
+    console.log(typeof(firebase.firestore.Timestamp.now()))
+    console.log(firebase.firestore.Timestamp.now())
     if(daysSinceLastChest > 1) {
       setChestAvailable(true)
     } else {

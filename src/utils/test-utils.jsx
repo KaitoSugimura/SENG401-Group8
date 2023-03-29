@@ -1,24 +1,16 @@
-import React from 'react'
-import { render } from '@testing-library/react'
-import { configureStore } from '@reduxjs/toolkit'
-import { Provider } from 'react-redux'
-// As a basic setup, import your same slice reducers
-import userReducer from '../Slices/userSlice'
-import setupStore from '../store';
-
-export function renderWithProviders(
-  ui,
-  {
-    preloadedState = {},
-    // Automatically create a store instance if no store was passed in
-    store = setupStore(),
-    ...renderOptions
-  } = {}
-) {
-  function Wrapper({ children }) {
-    return <Provider store={store}>{children}</Provider>
+export class TimeStamp {
+  constructor(seconds, nanoseconds) {
+    this.seconds = seconds;
+    this.nanoseconds = nanoseconds;
   }
 
-  // Return an object with the store and all of RTL's query functions
-  return { store, ...render(ui, { wrapper: Wrapper, ...renderOptions }) }
+  toDate() {
+      const dateObj = new Date(this.toMillis())
+      console.log(dateObj)
+      return dateObj
+  }
+
+  toMillis() {
+      return 1e3 * this.seconds + this.nanoseconds / 1e6;
+  }
 }

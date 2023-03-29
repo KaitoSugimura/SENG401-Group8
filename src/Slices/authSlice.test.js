@@ -6,17 +6,20 @@ test('should return the initial state', () => {
   )
 })
 
-// test('should handle a todo being added to an empty list', () => {
-//   expect(reducer(undefined, todoAdded('Run the tests'))).toEqual([
-//     { text: 'Run the tests', completed: false, id: 0 }
-//   ])
-// })
+test('should set loginStatus to true', () => {
+  expect(reducer(undefined, setLoginStatus())).toEqual(
+    { isLoggedIn: true, uid: null }
+  )
+})
 
-// test('should handle a todo being added to an existing list', () => {
-//   const previousState = [{ text: 'Run the tests', completed: true, id: 0 }]
+test('should set loginStatus to false', () => {
+  expect(reducer(undefined, setLogoutStatus())).toEqual(
+    { isLoggedIn: false, uid: null }
+  )
+})
 
-//   expect(reducer(previousState, todoAdded('Use Redux'))).toEqual([
-//     { text: 'Run the tests', completed: true, id: 0 },
-//     { text: 'Use Redux', completed: false, id: 1 }
-//   ])
-// })
+test('should set UID to 1111111', () => {
+  expect(reducer(undefined, setUID("1111111"))).toEqual(
+    { isLoggedIn: false, uid: "1111111" }
+  )
+})

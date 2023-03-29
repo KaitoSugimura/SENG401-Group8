@@ -299,5 +299,5 @@ export const userSlice = createSlice({
   
   // Action creators are generated for each case reducer function
   // export const { login, logout } = authSlice.actions
-  export const { setExistingState, deleteExistingUser, setSlimePath, setDaysSinceLastChest  } = userSlice.actions
+  export const { setExistingState, deleteExistingUser, setSlimeType, setSlimeSkin, setSlimePath, setDaysSinceLastChest, setChestLastOpened  } = userSlice.actions
   export default userSlice.reducer

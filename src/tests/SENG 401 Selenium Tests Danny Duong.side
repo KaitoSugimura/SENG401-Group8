@@ -1,0 +1,431 @@
+{
+  "id": "d556184f-8f1b-4554-bd32-7660bfa3b9bd",
+  "version": "2.0",
+  "name": "SENG 401",
+  "url": "https://imslime.onrender.com/#/",
+  "tests": [{
+    "id": "7e87ea91-7aae-45fc-a84a-4123ebfba2c6",
+    "name": "World chat (Valid)",
+    "commands": [{
+      "id": "ea5358f5-6119-46d8-a49c-382d1c0389c9",
+      "comment": "",
+      "command": "open",
+      "target": "https://imslime.onrender.com/#/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "40cef4a5-b7e5-45cd-868e-67b36a2d1f93",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1042x680",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "36f31b47-d2ed-4e21-846c-e0a039df7398",
+      "comment": "",
+      "command": "click",
+      "target": "css=li:nth-child(2) > a",
+      "targets": [
+        ["css=li:nth-child(2) > a", "css:finder"],
+        ["xpath=//div[@id='root']/div/header/nav/ul/li[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '#/social')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8b39fe29-1c7a-4303-914e-5dd4537313a7",
+      "comment": "",
+      "command": "click",
+      "target": "css=input",
+      "targets": [
+        ["css=input", "css:finder"],
+        ["xpath=//input[@value='']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/section[2]/form/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "77d39c08-a50e-4bbc-8dce-1210f5527536",
+      "comment": "",
+      "command": "type",
+      "target": "css=input",
+      "targets": [
+        ["css=input", "css:finder"],
+        ["xpath=//input[@value='test']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/section[2]/form/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "test"
+    }, {
+      "id": "40e8dbf0-09b1-4952-9b0b-deb7b3c41e44",
+      "comment": "",
+      "command": "sendKeys",
+      "target": "css=input",
+      "targets": [
+        ["css=input", "css:finder"],
+        ["xpath=//input[@value='test']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/section[2]/form/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "${KEY_ENTER}"
+    }]
+  }, {
+    "id": "34d2444e-d0b2-45e4-981d-bdde84d9e7fc",
+    "name": "Login (Correct)",
+    "commands": [{
+      "id": "94e3dd15-1336-4ccc-a25b-9b2e9526462b",
+      "comment": "",
+      "command": "open",
+      "target": "https://imslime.onrender.com/#/Login",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "b5618f4a-02b5-451a-ab9c-86b06e363078",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "654x680",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "77ef3709-a8dd-49c2-9a23-09a153f7cd39",
+      "comment": "",
+      "command": "click",
+      "target": "css=label:nth-child(3) > input",
+      "targets": [
+        ["css=label:nth-child(3) > input", "css:finder"],
+        ["xpath=//input[@value='']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/form/label/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "191c8f05-6c87-4fcd-8264-8b0238e92b76",
+      "comment": "",
+      "command": "type",
+      "target": "css=label:nth-child(3) > input",
+      "targets": [
+        ["css=label:nth-child(3) > input", "css:finder"],
+        ["xpath=//input[@value='test@example.ca']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/form/label/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "test@example.ca"
+    }, {
+      "id": "fa72684e-46c4-4db6-beaf-ae9fc5824927",
+      "comment": "",
+      "command": "type",
+      "target": "css=label:nth-child(4) > input",
+      "targets": [
+        ["css=label:nth-child(4) > input", "css:finder"],
+        ["xpath=//input[@value='password']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/form/label[2]/input", "xpath:idRelative"],
+        ["xpath=//label[2]/input", "xpath:position"]
+      ],
+      "value": "password"
+    }, {
+      "id": "22d30473-0392-4c19-901e-730a2b71a313",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submitButton",
+      "targets": [
+        ["css=.submitButton", "css:finder"],
+        ["xpath=//div[@id='root']/div/div/form/button", "xpath:idRelative"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Login')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "27048652-cc89-4813-b9df-36c6f49492c4",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.submitButton",
+      "targets": [
+        ["css=.submitButton", "css:finder"],
+        ["xpath=//div[@id='root']/div/div/form/button", "xpath:idRelative"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Login')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "26a423c3-e127-49ec-9a86-eba0c9a6673c",
+    "name": "Login (Incorrect)",
+    "commands": [{
+      "id": "a7a9f26e-d924-4b87-85f8-c1f56bac0232",
+      "comment": "",
+      "command": "open",
+      "target": "https://imslime.onrender.com/#/Login",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "2bf5cfcf-cd8f-4bd0-87ce-bff9b0f3f88b",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1042x680",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "5a3195bf-f22d-43df-9e62-e5cd0d54ba56",
+      "comment": "",
+      "command": "click",
+      "target": "css=label:nth-child(3) > input",
+      "targets": [
+        ["css=label:nth-child(3) > input", "css:finder"],
+        ["xpath=//input[@value='']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/form/label/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1d404980-147f-400a-a31e-81dbac195c89",
+      "comment": "",
+      "command": "type",
+      "target": "css=label:nth-child(3) > input",
+      "targets": [
+        ["css=label:nth-child(3) > input", "css:finder"],
+        ["xpath=//input[@value='test@example.ca']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/form/label/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "test@example.ca"
+    }, {
+      "id": "8cabb7b7-1ffd-462b-92c0-7fd9a902764e",
+      "comment": "",
+      "command": "click",
+      "target": "css=label:nth-child(4) > input",
+      "targets": [
+        ["css=label:nth-child(4) > input", "css:finder"],
+        ["xpath=//input[@value='']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/form/label[2]/input", "xpath:idRelative"],
+        ["xpath=//label[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "07daeb0b-f1a0-4f9f-9e2c-da222570201f",
+      "comment": "",
+      "command": "type",
+      "target": "css=label:nth-child(4) > input",
+      "targets": [
+        ["css=label:nth-child(4) > input", "css:finder"],
+        ["xpath=//input[@value='wrongpassword']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/form/label[2]/input", "xpath:idRelative"],
+        ["xpath=//label[2]/input", "xpath:position"]
+      ],
+      "value": "wrongpassword"
+    }, {
+      "id": "0ca240d9-e508-4041-8212-7ed39bbcef7c",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submitButton",
+      "targets": [
+        ["css=.submitButton", "css:finder"],
+        ["xpath=//div[@id='root']/div/div/form/button", "xpath:idRelative"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Login')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "ec116b5a-069f-4377-824d-b82796245915",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.submitButton",
+      "targets": [
+        ["css=.submitButton", "css:finder"],
+        ["xpath=//div[@id='root']/div/div/form/button", "xpath:idRelative"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Login')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "346bf021-0d1a-49eb-b3cf-3a849a11c919",
+    "name": "Login (Empty)",
+    "commands": [{
+      "id": "2f35c4b0-6d1a-409e-901e-18ea6c855e17",
+      "comment": "",
+      "command": "open",
+      "target": "https://imslime.onrender.com/#/Login",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "68835359-3e9b-4150-820a-7a3549fe6e1b",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1042x680",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "6786884a-6560-4800-9695-45c89e18fcf4",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submitButton",
+      "targets": [
+        ["css=.submitButton", "css:finder"],
+        ["xpath=//div[@id='root']/div/div/form/button", "xpath:idRelative"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Login')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "bccb4915-3337-4b3c-b6d3-5c973e8b194c",
+    "name": "Login (No Email)",
+    "commands": [{
+      "id": "ea91bb99-fef1-4fad-9f6a-88e63ce5b85a",
+      "comment": "",
+      "command": "open",
+      "target": "https://imslime.onrender.com/#/Login",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "08a775e6-6272-4400-98ef-0006bae2e18f",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1042x680",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "38185263-25e8-4125-b4c5-f7f36a96ed3b",
+      "comment": "",
+      "command": "click",
+      "target": "css=label:nth-child(4) > input",
+      "targets": [
+        ["css=label:nth-child(4) > input", "css:finder"],
+        ["xpath=(//input[@value=''])[2]", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/form/label[2]/input", "xpath:idRelative"],
+        ["xpath=//label[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5a34e574-752c-43f7-8819-6a744a5e34f8",
+      "comment": "",
+      "command": "type",
+      "target": "css=label:nth-child(4) > input",
+      "targets": [
+        ["css=label:nth-child(4) > input", "css:finder"],
+        ["xpath=//input[@value='password']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/form/label[2]/input", "xpath:idRelative"],
+        ["xpath=//label[2]/input", "xpath:position"]
+      ],
+      "value": "password"
+    }, {
+      "id": "b2fc10b3-5dae-4a31-accd-f402b18d8ef1",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submitButton",
+      "targets": [
+        ["css=.submitButton", "css:finder"],
+        ["xpath=//div[@id='root']/div/div/form/button", "xpath:idRelative"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Login')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "089ba3b2-b782-45fd-aa46-b7427707c9a9",
+    "name": "Login (No Password)",
+    "commands": [{
+      "id": "b93d0bbb-3353-41b4-bbe3-9922428bac80",
+      "comment": "",
+      "command": "open",
+      "target": "https://imslime.onrender.com/#/Login",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "99c3e8ec-0c85-49b8-88e4-31ac4320fec6",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1042x680",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "3630f43a-889f-46bf-9690-82de539daff4",
+      "comment": "",
+      "command": "click",
+      "target": "css=label:nth-child(3) > input",
+      "targets": [
+        ["css=label:nth-child(3) > input", "css:finder"],
+        ["xpath=//input[@value='']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/form/label/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ec00413a-2df8-4691-aa78-45e355b1ba69",
+      "comment": "",
+      "command": "type",
+      "target": "css=label:nth-child(3) > input",
+      "targets": [
+        ["css=label:nth-child(3) > input", "css:finder"],
+        ["xpath=//input[@value='test@example.ca']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/form/label/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "test@example.ca"
+    }, {
+      "id": "beebae6b-ac37-4021-bda4-d61d9c0b93dd",
+      "comment": "",
+      "command": "click",
+      "target": "css=.submitButton",
+      "targets": [
+        ["css=.submitButton", "css:finder"],
+        ["xpath=//div[@id='root']/div/div/form/button", "xpath:idRelative"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Login')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "eab0e638-4628-42e1-ae92-38b9c663375e",
+    "name": "World chat (Empty)",
+    "commands": [{
+      "id": "a63751f9-d743-4cca-bd87-98afeeae226d",
+      "comment": "",
+      "command": "open",
+      "target": "https://imslime.onrender.com/#/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "aaeb174f-08da-4c2d-b097-33ff664e2e83",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1042x680",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "07d8438a-f54b-4c76-8e9f-c738bf3df88d",
+      "comment": "",
+      "command": "click",
+      "target": "css=li:nth-child(2) > a",
+      "targets": [
+        ["css=li:nth-child(2) > a", "css:finder"],
+        ["xpath=//div[@id='root']/div/header/nav/ul/li[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '#/social')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a6fe18ae-6e77-4f09-a282-7a3c14e47258",
+      "comment": "",
+      "command": "click",
+      "target": "css=button > .material-symbols-outlined",
+      "targets": [
+        ["css=button > .material-symbols-outlined", "css:finder"],
+        ["xpath=//div[@id='root']/div/div/section[2]/form/button/i", "xpath:idRelative"],
+        ["xpath=//button/i", "xpath:position"],
+        ["xpath=//i[contains(.,'send')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "3e0cf3b6-198e-40cb-8550-5eaddecf3d1e",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["7e87ea91-7aae-45fc-a84a-4123ebfba2c6"]
+  }],
+  "urls": ["https://imslime.onrender.com/", "https://imslime.onrender.com/#/social", "https://imslime.onrender.com/#/"],
+  "plugins": []
+}

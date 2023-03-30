@@ -1,0 +1,75 @@
+{
+  "id": "f326ac51-b2de-45f6-8005-1857c4df2465",
+  "version": "2.0",
+  "name": "SENG401_SeleniumTestScripts",
+  "url": "https://imslime.onrender.com/#/gacha",
+  "tests": [{
+    "id": "d5708adf-6b26-4f30-9210-fd5e13d4ee5e",
+    "name": "ViewProfileTest1",
+    "commands": [{
+      "id": "335d74ed-7f80-468d-997b-56fa663013e0",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "7a89855e-f201-464c-b7f8-94464c2e95f6",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "940x672",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "5162c1a7-8231-4dd8-b8f0-07c65b90bfa4",
+      "comment": "",
+      "command": "click",
+      "target": "css=.\\_bannerButton_1bkpu_128",
+      "targets": [
+        ["css=.\\_bannerButton_1bkpu_128", "css:finder"],
+        ["xpath=//div[@id='root']/div/header/div/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "faa14cf5-e629-4e9a-b961-fdfd1d4e1d9a",
+    "name": "ViewProfileTest2",
+    "commands": [{
+      "id": "e36fdaac-366f-4c49-89fe-1ff64a6d6b60",
+      "comment": "",
+      "command": "open",
+      "target": "https://imslime.onrender.com/#/social",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "b78efee1-9b7e-42d7-99cf-bcab2fcf4ad1",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "940x672",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "132f0f2e-5b58-43eb-86fa-92fdc5ddfbef",
+      "comment": "",
+      "command": "click",
+      "target": "css=div:nth-child(2) > .\\_messageContainer_7en84_172 > button",
+      "targets": [
+        ["css=div:nth-child(2) > .\\_messageContainer_7en84_172 > button", "css:finder"],
+        ["xpath=//div[@id='root']/div/div/section[2]/div/div[2]/div[2]/button", "xpath:idRelative"],
+        ["xpath=//div[2]/button", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "02eb19cc-144f-420e-9667-ad48dcf5d769",
+    "name": "ViewProfileTestSuite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["d5708adf-6b26-4f30-9210-fd5e13d4ee5e", "faa14cf5-e629-4e9a-b961-fdfd1d4e1d9a"]
+  }],
+  "urls": ["https://imslime.onrender.com/", "https://imslime.onrender.com/#/social", "https://imslime.onrender.com/#/game", "https://imslime.onrender.com/#/gacha"],
+  "plugins": []
+}
